@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .highslide {
-  cursor: url(http://humming.bird.2k8.googlepages.com/zoomin.cur), pointer;
+  cursor: url('http://humming-bird.googlecode.com/svn/trunk/highslide/img/zoomin.cur'), pointer;
   outline: none;
 }
 
@@ -35,13 +35,13 @@
 	border: 1px solid #ccc;
     background-color: black;
     padding-left: 22px;
-    background-image: url(http://humming.bird.2k8.googlepages.com/loader.gif);
+    background-image: url('http://humming-bird.googlecode.com/svn/trunk/highslide/img/loader.gif');
     background-repeat: no-repeat;
     background-position: 3px 1px;
 }
 
 a.highslide-full-expand {
-	background: url(http://humming.bird.2k8.googlepages.com/fullexpand.gif) no-repeat;
+	background: url('http://humming-bird.googlecode.com/svn/trunk/highslide/img/fullexpand.gif') no-repeat;
 	display: block;
 	margin: 0 10px 10px 0;
 	width: 34px;

@@ -38,7 +38,7 @@ lang : {
 	restoreTitle : 'Click to close image, click and drag to move. Use arrow keys for next and previous.'
 },
 // See http://highslide.com/ref for examples of settings  
-graphicsDir : 'http://humming.bird.2k8.googlepages.com/',
+graphicsDir : 'http://humming-bird.googlecode.com/svn/trunk/highslide/img/',
 expandCursor : 'zoomin.cur', // null disables
 restoreCursor : 'zoomout.cur', // null disables
 expandDuration : 250, // milliseconds
