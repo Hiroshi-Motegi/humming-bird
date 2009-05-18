@@ -6,15 +6,15 @@ body {
 	background: url('../img/lightBox05Sample_bg.png') top repeat-y;
 }
 
-h2{
-	font-size:24px;
+h1{
+	font-size:22px;
 	text-align:center;
 	height:30px;
 	line-height:30px;
-	margin-top:120px;
+	margin-top:100px;
 	font-family: "Candara","SimSun";
 	font-weight:normal;
-	color:#333333;
+	color:#666;
 }
 
 #gallery{
@@ -23,7 +23,7 @@ h2{
 	height: 480px;
 }
 
-.divSquare{
+.box{
 	float: left;
 	height:88px;
 	width: 88px;
@@ -37,9 +37,9 @@ h2{
 	float: left;
 	height:88px;
 	width: 88px;
-	border:1px solid #666;
+	border:1px solid #ccc;
 	margin: 5px 0 0 5px;
-	background-color: #eee;
+	background-color: #fff;
 }
 
 #gallery img{
