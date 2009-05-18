@@ -40,7 +40,7 @@ border:'1px solid #666'
 }, options);
 
 	var
-	$wrap = $(document.createElement('div')) //container element
+	$wrap = $(document.createElement('div')), //container element
 	$img = $(opt.imgSelector), // first-child element
 	$caption = $(document.createElement('div')), //second-child element
 	$title = $(opt.titleSelector),
