@@ -1,0 +1,51 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #fff;
+	background: url('../img/lightBox05Sample_bg.png') top repeat-y;
+}
+
+h2{
+	font-size:24px;
+	text-align:center;
+	height:30px;
+	line-height:30px;
+	margin-top:120px;
+	font-family: "Candara","SimSun";
+	font-weight:normal;
+	color:#333333;
+}
+
+#gallery{
+	margin: 20px auto 0 auto;
+	width: 480px;
+	height: 480px;
+}
+
+.divSquare{
+	float: left;
+	height:88px;
+	width: 88px;
+	border:1px solid #ccc;
+	margin: 5px 0 0 5px;
+	padding: 0;
+	background-color: #eee;
+}
+
+#gallery a{
+	float: left;
+	height:88px;
+	width: 88px;
+	border:1px solid #666;
+	margin: 5px 0 0 5px;
+	background-color: #eee;
+}
+
+#gallery img{
+	vertical-align:middle;
+	border: none;
+	height: 80px;
+	width: 80px;
+	margin: 4px;
+}
