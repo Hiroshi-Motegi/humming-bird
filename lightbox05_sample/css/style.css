@@ -6,15 +6,15 @@ body {
 	background: url('../img/lightBox05Sample_bg.png') top repeat-y;
 }
 
-h2{
+h2 {
 	font-size:24px;
-	text-align:center;
-	height:30px;
-	line-height:30px;
-	margin-top:120px;
-	font-family: "Candara","SimSun";
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 100px;
+	font-family:'Candara','SimSun';
 	font-weight:normal;
-	color:#333333;
+	color:#666;
 }
 
 #gallery{
