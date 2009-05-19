@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+        <title>jQuery + Google Data API - jBlogger</title>
+		<script src="http://www.google.com/jsapi/" type="text/javascript"></script>
+		<script type="text/javascript">google.load('jquery', '1')</script>
+
+<script type="text/javascript">
+(function($){$.extend({
+	// order : posts or comments
+	// domain : blog domain
+	jBlogger: function(options, domain, order, callback){
+		var data = $.extend({
+			'max-results': 10,
+			'redirect': false,
+			'alt': 'json-in-script'
+		}, options);
+		
+		$.ajax({
+		    dataType: 'jsonp',
+			data: data,
+		    cache: true,
+		    url: 'http://' + encodeURIComponent(domain) + '.blogspot.com/feeds/' + order + '/default',
+		    success: callback
+		});
+	}
+})})(jQuery);
+
+
+// Usage
+$(function(){
+	$.jBlogger({'max-results': 15}, 'yas-hummingbird', 'posts', function(data){
+		var list = [];
+		
+		$.each(data.feed.entry, function(i, entry){
+			list.push('<li><span class="item-title"><a href="' + 
+				(function(links){
+					for (var k = 0; k < links.length; k++) {
+						if (links[k].rel == 'alternate') {
+							return links[k].href;
+							break;
+						}
+					}
+					return '';
+				})(entry.link) + '">' + entry.title.$t + '</a></span></li>');
+		});
+		
+		$('<ul>').html(list.join('')).appendTo(document.body);
+	});
+});
+</script>
+<style type="text/css">
+</style>
+    </head>
+    <body>
+    	<h2>jQuery Ajax + Google Data API - jBlogger demo</h2>
+    </body>
+</html>
