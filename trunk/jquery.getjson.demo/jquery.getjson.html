@@ -17,6 +17,11 @@ $.flickrPics = function(tag, callback){
 $.twitterUserInfo = function(username, callback){
 	$.getJSON("http://twitter.com/status/user_timeline/" + username + ".json?count=1&callback=?", callback);
 }
+
+$.bloggerFeed = function(domain, callback){
+	var url = 'http://www.google.com/reader/public/javascript/feed/http://' + domain + '.blogspot.com/atom.xml?alt=json&n=10&callback=?';
+	$.getJSON(url, callback);
+}
 })(jQuery);
 
 
@@ -39,6 +44,33 @@ $(function(){
 			$(document.body).append('<span>' + item + ' : ' + data[0].user[item] + '</span><br>');
 		}
 	});
+	
+	$.bloggerFeed('googlejapan', function ( data ){
+		var list = document.createElement('ul');
+		
+		for (i in data.items) {
+			var item = data.items[i];
+			var post = document.createElement('li');
+			
+			var pDate = (function( date ){
+				return date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日";
+			})(new Date(item.published * 1000));
+			
+			var link = document.createElement('a');
+			link.appendChild(document.createTextNode(item.title));
+			link.href = item.alternate.href;
+			post.appendChild(link);
+			
+			var timestamp = document.createElement('span');
+			timestamp.appendChild(document.createTextNode(' - ' + pDate));
+			post.appendChild(timestamp);
+			
+			list.appendChild(post);
+		}
+		
+		document.body.appendChild(list);
+	});
+
 });
 </script>
 
