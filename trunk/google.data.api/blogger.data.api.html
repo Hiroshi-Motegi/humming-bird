@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+        <title>Google Blogger Data API  without jQuery - demo</title>
+
+<script type="text/javascript">
+function getFeedList(data){
+	var entries = data.feed.entry,  list = [];
+	
+	for(var i = 0, j = entries.length; i < j ; i++ ){
+		var entry = entries[i];
+		
+		list.push('<li><span class="item-title"><a href="' +
+				(function(links){
+					for (var k = 0; k < links.length; k++) {
+						if (links[k].rel == 'alternate') {
+							return links[k].href;
+							break;
+						}
+					}
+					return '';
+				})(entry.link) + '">' + entry.title.$t + '</a></span></li>');
+	}
+	
+	document.getElementById('feedItemList').innerHTML = list.join('');
+}
+</script>
+
+</head>
+<body>
+<h2>Google Blogger Data API  without jQuery - demo</h2>
+<ul id='feedItemList'></ul>
+<script type="text/javascript">
+(function(domain, maxResults, order, redirect){
+	var script = document.createElement('script');
+	script.setAttribute('src',
+		'http://' + encodeURIComponent(domain) +
+		'.blogspot.com/feeds/' + order +
+		'/default?redirect=' + redirect +
+		'&max-results=' + (maxResults > 0 ? maxResults : 10) +
+		'&alt=json-in-script&callback=getFeedList');
+	script.setAttribute('type', 'text/javascript');
+	document.documentElement.firstChild.appendChild(script);
+}
+)('yas-hummingbird', 10, 'posts', false );
+</script>
+<!--<script src="http://yas-hummingbird.blogspot.com/feeds/posts/default?max-results=10&redirect=false&alt=json-in-script&callback=getFeedList"></script>-->
+
+</body>
+</html>
