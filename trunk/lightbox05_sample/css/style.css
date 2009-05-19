@@ -6,7 +6,7 @@ body {
 	background: url('../img/lightBox05Sample_bg.png') top repeat-y;
 }
 
-h2 {
+#title {
 	font-size:24px;
 	text-align: center;
 	height: 30px;
