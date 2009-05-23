@@ -11,17 +11,25 @@
 <script type="text/javascript">
 (function($){
 $.flickrPics = function(tag, callback){
-	$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tag + '&tagmode=any&format=json&jsoncallback=?', callback);
+	$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tagmode=any&format=json&jsoncallback=?&tags=' + tag, callback);
 }
 
-$.twitterUserInfo = function(username, callback){
-	$.getJSON("http://twitter.com/status/user_timeline/" + username + ".json?count=1&callback=?", callback);
+$.twitterUserInfo = function(name, callback){
+	$.getJSON("http://twitter.com/status/user_timeline/" + name + ".json?&callback=?", callback);
+}
+
+$.twitter = function(name, callback){
+	//&rpp=50
+	$.getJSON( 'http://search.twitter.com/search.json?callback=?&q=from:' + name, callback);
 }
 
 $.bloggerFeed = function(domain, callback){
 	var url = 'http://www.google.com/reader/public/javascript/feed/http://' + domain + '.blogspot.com/atom.xml?alt=json&n=10&callback=?';
 	$.getJSON(url, callback);
 }
+
+
+
 })(jQuery);
 
 
@@ -37,24 +45,42 @@ $(function(){
 	    });
 	});
 	
+	
+	$.twitter('twitter', function(data){
+		$(document.body).append('<h3>twitter</h3>');
+		var list = [];
+		$.each(data, function(i, tw) {
+			for(var i = 0; i < tw.length; i++) {
+				if (tw[i].text) {
+					list.push('<li>' + tw[i].text + '</li>');
+				}
+			}
+		});
+		$('<ul>').append(list.join('')).appendTo(document.body);
+	});
+	
+	
 	$.twitterUserInfo('gihren', function(data){
 		$(document.body).append('<h3>Twitter User Info</h3>');
 		
-		for (var item in data[0].user){
-			$(document.body).append('<span>' + item + ' : ' + data[0].user[item] + '</span><br>');
+		var userInfo = data[0].user, list = [];
+		for (var item in userInfo){
+			list.push('<li>' + item + ' : ' + userInfo[item] + '</li>');
 		}
+		
+		$('<ul>').append(list.join('')).appendTo(document.body);
 	});
 	
+
+	
 	$.bloggerFeed('googlejapan', function ( data ){
+		$(document.body).append('<h3>bloggerFeed</h3>');
+		
 		var list = document.createElement('ul');
 		
 		for (i in data.items) {
 			var item = data.items[i];
 			var post = document.createElement('li');
-			
-			var pDate = (function( date ){
-				return date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日";
-			})(new Date(item.published * 1000));
 			
 			var link = document.createElement('a');
 			link.appendChild(document.createTextNode(item.title));
@@ -62,7 +88,10 @@ $(function(){
 			post.appendChild(link);
 			
 			var timestamp = document.createElement('span');
-			timestamp.appendChild(document.createTextNode(' - ' + pDate));
+			timestamp.appendChild(document.createTextNode(' - ' + 
+				(function( date ){
+					return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
+				})(new Date(item.published * 1000))));
 			post.appendChild(timestamp);
 			
 			list.appendChild(post);
