@@ -10,31 +10,47 @@
 
 <script type="text/javascript">
 (function($){
-$.flickrPics = function(tag, callback){
-	$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tagmode=any&format=json&jsoncallback=?&tags=' + tag, callback);
+$.flickrPics = function(tag, fn){
+	$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tagmode=any&format=json&jsoncallback=?&tags=' + tag, fn);
 }
 
-$.twitterUserInfo = function(name, callback){
-	$.getJSON("http://twitter.com/status/user_timeline/" + name + ".json?&callback=?", callback);
+$.twitter = function(name, fn){
+	$.getJSON('http://twitter.com/status/user_timeline/' + name + '.json?&callback=?', fn);
 }
 
-$.twitter = function(name, callback){
-	//&rpp=50
-	$.getJSON( 'http://search.twitter.com/search.json?callback=?&q=from:' + name, callback);
+$.twitterUserInfo = function(name, fn){
+	$.getJSON('http://twitter.com/status/user_timeline/' + name + '.json?&callback=?',
+		function(data){
+			fn.call(this, data[0].user);
+		});
 }
 
-$.bloggerFeed = function(domain, callback){
-	var url = 'http://www.google.com/reader/public/javascript/feed/http://' + domain + '.blogspot.com/atom.xml?alt=json&n=10&callback=?';
-	$.getJSON(url, callback);
+$.twitterSeach = function(keyword, fn){
+	$.getJSON('http://search.twitter.com/search.json?callback=?&q=' + keyword, fn);
 }
 
-
-
+$.bloggerFeed = function(domain, fn){
+	$.getJSON('http://www.google.com/reader/public/javascript/feed/http://' + domain + 
+		'.blogspot.com/atom.xml?alt=json&n=10&callback=?', fn);
+}
 })(jQuery);
 
 
 $(function(){
 	// Usage
+	
+	$.twitter('gihren', function(data){
+		$(document.body).append('<h3>Twitter</h3>');
+
+		$('<ul>').append($.map(data, 
+		function(t, i){
+			return '<li>' + t.text + '</li>';
+		}).join('')).appendTo(document.body);
+	});
+
+
+
+	
 	$.flickrPics( 'color', function (data) {
 		$(document.body).append('<h3>flickr Pics</h3>');
 		
@@ -46,8 +62,18 @@ $(function(){
 	});
 	
 	
-	$.twitter('twitter', function(data){
-		$(document.body).append('<h3>twitter</h3>');
+	$.twitterUserInfo('gihren', function(data){
+		$(document.body).append('<h3>Twitter User Info</h3>');
+		var list = [];
+		for (var item in data){
+			list.push('<li>' + item + ' : ' + data[item] + '</li>');
+		}
+		$('<ul>').append(list.join('')).appendTo(document.body);
+	});
+	
+	
+	$.twitterSeach('docomo', function(data){
+		$(document.body).append('<h3>Twitter Seach</h3>');
 		var list = [];
 		$.each(data, function(i, tw) {
 			for(var i = 0; i < tw.length; i++) {
@@ -59,22 +85,13 @@ $(function(){
 		$('<ul>').append(list.join('')).appendTo(document.body);
 	});
 	
-	
-	$.twitterUserInfo('gihren', function(data){
-		$(document.body).append('<h3>Twitter User Info</h3>');
-		
-		var userInfo = data[0].user, list = [];
-		for (var item in userInfo){
-			list.push('<li>' + item + ' : ' + userInfo[item] + '</li>');
-		}
-		
-		$('<ul>').append(list.join('')).appendTo(document.body);
-	});
-	
 
 	
 	$.bloggerFeed('googlejapan', function ( data ){
-		$(document.body).append('<h3>bloggerFeed</h3>');
+		
+		var h3 = document.createElement('h3');
+		h3.appendChild(document.createTextNode('Blogger Feed - Google Japan'));
+		document.body.appendChild(h3);
 		
 		var list = document.createElement('ul');
 		
