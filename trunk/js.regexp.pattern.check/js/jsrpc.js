@@ -56,19 +56,6 @@ $.rpc = {
 	}
 };
 
-/*
-$.fn.setData = function(key, val){
-	return this.each(function(index, elm){
-		$.data(elm, key, val);
-	});
-}
-
-$.fn.getData = function(key){
-	return $.map(this.each(function(index, elm){
-		return $.data(elm, key);
-	}));
-}
-*/
 
 $.showContent = function(callback){
 	$.ajax({
@@ -190,19 +177,15 @@ $.bindExec = function(){
 	def_attrs = {},
 	$exe = $($.my.slctr.execBtn);
 	
-	for(var i = 0; i < attrs;i++){
-		def_attrs[attrs[i]] = $('#exec').css(attrs[i]);
+	for(var i = 0; i < attrs.length; i++){
+		def_attrs[attrs[i]] = $exe.css(attrs[i]);
 	}
 	
-	$('#exec')
-		.hover(function(){
-			$(this).stop(true).flash(attrs);
-		}, function(){
-			$(this).css(def_attrs);
-		})
-		.click(function(){
-			$.rpc.fnc();
-		});
+	$exe.click(function(){
+		$(this).css(def_attrs).flash(attrs).blur();
+		$.rpc.fnc();
+		return false;
+	});
 }
 
 $.fn.flash = function(attrs, options){
@@ -260,4 +243,68 @@ $.showLastModDate = function(date){
 	});
 }
 
+$.my = {
+	slctr: {
+		title:'#title',
+		fTitle:'#footer-page-title',
+		tgt: '#txtr-target',
+		lastmod: '#lastmod-date',
+		lbl: 'label.exec-order-label',
+		tabList: '#tab-list',
+		tabListTgl: '#tab-list li.tab a',
+		pattrnContWrap: '#content-right-wrap',
+		pattrnCont:'#content-right-wrap .cont',
+		pattern:'a.pattern',
+		execBtn:'#exec',
+		ptTxt:'#txt-pattern',
+		reTxt:'#txt-replace',
+		tgtTxtr:'#txtr-target',
+		reTxtr:'#txtr-result',
+		checkedOrder:'input.exec-order:checked'
+	},
+	prop: {
+		title:{
+			ja: 'Javascript 正規表現 パターン チェック Beta',
+			en: 'Javascript Regular Expressions Pattern Check β'
+		},
+		ver: '1.3',
+		dateDelimiter: '/',
+		contentUrl: './js/json.js'
+	}
+};
 })(jQuery);
+
+
+(function(){
+$(function(){	
+	$.showContent($.accordion);
+	$.setLabelEffect();
+	$.setText("abc 12.3 de -4あ5 f 6\ng,hi +78あ9\n01\t23 jklmn");
+	$.setTitle();
+	$.bindExec();
+	$.bindPastePattern();
+	$.showLastModDate();
+	//"12:34".replace(/(\d+):(\d+)/, "$1時$2分");
+	if($.browser.msie){
+		if ($.browser.version > 6) {
+			$('textarea').attr('rows', '7');
+		}else{
+			$('textarea').attr('rows', '10').height('110px');
+		}
+	}
+});
+})(jQuery);
+
+/*
+$.fn.setData = function(key, val){
+	return this.each(function(index, elm){
+		$.data(elm, key, val);
+	});
+}
+
+$.fn.getData = function(key){
+	return $.map(this.each(function(index, elm){
+		return $.data(elm, key);
+	}));
+}
+*/

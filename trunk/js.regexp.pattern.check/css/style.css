@@ -33,8 +33,9 @@ textarea,input.txt{
 	padding:0;
 	width:100%;
 	height:100%;
-	vertical-align:middle;
+	vertical-align:bottom;
 }
+
 a{
 	font-weight:bold;
 	color:#999966;
@@ -56,6 +57,22 @@ label{
 
 ol,ul{
 	padding-left:2em;
+	text-indent:0;
+}
+dd ul,
+dd ol{
+	margin-top:.5em;
+	margin-bottom:.5em;
+}
+
+*:first-child+html dd ol,
+*:first-child+html dd ul{
+	margin-left:0;
+	text-indent:0;
+}
+* html dd ol,
+* html dd ul{
+	margin-left:0;
 	text-indent:0;
 }
 
@@ -136,6 +153,7 @@ span.attention{
 	table-layout:fixed;
 	border-spacing:10px;
 }
+
 #top-content-table tr{
 	vertical-align:text-top;
 }
@@ -181,7 +199,7 @@ textarea,input.txt{
 #top-content-table td.txtr-wrap{
 	border: 1px inset #666;
 	background-color: #999;
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 /* -=-=-=-=- bottom-content -=-=-=-=-=- */
