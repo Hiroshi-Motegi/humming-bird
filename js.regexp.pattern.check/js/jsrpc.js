@@ -252,7 +252,7 @@ $.showLastModDate = function(date){
 		$($.my.slctr.lastmod).text(
 			(function(date){
 				return date.getFullYear() + $.my.prop.dateDelimiter + (date.getMonth() + 1) + $.my.prop.dateDelimiter + date.getDate()
-			)(new Date(document.lastModified))
+			})(new Date(document.lastModified))
 		);
 	});
 }
