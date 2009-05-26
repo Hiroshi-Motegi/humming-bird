@@ -154,10 +154,13 @@ $.accordion = function( options ) {
 }
 
 $.arrangeHeight = function(){
-	var tablstHeight = $($.my.slctr.tabList).height();
+	var h = $($.my.slctr.tabList).height();
+	if ($.browser.msie && $.browser.version <= 6) {
+		h += parseInt($($.my.slctr.tabList).css('margin-bottom').match(/\d+/));
+	}
 	$($.my.slctr.pattrnCont).each(function(){
-		if( $(this).height() < tablstHeight ){
-			$(this).height(tablstHeight);
+		if( $(this).height() < h ){
+			$(this).height(h);
 		}
 	});
 }

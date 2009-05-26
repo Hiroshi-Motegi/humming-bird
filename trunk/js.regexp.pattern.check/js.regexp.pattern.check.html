@@ -48,24 +48,14 @@ jQuery.my = {
 };
 
 
-$(function(){
-	if($.browser.msie && $.browser.version <= 6){
-		$('#outer-wrap0').html(
-			$('<h2>')
-				.css({textAlign:'center', margin:'0', padding:'1em 0'})
-				.text('IE6以下では正しく表示することができません。他のブラウザをご利用ください。')
-		);
-		return false;
-	}
-	
+$(function(){	
 	$.showContent($.accordion);
 	$.setLabelEffect();
-	$.setText("abc 12.3 de -4あ5 f 6\ng,hi +789\n01\t23 jklmn");
+	$.setText("abc 12.3 de -4あ5 f 6\ng,hi +78あ9\n01\t23 jklmn");
 	$.setTitle();
 	$.bindExec();
 	$.bindPastePattern();
 	$.showLastModDate();
-	
 });
 </script>
 </head>
