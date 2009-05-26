@@ -13,6 +13,10 @@
 		<script src="./js/jquery.color.ver2.min.js" type="text/javascript"></script>
 		<script src="./js/jsrpc.js" type="text/javascript"></script>
 <script type="text/javascript">
+Date.prototype.myFormat = function() {
+    return (this.getFullYear() + '/' + (this.getMonth() + 1) + '/' + this.getDate());
+}
+
 jQuery.my = {
 	slctr: {
 		title:'#title',
@@ -56,16 +60,14 @@ $(function(){
 	
 	$.showContent($.accordion);
 	$.setLabelEffect();
-	$.setText("abc 123 de -45 f 6\nghi +789\n0123 jklmn");
+	$.setText("abc 12.3 de -4あ5 f 6\ng,hi +789\n01\t23 jklmn");
 	$.setTitle();
-	$.showLastModDate();
 	$.bindExec();
 	$.bindPastePattern();
+	$.showLastModDate();
 	
 });
 </script>
-
-
 </head>
 <body>
 	<div id="header-wrap"><div id="header-inner"><div id="header">
@@ -115,13 +117,12 @@ $(function(){
 	
 	<div class="clear dummy"></div>
 	
-	<div id="bottom-content" class="outer"><div class="inner"><div id="tab-list-wrap">
-		<ul id="tab-list"></ul>
+	<div id="bottom-content" class="outer"><div class="inner">
+		<div id="tab-list-wrap"><ul id="tab-list"></ul></div>
 		<div id="content-right-wrap"></div>
-	</div></div></div>
+	</div></div>
 	
-	</div><!-- End outer-wrap1 -->
-	</div><!-- End outer-wrap0 -->
+	</div></div>
 	<div id="footer-wrap">
 		<div class="liner-outer"><div class="liner-inner"></div></div>
 		<div id="footer"><br>

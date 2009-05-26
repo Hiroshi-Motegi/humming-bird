@@ -172,16 +172,6 @@ $.setText = function( value ) {
 	$($.my.slctr.tgt).val(value);
 }
 
-$.showLastModDate = function(){
-	$($.my.slctr.lastmod).text((function(date){
-		return (date.getFullYear() + 
-			$.my.prop.dateDelimiter + 
-			(date.getMonth() + 1) + 
-			$.my.prop.dateDelimiter + 
-			date.getDate());
-	})(new Date(document.lastModified)));
-}
-
 $.setLabelEffect = function(){
 	$($.my.slctr.lbl)
 		.css('color', '#999')
@@ -245,6 +235,25 @@ $.bindPastePattern = function(){
 		$($.my.slctr.ptTxt).val($(this).text()).parent().flash();
 		$(this).blur();
 		return false;
+	});
+}
+
+$.attachEvent = function(evName, fn){
+	evName = evName.toLowerCase();
+	if (window.addEventListener) {
+		window.addEventListener(evName, fn, false)}
+	else if (window.attachEvent) {
+		window.attachEvent('on' + evName, fn)
+	}
+}
+
+$.showLastModDate = function(date){
+	$.attachEvent('load', function(){
+		$($.my.slctr.lastmod).text(
+			(function(date){
+				return date.getFullYear() + $.my.prop.dateDelimiter + (date.getMonth() + 1) + $.my.prop.dateDelimiter + date.getDate()
+			)(new Date(document.lastModified))
+		);
 	});
 }
 

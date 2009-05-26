@@ -194,22 +194,20 @@ textarea,input.txt{
 	padding:10px;
 	border: 1px solid #4c4c4c;
 	border-bottom-width:0;
-}
-/* -=- tab-list -=- */
-#tab-list-wrap{
 	position:relative;
 	overflow:hidden;
 }
-#tab-list{
+/* -=- tab-list -=- */
+#tab-list-wrap{
 	position:absolute;
-	top:0;
-	left:0;
-	list-style:none;
+	z-index:999;
 	width:240px;
+}
+#tab-list{
+	list-style:none;
 	margin:20px 0;
 	padding:0;
 	text-indent:0;
-	z-index:999;
 }
 
 #tab-list li.tab{
@@ -289,6 +287,7 @@ textarea,input.txt{
 	word-wrap:break-word;
 }
 /* -=-=-=-=-=-=- footer -=-=-=-=-=-=- */
+#footer-wrap{}
 #footer{
 	text-align:center;
 }
@@ -298,6 +297,7 @@ textarea,input.txt{
 	font-weight:bold;
 	font-size:14px;
 	line-height:20px;
+	color:#999;
 }
 /* -=-=-=-=-=-=- etc -=-=-=-=-=-=-=- */
 .liner-outer{
