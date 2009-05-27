@@ -141,14 +141,12 @@ div.gsc-clear-button {
 input.gsc-input {
 	padding: 2px 0 2px 4px;
 	color: #bbbbc9;
-	/*border-color: #BCCDF0;*/
 	border-top: 1px solid #111;
 	border-left: 1px solid #111;
 	border-right: 1px solid #4c4c4c;
 	border-bottom: 1px solid #4c4c4c;
 	width : 98%;
 	background-color: #333;
-	/*vertical-align: middle;*/
 }
 * html input.gsc-input{
 	width : 98%;
@@ -192,10 +190,10 @@ input.gsc-input {
   background-position: 0px 2px;
 }
 .gsc-resultsHeader td.gsc-twiddle-closed div.gsc-twiddle{
-  background-image: url('/arrow_close.gif');
+  background-image: url('../img/arrow_close.gif');
 }
 .gsc-resultsHeader td.gsc-twiddle-opened div.gsc-twiddle{
-  background-image: url('/arrow_open.gif');
+  background-image: url('../img/arrow_open.gif');
 }
 
 .gsc-resultsHeader .gsc-title{
@@ -247,15 +245,15 @@ input.gsc-input {
 
 /* active mode is light */
 .gsc-one-result-active .gsc-one-result {
-  background-image: url('/one-complex-light-blue.gif');
+  background-image: url('../img/one-complex-light-blue.gif');
 }
 
 .gsc-more-results-active .gsc-more-results {
-  background-image: url('/more-complex-light-blue.gif');
+  background-image: url('../img/more-complex-light-blue.gif');
 }
 
 .gsc-all-results-active .gsc-all-results {
-  background-image: url('/all-complex-light-blue.gif');
+  background-image: url('../img/all-complex-light-blue.gif');
 }
 
 .gsc-resultsHeader .gsc-configLabel{
@@ -269,7 +267,7 @@ input.gsc-input {
   padding-right: 12px;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url('/settings.gif');
+  background-image: url('../img/settings.gif');
 }
 
 
