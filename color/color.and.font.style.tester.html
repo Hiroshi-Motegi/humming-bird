@@ -1,0 +1,950 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<meta content='y@s' name='author'/>
+		<meta content='HTML のフォントカラーやフォントスタイルをテストする' name='description'/>
+		<meta content='Color,Tester,HTML,Style' name='keyword'/>
+        <title>color and font style tester β</title>
+		<script src="http://www.google.com/jsapi"  type="text/javascript"></script>
+		<script type="text/javascript">google.load("jquery", "1");</script>
+    </head>
+<script type="text/javascript" charset="utf-8">
+/*@cc_on 
+var doc = document;
+eval('var document = doc');
+@*/
+
+Date.prototype.myFormat = function() {
+    return (this.getFullYear() + '/' + (this.getMonth() + 1) + '/' + this.getDate());
+}
+String.prototype.parseColorCode = function(){
+	var result = /rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(this);
+	//IEの場合、rgb(num,num,num)という形で返されるのでこれをカラーコードに変換する
+	return result ? ((((1 << 8) + parseInt(result[1]) << 8) + parseInt(result[2]) << 8) + parseInt(result[3])).toString(16).replace(/^1/, '#') : String(this);
+}
+
+// Color
+var Color ={
+	getKnownColors:function(){
+		var kclst = Color.knownColor;
+		var kcArr = [];
+		for(var kc in kclst) kcArr.push(kclst[kc]);
+		return kcArr;
+	}
+}
+
+
+
+
+(function($) {
+$.extend({
+	overlay: function(options, callback){
+		var opt = $.extend({
+			id: 'overlay',
+			bgColor: '#000000',
+			opacity: 0.75,
+			duration: 'normal',
+			easing:'linear'
+		}, options);
+		
+		if(document.getElementById(opt.id)) return false;
+		
+		var selector = '#' + opt.id;
+		
+		callback = jQuery.isFunction(options) ? options : (callback || function(){});
+		
+		if(jQuery.browser.msie && jQuery.browser.version < 7) jQuery('embed, object, select').css({ 'visibility' : 'hidden' });
+		
+		function _resizeWindow(){
+			$(selector)
+				.hide()
+				.height($(document).height())
+				.width($(document).width())
+				.show();
+		}
+		
+		$(window).bind('resize', _resizeWindow);
+		
+		$('<div/>').attr('id', opt.id).css({
+			'position': 'absolute',
+			'width': $(document).width(),
+			'height': $(document).height(),
+			'left': 0,
+			'top': 0,
+			'margin': 0,
+			backgroundColor: opt.bgColor
+		})
+		.appendTo(document.body)
+		.fadeTo(0, 0)
+		.animate({opacity: opt.opacity}, opt.duration, opt.easing, callback);
+	}
+});
+})(jQuery);
+
+
+(function($) {
+jQuery.fn.extend({
+	positionCenter: function() {
+		var win = jQuery(window);
+		var winHeight = win.height();
+		var winWidth = win.width();
+		var scrollTop = win.scrollTop();
+		var scrollLeft = win.scrollLeft();
+		
+		this.each(function(){
+		  	var posStyle =  jQuery.css(this,"position");
+			
+			if(posStyle != "absolute" && posStyle != "fixed") {
+				jQuery(this).css("position", "absolute");
+				posStyle = jQuery.css(this,"position");
+			}
+			
+			var thisHeight = jQuery(this).height() || 0;
+			var thisWidth = jQuery(this).width() || 0;
+			var top = Math.floor((winHeight - thisHeight) / 2);
+			var left = Math.floor((winWidth - thisWidth) / 2);
+			
+			if (posStyle == "absolute") {
+				top += scrollTop;
+				left += scrollLeft;
+			}
+			
+			jQuery(this).css({"top":top,"left":left});
+		});
+		
+		return this;
+	}
+});
+})(jQuery);
+
+
+var cl = {
+	effecting:false, //do animating.
+	applyColorTarget:"background-color", //background-color or color(font color)
+	prev_slctr:"#preview", //Preview Element Selecter
+	
+	createWebColorItems:function(){
+		var wcs = Color.getWebColors();
+		var itemClass = "color-item";
+		var tbody = document.createElement("tbody");
+		var table_id = "web-color-items-table";
+		var table_class = "item-table";
+		var tr;
+		
+		for(var i = 0;i < wcs.length;i++){
+			if((i%12)==0){
+				tr = document.createElement("tr");
+				$(tbody).append(tr);
+			}
+			
+			$(tr).append(
+				$("<td/>")
+				.attr({title:wcs[i], "class":itemClass}) //IEではclassは文字列でないと×
+				.css({backgroundColor:wcs[i]})
+				.data("color", {code:wcs[i], name:""})
+				.append("<span>" + wcs[i] + "</span>")
+			);
+		}
+		
+		$("<table/>")
+			.attr({"id":table_id,"class":table_class})
+			.append(tbody)
+			.appendTo("#wrap-web-color-items");
+	},
+	createKnownColorItems:function(){
+		var kcs = Color.knownColor;
+		var itemClass = "color-item";
+		var tbody = document.createElement("tbody");
+		var table_id= "known-color-items-table";
+		var table_class= "item-table";
+		var tr;
+		var n = 0;
+		
+		for(var c in kcs){
+			if((n%12)==0){
+				tr = document.createElement("tr")
+				$(tbody).append(tr);
+			}
+			
+			$(tr).append(
+				$("<td/>")
+				.attr({title:c,"class":itemClass})
+				.css({backgroundColor:kcs[c]})
+				.data("color", {code:kcs[c], name:c})
+				.append("<span>" + kcs[c] + "</span>")
+			);
+			
+			n++;
+		}
+		
+		$("<table/>")
+			.attr({"id":table_id, "class":table_class})
+			.append(tbody)
+			.appendTo("#wrap-known-color-items");
+			
+	},
+	createFontFamilyItems:function(){
+		var item_class = "font-family-item";
+		var table_id= "font-family-items-table";
+		var table_class= "item-table";
+		var tbody = document.createElement("tbody");
+		var tr;
+		
+		for(var i = 0; i< fonts.length; i++){
+			if((i%6)==0){
+				tr = document.createElement("tr")
+				$(tbody).append(tr);
+			}
+
+			$(tr).append(
+				$("<td/>")
+				.attr({title:fonts[i],"class":item_class})
+				.data("family", {name:fonts[i]})
+				.append("<span>" + fonts[i] + "</span>")
+			);
+		}
+		
+		$("<table/>")
+			.attr({"id":table_id,"class":table_class})
+			.append(tbody)
+			.appendTo("#wrap-font-family-items");
+		
+		
+		//-- bind click event action. --//
+		var selector = "td." + item_class;
+		$(selector).click(function(){
+			var fndata = jQuery.data(this, "family").name;
+			$(cl.prev_slctr).css({fontFamily:fndata});
+			$("#current-font-family").text(fndata);
+		});
+		
+	},
+	bindClickColorItem:function(){
+		var item_selector = "td.color-item";
+		
+		$(item_selector).bind("click", function(){
+			var applyTarget = {
+				bgcolor:"background-color",
+				fontcolor:"color"
+			}
+			var tgt = cl.applyColorTarget;
+			var code = $.data(this, "color").code;
+			
+			$(cl.prev_slctr).css(tgt, code);
+			
+			if(tgt == applyTarget.bgcolor){
+				$("#current-bg-color").text(code);
+			}else if(tgt == applyTarget.fontcolor ){
+				$("#current-font-color").text(code);
+			}else{
+				cl.applyColorTarget == applyTarget.bgcolor;
+				$("#current-bg-color").text(code);
+				cl.effecting = true;
+				$("#tgl-apply-color-string").stop().queue([])
+					.animate({"top":"0px"},"fast",
+					function(){cl.effecting = false;});
+			}
+		});
+	},
+	bindSelectApplyColor:function(){
+		var selector = "#tgl-apply-color-string";
+		var ph = $(selector).parent().height() + "px";
+		var downRange = "+=" + ph;
+		var upRange = "-=" + ph;
+		var duration = "fast";
+		var tgt = {back:"background-color", font:"color"}
+		
+		$(selector)
+		.css({lineHeight:ph})
+		.bind("click",function(){
+			if(cl.effecting) return;
+			cl.effecting = true;
+			
+			if (cl.applyColorTarget == tgt.back) {
+				cl.applyColorTarget = tgt.font;
+				$(this).stop().queue([])
+					.animate({"top":upRange},duration,
+					function(){cl.effecting = false;});
+			}
+			else if (cl.applyColorTarget == tgt.font){
+				cl.applyColorTarget = tgt.back;
+				$(this).stop().queue([])
+					.animate({"top":downRange},duration,
+					function(){cl.effecting = false;});
+			}
+			else{
+				cl.applyColorTarget = tgt.back;
+				$(this).stop().queue([])
+					.animate({"top":"0px"},duration,
+					function(){cl.effecting = false;});
+			}
+		});
+	},
+	bindSelectFontWeight:function(){	
+		var selector = "#tgl-font-weight";
+		var fw ={normal:"normal", bold:"bold"};
+		var off_color = "#666";
+		var on_color = "#ccc";
+		var current = "#current-font-weight";
+		
+		$(selector).bind("click", function(){
+			var current_fw = $(current).text();
+			
+			function setFontWeight(value){
+				$(current).text(value);
+				$(cl.prev_slctr).css("font-weight", value);
+			}
+			
+			if (current_fw == fw.normal) {
+				setFontWeight(fw.bold);
+				$(this).css({
+					"background":"url('ws_check.png') no-repeat left",
+					"color":on_color
+				});
+			}
+			else if (current_fw == fw.bold){
+				setFontWeight(fw.normal);
+				$(this).css({
+					"background":"none",
+					"color":off_color
+				});
+			}
+			else{
+				setFontWeight(fw.normal);
+				$(this).css({
+					"background":"none",
+					"color":off_color
+				});
+			}
+		})
+		.css({"background":"none","color":off_color});
+		
+		//init
+		$(current).text(fw.normal);
+		$(cl.prev_slctr).css("font-weight", fw.normal);
+	},
+	bindSelectFontStyle:function(){
+		var selector = "#tgl-font-style";
+		var fs ={normal:"normal", italic:"italic"};
+		var off_color = "#666";
+		var on_color = "#ccc";
+		var current = "#current-font-style";
+		
+		function setFontStyle(value){
+			$(current).text(value);
+			$(cl.prev_slctr).css("font-style", value);
+		}
+		
+		$(selector).bind("click",function(){	
+			var current_fs = $(current).text();	
+			
+			if (current_fs == fs.normal) {
+				setFontStyle(fs.italic);
+				$(this).css({
+					"background":"url('ws_check.png') no-repeat left",
+					"color":on_color
+				});
+			}
+			else if (current_fs == fs.italic){
+				setFontStyle(fs.normal);
+				$(this).css({
+					"background":"none",
+					"color":off_color
+				});
+			}else{
+				setFontStyle(fs.normal);
+				$(this).css({
+					"background":"none",
+					"color":off_color
+				});
+			}
+		})
+		.css({"background":"none","color":off_color});
+		
+		//init
+		$(current).text(fs.normal);
+		$(cl.prev_slctr).css("font-style", fs.normal);
+	},
+	bindChangeFontSize:function(){
+		$("#prev-font-size-select")
+			.bind("change", function(){
+				var fsize = $("option:selected",this).text() + "px";
+			      $(cl.prev_slctr).css("font-size", fsize);
+				  $("#current-font-size").text(fsize);
+			})
+			.trigger("change");
+	},
+	bindChangePrevTextArea:function(){
+		var txtar_slctr = "#prev-textarea"; 
+		
+		$(txtar_slctr).bind("change",function(){
+			$(cl.prev_slctr).empty();
+			if($(this).val() == "") return;
+			var str = $(this).val().split("\n");
+			
+			for(var i = 0; i < str.length;i++) {
+				str[i] = (str[i] == "") ? "&nbsp;": str[i];
+				$(cl.prev_slctr).append("<p>" + str[i] + "</p>");
+			}
+		}).trigger("change");
+	},
+	bindClickItemNavi:function(){
+		var item ={
+			kc:"known color",
+			wc:"web color",
+			ff:"font family"
+		};
+		
+		var selectors ={
+			kc:"#wrap-known-color-items",
+			wc:"#wrap-web-color-items",
+			ff:"#wrap-font-family-items"
+		};
+		
+		var duration = "normal";
+		
+		$(".item-navi").bind("click", function(){
+			if(cl.effecting) return;
+			cl.effecting = true;
+			
+			$("a.item-navi").css({backgroundColor:"transparent"});
+			$(this).css({backgroundColor:"#1a1a1a"});
+			
+			$("div.item-container:visible").slideUp(duration);
+			
+			var showTgt;
+			
+			switch($(this).text()){
+				case item.kc:
+					showTgt = selectors.kc;
+					break;
+				case item.wc:
+					showTgt = selectors.wc;
+					break;
+				case item.ff:
+					showTgt = selectors.ff;
+					break;
+				default:
+					cl.effecting = false;
+					return;
+			}
+			
+			$(showTgt).slideDown(duration, function(){cl.effecting = false;});
+		});
+	},
+	currentStyleInit:function(){
+		var cs = {
+			bgcolor:"#current-bg-color",
+			color:"#current-font-color",
+			family:"#current-font-family",
+			weight:"#current-font-weight",
+			style:"#current-font-style",
+			size:"#current-font-size"
+		}
+		
+		$(cs.bgcolor).text($("body").css("background-color").parseColorCode());
+		$(cs.color).text($("body").css("color").parseColorCode());
+		$(cs.family).text($("body").css("font-family"));
+		$(cs.weight).text("normal");
+		$(cs.style).text("normal");
+		$(cs.size).text($("option:selected","#prev-font-size-select").text() + "px");
+	},
+	getCurrentStyleText:function(){
+		var cs = {
+			bgcolor:"#current-bg-color",
+			color:"#current-font-color",
+			family:"#current-font-family",
+			weight:"#current-font-weight",
+			style:"#current-font-style",
+			size:"#current-font-size"
+		}
+		
+		return "selector {\n" +
+			"  background-color:" + $(cs.bgcolor).text() + ";\n" +
+			"  color:" + $(cs.color).text() + ";\n" +
+			"  font-family:\'" + $(cs.family).text() + "\';\n" +
+			"  font-weight:" + $(cs.weight).text() + ";\n" +
+			"  font-style:" + $(cs.style).text() + ";\n" +
+			"  font-size:" + $(cs.size).text() + ";\n}";
+	},
+	getCssDialog:function(){
+		
+		var cssDialog = $("<div/>")
+			.attr("id","css-text")
+			.css({
+				"width":350,
+				"position":"absolute", //bodyに追加する前に設定しておかないとIEでPage sizeがこの要素の分だけ大きくなる。
+				"border-color": "#c0c0c0",
+				"border-style":"solid",
+				"border-top-width":"4px",
+				"border-right-width":"10px",
+				"border-bottom-width":"4px",
+				"border-left-width":"10px",
+				textAlign:"center"
+			});
+		
+		var txtarea = $("<textarea/>")
+			.attr({"id":"css-txtr","rows":jQuery.browser.msie ? 9 : 8})
+			.css({
+				"width":"80%",
+				color:"#c0c0c0",
+				"margin":"10px",
+				"backgroundColor":"#333",
+				"border":"2px solid #c0c0c0",
+				"font-size":"16px",
+				"overflow":"auto",
+				"font-family":$("body").css("font-family")
+			})
+			.bind("click",function(event){
+				event.stopPropagation();
+			})
+			.appendTo(cssDialog);
+			
+		$(txtarea).val(cl.getCurrentStyleText());
+		
+		return cssDialog;
+	},
+	showCssText:function(){
+		var cssDlg = cl.getCssDialog();	
+		var _id = "ct_overlay";
+		var selector = "#" + _id;
+		
+		$.overlay({id:_id},function(){			
+			$(cssDlg)
+				.appendTo(document.body)
+				.positionCenter()
+				.children(":first").focus();
+		});
+		
+		function _removeThis(){
+			$(cssDlg).remove();
+			$(window).unbind('resize');
+			$(document).unbind('keydown');
+			$(selector).stop(true).animate({opacity: 0}, "normal", "swing", function(){ 
+				if(jQuery.browser.msie && jQuery.browser.version < 7) $('embed, object, select').css({ 'visibility' : 'visible' });
+				$(this).remove();
+			});
+		}
+		
+		$(selector).bind("click", function(e){
+			_removeThis();
+			e.stopPropagation();
+		});
+		
+		$(document).bind('keydown', function(e){
+			var _keycode = (e == null) ? event.keyCode : e.which;
+			if (_keycode == 27) _removeThis();
+			e.stopPropagation();
+		});
+		
+	},
+	bindClickShowCss:function(){
+		$("#show-css").bind("click", function(){
+			cl.showCssText();
+		});
+	},
+	init:function(){
+		//三つでセット
+		cl.createWebColorItems();
+		cl.createKnownColorItems();
+		cl.bindClickColorItem();
+		
+		cl.bindChangePrevTextArea();
+		cl.bindSelectApplyColor();
+		cl.bindSelectFontWeight();
+		cl.bindSelectFontStyle();
+		cl.bindChangeFontSize();
+		cl.createFontFamilyItems();
+		cl.bindClickItemNavi();
+		cl.currentStyleInit();
+		cl.bindClickShowCss();
+		
+		
+		//preview text init.
+		$("#prev-textarea").val("Sample Text\nThe quick brown fox jumps over the lazy dog.");
+		$("#prev-textarea").change();
+		
+		//show item init.
+		$("div.item-container").slideUp(0);
+		$("div.item-container:first").slideDown(0);
+		
+		//item navi init. 
+		$(".item-navi:first").css({backgroundColor:"#1a1a1a"});
+	}
+};
+
+
+
+
+
+
+$(function(){
+cl.init();
+$("#this-title").text(document.title);
+$("#lastmod").text(new Date(document.lastModified).myFormat());
+});
+</script>
+<style type='text/css'>	
+body{
+	margin:0;
+	padding:0;
+	background-color:#333333;
+	color:#c0c0c0;
+	font-size:16px;
+	font-family:Gisha;
+}
+
+body,textarea,select,option{
+	font-family:tahoma;
+}
+
+a,a:link,a:visited{
+	cursor:pointer;
+	color:#999966;
+	text-decoration:none;
+}
+a:hover{
+	color:#ffff99;
+}
+
+#container{
+	width:900px;
+	margin:0 auto;
+}
+
+.outer{
+	border-top:1px solid #202020;
+	border-bottom:1px solid #4c4c4c;	
+}
+.inner{
+	border-top:1px solid #4c4c4c;
+	border-bottom:1px solid #202020;
+}
+
+/* -- header --------------------------------------- */
+#header{
+	width:900px;
+	margin:0 auto;
+	height:100px;
+	background:url("hb_logo002.png") no-repeat;
+	text-align:center;
+}
+#header h2{
+	color:#cc6699;
+	font-family:"Candara","SimSun";
+	font-weight:normal;
+	font-size:24px;
+	line-height:4em;
+	margin:0;
+}
+/* -- wrap-current-styles -------------------------- */
+#current-styles{
+	margin:0 0 20px 0;
+	width:100%;
+}
+#current-styles-table{
+	text-align:center;
+	width:100%;
+}
+#current-styles-table th{
+  color:#708090	;
+}
+
+/* -- wrap-preview -------------------------------- */
+#wrap-preview{
+	width:100%;
+}
+#prev-styles-table{
+	border-spacing:0;
+}
+
+#preview{
+	width:630px;
+	height:180px;
+	overflow:hidden;
+	float:right;
+	padding:10px;
+}
+
+#preview p{
+	line-height:1.2em;
+	margin:0;
+	padding:0;
+}
+
+
+/* ---------prev-styles--------- */
+#wrap-prev-styles{
+	text-align:center;
+	width:220px;
+}
+
+#prev-styles-table{
+	width:100%;
+	border-spacing:0px 5px;
+}
+
+/* -- textarea -- */
+#prev-textarea{
+	color:#1a1a1a;
+	background-color:#c0c0c0;
+	font-size:16px;
+	overflow:auto;
+	line-height:1em;
+	margin:0 auto;
+	border-width:1px;
+	width:218px;
+}
+
+/* -- apply color -- */
+#tgl-apply-color{
+	overflow:hidden;
+	height:24px;
+}
+
+#tgl-apply-color,
+#tgl-apply-color-string{
+	line-height:24px;
+	position:relative;
+}
+
+#tgl-apply-color-string{
+	width:100%;
+}
+#tgl-apply-color-string a{
+	display:block;
+	width:100%;
+}
+
+/* -- show-css -- */
+#wrap-show-css{
+	border-top:1px solid #1a1a1a;
+	border-right:1px solid #4c4c4c;
+	border-bottom:1px solid #4c4c4c;
+	border-left:1px solid #1a1a1a;
+}
+#show-css{
+	display:block;
+	height:24px;
+	line-height:24px;
+	border-top:1px solid #4c4c4c;
+	border-right:1px solid #1a1a1a;
+	border-bottom:1px solid #1a1a1a;
+	border-left:1px solid #4c4c4c;
+}
+/* -- font weight & style -- */
+#tgl-font-weight,
+#tgl-font-style{
+	display:block;
+	height:24px;
+	line-height:24px;
+	border-top:1px solid #4c4c4c;
+	border-right:1px solid #1a1a1a;
+	border-bottom:1px solid #1a1a1a;
+	border-left:1px solid #4c4c4c;
+}
+
+.ws-td{
+	width:50%;
+}
+.wrap-ws{
+	border-top:1px solid #1a1a1a;
+	border-right:1px solid #4c4c4c;
+	border-bottom:1px solid #4c4c4c;
+	border-left:1px solid #1a1a1a;
+}
+
+.ws-td b,.ws-td i{}
+
+/* ------- font-size -------*/
+#wrap-prev-font-size{
+	height:24px;
+	line-height:24px;
+}
+#prev-font-size-lbl{
+}
+#prev-font-size-select{
+	color:#c0c0c0;
+	background-color:#333;
+	border:1px solid #666;
+}
+
+/* -- item-navi --------------------------------- */
+#wrap-item-navi{
+	margin:20px 0;
+	width:100%;
+}
+
+#item-navi-table{
+	width:100%;
+	text-align:center;
+}
+
+#item-navi-table td{
+	width:33%;
+}
+
+#item-navi-table tbody,
+#item-navi-table tr,
+#item-navi-table td{
+	padding:0;
+}
+#item-navi-table a{
+	padding:3px 20px;
+	line-height:27px;
+}
+
+/* -- wrap-items ---------------------------- */
+#wrap-items{
+	width:100%;
+	margin:0 auto;
+}
+#wrap-items table{
+	table-layout:fixed;
+}
+td.color-item{
+	font-size:14px;
+	cursor:pointer;
+	text-align:center;
+	color:#1a1a1a;
+}
+
+/* -- font-family-item --------------------- */
+#known-color-items-table,
+#web-color-items-table,
+#font-family-items-table{
+	width:100%
+}
+
+.font-family-item{
+	background-color:#4c4c4c;
+	cursor:pointer;
+	width:16%;
+	font-size:12px;
+	text-align:center;
+	color:#eee;
+	overflow:hidden;
+}
+
+.font-family-item:hover{
+	background-color:#333;
+}
+
+/* -- footer ----------------------------- */
+#footer{
+	margin-top:20px;
+	text-align:center;
+	border-top:1px solid #1a1a1a;
+}
+#footer-inner{
+	border-top:1px solid #4c4c4c;
+}
+
+/* -- etc ----------------------------- */
+#css-txtr{overflow:auto;}
+</style>
+    <body>
+    	<div id="header">
+    		<h2>color and font style tester β</h2>
+    	</div>
+		
+    	<div id="container">
+    		<div id="current-styles"><div class="outer"><div class="inner"><table id="current-styles-table"><tbody>
+    			<tr>
+					<th><span>bg color</span></th>
+					<th><span>font color</span></th>
+					<th><span>font weight</span></th>
+					<th><span>font style</span></th>
+					<th><span>font family</span></th>
+					<th><span>font size</span></th>
+				</tr>
+				<tr>
+					<td><span id="current-bg-color">none specified</span></td>
+					<td><span id="current-font-color">none specified</span></td>
+					<td><span id="current-font-weight">none specified</span></td>
+					<td><span id="current-font-style">none specified</span></td>
+					<td><span id="current-font-family">none specified</span></td>
+					<td><span id="current-font-size">none specified</span></td>
+				</tr>
+			</tbody></table></div></div></div>
+			
+			<div style="clear:both;"></div>
+			
+	    	<div id="wrap-preview">
+	    		
+	    		<div id="preview"></div>
+				
+				<div id="wrap-prev-styles"><table id="prev-styles-table"><tbody>
+					<tr>
+						<td class="ws-td"><div class="wrap-ws"><a id="tgl-font-weight"><b>bold</b></a></div></td>
+						<td class="ws-td"><div class="wrap-ws"><a id="tgl-font-style"><i>italic</i></a></div></td>
+					</tr>
+					
+					<tr>
+						<td  colSpan="2" style="text-align:center;"><div id="wrap-prev-font-size">
+							<span id="prev-font-size-lbl">font-size:</span>
+							<select id="prev-font-size-select" title="font size(px)">
+								<option value="9" class="opt-font-size">9</option>
+								<option value="10" class="opt-font-size">10</option>
+								<option value="11" class="opt-font-size">11</option>
+								<option value="12" class="opt-font-size">12</option>
+								<option value="14" class="opt-font-size">14</option>
+								<option value="16" class="opt-font-size" selected="selected">16</option>
+								<option value="20" class="opt-font-size">20</option>
+								<option value="22" class="opt-font-size">22</option>
+								<option value="24" class="opt-font-size">24</option>
+								<option value="28" class="opt-font-size">28</option>
+								<option value="28" class="opt-font-size">30</option>
+								<option value="32" class="opt-font-size">32</option>
+								<option value="36" class="opt-font-size">36</option>
+								<option value="48" class="opt-font-size">48</option>
+								<option value="72" class="opt-font-size">72</option>
+							</select><span>&nbsp;px</span></div></td>
+					</tr>
+					
+					<tr><td colSpan="2"><textarea id="prev-textarea" name="txtarea" class="txtarea" rows="3" value=""></textarea></td></tr>
+					
+					<tr><td colSpan="2"><div id="wrap-show-css">
+						<a id="show-css"><b>show css text</b></a>
+					</div></td></tr>
+					
+					<tr><td colSpan="2"><div class="outer">
+						<div class="inner"><div id="tgl-apply-color"><div id="tgl-apply-color-string">
+							<a><b>bg color</b></a>
+							<a><b>font color</b></a>
+						</div></div></div>
+					</div></td></tr>
+					
+				</tbody></table></div>
+				<div style="clear:both;"></div>
+			</div>
+			
+			<div id="wrap-item-navi"><div class="outer"><div class="inner"><table id="item-navi-table"><tbody><tr>
+				<td><b><a class="item-navi">known color</a></b></td>
+				<td><b><a class="item-navi">web color</a></b></td>
+				<td><b><a class="item-navi">font family</a></b></td>
+			</tr></tbody></table></div></div>
+			
+			</div><div style="clear:both;"></div>
+
+			<div id="wrap-items">
+				<div id="wrap-known-color-items" class="item-container"></div>
+				<div id="wrap-web-color-items" class="item-container"></div>
+				<div id="wrap-font-family-items" class="item-container"</div>
+			</div>
+			
+			<div style="clear:both;"></div>
+			
+			<div id="footer"><div id="footer-inner">
+				<div class="footer-content"><br/>
+					<small id="this-title"></small><small> ver. 1.1</small><br />
+					<small>© <a href="http://yas-hummingbird.blogspot.com/2009/03/color-and-font-style-tester.html"><b>humming bird</b></a>.</small>&nbsp;&nbsp;<small>author:y@s</small><br />
+					<small>Last Modified:</small><small id="lastmod"></small><br /><br/>
+				<br/></div>
+			</div></div>
+		</div>
+    </body>
+</html>
