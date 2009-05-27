@@ -1,0 +1,407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<meta content='Y@$' name='author'/>
+		<meta content='Bloggerにコードを投稿するための文字変換を行う。Exchange a code before posting' name='description'/>
+		<meta content='Blogger,投稿,コード,変換' name='keyword'/>
+		<title>humming bird : コード･アップロード用 コード文字変換</title>
+		<script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BT21aFqu3bann7KEuE8AJXctX8bUxQnrQ2TKLZ2miaeY8w2pdh4zTxKRQ"  type="text/javascript"></script>
+	<script type="text/javascript">google.load("jquery", "1");</script>
+	</head>
+
+<style>
+html * {
+	margin: 0;
+	padding: 0;
+}
+body{
+	font-size: 90%;
+	color: #999;
+	min-width: 960px;
+}
+/*--font-family --*/
+body,#taTarget,#taResult{
+	font-family: Meiryo,Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+/*--background-color --*/
+body,#taTarget,#taResult,#Footer-Wrap{
+	background-color: #191919;
+}
+#Outer-Wrap2{
+	background-color: #222;
+}
+/*--border --*/
+#SideBar,#btn-inner{
+	border-top: 1px solid #111;
+	border-bottom: 1px solid #333;
+	border-left: 1px solid #111;
+	border-right: 1px solid #333;
+}
+#btn-outer,.ancBtn,.inner{
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #111;
+	border-left: 1px solid #333;
+	border-right: 1px solid #111;
+}
+
+a:link, a:visited{
+	cursor: pointer;
+	color: #99cc00;
+	text-decoration:none;
+}
+a:hover{
+	color: #f66;
+	text-decoration: none;
+}
+p{
+	line-height: 1em;
+}
+
+#Header-Wrap{
+	height: 120px;
+	background: url("if_header_bg.png") repeat-x bottom;
+}
+
+.header{
+	width: 90%;
+	height: 120px;
+	margin: 0 auto;
+	background: url("jsrpc_header.png") no-repeat bottom left;
+}
+
+#Outer-Wrap0{
+	background: url("if_bg03.png");
+}
+#Outer-Wrap1{
+	width: 90%;	
+	margin: 0 auto;
+	border-left: 1px solid #111;
+	border-right: 1px solid #333;
+}
+#Outer-Wrap2{
+	border-left: 1px solid #333;
+	border-right: 1px solid #111;
+}
+
+#Outer-Wrap3{
+	width: 98%;	
+	margin: 0 auto;
+}
+
+#Left-Wrap{
+	width: 20%;
+	vertical-align: text-top;
+}
+
+#Center-Wrap,#Right-Wrap{
+	width: 40%;
+}
+
+form{
+	cursor: default;
+}
+
+#SideBar{
+	width:99%;
+	margin: 0 auto;
+}
+
+table{
+	width: 100%;
+	margin: 0 auto;
+	border: none;
+}
+td{
+	vertical-align: text-top;
+}
+
+.textarea-Wrap,.label{
+	width:98%;
+	margin: 0 auto;
+}
+.label,.sidebartitleouter span{
+	display: block;
+	text-align: center;
+	border: 1px solid #4c4c4c;
+	background-color: #333;
+	font-weight: bold;
+	line-height: 1.6em;
+}
+#taTarget,#taResult{
+	width:99%;
+	margin: 5px auto 0;
+	font-size: 100%;
+	color: #ccc;
+}
+
+#btn-inner{
+	margin: 2px 4px;
+}
+.ancBtn{
+	text-align: center;
+	display: block;
+	line-height: 1.8em;
+	background-color: #202020;
+}
+
+ul{
+	list-style:none;
+	text-indent: 10px;
+}
+ul.ulshrop{
+	text-indent: 24px;
+}
+ol li{
+	list-style:none;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+input{
+	vertical-align: middle;
+}
+label{
+	margin-left: 4px;
+}
+
+.chkLabel:hover,.rdoLabel:hover,.Labelcd:hover{
+	color: white;
+}
+
+.inner{
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+.sidebartitleouter{
+	margin: 1px 4px;
+}
+
+#Footer-Wrap{
+	text-align: center;
+	color: #808080;
+}
+
+
+.Liner-Outer{
+	border-top: 1px solid #111;
+	border-bottom: 1px solid #333;
+}
+.Liner{
+	height: 20px;
+	background: url("if_menu_bg.png") repeat-x ;
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #111;
+	clear:both;
+}
+
+.clear{
+	clear: both;
+}
+.dummy{
+	height: 20px;
+}
+</style>
+<script>
+
+function Func(){
+	//置換対象文字列
+	var w = document.getElementById("taTarget").value;
+	
+	//Validation
+	if(w == ""){
+		document.getElementById("taResult").value ="対象文字列を入力して下さい。";
+		return;
+	}
+	
+	//指定した文字列を変換する
+	w = Replace(w);
+	//文字列を指定したタグで囲む
+	w = WrappingTag(w);
+	
+	//置換後の文字列を結果に表示する
+	document.getElementById("taResult").value = w;
+}
+
+//置換を行う
+//Return String 置換後の文字列
+function Replace(s){
+	var chk = $('.chk');
+	for (i = 0 ; i < chk.length; i++){
+		if (chk[i].checked){
+			switch (i){
+				case 0 :
+					s = s.replace(/\t/g,"&amp;nbsp;&amp;nbsp;");
+					break;
+				case 1 :
+					s = s.replace(/</g,"&lt;");
+					s = s.replace(/>/g,"&gt;");
+					break;
+				case 2 :
+					s = s.replace(/"/g,"&quot;");
+					break;
+				case 3 :
+					s = s.replace(/'/g,"&#39;");
+					break;
+				case 4 :
+					s = s.replace(/\n/gm,"&lt;br/&gt;\n");
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	return s;
+}
+
+//文字列を指定したタグで囲む
+function WrappingTag(s){
+	var to = GetTagOption();
+	if(to == "none"){return s;}
+	
+	var tg = CreateTagString(to);
+	s = tg[0] + s + tg[1];
+	
+	return s;
+}
+
+function CreateTagString(op){
+	
+	var tg = new Array(2);
+	switch(op){
+		case "none" :
+			tg[0] = ""; tg[1] = "";
+			break;
+		case "blockquote" :
+			tg[0] = "<blockquote>\n"; tg[1] = "\n</blockquote>";
+			break;
+		case "pre" :
+			tg[0] = "<pre>\n"; tg[1] = "\n</pre>";
+			break;
+		case "shr" :
+			tg[0] = "<pre class='" + GetCodeName() + "' name='code'>\n"; tg[1] = "\n</pre>";
+			break;
+		default :
+			tg[0] = ""; tg[1] = "";
+			break;
+	}
+	return tg;
+}
+
+//タグで囲むか否かオプションの指定を取得
+//Return String TagName
+//指定しない場合はNoneが返る
+function GetTagOption(){
+	var tgop = $('.tagoption');
+	for (var i = 0 ; i < tgop.length ; i++ ){
+		if(tgop[i].checked){
+			return tgop[i].id.substring(3);
+			break;
+		}
+	}
+}
+
+//コードネームを取得する
+//Return String CodeName
+function GetCodeName(){
+	var rdo = $('.cd');
+	for (var i = 0 ; i < rdo.length ; i++ ){
+		if(rdo[i].checked){
+			var chkd = rdo[i];
+			break;
+		}
+	}
+	return chkd.id.substring(2);
+}
+
+$(function(){
+	$('.tagoption,.radioLabel').click(function(){
+		if (document.getElementById("rdoshr").checked) {
+			$('.ulshrop').slideDown('normal');
+		}else{
+			$('.ulshrop').slideUp('normal');
+		}
+	});
+});
+
+</script>
+
+	<body>
+		<div id="Header-Wrap"><div class="header"></div></div>
+		<div class="Liner-Outer"><div class="Liner"></div></div>
+		<noscript>JavaScriptを使用しています<br/>ご利用になるにはJavaScriptを許可する必要があります</noscript>
+		<div id="Outer-Wrap0"><div id="Outer-Wrap1"><div id="Outer-Wrap2"><div id="Outer-Wrap3">
+					<div class="clear dummy"></div>
+					<table id="Content-Wrap"><tbody><tr>
+						<td id="Left-Wrap">	
+							<div id="SideBar">
+								<div id="btn-outer"><div id="btn-inner"><a class="ancBtn" href="javascript:Func();">実行</a></div></div>
+								<div class="inner"><div class="sidebartitleouter"><span>変換する文字列の指定</span></div></div>
+								<div class="inner">
+									<ul>
+										<li><input type="checkbox" class="chk" name="chk" id="chktab" checked><label for="chktab" class="chkLabel" title="">Tab → &amp;nbsp; ×2</label></li>
+										<li><input type="checkbox" class="chk" name="chk" id="chkltgt" checked><label for="chkltgt" class="chkLabel" title="">&lt; &gt; → &amp;lt; &amp;gt;</label></li>
+										<li><input type="checkbox" class="chk" name="chk" id="chkquot" checked><label for="chkquot" class="chkLabel" title="">&quot; → &amp;quot;</label></li>
+										<li><input type="checkbox" class="chk" name="chk" id="chksnglequot"><label for="chksnglequot" class="chkLabel" title="">&#39; → &amp;#39;</label></li>
+										<li><input type="checkbox" class="chk" name="chk" id="chkreturn"><label for="chkreturn" class="chkLabel" title="">\n → &amp;lt;br/&amp;gt;</label></li>
+									</ul>
+								</div>
+								<div class="inner"><div class="sidebartitleouter"><span>囲むタグを指定する</span></div></div>
+								<div class="inner">
+									<ul>
+										<li><input type="radio" class="tagoption" name="radio" id="rdonone" checked><label for="rdonone" class="rdoLabel" title="タグで囲みません">None</label></li>
+										<li><input type="radio" class="tagoption" name="radio" id="rdoblockquote"><label for="rdoblockquote" class="rdoLabel" title="blockquoteタグで囲みます">blockquote</label></li>
+										<li><input type="radio" class="tagoption" name="radio" id="rdopre"><label for="rdopre" class="rdoLabel" title="preタグで囲みます">pre</label></li>
+										<li>
+											<input type="radio" class="tagoption" name="radio" id="rdoshr"><label id="lblshr" for="rdoshr" class="rdoLabel" title="class,name属性指定 preタグで囲みます">SyntaxHighlighter</label>
+											<ul class="ulshrop" style="display:none;">
+												<li><input type="radio" class="cd" name="radiocd" id="cdcsharp" checked><label for="cdcsharp" class="Labelcd" title="class='c#' name='code'">C#</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdcpp"><label for="cdcpp" class="Labelcd" title="class='cpp' name='code'">C++</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdjava"><label for="cdjava" class="Labelcd" title="class='java' name='code'">Java</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdvb"><label for="cdvb" class="Labelcd" title="class='vb' name='code'">VB</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cddelphi"><label for="cddelphi" class="Labelcd" title="class='delphi' name='code'">Delphi</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdphp"><label for="cdphp" class="Labelcd" title="class='php' name='code'">PHP</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdpython"><label for="cdpython" class="Labelcd" title="class='python' name='code'">Python</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdruby"><label for="cdruby" class="Labelcd" title="class='ruby' name='code'">Ruby</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdsql"><label for="cdsql" class="Labelcd" title="class='sql' name='code'">Sql</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdjs"><label for="cdjs" class="Labelcd" title="class='js' name='code'">JavaScript</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdcss"><label for="cdcss" class="Labelcd" title="class='css' name='code'">CSS</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdxml"><label for="cdxml" class="Labelcd" title="class='xml' name='code'">XML</label></li>
+												<li><input type="radio" class="cd" name="radiocd" id="cdhtml"><label for="cdhtml" class="Labelcd" title="class='html' name='code'">HTML</label></li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+								<div class="inner"><div class="sidebartitleouter"><span>使い方</span></div></div>
+								<div class="inner"><div class="sidebartitleouter">
+									<ol>
+										<li>(1) ページ中央のテキストエリアに対象文字列をペーストします。</li>
+										<li>(2) 上記オプションを必要に応じて選択します。</li>
+										<li>(3) ページ左上の[ 実行 ]ボタンを押下するとページ右にあるテキストエリアに変換後の文字列が表示されます。</li>
+									</ol>
+								</div></div>
+							</div>
+						</td>
+						<td id="Center-Wrap">
+							<div class="label"><span>対象文字列</span></div>
+							<div class="textarea-Wrap"><textarea id="taTarget" name="taTarget" class="txtar" rows="26"></textarea></div>
+						</td>
+						<td id="Right-Wrap">
+							<div class="label"><span>変換後の文字列</span></div>
+							<div class="textarea-Wrap"><textarea id="taResult" name="taResult" class="txtar" rows="26"></textarea></div>
+						</td>
+					</tr></tbody></table>
+					<div class="clear dummy"></div>
+		</div><!-- End Outer-Wrap3 --></div><!-- End Outer-Wrap2 --></div><!-- End Outer-Wrap1 --></div><!-- End Outer-Wrap0 -->
+		<div id="Footer-Wrap">
+			<div class="Liner-Outer"><div class="Liner"></div></div>
+			<div class="footerContent">
+				<br/><span  class="copyright">©2008 <a href="http://yas-hummingbird.blogspot.com">humming bird</a>. author:Y@$</span>
+				<br/><span  class="copyright">利用事項:ご利用は自己責任でお願い致します。</span>
+				<br/><br/>
+			</div>
+		</div>
+	</body>
+</html>
