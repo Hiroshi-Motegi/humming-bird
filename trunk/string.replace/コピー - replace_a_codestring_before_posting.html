@@ -1,0 +1,547 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<meta content='Y@$' name='author'/>
+		<meta content='Blogにコードを投稿するために必要な文字変換を行います。Modify the code before posting.' name='description'/>
+		<meta content='Blogger,投稿,コード,変換,ブログ' name='keyword'/>
+		<title>humming bird : コード･アップロード用 文字変換 Modify the code before posting.</title>
+		<script src="http://www.google.com/jsapi"  type="text/javascript"></script>
+		<script type="text/javascript">google.load("jquery", "1");</script>
+		<script type="text/javascript" src='jquery.color.js'></script>
+<script type="text/javascript">
+var cs = {
+	func: function(){
+	
+		//置換対象文字列を取得
+		var w = cs.getTargetString();
+		
+		//Validation
+		if (cs.isEmpty(w)) {
+			cs.showChangedString("対象文字列を入力して下さい。");
+			return;
+		}
+		
+		//指定した文字列を変換する
+		w = cs.replaceString(w);
+		//文字列を指定したタグで囲む
+		w = cs.wrappingTag(w);
+		
+		//置換後の文字列を結果に表示する
+		cs.showChangedString(w);
+	},
+	
+	//対象文字列を取得し、返します。
+	getTargetString: function(){
+		return $("#target").val();
+	},
+	
+	//置換後の文字列を結果(テキストエリア)に表示する
+	showChangedString: function(s){
+		$("#result").val(s);
+	},
+	
+	isEmpty: function(s){
+		return s == ""||s==undefined||s=='undefined'||s==null;
+	},
+	
+	//置換を行う
+	//Return String 置換後の文字列
+	replaceString: function(s){
+	
+		var chk = $('.chk').get();
+		
+		for (i = 0; i < chk.length; i++) {
+			if (chk[i].checked) {
+				switch (i) {
+					case 0: //Tab → &nbsp; ×2
+						s = s.replace(/\t/g, "&nbsp;&nbsp;");
+						break;
+					case 1: //<> → &lt; &gt;
+						s = s.replace(/</g, "&lt;");
+						s = s.replace(/>/g, "&gt;");
+						break;
+					case 2: //" → &quot;
+						s = s.replace(/"/g, "&quot;");
+						break;
+					case 3: //' → &#39;
+						s = s.replace(/'/g, "&#39;");
+						break;
+					case 4: //\n → &lt;br/&gt;
+						s = s.replace(/\n/gm, "&lt;br/&gt;\n");
+						break;
+					case 5: //各行頭空白 → &nbsp;
+						s = cs.replaceBlank(s);
+						break;
+					default:
+						break;
+				}
+			}
+		}
+		return s;
+	},
+	
+	
+	replaceBlank: function(s){
+		try {
+			var str = s.split("\n");
+			if (str != null && str.length > 0) {
+				var tmp = "";
+				for (var ni = 0; ni < str.length; ni++) {
+					var re = str[ni].match(/^(?:[ 　])+/);
+					if (re == null) {
+						tmp += str[ni] + "\n";
+					}
+					else {
+						var brankString = "";
+						for (var i = 0; i < re[0].length; i++) {
+							brankString += "&nbsp;";
+						}
+						tmp += str[ni].replace(/^\s+/g, brankString) + "\n";
+					}
+				}
+				
+				s = tmp.replace(/\n$/g, "");
+			}
+		} 
+		catch (e) {}
+		finally{ return s; }
+	},
+	
+	//文字列を指定したタグで囲む
+	wrappingTag: function(s){
+		var to = cs.getTagOrder();
+		if (to == "none") {
+			return s;
+		}
+		var tg = cs.createTagString(to);
+		return (tg[0] + s + tg[1]);
+	},
+	
+	//対象文字列を囲むタグ文字列を生成し、返します。
+	createTagString: function(op){
+		var tagOrder ={
+			none:"none",
+			blockquote:"blockquote",
+			pre:"pre",
+			prettify:"prettify",
+			SyntaxHighlighter:"SyntaxHighlighter"
+		};
+		
+		var tg = [,];
+		switch (op) {
+			case "none":
+				tg[0] = "";
+				tg[1] = "";
+				break;
+			case "blockquote":
+				tg[0] = "<blockquote>";
+				tg[1] = "</blockquote>";
+				break;
+			case "pre":
+				tg[0] = "<pre>";
+				tg[1] = "</pre>";
+				break;
+			case "prettify":
+				tg[0] = "<pre class='prettyprint" + cs.getPrettifyLang() + "'>";
+				tg[1] = "</pre>";
+				break;
+			case "SyntaxHighlighter":
+				tg[0] = "<pre class='" + cs.getCodeName() + cs.getSHOptions() + "' name='code'>";
+				tg[1] = "</pre>";
+				break;
+			default:
+				tg[0] = "";
+				tg[1] = "";
+				break;
+		}
+		return tg;
+	},
+	getPrettifyLang:function(){
+		var lang = $("input.rdo-pretty-lang:checked").val();
+		if (lang != "none") {
+			return " lang-" + lang;
+		}else{
+			return "";
+		}
+	},
+	getSHOptions:function(){
+		var opt = "";
+		if(document.getElementById("sh-chk-nogutter").checked) opt += ":nogutter";
+		if(document.getElementById("sh-chk-nocontrols").checked) opt += ":nocontrols";
+		if(document.getElementById("sh-chk-collapse").checked) opt += ":collapse";
+		if (document.getElementById("sh-chk-firstline").checked) {
+			var num = $.trim($("#txt-firstline").val());
+			if(num.match(/[^\d]/)) num = "1";
+			opt += ":firstline[" + num + "]";
+		}
+		if(document.getElementById("sh-chk-showcolumns").checked) opt += ":showcolumns";
+		return opt;
+	},
+	
+	//タグで囲むか否かオプションの指定を取得
+	//Return String TagName
+	//指定しない場合はnoneが返る
+	getTagOrder: function(){
+		return $(".rdo-tag:checked").val();
+	},
+	
+	//SyntaxHighlighterのタグで使用するコード名を取得し、返します。
+	//チェックされたラジオボタンのValueに格納された値を取得しています。
+	getCodeName: function(){
+		return $(".rdo-code:checked").val();
+	}
+}
+
+
+var vAct = {
+	lbl_color:"#666666",
+	lbl_hover_color:"#ffffff",
+	lbl_selecter:".lbl-chk,.lbl-tag,.lbl-code,.lbl-pretty-lang",
+	lbl_hover_duration:400,
+	bindLabelHoverAnimate:function(){
+		$(vAct.lbl_selecter)
+			.hover(
+				function(){$(this).stop().animate(
+					{color:vAct.lbl_hover_color}, vAct.lbl_hover_duration);},
+				function(){$(this).stop().animate(
+					{color:vAct.lbl_color}, vAct.lbl_hover_duration);}
+				).css({color:vAct.lbl_color});
+	},
+	
+	
+	radioTagSelecter:".rdo-tag",
+	shid:"rdo-syntaxHighlighter",
+	shTagSelecter:"#wrap-synxhr-code",
+	prttyid:"rdo-prettify",
+	prttyTagSelecter:"#wrap-prettify-lang",
+	shDuration:"normal",
+	bindShowRadioSHCode:function(){
+		$(vAct.radioTagSelecter).bind("click",function(){
+			if (document.getElementById(vAct.shid).checked) {
+				//チェックされたらスライドして表示する。
+				$(vAct.shTagSelecter).slideDown(vAct.shDuration);
+			}else{
+				//チェックを外したらスライドして隠す。
+				$(vAct.shTagSelecter).slideUp(vAct.shDuration);
+			}
+			
+			if (document.getElementById(vAct.prttyid).checked) {
+				//チェックされたらスライドして表示する。
+				$(vAct.prttyTagSelecter).slideDown(vAct.shDuration);
+			}else{
+				//チェックを外したらスライドして隠す。
+				$(vAct.prttyTagSelecter).slideUp(vAct.shDuration);
+			}
+		});
+	},
+	
+	exec_btn_selecter:"span.btnRun",
+	flashDuration:"normal",
+	bindButtonFlash:function(){
+		function flash(){
+			$(vAct.exec_btn_selecter).fadeTo(vAct.flashDuration, 0.4,
+			 function(){
+				$(this).fadeTo(vAct.flashDuration, 1.0, flash);
+			});
+		};
+			
+		$(vAct.exec_btn_selecter).hover(
+			function(){
+				 flash();
+			},
+			function(){
+				$(this).stop().fadeTo(0, 1.0);
+		});
+	}
+}
+
+$(function(){
+	$(vAct.exec_btn_selecter).bind("click",cs.func);
+	
+	vAct.bindLabelHoverAnimate();
+	vAct.bindShowRadioSHCode();
+	vAct.bindButtonFlash();
+});
+</script>
+<style>
+html * {
+	margin: 0;
+	padding: 0;
+}
+body
+{
+	min-width: 1000px;
+}
+body,.txtarea{
+	font-size: 14px;
+	color: #999;
+	font-family:
+		Meiryo,
+		'メイリオ',
+		'Hiragino Kaku Gothic Pro',
+		'ヒラギノ角ゴ Pro W3' ,
+		'Century Gothic',
+		Verdana;
+}
+input[type=radio] , input[type=checkbox] ,label{
+	vertical-align:middle;
+}
+body,textarea,.txtarea-wrap,#footer-wrap{
+	background-color: #191919;
+}
+#outer-wrap2{
+	background-color: #222222;
+}
+
+.outer,#btn-inner{
+	border-top: 1px solid #111111;
+	border-bottom: 1px solid #333333;
+	border-left: 1px solid #111111;
+	border-right: 1px solid #333;
+}
+.inner,#btn-outer,.btnRun{
+	border-top: 1px solid #333333;
+	border-bottom: 1px solid #111111;
+	border-left: 1px solid #333333;
+	border-right: 1px solid #111111;
+}
+
+a,.btnRun{
+	cursor: pointer;
+	text-decoration:none;
+	color: #99cc00;
+}
+a:hover,.btnRun:hover{ color: #f66; }
+
+textarea{
+	line-height: 1.4em;
+	width:100%;
+	height:100%;
+	border-width:0;
+	overflow:auto;
+}
+
+#sidebar,
+#outer-wrap1,
+#outer-wrap3,
+.header-logo,
+.footer-content,
+.txtarea-wrap,
+table,.label{ margin: 0 auto; }
+
+#Header-wrap,
+.header-logo,
+.header{ height: 120px; }
+
+#Header-wrap{ background: url("if_header_bg.png") repeat-x bottom; }
+.header-logo{
+	background: url("hblogo.png") no-repeat bottom left;
+}
+.header{ background: url("rplccdstr_header.png") no-repeat bottom center; }
+#outer-wrap0{ background: url("if_bg03.png"); }
+#outer-wrap1,
+.header-logo,
+.footer-content{
+	width: 90%;
+}
+#outer-wrap1{
+	border-left: 1px solid #111111;
+	border-right: 1px solid #333333;
+}
+#outer-wrap2{
+	border-left: 1px solid #333333;
+	border-right: 1px solid #111111;
+}
+#outer-wrap3{ width: 98%; }
+#left-wrap{
+	width: 20%;
+	float: left;
+	min-width:190px;
+}
+#content-wrap{
+	width: 78%;
+	float: right;
+}
+#center-wrap,#right-wrap{width: 49%;}
+#center-wrap{float: left;}
+#right-wrap{float: right;}
+
+form{ cursor: default; }
+table{
+	width: 100%;
+	border: none;
+}
+td{vertical-align: text-top;}
+h4{
+	font-size:14px;
+	border: 1px solid #4c4c4c;
+	background-color: #333333;
+	line-height: 1.8em;
+	display: block;
+	text-align: center;
+}
+
+.txtarea-wrap{
+	/*padding:0;*/
+	text-align:center;
+	border:1px solid #333333;
+}
+#btn-inner{ margin: 4px; }
+.btnRun{
+	text-align: center;
+	display: block;
+	line-height: 1.8em;
+	background-color: #202020;
+}
+ul{
+	list-style:none;
+	text-indent: 10px;
+	margin: 10px 0;
+}
+ul#wrap-prettify-lang,
+ul#wrap-synxhr-code{
+	margin-top: 0;
+	text-indent: 24px;
+}
+label{
+	cursor: pointer;
+	margin-left: 4px;
+}
+.inner{ padding: 4px; }
+
+
+.liner-outer{
+	border-top:1px solid #111111;
+	border-bottom:1px solid #333333;
+}
+.liner,.dummy{ height: 20px; }
+.liner{
+	background:url("if_menu_bg.png") repeat-x ;
+	border-top:1px solid #333333;
+	border-bottom:1px solid #111111;
+}
+.clear,.liner{ clear: both; }
+#usage table{ border-spacing: 0px 10px; }
+#usage-table{
+	padding:0px 5px;
+}
+
+#footer-wrap{
+	text-align:right;
+	color: #808080;
+}
+small{ color:#666666; }
+.footer-content{
+	line-height:2.4em;
+}
+#txt-firstline{
+	text-align:right;
+	width:30px;
+	margin-left:10px;
+	vertical-align:middle;
+}
+</style>
+</head>
+<body>
+		<div id="Header-wrap"><div class="header-logo"><div class="header"></div></div></div>
+		<div class="liner-outer"><div class="liner"></div></div>
+		<noscript>JavaScriptを使用しています。ご利用になるにはJavaScriptを許可する必要があります</noscript>
+		<div id="outer-wrap0"><div id="outer-wrap1"><div id="outer-wrap2"><div id="outer-wrap3">
+			<div class="clear dummy"></div>
+				<div id="left-wrap"><div class="outer">
+					<div class="inner"><div class="outer"><span class="btnRun" title="変換処理を実行します。">変換</span></div></div>
+					<div class="inner">
+						<h4>変換する文字列の指定</h4>
+						<ul>
+							<li><input type="checkbox" class="chk" id="chk-tab" /><label for="chk-tab" class="lbl-chk" title="">Tab → &amp;nbsp; ×2</label></li>
+							<li><input type="checkbox" class="chk" id="chk-ltgt" /><label for="chk-ltgt" class="lbl-chk" title="">&lt;&gt; → &amp;lt; &amp;gt;</label></li>
+							<li><input type="checkbox" class="chk" id="chk-quot" /><label for="chk-quot" class="lbl-chk" title="">&quot; → &amp;quot;</label></li>
+							<li><input type="checkbox" class="chk" id="chk-snglequot" /><label for="chk-snglequot" class="lbl-chk" title="">&#39; → &amp;#39;</label></li>
+							<li><input type="checkbox" class="chk" id="chk-return" /><label for="chk-return" class="lbl-chk" title="">\n → &amp;lt;br/&amp;gt;</label></li>
+							<li><input type="checkbox" class="chk" id="chk-blank" /><label for="chk-blank" class="lbl-chk" title="">各行頭空白 → &amp;nbsp;</label></li>
+						</ul>
+					</div>
+					<div class="inner">
+						<h4>タグで囲む</h4>
+						<ul>
+							<li><input type="radio" class="rdo-tag" name="radio" id="rdo-none" value="none" checked="checked" /><label for="rdo-none" class="lbl-tag" title="タグで囲みません">None</label></li>
+							<li><input type="radio" class="rdo-tag" name="radio" id="rdo-blockquote" value="blockquote" /><label for="rdo-blockquote" class="lbl-tag" title="blockquoteタグで囲みます">blockquote</label></li>
+							<li><input type="radio" class="rdo-tag" name="radio" id="rdo-pre" value="pre" /><label for="rdo-pre" class="lbl-tag" title="preタグで囲みます">pre</label></li>
+							<li>
+								<input type="radio" class="rdo-tag" name="radio" id="rdo-prettify" value="prettify" /><label for="rdo-prettify" class="lbl-tag" title="class属性指定 preタグで囲みます">prettify</label>
+								<ul id="wrap-prettify-lang" style="display:none;">
+									<li><input type="radio" class="rdo-pretty-lang" name="rdo-pretty-lang" id="pretty-lang-none" value="none" checked="checked" /><label for="pretty-lang-none" class="lbl-pretty-lang" title="none">none</label></li>
+									<li><input type="radio" class="rdo-pretty-lang" name="rdo-pretty-lang" id="pretty-lang-css" value="css" /><label for="pretty-lang-css" class="lbl-pretty-lang" title="lang-css">css</label></li>
+									<li><input type="radio" class="rdo-pretty-lang" name="rdo-pretty-lang" id="pretty-lang-hs" value="hs" /><label for="pretty-lang-hs" class="lbl-pretty-lang" title="lang-hs">hs</label></li>
+									<li><input type="radio" class="rdo-pretty-lang" name="rdo-pretty-lang" id="pretty-lang-lisp" value="lisp" /><label for="pretty-lang-lisp" class="lbl-pretty-lang" title="lang-lisp">lisp</label></li>
+									<li><input type="radio" class="rdo-pretty-lang" name="rdo-pretty-lang" id="pretty-lang-lua" value="lua" /><label for="pretty-lang-lua" class="lbl-pretty-lang" title="lang-lua">lua</label></li>
+									<li><input type="radio" class="rdo-pretty-lang" name="rdo-pretty-lang" id="pretty-lang-ml" value="ml" /><label for="pretty-lang-ml" class="lbl-pretty-lang" title="'lang-ml">ml</label></li>
+									<li><input type="radio" class="rdo-pretty-lang" name="rdo-pretty-lang" id="pretty-lang-proto" value="proto" /><label for="pretty-lang-proto" class="lbl-pretty-lang" title="lang-proto">proto</label></li>
+									<li><input type="radio" class="rdo-pretty-lang" name="rdo-pretty-lang" id="pretty-lang-sql" value="sql" /><label for="pretty-lang-sql" class="lbl-pretty-lang" title="lang-sql">sql</label></li>
+									<li><input type="radio" class="rdo-pretty-lang" name="rdo-pretty-lang" id="pretty-lang-vb" value="vb" /><label for="pretty-lang-vb" class="lbl-pretty-lang" title="lang-vb">vb</label></li>
+									<li><input type="radio" class="rdo-pretty-lang" name="rdo-pretty-lang" id="pretty-lang-wiki" value="wiki" /><label for="pretty-lang-wiki" class="lbl-pretty-lang" title="lang-wiki">wiki</label></li>
+								</ul>
+							</li>
+							<li>
+								<input type="radio" class="rdo-tag" name="radio" id="rdo-syntaxHighlighter" value="SyntaxHighlighter" /><label id="lblshr" for="rdo-syntaxHighlighter" class="lbl-tag" title="class,name属性指定 preタグで囲みます">SyntaxHighlighter</label>
+								<ul id="wrap-synxhr-code" style="display:none;">
+									<li><input type="checkbox" class="sh-chk" id="sh-chk-nogutter" /><label for="sh-chk-nogutter" class="lbl-chk" title="Will display no gutter. ">nogutter</label></li>
+									<li><input type="checkbox" class="sh-chk" id="sh-chk-nocontrols" /><label for="sh-chk-nocontrols" class="lbl-chk" title="Will display no controls at the top. ">nocontrols</label></li>
+									<li><input type="checkbox" class="sh-chk" id="sh-chk-collapse" /><label for="sh-chk-collapse" class="lbl-chk" title="Will collapse the block by default. ">collapse</label></li>
+									<li><input type="checkbox" class="sh-chk" id="sh-chk-firstline" /><label for="sh-chk-firstline" class="lbl-chk" title="Will begin line count at value. Default value is 1.">firstline</label><input id="txt-firstline" type="text" value="1"/></li>
+									<li><input type="checkbox" class="sh-chk" id="sh-chk-showcolumns" /><label for="sh-chk-showcolumns" class="lbl-chk" title="Will show row columns in the first line.">showcolumns</label></li>
+									
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdcsharp" value="csharp" checked="checked" /><label for="cdcsharp" class="lbl-code" title="class='csharp' name='code'">C#</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdcpp" value="cpp" /><label for="cdcpp" class="lbl-code" title="class='cpp' name='code'">C++</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdjava" value="java" /><label for="cdjava" class="lbl-code" title="class='java' name='code'">Java</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdvb" value="vb" /><label for="cdvb" class="lbl-code" title="class='vb' name='code'">VB</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cddelphi" value="delphi" /><label for="cddelphi" class="lbl-code" title="class='delphi' name='code'">Delphi</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdphp" value="php" /><label for="cdphp" class="lbl-code" title="class='php' name='code'">PHP</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdpython" value="python" /><label for="cdpython" class="lbl-code" title="class='python' name='code'">Python</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdruby" value="ruby" /><label for="cdruby" class="lbl-code" title="class='ruby' name='code'">Ruby</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdsql" value="sql" /><label for="cdsql" class="lbl-code" title="class='sql' name='code'">Sql</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdjs" value="js" /><label for="cdjs" class="lbl-code" title="class='js' name='code'">JavaScript</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdcss" value="css" /><label for="cdcss" class="lbl-code" title="class='css' name='code'">CSS</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdxml" value="xml" /><label for="cdxml" class="lbl-code" title="class='xml' name='code'">XML</label></li>
+									<li><input type="radio" class="rdo-code" name="rdo-code" id="cdhtml" value="html" /><label for="cdhtml" class="lbl-code" title="class='html' name='code'">HTML</label></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<div class="inner">
+						<h4>使い方</h4>
+						<div id="usage"><table id="usage-table"><tbody>
+							<tr class="usage-text"><td>▶</td><td>ページ中央のテキストエリアに対象文字列をペーストします。</td></tr>
+							<tr class="usage-text"><td>▶</td><td>上記オプションを必要に応じて選択します。</td></tr>
+							<tr class="usage-text"><td>▶</td><td> 当ページ左上の[<b>変換</b>]ボタンを押下すると当ページ右側のテキストエリアに変換後の文字列が表示されます。</td></tr>
+						</tbody></table></div>
+					</div>
+				</div><div class="clear"></div></div><!--left-wrap-->
+			<div id="content-wrap">
+				<div id="center-wrap"><div class="outer"><div class="inner"><table><tbody>
+					<tr><th><h4>対象文字列</h4></th></tr>
+					<tr><td class="txtarea-wrap"><textarea id="target" name="target" class="txtarea" rows="28" title="ここに投稿する文字列を入力して下さい。"></textarea></td></tr>
+				</tbody></table></div></div><div class="clear"></div></div>
+				
+				<div id="right-wrap"><div class="outer"><div class="inner"><table><tbody>
+					<tr><th><h4>変換後の文字列</h4></th></tr>
+					<tr><td class="txtarea-wrap"><textarea id="result" name="result" class="txtarea" rows="28" title="ここに変換後の文字列が出力されます。" onclick="this.select(0,this.value.length)" readonly="readonly"></textarea></td></tr>
+				</tbody></table></div></div><div class="clear"></div></div>
+			</div>
+			<div class="clear dummy"></div>
+		</div><!-- End outer-wrap3 -->
+		</div><!-- End outer-wrap2 -->
+		</div><!-- End outer-wrap1 -->
+		</div><!-- End outer-wrap0 -->
+		<div id="footer-wrap">
+			<div class="liner-outer"><div class="liner"></div></div>
+			<div class="footer-content"><br/>
+			<small>Modify the string β Ver. 1.2</small>&nbsp;&nbsp;<small>Last Updated:2009/03/25</small>&nbsp;&nbsp;<small>© <a href="http://yas-hummingbird.blogspot.com/2008/10/replace-code-string.html"><b>humming bird</b></a>.</small>&nbsp;&nbsp;<small>author:Y@$</small>
+			</div>
+		</div>
+		
+	</body>
+</html>
