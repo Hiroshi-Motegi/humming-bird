@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>HTML Sample - 05b</title>
+	</head>
+	<style>
+		html *{
+			margin: 0;
+			padding: 0;
+			text-align: center;
+		}
+		
+		#Wrap{
+			width: 420px;
+			margin: 0 auto;
+			margin: 0 auto;
+			border: 4px dotted #cc6666;
+			background: url('./img/sample05b-bg.png') center repeat-y;
+		}
+		
+		#Header-Wrap{
+			background: url('./img/sample05-bg.png') center repeat-y;
+		}
+		#Header{
+			background: url('./img/sample05-top.png') top center no-repeat;
+		}
+		
+		#Content{
+			border-top: 2px dotted #cc6666;
+			border-bottom: 2px dotted #cc6666;
+		}
+		#Main{
+			width: 240px;
+			float: left;
+			border: 1px dotted #cc6666;
+			margin-left: 20px;
+			margin-bottom: 5px;
+		}
+		#Sidebar{
+			width: 120px;
+			float: right;
+			border: 1px dotted #cc6666;
+			margin-right: 20px;
+			color: white;
+		}
+		
+		#Footer-Wrap{
+			background: url('./img/sample05-bg.png') center repeat-y;
+		}
+		#Footer{
+			background: url('./img/sample05-bottom.png') bottom center no-repeat;
+		}
+		
+		div.clear{
+			clear: both;
+			border-top: 1px dotted #cc6666;
+		}
+	</style>
+	<body>
+		<span>Wrap</span>
+		<div id="Wrap">
+			<div id="Header-Wrap">
+				<div id="Header">
+					<br /><span>Header</span><br /><br />
+				</div>
+			</div>
+			<div id="Content">
+				<span>Content</span>
+				<div id="Main">
+					<span>Main</span>
+					<p>sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text sample text </p>
+				</div>
+				<div id="Sidebar">
+					<span>Sidebar</span>
+					<p>sample text sample text sample text sample text sample text sample text sample text </p>
+				</div>
+				<div class="clear">Clear</div>
+			</div>
+			<div id="Footer-Wrap">
+				<div id="Footer">
+					<br /><span>Footer</span><br /><br />
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

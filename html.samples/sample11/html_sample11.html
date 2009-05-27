@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>HTML Sample - 11</title>
+	</head>
+	<style>
+		html *{
+			font-family: "Century Gothic", Verdana, Geneva, Arial, Helvetica, sans-serif;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			line-height: 2em;
+		}
+		body{
+			background: url('./img/sample11-bodybg.png') top repeat-x;
+		}
+		h2{
+			color: #ffffff;
+		}
+		span{
+			display: block;
+			text-align: center;
+		}
+		
+		#Top{
+			width: 420px;
+			height: 40px;
+			margin: 0 auto;
+		}
+		
+		#Wrap1{
+			width: 420px;
+			margin: 0 auto;
+			background: url('./img/sample11-contentbg.png') center repeat-y;
+		}
+		#Wrap2{
+			padding-top: 10px;
+			background: url('./img/sample11-top.png') center  top  no-repeat;
+		}
+		#Wrap3{
+			margin: 0 auto;
+			width: 398px;
+			border-top: 1px solid #ffffff;
+			border-left: 1px solid #ffffff;
+			border-right: 1px solid #ffffff;
+			background: url('./img/sample11-topgra.png') top repeat-x;
+		}
+		#Header h2{
+			line-height: 1.5em;
+		}
+		#Content{
+			min-height: 400px;
+		}
+		#Footer{
+			min-height: 100px;
+			background: url('./img/sample11-bottom.png') bottom center no-repeat;
+		}
+	</style>
+	<body>
+		<div id="Top"><span>Top</span></div>
+		<div id="Wrap1">
+			<div id="Wrap2">
+				<div id="Wrap3">
+					<div id="Header"><h2>Title</h2></div>
+					<div id="Content"><br /><span>Content</span></div>
+				</div>
+				<div id="Footer"><br /><span>Footer</span></div>
+			</div>
+		</div>
+	</body>
+</html>

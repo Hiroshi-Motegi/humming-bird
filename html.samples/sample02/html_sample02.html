@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>HTML Sample - 02</title>
+	</head>
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+			background: url('./img/sample02-bg.png') center repeat-y;
+		}
+		#Header-Wrap{
+			background: url('./img/sample02-headwrapbg.png') repeat-x;
+			border-bottom: 4px dotted #cc6666;
+		}
+		#Header{
+			margin: 0 auto;
+			width: 420px;
+			height: 150px;
+			background: url('./img/sample02-headbg.png') top center no-repeat;
+			border-right: 2px dotted #cc6666;
+			border-left: 2px dotted #cc6666;
+		}
+		#Header span,#Content span{
+			display: block;
+			text-align: center;	
+		}
+		#Content{
+			margin: 0 auto;
+			width: 380px;
+			border: 2px dotted #cc6666;
+		}
+		#ds{
+			width: 400px;
+			margin: 0 auto;
+		}
+		p{
+			margin: 0 20px;
+		}
+	</style>
+	<body>
+		<div id="Header-Wrap">
+			<div id="Header">
+				<span>Header</span>
+				<p>この例では、bodyの背景画像とHeaderの背景画像を合わせる方法で作成しています。</p>
+			</div>
+		</div>
+		<div id="ds"><p>↑この線を境に、上のHeaderと<b>1pxズレる</b>ことがあるためこのやり方はお薦めできない。他のブラウザでもズレることを確認しているが、IEだと比較的起こりやすい。</p></div>
+		<div id="Content">
+			<span>Content</span>
+			<p>コンテンツに関しては、実際には左右にmarginを取るので、たとえmarginが左右に1pxズレても気になるものではない。</p>
+		</div>
+	</body>
+</html>

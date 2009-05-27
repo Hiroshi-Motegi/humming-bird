@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>HTML Sample - 02</title>
+	</head>
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+		}
+		#Header-Wrap{
+			background: url('./img/sample02-headwrapbg.png') repeat-x;
+			border-bottom: 4px dotted #cc6666;
+		}
+		#Header{
+			margin: 0 auto;
+			width: 420px;
+			height: 150px;
+			background: url('./img/sample02-headbg.png') top center no-repeat;
+			border-right: 2px dotted #cc6666;
+			border-left: 2px dotted #cc6666;
+		}
+		span{
+			display: block;
+			text-align: center;	
+		}
+		#Wrap{
+			background: url('./img/sample02-bg.png') center repeat-y;
+			border-bottom: 4px dotted #cc6666;
+		}
+		#Content{
+			margin: 0 auto 1em;
+			width: 380px;
+			border: 2px dotted #cc6666;
+		}
+		div.ds{
+			width: 400px;
+			margin: 0 auto;
+		}
+		p{
+			margin: 0 20px;
+		}
+	</style>
+	<body>
+		<div id="Header-Wrap">
+			<div id="Header">
+				<span>Header</span>
+				<p>この例では、Headerの背景画像とその下のContentのWrapの背景画像とを合わせる方法で作成しています。</p>
+			</div>
+		</div>
+		<div id="Wrap">
+			<div class="ds"><p>このようにすれば上と下がズレルことはなくなる。</p></div>
+			<div id="Content">
+				<span>Content</span>
+				<p>ズレは解消されたが、大きいモニターなら確認できているだろうが、高さ(height)がモニターより短いと下が途切れることになる。<br />回避策として、min-heightを設定しても閲覧者のモニターの大きさは一定ではないためおススメできない。JavaScriptで高さを設定する手もあるが、JavaScriptをOffにすることも可能なのでこれもおススメできない。</p>
+			</div>
+		</div>
+		<span>Wrap</span>
+	</body>
+</html>
