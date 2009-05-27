@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>Untitled Document</title>
+		<script src="http://www.google.com/jsapi"  type="text/javascript"></script>
+		<script type="text/javascript">google.load("jquery", "1");</script>
+
+<script type="text/javascript">
+(function($) {
+var directions = {
+	topCenter:"topCenter",
+	topRight:"topRight",
+	topLeft:"topLeft",
+	middleCenter:"middleCenter",
+	middleLeft:"middleLeft",
+	middleRight:"middleRight",
+	bottomCenter:"bottomCenter",
+	bottomRight:"bottomRight",
+	bottomLeft:"bottomLeft",
+	back:"back",
+	turnBack:"turnBack"
+};
+
+
+$.fn.extend({	
+	positionAbsolute:function(){
+		return this.each(function(){
+			var $t = $(this);
+			if ($.css(this, 'position') == 'absolute') return;
+			$t.css({
+				top: $t.offset().top,
+				left: $t.offset().left,
+				margin: 0,
+				position: 'absolute'
+			});
+		});
+	},
+	
+	float:function(events){
+		return this.each(function(){
+			var cln = $(this).clone(events || false);
+			$.data(this, "float", {
+				elm: cln.get(0),
+				style: $(this).attr("style")
+			});
+			$(this).positionAbsolute();
+			cln.css("visibility", "hidden").insertBefore(this);
+		});
+	},
+	
+	move: function(options, callback) {
+		var opt = $.extend({
+			direction:"",
+			duration:"normal",
+			top:0,
+			left:0
+			},options);
+		
+		callback = $.isFunction(options) ? options : callback || function(){};
+		opt.direction = directions[opt.direction] || directions.center;
+		
+		var win = $(window), win = {
+			h:win.height(),
+			w:win.width(),
+			st:win.scrollTop(),
+			sl:win.scrollLeft()
+		};
+		
+		return this.each(function(){
+			var t = $(this), t = {
+				h : t.outerHeight(),
+				w : t.outerWidth(),
+				ot : t.offset().top,
+				ol : t.offset().left
+			}
+			
+			if (opt.direction == "turnBack") {
+				$(this).turnBack(opt.duration,callback);
+			}
+			else {
+				if(/.+Center$/.test(opt.direction)) opt.left = (win.w - t.w) / 2 + win.sl;
+				if(/.+Left$/.test(opt.direction)) opt.left = win.sl;
+				if(/.+Right$/.test(opt.direction)) opt.left = win.w - t.w + win.sl;
+				if(/^top.+/.test(opt.direction)) opt.top = win.st;
+				if(/^middle.+/.test(opt.direction)) opt.top = (win.h - t.h) / 2 + win.st;
+				if(/^bottom.+/.test(opt.direction)) opt.top = win.h - t.h + win.st;
+
+				$(this).animate({
+					"top": opt.top,
+					"left": opt.left
+				}, opt.duration, callback);
+			}
+		});
+	},
+	
+	turnBack:function(duration, callback){
+		callback = $.isFunction(duration) ? duration : callback || function(){};
+		duration = $.fx.off ? 0 : typeof duration === "number" ? duration : $.fx.speeds[duration] || $.fx.speeds._default;
+		
+		return this.each(function(){
+			var style,elm,offset;
+			try {
+				style = $($.data(this, "float").style);
+				elm = $($.data(this, "float").elm);
+				offset = elm.offset();
+			}catch (e){ return; }
+			
+			$(this).animate({"top": offset.top,"left":offset.left}, duration,
+			function(){
+				style ? $(this).attr("style", style) : $(this).removeAttr("style");
+				$.removeData(this, "float");
+				elm.replaceWith(this).remove();
+				callback.call();
+			});
+		});
+	}
+});
+})(jQuery);
+
+
+$(function(){
+$("#foo").positionAbsolute();
+	
+	$("#btn-topLeft").click(function(){
+		$("#foo").move({direction:"topLeft",duration:300});
+	});
+	
+	$("#btn-topCenter").click(function(){
+		$("#foo").move({direction:"topCenter",duration:300});
+	});
+	
+	$("#btn-topRight").click(function(){
+		$("#foo").move({direction:"topRight",duration:300});
+	});
+	
+	$("#btn-middleLeft").click(function(){
+		$("#foo").move({direction:"middleLeft",duration:300});
+	});
+	
+	$("#btn-middleCenter").click(function(){
+		$("#foo").move({direction:"middleCenter",duration:300});
+	});
+	
+	$("#btn-middleRight").click(function(){
+		$("#foo").move({direction:"middleRight",duration:300});
+	});
+	
+	$("#btn-bottomLeft").click(function(){
+		$("#foo").move({direction:"bottomLeft",duration:300});
+	});
+	
+	$("#btn-bottomCenter").click(function(){
+		$("#foo").move({direction:"bottomCenter",duration:300});
+	});
+	
+	$("#btn-bottomRight").click(function(){
+		$("#foo").move({direction:"bottomRight",duration:300});
+	});
+	
+
+$("#foo").click(function(){
+	var p = $("<p/>")
+	.text("aho")
+	.css({"color":"#fff"})
+	.positionAbsolute()
+	.appendTo(document.body)
+	.move({direction:"bottomRight",duration:300});
+});
+
+});
+
+
+</script>
+<style type="text/css">
+body{
+	margin:0;
+	padding:0;
+	background-color:#333;
+	font-family:"Meiryo";
+	font-size:16px;
+}
+tabale,tbody,tr,th,td{
+	margin:0;
+	padding:0;
+	border-width:0;
+}
+
+#foo{
+	border:4px solid #ccc;
+	background-color:#1a1a1a;
+	height:100px;
+	width:100px;
+	text-align:center;
+	margin:0 auto;
+}
+
+
+#floatBox{
+	position:fixed;
+	bottom:5%;
+	left:5%;
+	width:120px;
+	z-index:999;
+}
+
+#floatBox-table{
+	width:100%;
+	border-spacing:0;
+	padding:0;
+	margin:0;
+	border-width:0;
+	border-collapse:collapse;
+	table-layout:fixed;
+	vertical-align:text-bottom;
+	vertical-align:text-top;
+}
+
+
+#floatBox-table tr,
+#floatBox-table td{
+  border-width:0;
+}
+
+
+#floatBox-table td div{
+	border-top:2px solid #4c4c4c;
+	border-right:2px solid #1a1a1a;
+	border-bottom:2px solid #1a1a1a;
+	border-left:2px solid #4c4c4c;
+	background-color:#333;
+	color:#666;
+	text-align:center;
+	cursor:pointer;
+	line-height:30px;
+	height:30px;	
+	font-weight:bold;
+}
+#floatBox-table td div:hover{
+	background-color:#393939;
+	color:#c0c0c0;
+	text-align:center;
+	cursor:pointer;	
+	color:#c0c0c0;
+}
+</style>
+</head>
+
+<body>
+	<div id="foo"></div>
+	
+	<div id="floatBox"><table id="floatBox-table"><tbody>
+    <tr>
+        <td id="btn-topLeft" class="moveButton"><div>↖</div></td>
+		<td id="btn-topCenter" class="moveButton"><div>↑</div></td>
+        <td id="btn-topRight" class="moveButton"><div>↗</div></td>
+    </tr>
+    <tr>
+        <td id="btn-middleLeft" class="moveButton"><div>←</div></td>
+		<td id="btn-middleCenter" class="moveButton"><div>○</div></td>
+        <td id="btn-middleRight" class="moveButton"><div>→</div></td>
+    </tr>
+	<tr>
+        <td id="btn-bottomLeft" class="moveButton"><div>↙</div></td>
+		<td id="btn-bottomCenter" class="moveButton"><div>↓</div></td>
+        <td id="btn-bottomRight" class="moveButton"><div>↘</div></td>
+    </tr>
+</tbody></table></div>
+
+</body>
+</html>
