@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="Content-Type" content="text/css; charset=utf-8"/>
+	<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8"/>
+	<meta content='Y@$' name='author'/>
+	<meta content='iTunes Storeでランキングされたアーティスト、アルバムタイトルをキーワードに検索する' name='description'/>
+	<title>humming bird - iTunes Store:Today's Ranking</title>
+	<link rel="stylesheet" href="if_style.css" media="screen" type="text/css" charset="UTF-8"/>
+	<script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BT21aFqu3bann7KEuE8AJXctX8bUxQnrQ2TKLZ2miaeY8w2pdh4zTxKRQ"  type="text/javascript"></script>
+	<script src="if_gfgs.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		google.load("jquery", "1.2.6");
+		google.load("feeds", "1");
+		google.load("search", "1");
+		google.setOnLoadCallback(gfInit());
+		google.setOnLoadCallback(OnLoad(), false);
+	</script>
+</head>
+	<body onload="gfInit(0,0); OnLoad('');">
+		<div id="Header-Wrapper">
+			<div class="header"></div>
+			<div class="Liner-Outer"><div class="Liner"></div></div>
+		</div>
+		
+		<div id= Outer-Wrapper>
+			<div id= Content-Wrapper>
+				<div class="clear dummy"></div>
+				<div id="Sidebar-Wrapper">
+					<h4 class="mnTitle" title="オプション">Option</h4>
+					<div id="EntryOptions">
+						<form id="EntryOptionsForm">
+							<table><tbody>
+								<tr>
+									<td class="frmLabel"><label>Entry:</label></td>
+									<td><select id="EntryCountList" class="ddLst" title="ランキング表示数"  onchange="List_SelectedValue_Changed()">
+					    				<option value="10" class="listOption">10</option>
+					    				<option value="20" class="listOption">20</option>
+					    				<option value="30" class="listOption">30</option>
+										<option value="50" class="listOption">50</option>
+										<option value="100" class="listOption">100</option>
+									</select></td>
+								</tr>
+								<tr>
+									<td class="frmLabel"><label>Value:</label></td>
+									<td><select id="EntryVisiblityList" class="ddLst" title="ランキング表示スタイル" onchange="List_SelectedValue_Changed()">
+					    				<option value="Full_Contents" class="listOption">Full Contents</option>
+					    				<option value="Title_Only" class="listOption">Title Only</option>
+									</select></td>
+								</tr>
+								<tr>
+									<td class="frmLabel"><label>County:</label></td>
+									<td><select id="CountryList" class="ddLst" title="国の指定" onchange="List_SelectedValue_Changed()">
+					    				<option value="143462" class="listOption">Japan</option>
+										<option value="143441" class="listOption">USA</option>
+					    				<option value="143444" class="listOption">UK</option>
+									</select></td>
+								</tr>
+							</tbody></table>
+							<input type= "hidden" id="cddlst" class="hiddenItem"></input>
+							<input type= "hidden" id="gddlst" class="hiddenItem"></input>
+						</form>
+					</div>
+					<h4 class="cTop mnTitle" title="トップソング" onclick="OPENorCLOSEtoLIST(this)"><span>▼</span><b> Top Songs </b><span>▼</span></h4>
+					<ul>
+						<li class="mnChild"><a href="javascript:gfInit(0,0);">All Genre</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,27);">J-Pop</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,14);">Pop</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,21);">Rock</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,15);">R&B/Soul</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,2);">Blues</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,23);">Vocal</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,24);">Reggae</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,18);">Hip Hop/Rap</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,17);">Dance</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,11);">Jazz</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,6);">Country</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(0,19);">World</a></li>
+					</ul>
+					<h4 class="cTop mnTitle" title="トップアルバム" onclick="OPENorCLOSEtoLIST(this)"><span>▼</span><span> Top Albums </span><span>▼</span></h4>
+					<ul class="mnul">
+						<li class="mnChild"><a href="javascript:gfInit(1,0);">All Genre</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,27);">J-Pop</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,14);">Pop</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,21);">Rock</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,15);">R&B/Soul</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,2);">Blues</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,23);">Vocal</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,24);">Reggae</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,18);">Hip Hop/Rap</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,17);">Dance</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,11);">Jazz</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,6);">Country</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(1,19);">World</a></li>
+					</ul>
+					<h4 class="cTop mnTitle" title="最新リリース" onclick="OPENorCLOSEtoLIST(this)"><span>▼</span><span> New Release </span><span>▼</span></h4>
+					<ul class="mnul">
+						<li class="mnChild"><a href="javascript:gfInit(2,0);">All Genre</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,27);">J-Pop</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,14);">Pop</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,21);">Rock</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,15);">R&B/Soul</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,2);">Blues</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,23);">Vocal</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,24);">Reggae</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,18);">Hip Hop/Rap</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,17);">Dance</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,11);">Jazz</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,6);">Country</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(2,19);">World</a></li>
+					</ul>
+					<h4 class="cTop mnTitle" title="新規追加" onclick="OPENorCLOSEtoLIST(this)"><span>▼</span><span> Just Added </span><span>▼</span></h4>
+					<ul class="mnul">
+						<li class="mnChild"><a href="javascript:gfInit(3,0);">All Genre</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,27);">J-Pop</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,14);">Pop</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,21);">Rock</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,15);">R&B/Soul</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,2);">Blues</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,23);">Vocal</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,24);">Reggae</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,18);">Hip Hop/Rap</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,17);">Dance</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,11);">Jazz</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,6);">Country</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(3,19);">World</a></li>
+					</ul>
+					<h4 class="cTop mnTitle" title="特集 & 限定" onclick="OPENorCLOSEtoLIST(this)"><span>▼</span><span> Featured & Exclusive </span><span>▼</span></h4>
+					<ul class="mnul">
+						<li class="mnChild"><a href="javascript:gfInit(4,0);">All Genre</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,27);">J-Pop</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,14);">Pop</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,21);">Rock</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,15);">R&B/Soul</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,2);">Blues</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,23);">Vocal</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,24);">Reggae</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,18);">Hip Hop/Rap</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,17);">Dance</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,11);">Jazz</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,6);">Country</a></li>
+						<li class="mnChild"><a href="javascript:gfInit(4,19);">World</a></li>
+					</ul>
+					<h4 class="mnTitle Reset"><a href="javascript:Content_Clear('feed');  OnLoad('');" title="コンテンツをすべて削除します">Reset</a></h4>
+					<h4 class="mnTitle disclaimer-title">□□免責事項□□</h4>
+					<div class="disclaimer">このサイトをご利用した際に起こったいかなる損害も制作者 Y@$ 及び humming bird はその責を負いません。<br/>ご自身の責任においてご利用ください。</div>
+				</div><!-- Sidebar-Wrapper End -->
+				
+				<div id="Rank-Wrapper">
+					<noscript>当サイトはJavaScriptを使用してコンテンツを表示しています。<br/> コンテンツを表示させるにはJavaScriptを許可する必要があります。</noscript>
+					<div id="feed">Loading...</div>
+				</div>
+				
+				<div id="Search-Wrapper">
+					<div id="Search">Loading...</div>
+				</div>
+				
+				<div class="clear dummy"></div>
+			</div><!-- Content-Wrapper End -->
+		</div><!-- Outer-Wrapper End -->
+		<div id="Footer-Wrapper">
+			<div class="Liner-Outer"><div class="Liner"></div></div>
+			<div class="footerContent">
+				<br/><span  class="copyright">iTunes Store:Feed & Google Feed API & Google Search API</span>
+				<br/><span  class="copyright">©2008 <a href="http://www.apple.com/jp/itunes/">iTunes</a> K.K, ©2008 <a href="http://yas-hummingbird.blogspot.com">humming bird</a>. author:Y@$</span>
+				<br/><br/>
+			</div>
+		</div>
+	</body>
+</html>

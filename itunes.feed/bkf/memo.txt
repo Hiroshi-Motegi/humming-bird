@@ -1,0 +1,6 @@
+						<li>
+							<a class="mnTitle"><span class="tglL">▶</span><span class="tglR">◀</span><span> 免責事項 </span><div class="clear"></div></a>
+							<ul class="disclaimer">
+								<li>このサイトをご利用した際に起こったいかなる損害も制作者 Y@$ 及び humming bird はその責を負いません。ご自身の責任においてご利用ください。</li>
+							</ul>
+						</li>
