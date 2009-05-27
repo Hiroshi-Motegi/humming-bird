@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/css; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/javascript; charset=utf-8"/>
+  
+  <title>humming bird - Google AJAX Feed API - iTunes Feed Sample #2</title>
+  
+  <script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BT21aFqu3bann7KEuE8AJXctX8bUxQnrQ2TKLZ2miaeY8w2pdh4zTxKRQ"  type="text/javascript"></script>
+
+  <script type="text/javascript">	
+
+	var arFeedURL = new Array(
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=100/rss.xml",
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topalbums/sf=143462/limit=100/rss.xml",
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/new-releases/sf=143462/limit=100/rss.xml");
+	
+	google.load("feeds", "1");
+
+	function initialize(){
+		
+		container = document.getElementById("feed");
+		
+		for (var cnt = 0 ; cnt < arFeedURL.length ; cnt++ ) {
+			
+			var feed = new google.feeds.Feed(arFeedURL[cnt]);
+			
+			feed.setNumEntries(-1);
+			feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+			
+			feed.load(function(result){
+				if (!result.error) {
+					
+					//各フィードを格納
+					var containerDiv = document.createElement("div");
+					containerDiv.className = "cntr";
+					container.appendChild(containerDiv);
+					
+					//フィードタイトルを取得
+					var feedDescription = result.feed.description; 
+					feedDescription = feedDescription.replace("iTunes Store","");
+					feedDescription = feedDescription.replace(":","");
+					
+					//フィードタイトルを格納
+					var FeedTitle = document.createElement("h3");
+					FeedTitle.className = "ftitle";
+					FeedTitle.innerHTML = feedDescription;
+					containerDiv.appendChild(FeedTitle);
+
+					for (var i = 0; i < result.feed.entries.length; i++) {
+						
+						var entry = result.feed.entries[i];
+						
+						if(entry.title != null){
+							//エントリータイトルを格納
+							var titleAnc = document.createElement('a');
+							titleAnc.setAttribute("href", entry.link);
+							titleAnc.target = "_blank";
+							titleAnc.setAttribute("title", entry.title);
+							titleAnc.appendChild(document.createTextNode(entry.title));
+							var entryTitle = document.createElement("div");
+							entryTitle.className = "entryTitle";
+							entryTitle.appendChild(titleAnc);
+							containerDiv.appendChild(entryTitle);
+						}
+						
+					}
+				}
+			});
+		}
+	}
+	google.setOnLoadCallback(initialize);
+
+  </script>
+
+  <style>
+	body{
+		background-color: #191919;
+		color: #ccc;
+		font-family: 'メイリオ',Meiryo,'Hiragino Kaku Gothic Pro',Verdana;
+		line-height: 1.2em;
+	}
+	h2{
+		margin: 0;
+		line-height: 1.5em;
+	}
+	#feed {
+		margin: 0 auto;
+		width:640px;
+	}
+	a:link, a:visited{
+		text-decoration: none;
+		color: #99cc00;
+	}
+	a:hover{
+		color: #f66;
+	}
+	img:hover{
+		border: 1px solid #f99;
+	}
+	.cntr{
+		float: left;
+		width:200px;
+		border-top: 1px solid #000;
+		border-right: 1px solid #666;
+		border-left: 1px solid #000;
+		border-bottom: 1px solid #666;
+		margin-right: 10px;
+	}
+	.cntr h3{
+		font-size: 14px;
+		text-align:center;
+		padding: 0;
+		margin: 0;
+		line-height: 1.8em;
+		font-weight: normal;
+		background: #191919;
+		color: #f66;
+		border-top: 1px solid #666;
+		border-right: 1px solid #000;
+		border-left: 1px solid #666;
+		border-bottom: 1px solid #000;
+	}
+
+	.entryTitle{
+		font-size: 11px;
+		background: #333 url("itunes_entrytitle_bg.png") repeat-x;
+		margin: 0;
+		padding: 3px;
+		line-height:1.2em;
+		border-top: 1px solid #666;
+		border-right: 1px solid #000;
+		border-left: 1px solid #666;
+		border-bottom: 1px solid #000;
+	}
+
+	.clear{
+		clear:both;
+	}
+
+</style>
+</head>
+	<body>
+		<div>
+			<h2 style="text-align: center;">iTunes Store: Today’s Top100</h2>
+			<p style="text-align: center;">Copyright 2008 iTunes K.K</p>
+			<div id = "feed"></div>
+		</div>
+	</body>
+</html>

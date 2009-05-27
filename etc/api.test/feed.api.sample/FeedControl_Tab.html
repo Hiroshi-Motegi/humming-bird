@@ -1,0 +1,27 @@
+<html>
+  <head>
+  	<title>Google Feed API - Sample</title>
+    <script  type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      
+      google.load("feeds", "1");
+
+      function FeedOnSet() {
+        var feedControl = new google.feeds.FeedControl();
+        feedControl.addFeed("http://feeds.feedburner.jp/hummingbird/rss", "humming bird");
+		feedControl.addFeed("http://ysnrws.spaces.live.com/feed.rss", "from Y@$");
+		feedControl.setNumEntries(7); //必ず『feedControl.draw』の前に記述すること
+        feedControl.draw(document.getElementById("feedfeed"),{drawMode : google.feeds.FeedControl.DRAW_MODE_TABBED});
+		feedControl.setLinkTarget({linkTarget : google.feeds.LINK_TARGET_SELF});
+      }
+	  
+	  
+      google.setOnLoadCallback(FeedOnSet);
+
+    </script>
+  </head>
+
+  <body>
+    <div id="feedfeed">Loading...</div>
+  </body>
+</html>

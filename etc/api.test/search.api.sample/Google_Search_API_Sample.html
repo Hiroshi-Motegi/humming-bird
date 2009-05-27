@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ <head>
+  <title>My Google AJAX Search API Application</title>
+  <link href="http://www.google.com/uds/css/gsearch.css" rel="stylesheet" type="text/css" />
+  <script src="http://www.google.com/uds/api?file=uds.js&v=1.0&key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BQXW-KzRPlZeQxnk-OEtfm0zQ75NxTKvigTIPgKbJduJQZOJ2T77OfU-g" type="text/javascript"> </script>
+  
+  <script language="Javascript" type="text/javascript">
+    function OnLoad() {
+      // Create the Google search control
+      var searchControl = new GSearchControl();
+
+      // These allow you to customize what appears in the search results
+	  searchControl.addSearcher(new GvideoSearch());
+      //searchControl.addSearcher(new GwebSearch());
+
+      // "Draw" the control on the HTML form
+      searchControl.draw(document.getElementById("GoogleSearchResult"));
+    }
+  </script>
+  <style>
+  	input.gsc-input {
+  		height: 16px;
+  	}
+  	input.gsc-search-button {
+  		height: 22px;
+  	}
+  </style>
+ </head>
+
+ <body onload="OnLoad()">
+ 	<img src="http://www.google.com/uds/css/youtube-logo-55x24.png"/>
+  <div id="GoogleSearchResult"></div>
+ </body>
+</html>

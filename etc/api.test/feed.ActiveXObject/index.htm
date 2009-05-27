@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Tody's Top Song 10 - from iTunes Music Store</title>
+  <script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BQXW-KzRPlZeQxnk-OEtfm0zQ75NxTKvigTIPgKbJduJQZOJ2T77OfU-g"  type="text/javascript"></script>
+  <script>
+  <!--
+		var xmlurl = "http://phobos.apple.com/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=10/rss.xml";
+		var style1url = "./style1.xsl";
+		var style2url = "./style2.xsl";
+		
+		var xml = new ActiveXObject("Microsoft.XMLDOM");
+		xml.async = false;
+		xml.load(xmlurl);
+		
+		var style1 = new ActiveXObject("Microsoft.XMLDOM");
+		style1.async = false;
+		style1.load(style1url);
+		
+		var style2 = new ActiveXObject("Microsoft.XMLDOM");
+		style2.async = false;
+		style2.load(style2url);
+		
+		function func1(){
+			document.all.placehere.innerHTML = xml.transformNode(style1);
+		}
+
+		function func2(){
+			document.all.placehere.innerHTML = xml.transformNode(style2);
+		}
+
+  //-->
+  </script>
+</head>
+
+<body onload="func1()" bgcolor="#FFFFCC" text="#000000">
+
+<table border="0" width="100%" bgcolor="#FF0000">
+  <tr>
+    <td><b><font color="#FFFF00">Today’s TopSong 10 - from iTunes Music Store</font></b></td>
+  </tr>
+</table>
+<form>
+	<input type="radio" onclick='func1()' name="radio" checked>一覧
+	<input type="radio" onclick='func2()' name="radio">詳細
+</form>
+<br>
+<div id="placehere"></div>
+
+</body>
+</html>

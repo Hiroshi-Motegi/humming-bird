@@ -1,0 +1,552 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/css; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/javascript; charset=utf-8"/>
+  
+  <title>humming bird - iTunes Feed Mix</title>
+  
+  <script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BT21aFqu3bann7KEuE8AJXctX8bUxQnrQ2TKLZ2miaeY8w2pdh4zTxKRQ"  type="text/javascript"></script>
+
+  <script type="text/javascript">	
+	
+	google.load("feeds", "1");
+	
+	var feedURL = new Array();
+	feedURL[10] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=100/rss.xml";
+	feedURL[11] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=100/genre=14/rss.xml";
+	feedURL[12] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=100/genre=27/rss.xml";
+	feedURL[13] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=100/genre=15/rss.xml";
+	feedURL[14] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=100/genre=18/rss.xml";
+	feedURL[15] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=100/genre=21/rss.xml";
+
+	feedURL[20] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topalbums/sf=143462/limit=100/rss.xml";
+	feedURL[21] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topalbums/sf=143462/limit=100/genre=14/rss.xml";
+	feedURL[22] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topalbums/sf=143462/limit=100/genre=27/rss.xml";
+	feedURL[23] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topalbums/sf=143462/limit=100/genre=15/rss.xml";
+	feedURL[24] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topalbums/sf=143462/limit=100/genre=18/rss.xml";
+	feedURL[25] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topalbums/sf=143462/limit=100/genre=21/rss.xml";
+	
+	feedURL[30] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/new-releases/sf=143462/limit=100/rss.xml";
+	feedURL[31] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/new-releases/sf=143462/limit=100/genre=14/rss.xml";
+	feedURL[32] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/new-releases/sf=143462/limit=100/genre=27/rss.xml";
+	feedURL[33] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/new-releases/sf=143462/limit=100/genre=15/rss.xml";
+	feedURL[34] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/new-releases/sf=143462/limit=100/genre=18/rss.xml";
+	feedURL[35] = "http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/new-releases/sf=143462/limit=100/genre=21/rss.xml";
+	
+	
+	function F_initialize(urlNum){
+		
+		container = document.getElementById("feed");
+			
+		var feed = new google.feeds.Feed(feedURL[urlNum]);
+		
+		feed.setNumEntries(20);
+		feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+		
+		feed.load(function(result){
+			if (!result.error) {
+				
+				//各フィードを格納
+				var containerDiv = document.createElement("div");
+				containerDiv.className = "feedcontainer";
+				
+				//フィードタイトルを取得
+				var feedDescription = result.feed.description; 
+				feedDescription = feedDescription.replace("iTunes Store","");
+				feedDescription = feedDescription.replace(":","");
+				feedDescription = feedDescription.replace("100","20");
+				
+				//フィードタイトルを格納
+				var FeedTitle = document.createElement("h3");
+				FeedTitle.className = "feedtitle";
+				FeedTitle.innerHTML = feedDescription;
+				containerDiv.appendChild(FeedTitle);
+
+				for (var i = 0; i < result.feed.entries.length; i++) {
+					
+					var entry = result.feed.entries[i];
+					var ns = "http://phobos.apple.com/rss/1.0/modules/itms/";
+					var eNode = entry.xmlNode;
+					var covorArtSize = {
+						small: 0,
+						midium: 1,
+						large: 2
+					};
+					
+					//エントリーを格納するタグ
+					var entryContainer = document.createElement("div");
+					entryContainer.className = "entryCont";
+					containerDiv.appendChild(entryContainer);
+					
+					if(entry.title != null){
+						//エントリータイトルを格納
+						var titleAnc = document.createElement('a');
+						titleAnc.setAttribute("href", entry.link);
+						titleAnc.target = "_blank";
+						titleAnc.setAttribute("title", entry.title);
+						titleAnc.appendChild(document.createTextNode(entry.title));
+						var entryHeader = document.createElement("div");
+						entryHeader.className = "entryTitle";
+						entryHeader.appendChild(titleAnc);
+						entryContainer.appendChild(entryHeader);
+					}
+					
+					//タイトル以外を格納するタグ
+					var BaseContent = document.createElement("div");
+					BaseContent.className = "basecontent";
+					entryContainer.appendChild(BaseContent);
+					
+					
+					//アルバムカバーを格納するタグ
+					var coverArtContainer = document.createElement("div");
+					coverArtContainer.className = "coverart";
+					BaseContent.appendChild(coverArtContainer);
+					
+					//エントリー情報を格納するタグ
+					var entryContent = document.createElement("div");
+					entryContent.className = "content";
+					BaseContent.appendChild(entryContent);
+					
+					//要素を揃える
+					var clearDiv = document.createElement("div");
+					clearDiv.className = "clear";
+					BaseContent.appendChild(clearDiv);
+					
+
+					//各エントリーの各情報を取得*********************************************
+					//カバーアート
+					var coverNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "coverArt")[covorArtSize.large];
+					if (coverNodes != null) {
+						var coverArt = coverNodes.firstChild.nodeValue;
+						var albumNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "albumLink")[0];
+						var albumLink = albumNodes.firstChild.nodeValue;
+						var imgAnc = document.createElement('a');
+						imgAnc.setAttribute("href", albumLink);
+						var img = document.createElement('img');
+						img.src = coverArt;
+						imgAnc.appendChild(img);
+						coverArtContainer.appendChild(imgAnc);
+					}
+					
+					//アルバムタイトル
+					var albumtitleNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "album")[0];
+					if (albumtitleNodes != null) {
+						var albumTitle = albumtitleNodes.firstChild.nodeValue;
+						var albumtitleP = document.createElement("p");
+						albumtitleP.setAttribute("title", albumTitle);
+						albumtitleP.appendChild(document.createTextNode("Album : " + albumTitle));
+						entryContent.appendChild(albumtitleP);
+					}
+					
+					
+					//アーティスト
+					var artistNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "artist")[0];
+					if (artistNodes != null) {
+						var artist = artistNodes.firstChild.nodeValue;
+						var artistP = document.createElement("p");
+						artistP.setAttribute("title", artist);
+						artistP.appendChild(document.createTextNode("Artist : " + artist));
+						entryContent.appendChild(artistP);
+					}
+
+					//プライス
+					var priceNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "albumPrice")[0];
+					if (priceNodes != null) {
+						var price = priceNodes.firstChild.nodeValue;
+						var priceP = document.createElement("p");
+						priceP.appendChild(document.createTextNode("Price : " + price));
+						entryContent.appendChild(priceP);
+					}
+					
+					//リリース日
+					var releaseNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "releasedate")[0];
+					if (releaseNodes != null) {
+						var release = releaseNodes.firstChild.nodeValue;
+						var releaseP = document.createElement("p");
+						releaseP.appendChild(document.createTextNode("Release : " + release));
+						entryContent.appendChild(releaseP);
+					}
+					
+					//Copyright
+					try {
+						var rightsNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "rights")[0];
+						if (rightsNodes != null) {
+							var rights = rightsNodes.firstChild.nodeValue;
+							var rightsP = document.createElement("p");
+							rightsP.className = "cprght";
+							rightsP.title = "Copyright " + rights;
+							rightsP.appendChild(document.createTextNode("Copyright " + rights));
+							entryContent.appendChild(rightsP);
+						}
+					} catch (e) {
+					}
+				}
+				//コンテンツを表示
+				container.appendChild(containerDiv);
+				
+				//以前に表示していたものがあれば削除
+				var tgtParent=document.getElementById("feed");
+				var tgt_firstchild=tgtParent.firstChild;
+				if (tgt_firstchild.nextSibling) {
+					tgtParent.removeChild(tgtParent.firstChild);
+				}
+			}
+		});
+	}
+	
+
+	function S_initialize(urlNum){
+		
+		container = document.getElementById("feed");
+		
+			var feed = new google.feeds.Feed(feedURL[urlNum]);
+			
+			feed.setNumEntries(100);
+			feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+			
+			feed.load(function(result){
+				if (!result.error) {
+					
+					//各フィードを格納
+					var containerDiv = document.createElement("div");
+					containerDiv.className = "feedcontainer";
+					
+					
+					//フィードタイトルを取得
+					var feedDescription = result.feed.description; 
+					feedDescription = feedDescription.replace("iTunes Store","");
+					feedDescription = feedDescription.replace(":","");
+					
+					//フィードタイトルを格納
+					var FeedTitle = document.createElement("h3");
+					FeedTitle.className = "feedtitle";
+					FeedTitle.innerHTML = feedDescription;
+					containerDiv.appendChild(FeedTitle);
+
+					for (var i = 0; i < result.feed.entries.length; i++) {
+						
+						var entry = result.feed.entries[i];
+						
+						if(entry.title != null){
+							//エントリータイトルを格納
+							var titleAnc = document.createElement('a');
+							titleAnc.setAttribute("href", entry.link);
+							titleAnc.target = "_blank";
+							titleAnc.setAttribute("title", entry.title);
+							titleAnc.appendChild(document.createTextNode(entry.title));
+							var entryTitle = document.createElement("div");
+							entryTitle.className = "entryTitle";
+							entryTitle.appendChild(titleAnc);
+							containerDiv.appendChild(entryTitle);
+						}
+						
+					}
+					
+					//コンテンツを表示
+					container.appendChild(containerDiv);
+					
+					//以前に表示していたものがあれば削除
+					var tgtParent=document.getElementById("feed");
+					var tgt_firstchild=tgtParent.firstChild;
+					if (tgt_firstchild.nextSibling) {
+						tgtParent.removeChild(tgtParent.firstChild);
+					}
+				}
+			});
+	}
+	
+	google.setOnLoadCallback(F_initialize(furlnum));
+	google.setOnLoadCallback(S_initialize(furlnum));
+
+	function Content_Clear(tgtPID){
+		try {
+			var tgtParent=document.getElementById(tgtPID);
+			var tgt_firstchild=tgtParent.firstChild;
+			
+			while (tgt_firstchild.nextSibling){
+				tgtParent.removeChild(tgt_firstchild.nextSibling);
+			}
+			
+			tgtParent.removeChild(tgt_firstchild);
+		} catch (e) {} 
+	}
+  </script>
+
+  <style>
+	body{
+		margin: 0;
+		padding: 0;
+		background-color: #191919;
+		color: #ccc;
+		font-family: 'メイリオ',Meiryo,'Hiragino Kaku Gothic Pro',Verdana;
+		line-height: 1.2em;
+	}
+	
+	a:link, a:visited{
+		text-decoration: none;
+		color: #99cc00;
+	}
+	.Menu_li a:hover, a:hover{
+		color: #f66;
+	}
+	
+	img:hover{
+		border: 1px solid #f99;
+	}
+	
+	#Outer-Wrapper{
+		width: 900px;
+		margin: 0 auto;
+	}
+	
+	#Header-Wrapper{
+		margin-bottom: 20px;
+		border-bottom: 4px dotted #333;
+	}
+	
+	#Header-Wrapper h2{
+		text-align: center;
+		margin: 0;
+		line-height: 1.8em;
+	}
+	
+	/* ----------------------------------------- Sidebar-Wrapper -- */
+	#Sidebar-Wrapper{
+		width: 200px;
+		float:left;
+		border-top: 1px solid #111;
+		border-right: 1px solid #333;
+		border-left: 1px solid #111;
+		border-bottom: 1px solid #333;
+	}
+	
+	.MenuTitle,.ClearButton{
+		text-align: center;
+		font-size: 12px;
+		line-height: 1.8em;
+		padding: 0 0.5em;
+		border-top: 1px solid #333;
+		border-right: 1px solid #111;
+		border-left: 1px solid #333;
+		border-bottom: 1px solid #111;
+	}
+	.ClearButton{
+		cursor: pointer;
+	}
+	
+	.Menu_ul{
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+	
+	.Menu_li{
+		background: #333 url("itunes_menu_bg.png") top repeat-x;
+		text-indent: 0.5em;
+		margin: 0;
+		padding: 0;
+		display: block;
+		border-top: 1px solid #333;
+		border-right: 1px solid #111;
+		border-left: 1px solid #333;
+		border-bottom: 1px solid #111;
+	}
+	.li_Child{
+		font-size: 15px;
+		line-height: 1.4em;
+		text-indent: 1.4em;
+	}
+	
+	.Menu_li a{
+		font-size: 12px;
+		line-height: 1.6em;
+		cursor:pointer;
+		color: #99cc00;
+	}
+	
+	/* ----------------------------------------- Content-Wrapper -- */
+	#Content-Wrapper{
+		width: 640px;
+		float: right;
+	}
+	
+	#feed {
+	}
+	
+	.feedcontainer{
+		width:380px;
+		border-top: 1px solid #111;
+		border-right: 1px solid #333;
+		border-left: 1px solid #111;
+		border-bottom: 1px solid #333;
+		margin-right: 10px;
+	}
+	
+	.feedtitle{
+		font-size: 14px;
+		text-align:center;
+		padding: 0;
+		margin: 0;
+		line-height: 1.8em;
+		font-weight: normal;
+		color: #f66;
+		border-top: 1px solid #333;
+		border-right: 1px solid #111;
+		border-left: 1px solid #333;
+		border-bottom: 1px solid #111;
+	}
+
+	.entryTitle{
+		font-size: 12px;
+		background: #333 url("itunes_entrytitle_bg.png") repeat-x bottom;
+		margin: 0;
+		padding: 4px;
+		line-height:1.2em;
+		border-top: 1px solid #333;
+		border-right: 1px solid #111;
+		border-left: 1px solid #333;
+		border-bottom: 1px solid #111;
+	}
+
+	.entryCont{
+	}
+
+	.basecontent{
+		background: #333 url("itunes_content_bg.png") repeat-x;
+		border-top: 1px solid #333;
+		border-right: 1px solid #111;
+		border-left: 1px solid #333;
+		border-bottom: 1px solid #111;
+	}
+
+	.coverart{
+		float: left;
+		padding: 4px;
+	}
+	
+	.coverart a img{
+		padding: 2px;
+		vertical-align: middle;
+		border: 1px solid #333;
+	}
+	.coverart a img:hover{
+		border: 1px solid #f99;
+	}
+	
+	.content{
+		margin: 4px 4px 4px 115px;
+	}
+	
+	.content p {
+		font-size: 12px;
+		line-height: 1.4em;
+		margin:0;
+		padding:0;
+	}
+	
+	.cprght{
+		margin-top: 8px !important;
+		font-size: x-small !important;
+	}
+	
+	
+	/* ----------------------------------------- Footer-Wrapper -- */
+	#Footer-Wrapper{
+		margin-top: 20px;
+		text-align: center;
+		border-top: 4px dotted #333;
+	}
+	
+	.copyright{
+	 }
+	 
+	.clear{
+		clear: both;
+	}
+	
+</style>
+
+</head>
+
+	<body onload="F_initialize(10)">
+		<div id= Outer-Wrapper>
+			
+			<div id="Header-Wrapper">
+				<h2>iTunes Store: Today’s Ranking</h2>
+			</div>
+			
+			<div id="Sidebar-Wrapper">
+				
+				<div class="MenuTitle">Ranking - Full Contents 20</div>
+				<div id="FMenuList">
+					<ul class="Menu_ul">
+						<li class="Menu_li"><a onclick="F_initialize(10);">Top Songs</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(11);">Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(12);">J-Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(13);">R&B/Soul</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(14);">Hip Hop/Rap</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(15);">Rock</a></li>
+					</ul>
+					<ul class="Menu_ul">
+						<li class="Menu_li"><a onclick="F_initialize(20);">Top Albums</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(21);">Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(22);">J-Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(23);">R&B/Soul</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(24);">Hip Hop/Rap</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(25);">Rock</a></li>
+					</ul>
+					<ul class="Menu_ul">
+						<li class="Menu_li"><a onclick="F_initialize(30);">New Release</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(31);">Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(32);">J-Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(33);">R&B/Soul</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(34);">Hip Hop/Rap</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="F_initialize(35);">Rock</a></li>
+					</ul>
+				</div>
+				
+				<div class="MenuTitle">Ranking - Title Only 100</div>
+				<div id="SMenuList">
+					<ul class="Menu_ul">
+						<li class="Menu_li"><a onclick="S_initialize(10);">Top Songs</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(11);">Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(12);">J-Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(13);">R&B/Soul</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(14);">Hip Hop/Rap</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(15);">Rock</a></li>
+					</ul>
+					<ul class="Menu_ul">
+						<li class="Menu_li"><a onclick="S_initialize(20);">Top Albums</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(21);">Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(22);">J-Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(23);">R&B/Soul</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(24);">Hip Hop/Rap</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(25);">Rock</a></li>
+					</ul>
+					<ul class="Menu_ul">
+						<li class="Menu_li"><a onclick="S_initialize(30);">New Release</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(31);">Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(32);">J-Pop</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(33);">R&B/Soul</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(34);">Hip Hop/Rap</a></li>
+						<li class="Menu_li li_Child">≫ <a onclick="S_initialize(35);">Rock</a></li>
+					</ul>
+				</div>
+				
+				<div class="ClearButton"><a onclick="Content_Clear('feed')" title="コンテンツをすべて削除します">Clear</a></div>
+			</div><!-- Sidebar-Wrapper End -->
+			
+			<div id="Content-Wrapper">
+				<div id = "feed"></div>
+				<div class="clear"></div>
+			</div><!-- Content-Wrapper End -->
+
+			<div class="clear"></div>
+			<div id="Footer-Wrapper">
+				<p  class="copyright">©2008 iTunes K.K</p>
+			</div>
+		</div><!-- Outer-Wrapper End -->
+	</body>
+</html>

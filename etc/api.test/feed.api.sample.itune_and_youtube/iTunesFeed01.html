@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/css; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/javascript; charset=utf-8"/>
+  <title>humming bird - Google AJAX Feed API - iTunes Feed Sample #1</title>
+  <script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BT21aFqu3bann7KEuE8AJXctX8bUxQnrQ2TKLZ2miaeY8w2pdh4zTxKRQ"  type="text/javascript"></script>
+  <script type="text/javascript">	
+
+	var arFeedURL = new Array(
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462//limit=100rss.xml",
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topalbums/sf=143462/limit=10/rss.xml",
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/new-releases/sf=143462/limit=10/rss.xml");
+
+	
+	google.load("feeds", "1");
+
+	function initialize(){
+		
+		container = document.getElementById("feed");
+		
+		for (var cnt = 0 ; cnt < arFeedURL.length ; cnt++ ) {
+			
+			var feed = new google.feeds.Feed(arFeedURL[cnt]);
+			
+			feed.setNumEntries(-1);//エントリーを取得する数『-1』は全て取得
+			feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);//取得するFeedのフォーマットを指定
+			
+			feed.load(function(result){
+				if (!result.error) {
+					
+					//1Feedごとのコンテナ
+					var containerDiv = document.createElement("div");
+					containerDiv.className = "cntr";
+					container.appendChild(containerDiv);
+					
+					//各Feedのタイトルを取得する
+					var feedDescription = result.feed.title; 
+					
+					//Feedタイトルを格納、表示するタグを作成する
+					var FeedTitle = document.createElement("h3");
+					FeedTitle.className = "ftitle";
+					FeedTitle.innerHTML = feedDescription;
+					containerDiv.appendChild(FeedTitle);
+				
+					for (var i = 0; i < result.feed.entries.length; i++) {
+						
+						var entry = result.feed.entries[i];
+	
+						var entryContent = document.createElement("div");
+						entryContent.className = "content";
+						entryContent.innerHTML = entry.content;
+						containerDiv.appendChild(entryContent);
+						
+						var clearDiv = document.createElement("div");
+						clearDiv.className = "clear";
+						containerDiv.appendChild(clearDiv);
+						
+					}
+				}
+			});
+		}
+	}
+	google.setOnLoadCallback(initialize);
+
+  </script>
+
+  <style>
+	body{
+		background-color: #191919;
+		color: #ccc;
+		font-family: Meiryo,Verdana;
+		line-height: 1.1em;
+		font-size: 80% !important;
+	}
+	#feed {
+		width:1260px;
+		margin: 0 auto;
+	}
+
+	a:link, a:visited{
+		text-decoration: none;
+		color: #99cc00;
+	}
+	a:hover{
+		text-decoration:underline;
+		color: #fcc;
+	}
+	.cntr{
+		width: 400px;
+		float: left;
+		border-top: 1px solid #666;
+		border-right: 1px solid #666;
+		border-left: 1px solid #666;
+		border-bottom: none;
+		margin-right: 10px;
+	}
+	.cntr h3{
+		font-size: 16px;
+		text-align:center;
+		padding: 0;
+		line-height: 1.6em;
+		margin: 1px;
+		background: #666;
+		color: #f66;
+	}
+
+	.content{
+		border-bottom: 1px solid #666;
+	}
+
+	table tbody tr td table tr td{
+	 	padding: 4px 0 4px 4px !important;
+	}
+	
+	.content font{
+		font-size: x-small !important;
+	}
+	
+	.clear{
+		clear:both;
+	}
+	h2{
+		margin: 0;
+		line-height: 1.5em;
+	}
+</style>
+</head>
+	<body>
+		<div>
+			<h2 style="text-align: center;">iTunes Store: Today’s Top10</h2>
+			<p style="text-align: center;">Copyright 2008 iTunes K.K</p>
+			<div id = "feed"></div>
+		</div>
+	</body>
+</html>
