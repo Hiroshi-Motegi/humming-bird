@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/css; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/javascript; charset=utf-8"/>
+  
+  <title>humming bird - Google AJAX Feed API - iTunes Feed Sample #2</title>
+  
+  <script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BT21aFqu3bann7KEuE8AJXctX8bUxQnrQ2TKLZ2miaeY8w2pdh4zTxKRQ"  type="text/javascript"></script>
+
+  <script type="text/javascript">	
+
+	var arFeedURL = new Array(
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=20/rss.xml",
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topalbums/sf=143462/limit=20/rss.xml",
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/new-releases/sf=143462/limit=20/rss.xml");
+	
+	google.load("feeds", "1");
+
+	function initialize(){
+		
+		container = document.getElementById("feed");
+		
+		for (var cnt = 0 ; cnt < arFeedURL.length ; cnt++ ) {
+			
+			var feed = new google.feeds.Feed(arFeedURL[cnt]);
+			
+			feed.setNumEntries(-1);
+			feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+			
+			feed.load(function(result){
+				if (!result.error) {
+					
+					//各フィードを格納
+					var containerDiv = document.createElement("div");
+					containerDiv.className = "cntr";
+					container.appendChild(containerDiv);
+					
+					//フィードタイトルを取得
+					var feedDescription = result.feed.description; 
+					feedDescription = feedDescription.replace("iTunes Store","");
+					feedDescription = feedDescription.replace(":","");
+					//フィードタイトルを格納
+					var FeedTitle = document.createElement("h3");
+					FeedTitle.className = "ftitle";
+					FeedTitle.innerHTML = feedDescription;
+					containerDiv.appendChild(FeedTitle);
+
+					for (var i = 0; i < result.feed.entries.length; i++) {
+						
+						var entry = result.feed.entries[i];
+						var ns = "http://phobos.apple.com/rss/1.0/modules/itms/";
+						var eNode = entry.xmlNode;
+						var covorArtSize = {
+							small: 0,
+							midium: 1,
+							large: 2
+						};
+						
+						//エントリーを格納するタグ
+						var entryContainer = document.createElement("div");
+						entryContainer.className = "entryCont";
+						containerDiv.appendChild(entryContainer);
+						
+						if(entry.title != null){
+							//エントリータイトルを格納
+							var titleAnc = document.createElement('a');
+							titleAnc.setAttribute("href", entry.link);
+							titleAnc.target = "_blank";
+							titleAnc.setAttribute("title", entry.title);
+							titleAnc.appendChild(document.createTextNode(entry.title));
+							var entryHeader = document.createElement("h4");
+							entryHeader.className = "entryTitle";
+							entryHeader.appendChild(titleAnc);
+							entryContainer.appendChild(entryHeader);
+						}
+						
+						//タイトル以外を格納するタグ
+						var BaseContent = document.createElement("div");
+						BaseContent.className = "basecontent";
+						entryContainer.appendChild(BaseContent);
+						
+						
+						//アルバムカバーを格納するタグ
+						var coverArtContainer = document.createElement("div");
+						coverArtContainer.className = "coverart";
+						BaseContent.appendChild(coverArtContainer);
+						
+						//エントリー情報を格納するタグ
+						var entryContent = document.createElement("div");
+						entryContent.className = "content";
+						BaseContent.appendChild(entryContent);
+						
+						//要素を揃える
+						var clearDiv = document.createElement("div");
+						clearDiv.className = "clear";
+						BaseContent.appendChild(clearDiv);
+						
+
+						//各エントリーの各情報を取得
+						var coverNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "coverArt")[covorArtSize.midium];
+						if (coverNodes != null) {
+							var coverArt = coverNodes.firstChild.nodeValue;
+							var albumNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "albumLink")[0];
+							var albumLink = albumNodes.firstChild.nodeValue;
+							var imgAnc = document.createElement('a');
+							imgAnc.setAttribute("href", albumLink);
+							var img = document.createElement('img');
+							img.src = coverArt;
+							imgAnc.appendChild(img);
+							coverArtContainer.appendChild(imgAnc);
+						}
+						
+						var albumtitleNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "album")[0];
+						if (albumtitleNodes != null) {
+							var albumTitle = albumtitleNodes.firstChild.nodeValue;
+							var albumtitleP = document.createElement("p");
+							albumtitleP.setAttribute("title", albumTitle);
+							albumtitleP.appendChild(document.createTextNode("Album : " + albumTitle));
+							entryContent.appendChild(albumtitleP);
+						}
+						
+						
+						
+						var artistNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "artist")[0];
+						if (artistNodes != null) {
+							var artist = artistNodes.firstChild.nodeValue;
+							var artistP = document.createElement("p");
+							artistP.setAttribute("title", artist);
+							artistP.appendChild(document.createTextNode("Artist : " + artist));
+							entryContent.appendChild(artistP);
+						}
+	
+						
+						var priceNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "albumPrice")[0];
+						if (priceNodes != null) {
+							var price = priceNodes.firstChild.nodeValue;
+							var priceP = document.createElement("p");
+							priceP.appendChild(document.createTextNode("Price : " + price));
+							entryContent.appendChild(priceP);
+						}
+						
+						var releaseNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "releasedate")[0];
+						if (releaseNodes != null) {
+							var release = releaseNodes.firstChild.nodeValue;
+							var releaseP = document.createElement("p");
+							releaseP.appendChild(document.createTextNode("Release : " + release));
+							entryContent.appendChild(releaseP);
+						}
+						
+						
+						try {
+							var rightsNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "rights")[0];
+							if (rightsNodes != null) {
+								var rights = rightsNodes.firstChild.nodeValue;
+								var rightsP = document.createElement("p");
+								rightsP.className = "cprght";
+								rightsP.title = "Copyright " + rights;
+								rightsP.appendChild(document.createTextNode("Copyright " + rights));
+								entryContent.appendChild(rightsP);
+							}
+						} catch (e) {
+						}
+						
+					}
+				}
+			});
+		}
+	}
+	google.setOnLoadCallback(initialize);
+
+  </script>
+
+  <style>
+	body{
+		background-color: #191919;
+		color: #ccc;
+		font-family: 'メイリオ',Meiryo,Verdana;
+		line-height: 1.1em;
+		font-size: 80% !important;
+	}
+	h2{
+		margin: 0;
+		line-height: 1.5em;
+	}
+	#feed {
+		margin: 0 auto;
+		width:1280px;
+	}
+	a:link, a:visited{
+		text-decoration: none;
+		color: #99cc00;
+	}
+	a:hover{
+		color: #f66;
+	}
+	img:hover{
+		border: 1px solid #f99;
+	}
+	.cntr{
+		float: left;
+		width:400px;
+		border-top: 1px solid #000;
+		border-right: 1px solid #666;
+		border-left: 1px solid #000;
+		border-bottom: 1px solid #666;
+		margin-right: 10px;
+	}
+	.cntr h3{
+		font-size: 16px;
+		text-align:center;
+		padding: 0 10px;
+		line-height: 1.8em;
+		margin: 0;
+		font-weight: normal;
+		background: #191919;
+		color: #f66;
+		border-top: 1px solid #666;
+		border-right: 1px solid #000;
+		border-left: 1px solid #666;
+		border-bottom: 1px solid #000;
+	}
+	.entryCont{
+		border-top: 1px solid #666;
+		border-right: 1px solid #000;
+		border-left: 1px solid #666;
+	}
+	.entryTitle{
+		font-size: 14px;
+		background: #333 url("if_entrytitle_bg.png") repeat-x;
+		margin:0;
+		padding: .5em 4px 0;
+		font-weight: normal;
+		border-bottom: 1px solid #000;
+		white-space: nowrap; 
+		overflow: hidden;
+		line-height:1.6em;
+	}
+	
+	.basecontent{
+		background: #333 url("if_content_bg.png") repeat-x;
+		border-top: 1px solid #666;
+		border-bottom: 1px solid #000;
+	}
+	
+	.coverart{
+		float: left;
+		padding: 4px;
+	}
+	
+	img{
+		padding: 2px;
+		border: 1px solid #666;
+		vertical-align: middle;
+	}
+	
+	.content{
+		margin: 4px 4px 4px 80px;
+	}
+	.content p {
+		line-height: 1.5em;
+		margin:0;
+		white-space: nowrap; 
+		overflow: hidden;
+	}
+	.cprght{
+		font-size: x-small;
+	}
+	
+	.clear{
+		clear:both;
+	}
+
+</style>
+</head>
+	<body>
+		<div>
+			<h2 style="text-align: center;">iTunes Store: Today’s Top20</h2>
+			<p style="text-align: center;">Copyright 2008 iTunes K.K</p>
+			<div id = "feed"></div>
+		</div>
+	</body>
+</html>

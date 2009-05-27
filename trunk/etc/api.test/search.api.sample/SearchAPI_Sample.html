@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Hello World - Google AJAX Search API Sample</title>
+    
+    <style type="text/css">
+    body {
+      background-color: white;
+      color: black;
+      font-family: Meiryo,"メイリオ";
+      font-size : 13px;
+      margin: 15px;
+    }
+    #searchcontrol .gsc-control { width : 800px; }
+    </style>
+	
+    <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+    <script type="text/javascript">
+    //<![CDATA[
+    google.load('search', '1');
+
+    function OnLoad(queryWord) {
+      var searchControl = new google.search.SearchControl();
+
+      searchControl.addSearcher(new google.search.VideoSearch());
+      searchControl.addSearcher(new google.search.WebSearch());
+      searchControl.addSearcher(new google.search.NewsSearch());
+      searchControl.addSearcher(new google.search.ImageSearch());
+
+      searchControl.draw(document.getElementById("SearchResult"));
+
+      searchControl.execute(queryWord);
+    }
+    
+    google.setOnLoadCallback(OnLoad(queryWord), true);
+    //]]>
+    </script>
+  </head>
+  <body onload="OnLoad('安室奈美恵')">
+  	<div><a href="javascript:OnLoad('新垣結衣');">新垣結衣</a></div>
+  	<div><a href="javascript:OnLoad('paris hilton');">Paris Hilton</a></div>
+    <div id="SearchResult">Loading...</div>
+  </body>
+</html>

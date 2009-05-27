@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/css; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/javascript; charset=utf-8"/>
+  <title>humming bird - Google AJAX Feed API - Sample - YouTube Feed</title>
+  <script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BQXW-KzRPlZeQxnk-OEtfm0zQ75NxTKvigTIPgKbJduJQZOJ2T77OfU-g"  type="text/javascript"></script>
+  <script type="text/javascript">	
+
+	var FeedURL = "http://gdata.youtube.com/feeds/base/videos/-/%E5%AE%89%E5%AE%A4";
+	//http://gdata.youtube.com/feeds/base/videos/-/%E5%AE%89%E5%AE%A4/%E5%A5%88%E7%BE%8E%E6%81%B5
+	//var FeedURL = "http://gdata.youtube.com/feeds/base/videos/?vq=%E5%AE%89%E5%AE%A4";
+	//http://gdata.youtube.com/feeds/base/videos?vq=%E5%AE%89%E5%AE%A4%E5%A5%88%E7%BE%8E%E6%81%B5
+	
+	google.load("feeds", "1");
+
+	function initialize(){
+		
+		container = document.getElementById("feed");
+			
+			var feed = new google.feeds.Feed(FeedURL);
+			
+			feed.setNumEntries(-1);
+			feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+			
+			feed.load(function(result){
+				if (!result.error) {
+					
+					var FeedContainerDiv = document.createElement("div");
+					FeedContainerDiv.className = "feedContainer";
+					
+					for (var i = 0; i < result.feed.entries.length; i++) {
+						
+						var entry = result.feed.entries[i];
+						
+						var entryDiv = document.createElement("div");
+						entryDiv.className = "entryContent";
+	
+						var entryContent = document.createElement("div");
+						entryContent.className = "content";
+						entryContent.innerHTML = entry.content;
+						entryDiv.appendChild(entryContent);
+						
+						FeedContainerDiv.appendChild(entryDiv);
+					}
+					//取得したコンテンツを表示
+					container.appendChild(FeedContainerDiv);
+				}
+			});
+	}
+	google.setOnLoadCallback(initialize);
+
+  </script>
+
+  <style>
+	body{
+		background-color: #FFFFFF;
+		font-family: "メイリオ", Meiryo, "Hiragino Kaku Gothic Pro";
+		line-height: 1.4em;
+	}
+
+	.clear{
+		clear:both;
+	}
+	.search-button{
+		height:24px;
+	}
+	.logoImg img{
+		width: 41px;
+	 	height: 21px;
+	 }
+</style>
+
+</head>
+	<body>
+		<div class="logoImg"><img src="http://www.youtube.com/img/pic_youtubelogo_123x63.gif"/></div>
+		<div id = "feed"></div>
+		
+	</body>
+</html>

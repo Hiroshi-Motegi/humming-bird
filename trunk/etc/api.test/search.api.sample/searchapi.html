@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/css; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/javascript; charset=utf-8"/>
+  
+  <title>Google AJAX Feed API - Sample</title>
+
+  <script src="http://www.google.com/uds/api?file=uds.js&v=1.0&source=uds-vsw&key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BRhnj6zO64Mm4XGF6vxho_oKZWm3hTQoA3CAHY7SIqKivJJW4WYjLiZLg" type="text/javascript"></script>
+
+  <style type="text/css">
+    @import url("http://www.google.com/uds/css/gsearch.css");
+  </style>
+
+  <script type="text/javascript">
+    window._uds_vsw_donotrepair = true;
+  </script>
+  
+  <script src="http://www.google.com/uds/solutions/videosearch/gsvideosearch.js?mode=new" type="text/javascript"></script>
+  
+  <style type="text/css">
+    @import url("http://www.google.com/uds/solutions/videosearch/gsvideosearch.css");
+  </style>
+
+  <script type="text/javascript">
+    function LoadVideoSearchControl() {
+      var options = {
+        twoRowMode : true
+      };
+      var videoSearch = new GSvideoSearchControl(
+                              document.getElementById("videoControl"),
+                              [{ query : "blue angels"}, { query : "vw gti"}, { query : "osborne lights"}, { query : "tv ads"}], null, null, options);
+    }
+
+    GSearch.setOnLoadCallback(LoadVideoSearchControl);
+  </script>
+
+<body>
+  <div id="videoControl">
+    <span style="color:#676767;font-size:11px;margin:10px;padding:4px;">Loading...</span>
+  </div>
+</body>
+</html>

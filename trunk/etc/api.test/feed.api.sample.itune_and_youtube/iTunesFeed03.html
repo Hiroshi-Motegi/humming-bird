@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/css; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/javascript; charset=utf-8"/>
+  
+  <title>humming bird - Google AJAX Feed API - iTunes Feed Sample #3</title>
+  
+  <script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BT21aFqu3bann7KEuE8AJXctX8bUxQnrQ2TKLZ2miaeY8w2pdh4zTxKRQ"  type="text/javascript"></script>
+
+  <script type="text/javascript">	
+
+	var arFeedURL = new Array(
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=100/rss.xml",
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topalbums/sf=143462/limit=100/rss.xml",
+	"http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/new-releases/sf=143462/limit=100/rss.xml");
+	
+	google.load("feeds", "1");
+
+	function initialize(){
+		
+		container = document.getElementById("feed");
+		
+		for (var cnt = 0 ; cnt < arFeedURL.length ; cnt++ ) {
+			
+			var feed = new google.feeds.Feed(arFeedURL[cnt]);
+			
+			feed.setNumEntries(-1);
+			feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+			
+			feed.load(function(result){
+				if (!result.error) {
+					
+					//各フィードを格納する器
+					var containerDiv = document.createElement("div");
+					containerDiv.className = "feedcontainer";
+					container.appendChild(containerDiv);
+					
+					//フィードタイトルを取得
+					var feedDescription = result.feed.description; 
+					feedDescription = feedDescription.replace("iTunes Store","");
+					feedDescription = feedDescription.replace(":","");
+					//フィードタイトルを格納
+					var FeedTitle = document.createElement("h3");
+					FeedTitle.className = "ftitle";
+					FeedTitle.innerHTML = feedDescription;
+					containerDiv.appendChild(FeedTitle);
+
+				
+					for (var i = 0; i < result.feed.entries.length; i++) {
+						
+						var entry = result.feed.entries[i];
+						var ns = "http://phobos.apple.com/rss/1.0/modules/itms/";
+						var eNode = entry.xmlNode;
+						var covorArtSize = {
+							small: 0,
+							midium: 1,
+							large: 2
+						};
+						
+						
+						//各エントリーの各情報を取得
+						var coverNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "coverArt")[covorArtSize.midium];
+						if (coverNodes != null) {
+							var coverArt = coverNodes.firstChild.nodeValue;
+							var albumNodes = google.feeds.getElementsByTagNameNS(eNode, ns, "albumLink")[0];
+							var albumLink = albumNodes.firstChild.nodeValue;
+							var imgAnc = document.createElement('a');
+							imgAnc.setAttribute("href", albumLink);
+							imgAnc.className = "anc";
+							var img = document.createElement('img');
+							img.title = entry.title;
+							img.src = coverArt;
+							img.className = "coverArt";
+							imgAnc.appendChild(img);
+							containerDiv.appendChild(imgAnc);
+						}
+					}
+					var clearDiv = document.createElement("div");
+					clearDiv.className = "clear";
+					clearDiv.setAttribute("style", "clear:both;");
+					containerDiv.appendChild(clearDiv);
+					
+					var clearDivv = document.createElement("div");
+					clearDivv.className = "clear";
+					clearDivv.setAttribute("style", "clear:both;");
+					container.appendChild(clearDivv);
+				}
+			});
+		}
+	}
+	google.setOnLoadCallback(initialize);
+
+  </script>
+
+  <style>
+	body{
+		background-color: #191919;
+		color: #ccc;
+		font-family: Meiryo,Verdana;
+		line-height: 1.1em;
+	}
+
+	.anc {
+		float: left;
+		margin: 1px;
+		width: 60px;
+		height: 60px;
+		border: 1px solid #666;
+	}
+
+	a:link, a:visited{
+		text-decoration: none;
+		color: #99cc00;
+	}
+	a:hover{
+		text-decoration:underline;
+		color: #fcc;
+	}
+	
+	#feed{
+		width:668px;
+
+		margin: 0 auto;
+	}
+
+	.coverArt{
+		border : none;
+	}
+	h3{
+		padding-left: 5px;
+		margin: 0 0 5px 0;
+		line-height: 1.5em;
+		border-left: 5px solid #ccc;
+		border-bottom: 3px double #ccc;
+	}
+	.feedcontainer{
+		height: 676px;
+		margin-bottom:10px;
+		padding: 10px;
+		border: 4px solid #333;
+		background: #000
+		;
+	}
+
+</style>
+</head>
+	<body>
+		<div>
+			<h2 style="margin:0; line-height: 1.6em; text-align: center;">iTunes Store: Today’s Top100</h2>
+			<p style="margin:0; line-height: 1.6em; text-align: center;">Copyright 2008 iTunes K.K</p>
+			<div id = "feed"></div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<script src="http://www.google.com/jsapi?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BQXW-KzRPlZeQxnk-OEtfm0zQ75NxTKvigTIPgKbJduJQZOJ2T77OfU-g" type="text/javascript"></script>
+    <title>Google AJAX Feed API Sample - Tabbed Feed Control</title>
+    <script src="../../?key=internal-sample" type="text/javascript"></script>
+    <script language="Javascript" type="text/javascript">
+    //<![CDATA[
+
+      google.load("feeds", "1");
+
+      function OnLoad() {
+       
+        var feedControl = new google.feeds.FeedControl();
+		
+        feedControl.addFeed("http://b.hatena.ne.jp/hotentry?mode=rss", "はてな - 最近の人気エントリー");
+        feedControl.addFeed("http://b.hatena.ne.jp/entrylist?mode=rss&sort=hot&threshold=5", "はてな - 注目エントリー");
+        feedControl.addFeed("http://newsing.jp/rss", "newsing");
+        feedControl.addFeed("http://news.google.com/news?hl=ja&ned=ja&ie=UTF-8&oe=UTF-8&output=rss&topic=po", "Google - 話題のニュース");
+
+        feedControl.setLinkTarget(google.feeds.LINK_TARGET_SELF);
+        feedControl.setNumEntries(10);
+		
+        feedControl.draw(document.getElementById("feedControl"), {drawMode : google.feeds.FeedControl.DRAW_MODE_LINEAR});
+		
+		var fcontainer = document.getElementById("feedControl");
+		var clearDiv = document.createElement("div");
+		clearDiv.className = "clear";
+		clearDiv.setAttribute("style", "clear:both;");
+		fcontainer.appendChild(clearDiv);
+      }
+      google.setOnLoadCallback(OnLoad);
+	  
+    //]]>
+    </script>
+
+  </head>
+ <style type="text/css">
+ 
+  body {
+    font-family: Meiryo, sans-serif;
+    font-size: 11px;
+	background: #191919;
+	color: #ddd;
+  }
+  a:link {
+  	color: #99cc00;
+	text-decoration: none;
+  }
+  a:hover{
+  	text-decoration: underline;
+	}
+	#feedControl{
+		/*border: 1px solid #ccc;*/
+	}
+	.gfc-title{
+		color: #ff6666 !important;
+	}
+  	.gfc-resultsRoot{
+  		width : 300px;
+  		float: left;
+		margin: 5px;
+		overflow:hidden;
+  	}
+</style>
+
+  <body>
+    <div id="feedControl">Loading...</div>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>Untitled Document</title>
+<script type="text/javascript">
+
+function Color(r, g , b){
+	this.R = r;
+	this.G = g;
+	this.B = b;
+}
+
+var color = new Color(255, 0 , 0);
+alert(color.R); //255
+color.R = 128;
+alert(color.R); //128
+
+function InclementCounter(val){
+	this.value = val;
+	this.getValue = function(){
+		return this.value++;
+	}
+}
+
+function InclementCounter(val){
+	this.getValue = function(){
+		return val++;
+	}
+}
+
+var ic = new InclementCounter(0);
+alert(ic.getValue()); //0
+alert(ic.getValue()); //1
+alert(ic.getValue()); //2
+
+</script>
+	</head>
+	<body>
+		
+	</body>
+</html>

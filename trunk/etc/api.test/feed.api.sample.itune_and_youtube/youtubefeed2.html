@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/css; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/javascript; charset=utf-8"/>
+  
+  <title>humming bird - Google AJAX Feed API - Sample - YouTube Feed</title>
+  
+  <script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BQXW-KzRPlZeQxnk-OEtfm0zQ75NxTKvigTIPgKbJduJQZOJ2T77OfU-g"  type="text/javascript"></script>
+
+  <script type="text/javascript">	
+
+	var arFeedURL = new Array(
+	"http://youtube.com/rss/global/top_viewed_today_ja_JP.rss",
+	"http://gdata.youtube.com/feeds/base/standardfeeds/JP/most_viewed?time=today&alt=rss",
+	"http://gdata.youtube.com/feeds/base/standardfeeds/JP/most_viewed?client=ytapi-youtube-browse&alt=rss&time=today");
+	
+	google.load("feeds", "1");
+
+	function initialize(){
+		
+		container = document.getElementById("feed");
+		
+		for (var cnt = 0 ; cnt < arFeedURL.length ; cnt++ ) {
+			
+			var feed = new google.feeds.Feed(arFeedURL[cnt]);
+			
+			feed.setNumEntries(10);
+			feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+			
+			feed.load(function(result){
+				if (!result.error) {
+					
+					var containerDiv = document.createElement("div");
+					containerDiv.className = "cntr";
+					container.appendChild(containerDiv);
+					
+					var feedTitle = result.feed.title;
+					
+					var FeedTitleElm = document.createElement("h3");
+					FeedTitleElm.className = "ftitle";
+					FeedTitleElm.innerHTML = feedTitle;
+					containerDiv.appendChild(FeedTitleElm);
+				
+					for (var i = 0; i < result.feed.entries.length; i++) {
+						
+						var entry = result.feed.entries[i];
+						
+						var entryDiv = document.createElement("div");
+						entryDiv.className = "trdv";
+	
+						var entryContent = document.createElement("div");
+						entryContent.className = "content";
+						entryContent.innerHTML = entry.content;
+						entryDiv.appendChild(entryContent);
+						
+						var clearDiv = document.createElement("div");
+						clearDiv.className = "clear";
+						entryDiv.appendChild(clearDiv);
+						
+						containerDiv.appendChild(entryDiv);
+					}
+				}
+			});
+		}
+	}
+	google.setOnLoadCallback(initialize);
+
+  </script>
+
+  <style>
+	body{
+		background-color: #fff;
+		font-family: Meiryo;
+		line-height: 1.1em;
+	}
+
+	a:link, a:visited{
+		text-decoration: none;
+		color: #99cc00;
+	}
+	a:hover{
+		text-decoration:underline;
+		color: #f66;
+	}
+	a img{
+		padding : 2px;
+		border: 1px solid;
+		border-color: #99cc00;
+	}
+	
+	.cntr{
+		float: left;
+		/*width: 540px;*/
+		border: 4px solid #666;
+		margin:0 10px 10px 0;
+	}
+	.cntr h3{
+		padding: 0 10px;
+		line-height: 1.6em;
+		margin: 1px;
+		font-weight:normal;
+		background: #666;
+		color: #f66;
+	}
+
+	.trdv{
+		font-size: small;
+		padding: 4px;
+		border-bottom: 1px solid #666;
+	}
+
+	table tbody tr td table tr td{
+	 	padding: 4px 0 2px 4px !important;
+	}
+	div.content font{
+		line-height: 1.4em;
+		font-size: x-small !important;
+	}
+	div.content b{
+		font-weight: normal !important;
+	}
+	.clear{
+		clear:both;
+	}
+	h2{
+		margin: 0;
+		line-height: 1.5em;
+	}
+	.content div table tbody tr td div{
+		border: none !important;
+	}
+</style>
+</head>
+	<body>
+		<div>
+			<h2>YouTube: Today’s Top10</h2>
+			<div id = "feed"></div>
+		</div>
+	</body>
+</html>
