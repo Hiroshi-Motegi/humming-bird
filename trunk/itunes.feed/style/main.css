@@ -54,21 +54,21 @@ li{
 /* ----------------------------------------- Header-Wrap -- */
 #Header-Wrap{
 	height: 120px;
-	background: url("if_header_bg.png") repeat-x bottom;
+	background: url("../img/if_header_bg.png") repeat-x bottom;
 }
 .header-logo{
 	width: 984px;
 	height: 120px;
 	margin: 0 auto;
-	background: url("hblogo.png") no-repeat bottom left;
+	background: url("../img/hblogo.png") no-repeat bottom left;
 }
 .header{
 	height: 120px;
-	background: url("ks_if_header.png") no-repeat bottom center;
+	background: url("../img/ks_if_header.png") no-repeat bottom center;
 }
 /* ----------------------------------------- Outer-Wrap -- */
 #Outer-Wrap{
-	background: url("if_bg03.png");
+	background: url("../img/if_bg03.png");
 }
 
 #Content-Wrap1{
@@ -133,7 +133,7 @@ li{
 }
 
 .mnChild{
-	background: url("./if_menubg.png") no-repeat center;
+	background: url("../img/if_menubg.png") no-repeat center;
 }
 
 .mnChild a{
@@ -205,7 +205,7 @@ li{
 }
 
 .entryTitle{
-	background: #333 url("if_entrytitle_bg.png") repeat-x top;
+	background: #333 url("../img/if_entrytitle_bg.png") repeat-x top;
 	margin: 0;
 	padding: 5px 4px 3px 4px;
 	line-height:1.2em;
@@ -218,7 +218,7 @@ li{
 }
 
 .entryContent{
-	background: #333 url("if_content_bg.png") repeat-x top;
+	background: #333 url("../img/if_content_bg.png") repeat-x top;
 }
 
 .coverart{
@@ -283,7 +283,7 @@ td.cprght{
 
 .Liner{
 	height: 20px;
-	background: url("if_menu_bg.png") repeat-x ;
+	background: url("../img/if_menu_bg.png") repeat-x ;
 	border-top: 1px solid #333;
 	border-bottom: 1px solid #111;
 	clear:both;
