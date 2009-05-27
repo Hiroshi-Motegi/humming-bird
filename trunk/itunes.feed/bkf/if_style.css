@@ -1,0 +1,240 @@
+@charset 'UTF-8';
+html,body{
+	margin: 0;
+	padding: 0;
+}
+html{
+	min-width: 940px;
+}
+body{
+	color: #bbbbc9;
+	font-size: 12px;
+	font-family: Meiryo,
+					'メイリオ',
+					'Hiragino Kaku Gothic Pro',
+					'ヒラギノ角ゴ Pro W3' ,
+					'Centry Gothic',
+					Verdana;
+}
+/*,#Side-Wrap,#feed,.feedcontainer,.entryCont,#Search,#Footer-Wrap,.MenuTitle*/
+body{
+	background-color: #191919;
+}
+
+a:link, a:visited{
+	color: #99cc00;
+	text-decoration:none;
+}
+a:hover,h4.mnTitle:hover,span.titleToggle:hover{
+	cursor: pointer;
+	color: #f66;
+	text-decoration: none;
+}
+
+a img{
+	vertical-align: middle;
+	border: 1px solid #333;
+}
+a img:hover{
+	border: 1px solid #f99;
+}
+
+ul{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-indent: 0;
+}
+
+li{
+	text-align: center;
+	text-indent: 0;
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+
+/* ----------------------------------------- Header-Wrap -- */
+#Header-Wrap{
+	background: url("if_header_bg.png") repeat-x top;
+}
+.header{
+	height: 130px;
+	padding: 0;
+	background: url("if_header.png") no-repeat top center;
+}
+/* ----------------------------------------- Outer-Wrap -- */
+#Outer-Wrap{
+	background: url("if_bg.png") repeat-y center;
+}
+
+#Content-Wrap,.header{
+	width: 900px;
+	margin: 0 auto;
+}
+/* ----------------------------------------- Side-Wrap -- */
+#Side-Wrap{
+	width: 178px;
+	float:left;
+}
+
+#Side-Wrap,.feedcontainer,#Search-Wrap{
+	border-top: 1px solid #111;
+	border-right: 1px solid #333;
+	border-left: 1px solid #111;
+	border-bottom: 1px solid #333;
+}
+.mnTitle,.mnChild,.disclaimer,#eOption,#feedTitle,.entryTitle,.basecontent,#Search{
+	border-top: 1px solid #333;
+	border-right: 1px solid #111;
+	border-left: 1px solid #333;
+	border-bottom: 1px solid #111;
+}
+
+.mnTitle{
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: bold;
+	display: block;
+	line-height: 2em;
+	margin: 0;
+	padding: 0;
+}
+
+#Footer-Wrap,.mnTitle,#feedTitle{
+	text-align: center;
+}
+
+.mnChild{
+	background: url("./if_menubg.png") no-repeat center;
+}
+
+.mnChild a{
+	display: block;
+	line-height: 2em;
+	margin:0 10px;
+}
+
+#eOptionForm{
+	 margin: 0 0 0 8px;
+}
+.frmLabel{
+	text-align: right;
+}
+.listOption,.ddLst{
+	background-color: #191919;
+	color: #ccc;
+}
+
+.disclaimer,.footerContent{
+	color: #808080;
+}
+.disclaimer p{
+	font-size: 11px;
+	margin: 5px;
+}
+
+/* ----------------------------------------- Content-Wrap -- */
+#Rank-Wrap{
+	width: 400px;
+	float: left;
+}
+
+#feed {
+	width: 378px;
+	margin: 0 auto;
+}
+
+.feedcontainer{}
+
+#feedTitle{
+	font-size: 14px;
+	padding: 0;
+	margin: 0;
+	line-height: 1.8em;
+}
+
+.entryTitle{
+	background: #333 url("if_entrytitle_bg.png") repeat-x top;
+	margin: 0;
+	padding: 5px 4px 3px 4px;
+	line-height:1.2em;
+}
+.titleToggle{
+	padding-right:.5em;
+	cursor: pointer;
+}
+
+.basecontent{
+	background: #333 url("if_content_bg.png") repeat-x top;
+}
+
+.coverart{
+	float: left;
+	margin: 6px 0 6px 6px;
+}
+
+.content{
+	width:255px;
+	float: right;
+	margin: 4px 4px 4px 0;
+}
+
+.content td {
+	line-height: 1.2em;
+	margin:0;
+	padding: 2px 0;
+}
+td.eNametd{
+	text-align: right;
+	vertical-align: top;
+	width: 58px;
+}
+td.eValuetd{
+	vertical-align: top;
+	width: 197px;
+}
+
+td.cprght{
+	font-size: x-small;
+	width: 255px;
+}
+
+/* ----------------------------------------- Search-Wrap -- */
+#Search-Wrap{
+	width : 318px;
+	float: right;
+}
+#Search{
+	width : 316px;
+}
+
+#Search .gsc-control {
+	width : 300px;
+	margin: 1em auto 0;
+	padding: 0;
+}
+
+
+/* ----------------------------------------- Footer-Wrap -- */
+#Footer-Wrap{
+	text-align: center;
+}
+
+.Liner-Outer{
+	border-top: 1px solid #111;
+	border-bottom: 1px solid #333;
+}
+.Liner{
+	height: 20px;
+	background: #333 url("if_menu_bg.png") repeat-x  top;
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #111;
+}
+
+.clear{
+	clear: both;
+}
+.dummy{
+	height: 20px;
+}
