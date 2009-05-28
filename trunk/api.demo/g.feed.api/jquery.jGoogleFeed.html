@@ -63,14 +63,14 @@ $.iTunesFeed = function (options, callback) {
 		uk:143444,
 		usa:143441
 		// etc ...
-	};
+	},gnr = opt.genre;
 	
 	$.jGoogleFeed( opt,
 		'http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/' + 
-		opt.feedType + 
+		opt.type + 
 		'/sf=' + countries[opt.country.toLowerCase()] + 
 		'/limit=' + opt.numEntries +
-		'/genre=' + ((+opt.genre == opt.genre) ? opt.genre : 0) + '/rss.xml' , callback );
+		'/genre=' + (+gnr == gnr ? gnr : 0) + '/rss.xml' , callback );
 }
 })(jQuery);
 
