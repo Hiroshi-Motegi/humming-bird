@@ -1,11 +1,11 @@
-html * {
+ * {
 	margin: 0;
 	padding: 0;
 }
 body{ min-width: 1000px; }
 body,
 textarea,
-input[type=text]{
+input.txtbox{
 	font-size: 14px;
 	color: #999;
 	font-family:
@@ -28,7 +28,7 @@ body,
 textarea,
 .txtarea-wrap,
 #footer-wrap,
-input[type=text]{
+input.txtbox{
 	background-color: #1a1a1a;
 }
 #outer-wrap2{

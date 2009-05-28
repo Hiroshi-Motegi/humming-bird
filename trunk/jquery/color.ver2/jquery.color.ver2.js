@@ -9,7 +9,7 @@
 
 (function($){
 $.extend({
-	getCodeFromRgb:function(rgb){
+	parseColorCode:function(rgb){
 		return ((((1 << 8) + rgb[0] << 8) + rgb[1] << 8) + rgb[2]).toString(16).replace(/^1/, '#');
 	},
 	getWebColors:function(){
@@ -25,7 +25,7 @@ $.extend({
 		}
 		return wccs;
 	},
-	modifyBrightness:function(color, p) {
+	changeBright:function(color, p) {
 		var rgb = $.getRGB(color);
 		var n = 0;
 		
@@ -43,15 +43,16 @@ $.extend({
 					n = parseInt(n[1] + n[2]); 
 				}
 			
-			for (var i = 0; i < rgb.length; i++) 
-					rgb[i] = parseInt(rgb[i] + n);
+			for (var i = 0; i < rgb.length; i++) {
+				rgb[i] = parseInt(rgb[i] + n);
+			}
 		}
 		
-		for(var i = 0;i < rgb.length;i++){
+		for (var i = 0; i < rgb.length; i++) {
 			rgb[i] = rgb[i] < 0 || isNaN(rgb[i]) ? 0 : rgb[i] > 255 ? 255 : rgb[i];
 		}
 		
-		return $.getCodeFromRgb(rgb);
+		return $.parseColorCode(rgb);
 	},
 
 	// Color Conversion functions from highlightFade
