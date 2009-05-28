@@ -13,7 +13,7 @@ $.extend({
 		return ((((1 << 8) + rgb[0] << 8) + rgb[1] << 8) + rgb[2]).toString(16).replace(/^1/, '#');
 	},
 	getWebColors:function(){
-		var hxs =["ff", "cc", "99", "66", "33", "00"];
+		var hxs =['ff', 'cc', '99', '66', '33', '00'];
 		var wccs = []; //web color codes.
 		
 		for(var i = 0; i < hxs.length; i++){
@@ -91,10 +91,10 @@ $.extend({
 		do {
 			color = $.curCSS(elem, attr);
 			// Keep going until we find an element that has color, or we hit the body
-			if ( color != '' && color != 'transparent' || $.nodeName(elem, "body") )
+			if ( color != '' && color != 'transparent' || $.nodeName(elem, 'body') )
 				break; 
 
-			attr = "backgroundColor";
+			attr = 'backgroundColor';
 		} while ( elem = elem.parentNode );
 		
 		return color;
@@ -257,11 +257,11 @@ $.each(['backgroundColor', 'borderBottomColor', 'borderLeftColor', 'borderRightC
 			fx.end = $.getRGB( fx.end );
 		}
 
-		fx.elem.style[attr] = "rgb(" + [
+		fx.elem.style[attr] = 'rgb(' + [
 			Math.max(Math.min( parseInt((fx.pos * (fx.end[0] - fx.start[0])) + fx.start[0]), 255), 0),
 			Math.max(Math.min( parseInt((fx.pos * (fx.end[1] - fx.start[1])) + fx.start[1]), 255), 0),
 			Math.max(Math.min( parseInt((fx.pos * (fx.end[2] - fx.start[2])) + fx.start[2]), 255), 0)
-		].join(",") + ")";
+		].join(',') + ')';
 	}
 });
 })(jQuery);
