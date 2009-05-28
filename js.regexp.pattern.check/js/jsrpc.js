@@ -188,33 +188,6 @@ $.bindExec = function(){
 	});
 }
 
-$.fn.flash = function(attrs, options){
-	var opt = $.extend({
-		duration: 400,
-		easing: 'swing',
-		complete: function(){}
-	},options);
-	
-	attrs = attrs || ['backgroundColor'];
-	
-	return this.each(function(){
-		var def_attrs = {}, hi_attrs = {};
-		
-		if($.data(this, 'flash')){
-			def_attrs = $.data(this, 'flash').def_attrs;
-			hi_attrs = $.data(this, 'flash').hi_attrs;
-		}else{
-			for (var i = 0; i < attrs.length;i++) {
-				def_attrs[attrs[i]] = $(this).css(attrs[i]);
-				hi_attrs[attrs[i]] = $.modifyBrightness(def_attrs[attrs[i]], '+=20');
-			}
-			$.data(this, 'flash',{'def_attrs': def_attrs, 'hi_attrs': hi_attrs});
-		}
-		
-		$(this).css(hi_attrs).animate(def_attrs, opt);
-	});
-}
-
 
 $.bindPastePattern = function(){
 	$($.my.slctr.pattern).live('click', function(){

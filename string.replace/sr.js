@@ -2,27 +2,6 @@ Date.prototype.myFormat = function() {
     return (this.getFullYear() + "/" + (this.getMonth() + 1) + "/" + this.getDate());
 };
 
-(function($){
-$.fn.extend({
-	flash:function(attr, bright, speed, easing, callback){
-		attr = attr || "backgroundColor";
-		bright = bright || "+=20";
-		return this.each(function(){
-			var dColor = $(this).css(attr);
-			var hColor = $.modifyBrightness(dColor, bright);
-			var attrop = {};
-			attrop[attr] = dColor;
-			
-			$(this)
-			.css(attr, hColor)
-			.animate(attrop, speed, easing, callback);
-		});
-	}
-});
-})(jQuery);
-
-
-
 var cs = {
 	err_emptyMsg:"ページ中央のテキストエリアに対象文字列を入力して下さい。",
 	func: function(){
@@ -261,14 +240,12 @@ $(function(){
 	vAct.bindLabelHoverAnimate();
 	vAct.bindShowRadioSHCode();
 	
-	var attr = "backgroundColor";
-	var defaultBgColor = $("#btn-exec").css(attr);
 	$("#btn-exec")
-		.bind("click",cs.func)
-		.hover(function(){
-			$(this).flash(attr,"150%", 1000);
-		},function(){
-			$(this).css(attr,defaultBgColor);
+		.bind("click", cs.func)
+		.mouseover(function(){
+			$(this).flash("150%", {
+				duration: 600
+			});
 		});
 	
 	$("input[type=checkbox]#sh-chk-firstline").bind("click", function(){
