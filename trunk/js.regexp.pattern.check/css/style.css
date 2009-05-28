@@ -306,7 +306,9 @@ textarea,input.txt{
 	word-wrap:break-word;
 }
 /* -=-=-=-=-=-=- footer -=-=-=-=-=-=- */
-#footer-wrap{}
+#footer-wrap{
+	background-color:#303030;
+}
 #footer{
 	text-align:center;
 }
