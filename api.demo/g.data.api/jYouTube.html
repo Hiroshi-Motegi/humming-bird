@@ -50,36 +50,45 @@ $(function(){
 			 
 			$tr.append(
 				$('<td>').append(
-					$('<a>').attr('href', mg.media$player[0].url).append($('<img/>').attr('src', mg.media$thumbnail[0].url))
+					$('<a>')
+						.attr('href', mg.media$player[0].url)
+						.attr('title', entry.title.$t)
+						.append($('<img/>').attr('src', mg.media$thumbnail[0].url))
 				)
 			);
 		});
 		
-		$table.appendTo(document.body);
+		$('h1').after($table);
 	});
 
 });
 </script>
 <style type="text/css">
-h2{
+h1{
 	text-align: center;
 }
-a{
-	float:left;
-	margin:0 0 5px 5px;
-	border: 4px solid #333;
-}
-a img{
-	vertical-align:middle;
-	border:1px solid #ccc;
-}
+
 
 table{
 	margin:0 auto;
 }
+table a{
+	float:left;
+	margin:0 0 5px 5px;
+	border: 4px solid #333;
+}
+table a img{
+	vertical-align:middle;
+	border:1px solid #ccc;
+}
 </style>
     </head>
     <body>
-    	<h2>jQuery + Google Data API - jYouTube</h2>
+    	<h1>jQuery + Google Data API - jYouTube</h1>
+		<span>参考:</span><br />
+		<ul>
+			<li><a href="http://code.google.com/intl/ja-JP/apis/youtube/2.0/developers_guide_json.html" title="Developer's Guide: JSON / JavaScript - YouTube APIs and Tools - Google Code">Developer's Guide: JSON / JavaScript - YouTube APIs and Tools - Google Code</a></li>
+			<li><a href="http://gdata.ops.demo.googlepages.com/yt_json_codelab.html" title="YouTube Data API via JSON: embedding videos in your site">YouTube Data API via JSON: embedding videos in your site</a></li>
+		</ul>
     </body>
 </html>

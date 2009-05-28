@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
 		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
-		<title>jQuery + Google Data API - jBlogger</title>
+		<title>jQuery + Google Data API - jBloggerFeed</title>
 		<script src="http://www.google.com/jsapi/" type="text/javascript"></script>
 		<script type="text/javascript">google.load('jquery', '1')</script>
 
@@ -12,12 +12,14 @@
 (function($){$.extend({
 	// order : posts or comments
 	// domain : blog domain
-	jBlogger: function(options, domain, order, callback){
+	jBloggerFeed: function(domain, order, options, callback){
 		var data = $.extend({
 			'max-results': 10,
 			'redirect': false,
 			'alt': 'json-in-script'
 		}, options);
+		
+		callback = $.isFunction(options) ? options : callback || function(){};
 		
 		$.ajax({
 		    dataType: 'jsonp',
@@ -32,7 +34,7 @@
 
 // Usage
 $(function(){
-	$.jBlogger({'max-results': 15}, 'yas-hummingbird', 'posts', function(data){
+	$.jBloggerFeed('yas-hummingbird', 'posts', {'max-results': 15}, function(data){
 		var list = [];
 		
 		$.each(data.feed.entry, function(i, entry){
@@ -56,6 +58,6 @@ $(function(){
 </style>
     </head>
     <body>
-    	<h2>jQuery Ajax + Google Data API - jBlogger demo</h2>
+    	<h2>jQuery Ajax + Google Data API - jBloggerFeed demo</h2>
     </body>
 </html>
