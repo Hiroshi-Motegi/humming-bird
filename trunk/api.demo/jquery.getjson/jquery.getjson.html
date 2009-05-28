@@ -33,12 +33,40 @@ $.bloggerFeed = function(domain, fn){
 	$.getJSON('http://www.google.com/reader/public/javascript/feed/http://' + domain + 
 		'.blogspot.com/atom.xml?alt=json&n=10&callback=?', fn);
 }
+
+
+$.googleFeed = function(url, options, callback){
+	var opt = $.extend({
+		key:'',
+		num:10
+	},options);
+	
+	url = "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&callback=?&q="+url;
+	if(num != null) url += "&num="+num;
+	if(key != null) url += "&key="+key;
+	
+	$.getJSON(gurl, function(data){
+		callback.call(this, data.responseData.feed);
+	});
+}
+
 })(jQuery);
 
 
 $(function(){
 	// Usage
 	
+	$.jGFeed(,function(feed){
+		if(feed){
+		for(var i=0; i<feed.entries.length; i++){
+		var entry = feed.entries[i];
+			entry.title;
+		}
+
+		publishedDate
+	});
+	
+/*
 	$.twitter('gihren', function(data){
 		$(document.body).append('<h3>Twitter</h3>');
 
@@ -116,6 +144,7 @@ $(function(){
 		
 		document.body.appendChild(list);
 	});
+*/
 
 });
 </script>
