@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>Untitled Document</title>
+		<script src="http://www.google.com/jsapi"  type="text/javascript"></script>
+		<script type="text/javascript">google.load("jquery", "1");</script>
+		<script type="text/javascript" src='jquery.easing.1.3.js'></script>
+		<script type="text/javascript" src='jquery.color.js'></script>
+
+<script type="text/javascript">
+function CharSelecter(){
+	this.initialize.apply(this, arguments);
+};
+CharSelecter.prototype = {
+	control: null,
+	controlWidth: 900,
+	itemType: "div",
+	fontSize: 14,
+	fontHoverScaling:1.6,
+	itemSize: 10,
+	itemHeightScaling: 1.25,
+	hoverScaling:2,
+	borderWidth: 1,
+	duration : 'normal',
+	id: "char_selecter",
+	itemClass: "cs_item",
+	easing: "easeOutBack",
+	color: "#cccccc",
+	hoverColor: "#ee3344",
+	backColor: "#222222",
+	hoverBackColor: "#404040",
+	fontFamily:"Century Gothic",
+	charMarginTop:10,
+	hoverCharMarginTop:50,
+	borderLeftColor: "#333333",
+	borderBottomColor: "#111111",
+	borderRightColor: "#111111",
+	hoverBorderLeftColor: "#555555",
+	hoverBorderBottomColor: "#333333",
+	hoverBorderRightColor: "#333333",
+	selectedChar:"",
+	
+	initialize: function(){
+		
+		var cid = this.id;
+		var itmcls = this.itemClass;
+		var dotitmcls =  "." + itmcls;
+		
+		var cwdth = this.controlWidth + "px";
+		//"-1"は余裕を持たせる為(IE対応)
+		this.itemSize = (this.controlWidth - (this.borderWidth * 26 * 2) - 1) / 26;
+		var itmsize = this.itemSize;
+		var itmheight = itmsize * this.itemHeightScaling;
+		var hvsize = itmheight * this.hoverScaling;
+		
+		var fntsize = this.fontSize;
+		var hvfntsize =fntsize * this.fontHoverScaling;
+		var fntfamily = this.fontFamily;
+		
+		var sp = this.duration;
+		var es = this.easing;
+		var chrmargintop = this.charMarginTop + "px";
+		var hvchrmargintop = this.hoverCharMarginTop + "px";
+		
+		var ncolor = this.color;
+		var hvcolor = this.hoverColor;
+		var bcolor = this.backColor;
+		var hvbcolor = this.hoverBackColor;
+		
+		var bdrwdth = this.borderWidth;
+		var bdrleftvalue = bdrwdth +"px solid " + this.borderLeftColor;
+		var bdrbottomvalue = bdrwdth +"px solid " + this.borderBottomColor;
+		var bdrrightvalue = bdrwdth +"px solid " + this.borderRightColor;
+		var hvbdrleftvalue = bdrwdth +"px solid " + this.hoverBorderLeftColor;
+		var hvbdrbottomvalue = bdrwdth +"px solid " + this.hoverBorderBottomColor;
+		var hvbdrrightvalue = bdrwdth +"px solid " + this.hoverBorderRightColor;
+		
+		
+		
+		this.control = document.createElement("div");
+		$(this.control)
+			.attr("id", cid)
+			.width(cwdth)
+			.css('margin', '0 auto');
+		
+		var itmType = this.itemType;
+		for(var i = 65; i < 91; i++){
+			var citm = document.createElement(itmType);
+			var pitm = document.createElement("p");
+			$(pitm).text(String.fromCharCode(i));
+			$(citm).append(pitm);
+			$(this.control).append(citm);
+		}
+		
+		
+		
+		$(this.control).children(itmType)
+			.addClass(itmcls)
+			.css({
+			'float':'left',
+			'cursor':'pointer',
+			'border-left':bdrleftvalue,
+			'border-bottom':bdrbottomvalue,
+			'border-right':bdrrightvalue,
+			'text-align':'center',
+			"color":ncolor,
+			"background-color":bcolor,
+			"font-size":fntsize})
+		.children()
+			.css("font-family", fntfamily)
+			.css("margin-top", chrmargintop)
+			.css('text-align','center');
+			//.css("position", "absolute")
+			
+
+		
+		
+		
+
+		//10は余裕
+		$(this.control).height(hvsize + bdrwdth + 10)
+		.children(dotitmcls).height(itmheight).width(itmsize);
+		
+		
+		
+		//Item hover Animation
+		$(this.control).children().hover(function(){
+			$(this).queue([]).stop().animate({
+				height:hvsize,
+				fontSize:hvfntsize,
+				backgroundColor:hvbcolor,
+				color:hvcolor,
+				borderLeft:hvbdrleftvalue,
+				borderBottom:hvbdrbottomvalue,
+				borderRight:hvbdrrightvalue}, sp, es,
+				function(){
+					$(this).animate({
+						backgroundColor:bcolor,
+						color:ncolor,
+						borderLeft:bdrleftvalue,
+						borderBottom:bdrbottomvalue,
+						borderRight:bdrrightvalue}, sp);
+				}).children(":first-child").queue([]).stop().animate({marginTop:hvchrmargintop}, sp, es);
+
+		},function(){
+			$(this).queue([]).stop().animate({
+				height:itmheight,
+				fontSize:fntsize,
+				backgroundColor:bcolor,
+				color:ncolor,
+				borderLeft:bdrleftvalue,
+				borderBottom:bdrbottomvalue,
+				borderRight:bdrrightvalue}, sp)
+				.children(":first-child").queue([]).stop().animate({marginTop:chrmargintop}, sp);
+		});
+		
+		//click Animation
+		var thisinstance = this;
+		$(this.control).children().click(function(){
+			
+			$(this).queue([]).stop()
+			.animate({backgroundColor:"#aaaaaa",
+			color:"#333333",
+			borderLeft:hvbdrleftvalue,
+			borderBottom:hvbdrbottomvalue,
+			borderRight:hvbdrrightvalue}, 50)
+			.animate({
+				backgroundColor:bcolor,
+				color:ncolor,
+				borderLeft:bdrleftvalue,
+				borderBottom:bdrbottomvalue,
+				borderRight:bdrrightvalue}, 500)
+				.children(":first-child").queue([]).stop().animate({marginTop:hvchrmargintop}, sp);
+			
+			thisinstance.selectedChar = $(this).text();
+		});
+	}
+}
+			
+			
+			
+$(function(){
+	var csc = new CharSelecter();
+	$("#target").append(csc.control);
+	
+	$(".testAction").click(function(){
+		alert(csc.selectedChar);
+	});
+	
+});
+</script>
+<style type="text/css">
+html *{
+	padding: 0;
+	margin: 0;
+}
+body{
+	background-color: #333;
+}
+
+.border{
+	border-top: 1px solid #111111;
+	border-bottom: 1px solid #333333;
+}
+
+.testAction{
+	cursor: pointer;
+	display: block;
+	background-color: #333;
+	border: 3px double #ccc;
+	text-align: center;
+	color: #ccc;
+	width: 200px;
+	line-height: 1.8em;
+}
+</style>
+	</head>
+	<body>
+		<div id="target"></div>
+		<div style="clear: both;"></div>
+		<div class="border" style="width: 100%;"></div>
+		<div><p class="testAction">Test.</p></div>
+	</body>
+</html>
