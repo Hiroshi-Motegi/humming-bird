@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>New Web Project</title>
+		<script src="http://www.google.com/jsapi/" type="text/javascript"></script>
+		<script type="text/javascript">google.load('jquery', '1')</script>
+		<script src='../color.ver2/jquery.color.ver2.js' type="text/javascript"></script>
+		<script src='./jquery.changebright.js' type="text/javascript"></script>
+<script type="text/javascript">
+$(function(){
+	$('#tgt').click(function(){
+		var color = $(this).css('background-color');
+		color = $.changeBright(color, "-=20");
+		$(this).css('background-color', color);
+	});
+});
+</script>
+<style type="text/css">
+#tgt{
+	width:200px;
+	height:100px;
+	line-height:100px;
+	text-align:center;
+	border:1px solid #333;
+	background-color:#ccc;
+}
+</style>
+	</head>
+	<body>
+		<div id='tgt'><span>Click Here.</span></div>
+	</body>
+</html>

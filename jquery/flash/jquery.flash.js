@@ -4,7 +4,7 @@
  * Released under the MIT and GPL licenses.
  
  * 以下のプラグインに依存しています。
- *  [ jQuery Color Animations Ver.2 ]
+ *  [ jQuery plugin changeBright ]
  *  
  * flash 初回コール時にデフォルトの色を記憶する仕様。
  * 理由はこのエフェクトはコール時の色に戻す動作のため、続けて複数回呼ばれるとデフォルトの色が変わってしまうため。

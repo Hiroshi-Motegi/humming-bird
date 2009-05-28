@@ -13,46 +13,19 @@ $.extend({
 		return ((((1 << 8) + rgb[0] << 8) + rgb[1] << 8) + rgb[2]).toString(16).replace(/^1/, '#');
 	},
 	getWebColors:function(){
-		var hxs =['ff', 'cc', '99', '66', '33', '00'];
-		var wccs = []; //web color codes.
+		var
+		hxs =['ff', 'cc', '99', '66', '33', '00'],
+		len = hxs.length,
+		wccs = []; //web color codes.
 		
-		for(var i = 0; i < hxs.length; i++){
-			for(var n = 0; n < hxs.length; n++){
-				for(var m = 0; m < hxs.length; m++){
-					wccs.push("#" + hxs[i] + hxs[n] + hxs[m]);
+		for(var i = 0; i < len; i++){
+			for(var n = 0; n < len; n++){
+				for(var m = 0; m < len; m++){
+					wccs.push('#' + hxs[i] + hxs[n] + hxs[m]);
 				}
 			}
 		}
 		return wccs;
-	},
-	changeBright:function(color, p) {
-		var rgb = $.getRGB(color);
-		var n = 0;
-		
-		if (n = /^(\d+)%$/.exec(p)) { //example: 150%, 50%
-			n = parseInt(n[1]);
-			for (var i = 0; i < rgb.length; i++) 
-				rgb[i] = parseInt((rgb[i] / 100) * n);
-		}
-		else {
-			if (+p == p) { //example: -20, +30
-				n = p; 
-			}
-			else 
-				if (n = /^([\+-])=(\d+)$/.exec(p)) { //example: +=20, -=100
-					n = parseInt(n[1] + n[2]); 
-				}
-			
-			for (var i = 0; i < rgb.length; i++) {
-				rgb[i] = parseInt(rgb[i] + n);
-			}
-		}
-		
-		for (var i = 0; i < rgb.length; i++) {
-			rgb[i] = rgb[i] < 0 || isNaN(rgb[i]) ? 0 : rgb[i] > 255 ? 255 : rgb[i];
-		}
-		
-		return $.parseColorCode(rgb);
 	},
 
 	// Color Conversion functions from highlightFade
