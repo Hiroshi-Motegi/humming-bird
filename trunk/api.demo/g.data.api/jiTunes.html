@@ -13,10 +13,7 @@
 	// category :  topsongs, newreleases, justadded, topalbums etc...
 	jiTunesFeed: function(category, options, callback){
 		var data = $.extend({
-			'sf':'ja',
-			'genre': 0, //R&B/Soul=15, Rock=21, J-Pop=27 , etc ...
-			'limit': 10,
-			'alt': 'json-in-script'
+			'alt': 'json'
 		}, options);
 		
 		var countries = {
@@ -26,15 +23,19 @@
 			// etc ...
 		};
 		
-		data.sf = countries[data.sf.toLowerCase()];
-		
+/*
+			'sf':'ja',
+			'genre': 0, //R&B/Soul=15, Rock=21, J-Pop=27 , etc ...
+			'limit': 10,
+			data.sf = '/sf=' + countries[data.sf.toLowerCase()];
+*/
 		callback = $.isFunction(options) ? options : callback || function(){};
 		
 		$.ajax({
 		    dataType: 'jsonp',
 			data: data,
 		    cache: false,
-		    url: 'http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/' + category + '/rss.xml',
+		    url: 'http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/topsongs/sf=143462/limit=10/genre=14/rss.json',
 		    success: callback
 		});
 	}
@@ -43,7 +44,7 @@
 
 // Usage
 $(function(){
-	$.jiTunesFeed('topsongs', {'genre':15}, function(data){
+	$.iTunesFeed('topsongs', {}, function(data){
 			var
 			feed = data.feed,
 			$div = $('<div>').append($('<h2>').text(feed.description));
