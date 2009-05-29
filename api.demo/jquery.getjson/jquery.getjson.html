@@ -34,37 +34,78 @@ $.bloggerFeed = function(domain, fn){
 		'.blogspot.com/atom.xml?alt=json&n=10&callback=?', fn);
 }
 
-
-$.googleFeed = function(url, options, callback){
-	var opt = $.extend({
+$.googleFeed = function(params, callback){
+	var data = $.extend({
+		q:'',
+		v:'1.0',
+		hl:'ja',
 		key:'',
-		num:10
-	},options);
+		context:'',
+		num:10,
+		scoring:'h',
+		output:''
+	}, params);
 	
-	url = "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&callback=?&q="+url;
-	if(num != null) url += "&num="+num;
-	if(key != null) url += "&key="+key;
+	for(var d in data)
+		if (!data[d]) { delete data[d] }
 	
-	$.getJSON(gurl, function(data){
-		callback.call(this, data.responseData.feed);
+	$.getJSON('http://ajax.googleapis.com/ajax/services/feed/load?callback=?',
+		data, function(data){
+			callback.call(this, data.responseData.feed);
 	});
 }
+
+$.iTunesFeed = function(category, country, limit, genre, params, callback){
+	var url = '';
+	params = params || {};
+	params.q = url;
+	
+	var countries = {
+		ja:143462,
+		uk:143444,
+		usa:143441
+		// etc ...
+	};
+	
+	'sf':'ja',
+	'genre': 0, //R&B/Soul=15, Rock=21, J-Pop=27 , etc ...
+	'limit': 10,
+	
+	$.googleFeed(params, callback);
+}
+
 
 })(jQuery);
 
 
 $(function(){
 	// Usage
-	
-	$.jGFeed(,function(feed){
-		if(feed){
-		for(var i=0; i<feed.entries.length; i++){
-		var entry = feed.entries[i];
-			entry.title;
-		}
-
-		publishedDate
+	$.iTunesFeed('topsongs', {}, function(feed){
+			var $div = $('<div>').append($('<h2>').text(feed.description));
+			
+		    $.each(feed.entries, function(i, entry){
+				$div.append(entry.content);
+		    });
+		
+		$div.appendTo(document.body);
 	});
+	
+	$.googleFeed({
+		'q': 'http://yas-hummingbird.blogspot.com/rss.xml'
+	}, function(feed){
+		var lst = [];
+		
+		for(var i=0; i<feed.entries.length; i++){
+			var entry = feed.entries[i];
+			lst.push('<li><span><a href=' + entry.link + ' >' + entry.title + '</a></span>' + 
+				'<span> - ' + (function (date) {
+	   				return (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
+				})(new Date(entry.publishedDate)) + '</span>');
+		}
+		
+		$('<ul>').append(lst.join('')).appendTo(document.body);
+	});
+	
 	
 /*
 	$.twitter('gihren', function(data){
