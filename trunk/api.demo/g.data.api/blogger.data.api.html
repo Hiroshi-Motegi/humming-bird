@@ -27,13 +27,7 @@ function getFeedList(data){
 	
 	document.getElementById('feedItemList').innerHTML = list.join('');
 }
-</script>
 
-</head>
-<body>
-<h2>Google Blogger Data API  without jQuery - demo</h2>
-<ul id='feedItemList'></ul>
-<script type="text/javascript">
 (function(domain, maxResults, order, redirect){
 	var script = document.createElement('script');
 	script.setAttribute('src',
@@ -46,8 +40,12 @@ function getFeedList(data){
 	document.documentElement.firstChild.appendChild(script);
 }
 )('yas-hummingbird', 10, 'posts', false );
+
 </script>
 <!--<script src="http://yas-hummingbird.blogspot.com/feeds/posts/default?max-results=10&redirect=false&alt=json-in-script&callback=getFeedList"></script>-->
-
+</head>
+<body>
+<h2>Google Blogger Data API  without jQuery - demo</h2>
+<ul id='feedItemList'></ul>
 </body>
 </html>
