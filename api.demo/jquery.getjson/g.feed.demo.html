@@ -5,8 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
 		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
 		<title>jQuery plugin googleFeed - demo</title>
-		<script src="http://www.google.com/jsapi/" type="text/javascript"></script>
-		<script type="text/javascript">google.load('jquery', '1')</script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 (function($){
@@ -18,7 +17,7 @@ $.googleFeed = function(params, callback){
 		key:'',
 		context:'',
 		num:10,
-		scoring:'h',
+		scoring:'',//h
 		output:''
 	}, params);
 	
@@ -34,7 +33,6 @@ $.googleFeed = function(params, callback){
 $.iTunes = {
 	categories: {
 		Top_Albums: 'topalbums',
-		//Top_iMixes: 'topimixes',
 		Top_Songs: 'topsongs',
 		New_Releases: 'newreleases',
 		Just_Added: 'justadded',
@@ -43,14 +41,19 @@ $.iTunes = {
 	},
 	genre: {
 		all: 0,
+		country:6,
 		electronic: 7,
 		folk: 10,
+		jazz:11,
 		newAge: 13,
 		pop: 14,
 		rb_Soul: 15,
+		dance:17,
 		hiphop_Rap: 18,
 		world: 19,
 		rock: 21,
+		vocal:23,
+		reggae:24,
 		jPop: 27
 		// etc ...
 	},
@@ -97,21 +100,19 @@ $.googleFeed({
 		}
 		
 		$(document.body).append('<h3>google Feed</h3>', $('<ul>').append(lst.join('')));
-		//$('<ul>').append(lst.join('')).appendTo(document.body);
 });
 
 $.iTunes.feed(
 	$.iTunes.categories.Top_Albums, // category
 	'japan', // country
 	10, // limit
-	$.iTunes.genre.electronic, // genre
+	$.iTunes.genre.rock, // genre
  	{}, //params
 	function(feed){
 		var $div = $('<div>').append($('<h2>').text(feed.description));
 	    $.each(feed.entries, function(i, entry){
 			$div.append(entry.content);
 	    });
-		
 		$(document.body).append('<h3>iTunes Feed</h3>', $div);
 });
 
