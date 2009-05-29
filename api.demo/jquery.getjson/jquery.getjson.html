@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
@@ -34,118 +34,12 @@ $.bloggerFeed = function(domain, fn){
 		'.blogspot.com/atom.xml?alt=json&n=10&callback=?', fn);
 }
 
-$.googleFeed = function(params, callback){
-	var data = $.extend({
-		q:'',
-		v:'1.0',
-		hl:'ja',
-		key:'',
-		context:'',
-		num:10,
-		scoring:'h',
-		output:''
-	}, params);
-	
-	for(var d in data)
-		if (!data[d]) { delete data[d] }
-	
-	$.getJSON('http://ajax.googleapis.com/ajax/services/feed/load?callback=?',
-		data, function(data){
-			callback.call(this, data.responseData.feed);
-	});
-}
-
-
-$.iTunes = {
-	categories: {
-		Top_Albums: 'topalbums',
-		//Top_iMixes: 'topimixes',
-		Top_Songs: 'topsongs',
-		New_Releases: 'newreleases',
-		Just_Added: 'justadded',
-		Featured_Albums: 'featuredalbums',
-		_default: 'topalbums'
-	},
-	genre: {
-		all: 0,
-		electronic: 7,
-		folk: 10,
-		newAge: 13,
-		pop: 14,
-		rb_Soul: 15,
-		hiphop_Rap: 18,
-		world: 19,
-		rock: 21,
-		jPop: 27
-		// etc ...
-	},
-	feed: function(category, country, limit, genre, params, callback){
-		var countries = {
-			usa: 143441,
-			france: 143442,
-			germany: 143443,
-			uk: 143444,
-			italy: 143450,
-			australia: 143460,
-			japan: 143462,
-			// etc ...
-			_default: 143462
-		};
-		
-		params.q = 
-			'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
-			(category || categories._default) +
-			('/sf=' + countries[country.toLowerCase()] || countries._default) +
-			('/limit=' + (+limit == limit ? limit : 10)) +
-			('/genre=' + (+genre == genre ? genre : 0)) + '/rss.xml';
-		
-		$.googleFeed(params, callback);
-	}
-}
-
-
 })(jQuery);
 
 
+
 $(function(){
-	// Usage
-	$.iTunes.feed(
-		$.iTunes.categories.Top_Albums, // category
-		'japan', // country
-		10, // limit
-		$.iTunes.genre.electronic, // genre
-	 	{}, //params
-		function(feed){
-			var $div = $('<div>').append($('<h2>').text(feed.description));
-			
-		    $.each(feed.entries, function(i, entry){
-				$div.append(entry.content);
-		    });
-		
-		$div.appendTo(document.body);
-	});
 
-
-/*
-	$.googleFeed({
-		'q': 'http://yas-hummingbird.blogspot.com/rss.xml'
-	}, function(feed){
-		var lst = [];
-		
-		for(var i=0; i<feed.entries.length; i++){
-			var entry = feed.entries[i];
-			lst.push('<li><span><a href=' + entry.link + ' >' + entry.title + '</a></span>' + 
-				'<span> - ' + (function (date) {
-	   				return (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
-				})(new Date(entry.publishedDate)) + '</span>');
-		}
-		
-		$('<ul>').append(lst.join('')).appendTo(document.body);
-	});
-*/
-	
-	
-/*
 	$.twitter('gihren', function(data){
 		$(document.body).append('<h3>Twitter</h3>');
 
@@ -154,9 +48,6 @@ $(function(){
 			return '<li>' + t.text + '</li>';
 		}).join('')).appendTo(document.body);
 	});
-
-
-
 	
 	$.flickrPics( 'color', function (data) {
 		$(document.body).append('<h3>flickr Pics</h3>');
@@ -168,7 +59,6 @@ $(function(){
 	    });
 	});
 	
-	
 	$.twitterUserInfo('gihren', function(data){
 		$(document.body).append('<h3>Twitter User Info</h3>');
 		var list = [];
@@ -177,7 +67,6 @@ $(function(){
 		}
 		$('<ul>').append(list.join('')).appendTo(document.body);
 	});
-	
 	
 	$.twitterSeach('docomo', function(data){
 		$(document.body).append('<h3>Twitter Seach</h3>');
@@ -192,8 +81,7 @@ $(function(){
 		$('<ul>').append(list.join('')).appendTo(document.body);
 	});
 	
-
-	
+	//単なる気分でjQueryを使わずに書いてみた。
 	$.bloggerFeed('googlejapan', function ( data ){
 		
 		var h3 = document.createElement('h3');
@@ -223,7 +111,6 @@ $(function(){
 		
 		document.body.appendChild(list);
 	});
-*/
 
 });
 </script>
@@ -232,6 +119,6 @@ $(function(){
 </style>
     </head>
     <body>
-    	<h2>jQuery getJSON - demo</h2>
+    	<h1>jQuery getJSON - demo</h1>
     </body>
 </html>
