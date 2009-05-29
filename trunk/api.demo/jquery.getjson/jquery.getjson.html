@@ -55,23 +55,52 @@ $.googleFeed = function(params, callback){
 	});
 }
 
-$.iTunesFeed = function(category, country, limit, genre, params, callback){
-	var url = '';
-	params = params || {};
-	params.q = url;
-	
-	var countries = {
-		ja:143462,
-		uk:143444,
-		usa:143441
+
+$.iTunes = {
+	categories: {
+		Top_Albums: 'topalbums',
+		//Top_iMixes: 'topimixes',
+		Top_Songs: 'topsongs',
+		New_Releases: 'newreleases',
+		Just_Added: 'justadded',
+		Featured_Albums: 'featuredalbums',
+		_default: 'topalbums'
+	},
+	genre: {
+		all: 0,
+		electronic: 7,
+		folk: 10,
+		newAge: 13,
+		pop: 14,
+		rb_Soul: 15,
+		hiphop_Rap: 18,
+		world: 19,
+		rock: 21,
+		jPop: 27
 		// etc ...
-	};
-	
-	'sf':'ja',
-	'genre': 0, //R&B/Soul=15, Rock=21, J-Pop=27 , etc ...
-	'limit': 10,
-	
-	$.googleFeed(params, callback);
+	},
+	feed: function(category, country, limit, genre, params, callback){
+		var countries = {
+			usa: 143441,
+			france: 143442,
+			germany: 143443,
+			uk: 143444,
+			italy: 143450,
+			australia: 143460,
+			japan: 143462,
+			// etc ...
+			_default: 143462
+		};
+		
+		params.q = 
+			'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
+			(category || categories._default) +
+			('/sf=' + countries[country.toLowerCase()] || countries._default) +
+			('/limit=' + (+limit == limit ? limit : 10)) +
+			('/genre=' + (+genre == genre ? genre : 0)) + '/rss.xml';
+		
+		$.googleFeed(params, callback);
+	}
 }
 
 
@@ -80,7 +109,13 @@ $.iTunesFeed = function(category, country, limit, genre, params, callback){
 
 $(function(){
 	// Usage
-	$.iTunesFeed('topsongs', {}, function(feed){
+	$.iTunes.feed(
+		$.iTunes.categories.Top_Albums, // category
+		'japan', // country
+		10, // limit
+		$.iTunes.genre.electronic, // genre
+	 	{}, //params
+		function(feed){
 			var $div = $('<div>').append($('<h2>').text(feed.description));
 			
 		    $.each(feed.entries, function(i, entry){
@@ -89,7 +124,9 @@ $(function(){
 		
 		$div.appendTo(document.body);
 	});
-	
+
+
+/*
 	$.googleFeed({
 		'q': 'http://yas-hummingbird.blogspot.com/rss.xml'
 	}, function(feed){
@@ -105,6 +142,7 @@ $(function(){
 		
 		$('<ul>').append(lst.join('')).appendTo(document.body);
 	});
+*/
 	
 	
 /*
