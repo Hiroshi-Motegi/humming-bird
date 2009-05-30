@@ -24,8 +24,8 @@
 		$.ajax({
 		    dataType: 'jsonp',
 			data: data,
-		    cache: true,
-		    url: 'http://' + encodeURIComponent(domain) + '.blogspot.com/feeds/' + order + '/default',
+		    cache: false,
+		    url: 'http://' + domain + '.blogspot.com/feeds/' + order + '/default',
 		    success: callback
 		});
 	}
@@ -35,22 +35,23 @@
 // Usage
 $(function(){
 	$.jBloggerFeed('yas-hummingbird', 'posts', {'max-results': 15}, function(data){
-		var list = [];
 		
-		$.each(data.feed.entry, function(i, entry){
-			list.push('<li><span class="item-title"><a href="' + 
-				(function(links){
-					for (var k = 0; k < links.length; k++) {
-						if (links[k].rel == 'alternate') {
-							return links[k].href;
-							break;
+		$(document.body).append(
+			'<ul><li>' + 
+			$.map(data.feed.entry, function(entry, i){
+				return '<span class="item-title"><a href=\'' + 
+					(function(links){
+						for (var k = 0; k < links.length; k++) {
+							if (links[k].rel == 'alternate') {
+								return links[k].href;
+								break;
+							}
 						}
-					}
-					return '';
-				})(entry.link) + '">' + entry.title.$t + '</a></span></li>');
-		});
-		
-		$('<ul>').html(list.join('')).appendTo(document.body);
+						return '';
+					})(entry.link) + 
+					'\'>' + entry.title.$t + '</a></span>';
+			}).join('</li><li>') +
+			'</li></ul>');
 	});
 });
 </script>

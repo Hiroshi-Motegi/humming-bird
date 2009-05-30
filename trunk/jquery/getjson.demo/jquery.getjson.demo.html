@@ -63,11 +63,11 @@ $(function(){
 		since:'2009/05/01',
 		count:'3'
 		}, function(data){
-		$(document.body).append('<h3>Tweets</h3>');
-		$('<ul>').append($.map(data, 
-		function(t, i){
-			return '<li>' + t.text + '</li>';
-		}).join('')).appendTo(document.body);
+			$(document.body).append('<h3>Tweets</h3>');
+			$('<ul>').append($.map(data, 
+			function(t, i){
+				return '<li>' + t.text + '</li>';
+			}).join('')).appendTo(document.body);
 	});
 	
 	$.twitterUserInfo('gihren', function(data){
