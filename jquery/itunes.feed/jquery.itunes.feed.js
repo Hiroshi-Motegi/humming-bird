@@ -1,6 +1,10 @@
 /*
+ * jQuery plugin gFeed
+ * Copyright 2009 y@s
+ * Released under the MIT and GPL licenses.
  * 
- * 
+ * 以下のプラグインに依存しています。
+ * [ jQuery plugin gFeed ]
  */
 
 (function($){
@@ -31,7 +35,14 @@ $.iTunes = {
 		jPop: 27
 		// etc ...
 	},
-	feed: function(category, country, limit, genre, params, callback){
+	feed: function( params, options, callback){
+		var prms = $.extend({
+			category:'topalbums',
+			country:143462,
+			limit:10,
+			genre:0
+		}, params);
+		
 		var countries = {
 			usa: 143441,
 			france: 143442,
@@ -45,14 +56,20 @@ $.iTunes = {
 			_default: 143462
 		};
 		
-		params.q = 
-			'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
-			(category || categories._default) +
-			('/sf=' + countries[country.toLowerCase()] || countries._default) +
-			('/limit=' + (+limit == limit ? limit : 10)) +
-			('/genre=' + (+genre == genre ? genre : 0)) + '/rss.xml';
+		prms.country = (function(c){
+			return (+c == c) ? c : countries[c.toLowerCase()] || countries._default;
+		})(prms.country);
 		
-		$.gFeed(params, callback);
+		callback = $.isFunction(options) ? options : callback || function(){};
+		options = ( !options || $.isFunction(options) ) ? {} : options;
+		options.q = 
+			'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
+			prms.category +
+			'/sf=' + prms.country +
+			'/limit=' + prms.limit +
+			'/genre=' + prms.genre + '/rss.xml';
+		
+		$.gFeed(options, callback);
 	}
 }
 })(jQuery);

@@ -1,29 +1,28 @@
 /*
+ * jQuery plugin gFeed
+ * Copyright 2009 y@s
+ * Released under the MIT and GPL licenses.
  * 
- * 
- * params
- * 	q:
- * v:
- * hl:
- * key:
- * context:
- * num:
- * scoring:
- * output:
+ * options
+ * 	q, v, hl, key, context, num, scoring, output
  */
 
 (function($){
-$.gFeed = function(params, callback){
-	var prms = $.extend({
-		v:'1.0',
-		num:10
-	}, params);
-	
-	if(!prms.q) return false;
-	
-	$.getJSON('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', prms,
-		function(data){
-			if(data) callback.call(this, data.responseData.feed);
-	});
-}
-)(jQuery);
+	$.gFeed = function(options, callback){
+		var opt = $.extend({
+			v: '1.0',
+			num: 10
+		}, options);
+		
+		if (!opt.q) 
+			return false;
+		
+		$.getJSON(
+			'http://ajax.googleapis.com/ajax/services/feed/load?callback=?',
+			opt,
+			function(data){
+				if (data) 
+					callback.call(this, data.responseData.feed);
+			});
+	}
+})(jQuery);
