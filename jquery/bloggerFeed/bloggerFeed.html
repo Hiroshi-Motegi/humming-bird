@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+		<title>jQuery plugin - bloggerFeed demo</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+		<script src="./jquery.bloggerfeed.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+// Usage
+$(function(){
+	$.bloggerFeed('yas-hummingbird', {'max-results': 15},
+		function(feed){
+			$('#recentPosts').append(
+				'<li>' + 
+				$.map(feed.entry, function(entry, i){
+					return '<span class="item-title"><a href=\'' + 
+						(function(links){
+							for (var k = 0; k < links.length; k++) {
+								if (links[k].rel == 'alternate') {
+									return links[k].href;
+								}
+							}
+							return '';
+						})(entry.link) + 
+						'\'>' + entry.title.$t + '</a></span>';
+				}).join('</li><li>') +
+				'</li>');
+	});
+});
+</script>
+<style type="text/css">
+</style>
+    </head>
+    <body>
+    	<h2>jQuery plugin - bloggerFeed demo</h2>
+		<ul id='recentPosts'></ul>
+    </body>
+</html>
