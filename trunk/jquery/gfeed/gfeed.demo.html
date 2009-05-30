@@ -8,6 +8,12 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 		<script src="./jquery.gfeed.js" type="text/javascript"></script>
 <script type="text/javascript">
+(function($){
+$.hatenaEntrylist = function(url, callback){
+	$.gFeed({'q':'http://b.hatena.ne.jp/entrylist?mode=rss&url=' + url + '&sort=count'}, callback);
+}
+})(jQuery);
+
 $(function(){
 // Usage
 $.gFeed({
@@ -25,13 +31,62 @@ $.gFeed({
 				'</span>');
 		}
 		
-		$(document.body).append('<ul><li>' + lst.join('</li><li>') + '</li></ul>');
+		$(document.body).append($('<h3>').text('blog recent posts'), '<ul><li>' + lst.join('</li><li>') + '</li></ul>');
+});
+
+
+// hatena hotoentry
+$.gFeed({
+	'q': 'http://feedproxy.google.com/hatena/b/hotentry'
+	}, function(feed){
+		 $(document.body)
+			 .append(
+			 	$('<h3>').text('hatena hotoentry'),
+				 '<ul><li>' +
+				 $.map(feed.entries, function(entry, i){
+						return '<span><a href=\'' + entry.link + '\'>' + entry.title + '</a></span>' +
+								'<span><a href=\'http://b.hatena.ne.jp/entry/' + entry.link + '\'>' + 
+								'<img src=\'http://b.hatena.ne.jp/entry/image/' + entry.link + '\'/></a></span>';
+					}).join('</li><li>') +
+				'</li></ul>');
+});
+
+
+$.hatenaEntrylist('http://yas-hummingbird.blogspot.com/',
+	function(feed){
+			var $ul = $('<ul>');
+		    $.each(feed.entries, function(i, entry){
+				$('<li>')
+					.append(
+						$('<span>').append($('<a>').attr('href', entry.link).text(entry.title)),
+						$('<span>').append($('<a>').attr('href', 'http://b.hatena.ne.jp/entry/' + entry.link)
+							.append($('<img>').attr('src','http://b.hatena.ne.jp/entry/image/' + entry.link))))
+					.appendTo($ul);
+		    });
+			$(document.body).append($('<h3>').text('popular entry list'), $ul);
 });
 
 });
 </script>
 
 <style type="text/css">
+body{
+	font-family:'メイリオ','Meiryo';
+	font-size:14px;
+}
+li a img {
+	border-width:0;
+	vertical-align:middle;
+	margin: 2px 0 2px 5px;
+}
+a{
+	color:#006699;
+	text-decoration:none;
+}
+a:hover{
+	color:#0066cc;
+	text-decoration:underline;
+}
 </style>
     </head>
     <body>
