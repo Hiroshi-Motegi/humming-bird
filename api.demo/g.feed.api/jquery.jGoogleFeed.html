@@ -29,55 +29,7 @@ $.jGoogleFeed = function (options, url, callback) {
 })(jQuery);
 
 
-
-(function($){
-$.hatenaHotentry = function(options, callback){
-	var opt = $.extend({
-		numEntries: 20, // entry count
-		format: 'json' // result feed format. json or xml or mixed
-	}, options);
-	
-	callback = $.isFunction(options) ? options : callback || function(){};
-	
-	var f = new google.feeds.Feed('http://feedproxy.google.com/hatena/b/hotentry');
-	f.setNumEntries(opt.numEntries);
-	f.setResultFormat(google.feeds.Feed[opt.format.toUpperCase() + '_FORMAT']);
-	f.load(callback);
-}
-})(jQuery);
-
-
-
-(function($){
-$.iTunesFeed = function (options, callback) {
-	var opt = $.extend({
-		numEntries:10,
-		format:'mixed',
-		type:'topalbums', // topsongs, newreleases, justadded, topalbums etc
-		country:'japan',
-		genre:0 // R&B/Soul=15, Rock=21, J-Pop=27 , etc ...
-	}, options);
-	
-	var countries = {
-		japan:143462,
-		uk:143444,
-		usa:143441
-		// etc ...
-	},gnr = opt.genre;
-	
-	$.jGoogleFeed( opt,
-		'http://ax.phobos.apple.com.edgesuite.net/WebObjects/MZStore.woa/wpa/MRSS/' + 
-		opt.type + 
-		'/sf=' + countries[opt.country.toLowerCase()] + 
-		'/limit=' + opt.numEntries +
-		'/genre=' + (+gnr == gnr ? gnr : 0) + '/rss.xml' , callback );
-}
-})(jQuery);
-
-
-
 $(function(){
-
 	// Usage
 	$.jGoogleFeed('http://yas-hummingbird.blogspot.com/feeds/posts/default?alt=rss&redirect=false',
 		function(data){
@@ -93,54 +45,6 @@ $(function(){
 		    });
 			$ul.appendTo(document.body);
 	});
-	
-	
-	
-	$.jGoogleFeed('http://b.hatena.ne.jp/entrylist?mode=rss&url=http://yas-hummingbird.blogspot.com/&sort=count',
-		function(data){
-			var $ul = $('<ul>');
-		    $.each(data.feed.entries, function(i, entry){
-				$('<li>')
-					.append(
-						$('<span>').append($('<a>').attr('href', entry.link).text(entry.title)),
-						$('<span>').append($('<a>').attr('href', 'http://b.hatena.ne.jp/entry/' + entry.link)
-							.append($('<img>').attr('src','http://b.hatena.ne.jp/entry/image/' + entry.link))))
-					.appendTo($ul);
-		    });
-			$ul.appendTo(document.body);
-	});
-	
-	
-	$.hatenaHotentry({}, function(data){
-			var $ul = $('<ul>');
-		    $.each(data.feed.entries, function(i, entry){
-				$('<li>')
-					.append(
-						$('<span>').append($('<a>').attr('href', entry.link).text(entry.title)),
-						$('<span>').append($('<a>').attr('href', 'http://b.hatena.ne.jp/entry/' + entry.link)
-							.append($('<img>').attr('src','http://b.hatena.ne.jp/entry/image/' + entry.link))))
-					.appendTo($ul);
-		    });
-			$ul.appendTo(document.body);
-	});
-
-
-
-	$.iTunesFeed({
-		type:'topsongs',
-		genre:15},
-		function(data){
-			var
-			feed = data.feed,
-			$div = $('<div>').append($('<h2>').text(feed.description));
-			
-		    $.each(feed.entries, function(i, entry){
-				$div.append(entry.content);
-		    });
-		
-		$div.appendTo(document.body);
-	});
-
 });
 </script>
 <style type="text/css">
