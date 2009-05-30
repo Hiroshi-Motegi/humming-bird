@@ -3,8 +3,11 @@
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  * 
- * options
+ * options:
  * 	q, v, hl, key, context, num, scoring, output
+ * 
+ * reference:
+ * http://code.google.com/intl/ja/apis/ajaxfeeds/documentation/reference.html#_intro_fonje
  */
 
 (function($){
