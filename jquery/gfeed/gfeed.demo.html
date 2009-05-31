@@ -12,10 +12,19 @@
 $.hatenaEntrylist = function(url, callback){
 	$.gFeed({'q':'http://b.hatena.ne.jp/entrylist?mode=rss&url=' + url + '&sort=count'}, callback);
 }
+
+$.toList = function(arr, callback){
+	return '<ul><li>' + 
+		$.map(arr, function(x, i){
+			return callback.call(this, x, i);
+		}).join('</li><li>') + '</li></ul>';
+}
+
 })(jQuery);
 
 $(function(){
 // Usage
+
 $.gFeed({
 	'q': 'http://googleblog.blogspot.com/feeds/posts/default'
 	}, function(feed){
@@ -23,7 +32,7 @@ $.gFeed({
 		for(var i=0; i<feed.entries.length; i++){
 			var entry = feed.entries[i];
 			lst.push(
-				'<span><a href=' + entry.link + ' >' + entry.title + '</a></span>' + 
+				'<span><a href=\'' + entry.link + '\'>' + entry.title + '</a></span>' + 
 				'<span> - ' + 
 				(function (date) {
 					return (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
@@ -32,6 +41,18 @@ $.gFeed({
 		}
 		
 		$(document.body).append($('<h3>').text('blog recent posts'), '<ul><li>' + lst.join('</li><li>') + '</li></ul>');
+});
+
+
+$.gFeed({
+	'q': 'http://googleblog.blogspot.com/feeds/posts/default'
+	}, function(feed){
+			$(document.body).append(
+				$('<h3>').text('Blog Feed'),
+				$.toList(feed.entries, function(entry, i){
+					return '<a href=\'' + entry.link + '\'>' + entry.title + '</a> ';
+				})
+			);
 });
 
 
@@ -65,6 +86,7 @@ $.hatenaEntrylist('http://googleblog.blogspot.com/',
 		    });
 			$(document.body).append($('<h3>').text('popular entry list'), $ul);
 });
+
 
 });
 </script>
