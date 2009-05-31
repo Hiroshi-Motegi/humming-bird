@@ -9,62 +9,29 @@
 <script type="text/javascript">
 
 (function($){
-$.flickrPics = function(tag, fn){
-	$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tagmode=any&format=json&jsoncallback=?&tags=' + tag, fn);
-}
-
-$.bloggerFeed = function(domain, fn){
-	$.getJSON('http://www.google.com/reader/public/javascript/feed/http://' + domain + 
-		'.blogspot.com/atom.xml?alt=json&n=10&callback=?', fn);
+$.flickrPics = function(options, callback){
+	var opt = $.extend({
+		tagmode:'any',
+		format:'json',
+		tags:''
+	}, options);
+	
+	if (opt.tags) {
+		$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?' ,opt, callback);
+	}
 }
 
 })(jQuery);
 
 
-
 $(function(){
 	var tag = 'color';
-	$.flickrPics( tag, function (data) {
+	$.flickrPics({tags:tag}, function(data){
 		$(document.body).append('<h3>flickr Pics - Tag : ' + tag + '</h3>');
-	    $.each(data.items, function(i, item){
-			$('<img>')
-				.attr('src', item.media.m)
-				.appendTo(document.body);
-	    });
+		$.each(data.items, function(i, item){
+			$('<img>').attr('src', item.media.m).appendTo(document.body);
+		});
 	});
-	
-	//気まぐれでjQueryを使わずに書いてみた。
-	var domain = 'googlejapan';
-	$.bloggerFeed(domain, function ( data ){
-		
-		var h3 = document.createElement('h3');
-		h3.appendChild(document.createTextNode('Blogger Feed - ' + domain));
-		document.body.appendChild(h3);
-		
-		var list = document.createElement('ul');
-		
-		for (i in data.items) {
-			var item = data.items[i];
-			var post = document.createElement('li');
-			
-			var link = document.createElement('a');
-			link.appendChild(document.createTextNode(item.title));
-			link.href = item.alternate.href;
-			post.appendChild(link);
-			
-			var timestamp = document.createElement('span');
-			timestamp.appendChild(document.createTextNode(' - ' + 
-				(function( date ){
-					return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
-				})(new Date(item.published * 1000))));
-			post.appendChild(timestamp);
-			
-			list.appendChild(post);
-		}
-		
-		document.body.appendChild(list);
-	});
-
 });
 </script>
 
