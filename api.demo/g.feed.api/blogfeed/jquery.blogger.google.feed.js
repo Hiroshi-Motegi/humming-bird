@@ -41,5 +41,5 @@ $.bloggerGoogleFeed = function(options, feedUrl){
 google.load('feeds', '1', {'nocss' : true});
 
 $(function(){
-	$.bloggerGoogleFeed('http://yas-hummingbird.blogspot.com/feeds/posts/default?redirect=false');
+	$.bloggerGoogleFeed('http://googleblog.blogspot.com/feeds/posts/default?redirect=false');
 });
