@@ -94,8 +94,8 @@ $.showContent = function(callback){
 			}
 			
 			// 調整
-			$('#tab-list li.tab').eq(5).css('margin-bottom', '20px');
-			
+			$('#tab-list li.tab').eq(6).css('margin-bottom', '20px');
+
 			$('.cont:last').find('div.pt-wrap a.pattern').each(function(index, elm){
 				var $t = $(elm);
 				$t.before($('<span>')
@@ -146,9 +146,8 @@ $.arrangeHeight = function(){
 		h += parseInt($($.my.slctr.tabList).css('margin-bottom').match(/\d+/));
 	}
 	$($.my.slctr.pattrnCont).each(function(){
-		if( $(this).height() < h ){
+		if( $(this).height() < h )
 			$(this).height(h);
-		}
 	});
 }
 
@@ -156,10 +155,6 @@ $.setTitle = function(){
 	var pagetitle = $.my.prop.title.en + ' ver. ' + $.my.prop.ver;
 	$($.my.slctr.title).text(pagetitle);
 	$($.my.slctr.fTitle).text(pagetitle);
-}
-
-$.setText = function( value ) {
-	$($.my.slctr.tgt).val(value);
 }
 
 $.setLabelEffect = function(){
@@ -211,8 +206,7 @@ $.showLastModDate = function(date){
 		$($.my.slctr.lastmod).text(
 			(function(date){
 				return date.getFullYear() + $.my.prop.dateDelimiter + (date.getMonth() + 1) + $.my.prop.dateDelimiter + date.getDate()
-			})(new Date(document.lastModified))
-		);
+			})(new Date(document.lastModified)));
 	});
 }
 
@@ -252,12 +246,14 @@ $.my = {
 $(function(){	
 	$.showContent($.accordion);
 	$.setLabelEffect();
-	$.setText("abc 12.3 de -4あ5 f 6\ng,hi +78あ9\n01\t23 jklmn");
+	$($.my.slctr.tgt).val("abc 12.3 de -4あ5 f 6\ng,hi +78あ9\n01\t23 jklmn");
 	$.setTitle();
 	$.bindExec();
 	$.bindPastePattern();
 	$.showLastModDate();
-	//"12:34".replace(/(\d+):(\d+)/, "$1時$2分");
+	
+	
+	
 	if($.browser.msie){
 		if ($.browser.version > 6) {
 			$('textarea').attr('rows', '7');
