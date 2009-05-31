@@ -8,12 +8,9 @@
 $.flickrPics = function(options, callback){
 	var opt = $.extend({
 		tagmode:'any',
-		format:'json',
-		tags:''
+		format:'json'
 	}, options);
 	
-	if (opt.tags) {
-		$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?' ,opt, callback);
-	}
+	$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?' , opt, callback);
 }
 })(jQuery);

@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
-		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
         <title>jQuery + Google Feed API - jGoogleFeed demo</title>
 		<script src="http://www.google.com/jsapi/" type="text/javascript"></script>
 		<script type="text/javascript">google.load('jquery', '1')</script>
@@ -31,7 +31,7 @@ $.jGoogleFeed = function (options, url, callback) {
 
 $(function(){
 	// Usage
-	$.jGoogleFeed('http://yas-hummingbird.blogspot.com/feeds/posts/default?alt=rss&redirect=false',
+	$.jGoogleFeed('http://googleblog.blogspot.com/feeds/posts/default?alt=rss&redirect=false',
 		function(data){
 			var $ul = $('<ul>');
 		    $.each(data.feed.entries, function(i, entry){

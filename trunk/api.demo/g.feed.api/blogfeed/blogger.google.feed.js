@@ -82,5 +82,5 @@ function bloggerGoogleFeed (options, feedUrl){
 	if (window.addEventListener) {window.addEventListener('load', fn, false)}
 	else if (window.attachEvent) {window.attachEvent('onload', fn)}
 })(function(){
-	bloggerGoogleFeed('http://yas-hummingbird.blogspot.com/feeds/posts/default?redirect=false');
+	bloggerGoogleFeed('http://googleblog.blogspot.com/feeds/posts/default?redirect=false');
 });
