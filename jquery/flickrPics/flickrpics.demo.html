@@ -4,26 +4,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-		<title>jQuery getJSON - demo</title>
+		<title>jQuery plugin - flickrPics demo</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+		<script src="./jquery.flickrpics.js" type="text/javascript"></script>
 <script type="text/javascript">
-
-(function($){
-$.flickrPics = function(options, callback){
-	var opt = $.extend({
-		tagmode:'any',
-		format:'json',
-		tags:''
-	}, options);
-	
-	if (opt.tags) {
-		$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?' ,opt, callback);
-	}
-}
-
-})(jQuery);
-
-
 $(function(){
 	var tag = 'color';
 	$.flickrPics({tags:tag}, function(data){
@@ -39,6 +23,6 @@ $(function(){
 </style>
     </head>
     <body>
-    	<h1>jQuery getJSON - demo</h1>
+    	<h1>jQuery plugin - flickrPics demo</h1>
     </body>
 </html>
