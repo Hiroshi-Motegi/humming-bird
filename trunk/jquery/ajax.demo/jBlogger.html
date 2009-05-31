@@ -33,9 +33,10 @@
 
 // Usage
 $(function(){
-	$.jBloggerFeed('yas-hummingbird', 'posts', {'max-results': 15}, function(data){
+	$.jBloggerFeed('googleblog', 'posts', {'max-results': 15}, function(data){
 		
 		$(document.body).append(
+			$('<h3>').text('Google Official Blog Feed'),
 			'<ul><li>' + 
 			$.map(data.feed.entry, function(entry, i){
 				return '<span class="item-title"><a href=\'' + 

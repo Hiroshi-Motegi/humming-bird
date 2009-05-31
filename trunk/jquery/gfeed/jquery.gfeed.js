@@ -17,15 +17,11 @@ $.gFeed = function(options, callback){
 		num: 10
 	}, options);
 	
-	if (!opt.q) 
-		return false;
-	
-	$.getJSON(
-		'http://ajax.googleapis.com/ajax/services/feed/load?callback=?',
-		opt,
-		function(data){
+	if (opt.q) {
+		$.getJSON('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', opt, function(data){
 			if (data) 
 				callback.call(this, data.responseData.feed);
 		});
+	}
 }
 })(jQuery);

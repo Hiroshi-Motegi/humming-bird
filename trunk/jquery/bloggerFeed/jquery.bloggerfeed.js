@@ -9,7 +9,7 @@
 		
 		callback = $.isFunction(options) ? options : callback || function(){};
 		
-		$.getJSON('http://' + domain + '.blogspot.com/feeds/posts/default?callback=?', opt,
+		$.getJSON('http://' + encodeURIComponent(domain) + '.blogspot.com/feeds/posts/default?callback=?', opt,
 			function(data){
 				if(data)
 					callback.call(this, data.feed);

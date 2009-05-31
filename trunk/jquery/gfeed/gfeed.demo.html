@@ -17,7 +17,7 @@ $.hatenaEntrylist = function(url, callback){
 $(function(){
 // Usage
 $.gFeed({
-	'q': 'http://yas-hummingbird.blogspot.com/rss.xml'
+	'q': 'http://googleblog.blogspot.com/feeds/posts/default'
 	}, function(feed){
 		var lst = [];
 		for(var i=0; i<feed.entries.length; i++){
@@ -52,7 +52,7 @@ $.gFeed({
 });
 
 
-$.hatenaEntrylist('http://yas-hummingbird.blogspot.com/',
+$.hatenaEntrylist('http://googleblog.blogspot.com/',
 	function(feed){
 			var $ul = $('<ul>');
 		    $.each(feed.entries, function(i, entry){
