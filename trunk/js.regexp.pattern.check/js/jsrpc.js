@@ -38,6 +38,15 @@ $.rpc = {
 		},
 		replace: function(pt, str){
 			$.rpc.showResult(str.replace(pt, $($.my.slctr.reTxt).val()));
+		},
+		test: function(pt, str){
+			$.rpc.showResult(pt.test(str));
+		},
+		exec: function(pt, str){
+			$.rpc.showResult(pt.exec(str));
+		},
+		search: function(pt, str){
+			$.rpc.showResult(str.search(pt));
 		}
 	},
 	isRegexPattern: function(pattern){

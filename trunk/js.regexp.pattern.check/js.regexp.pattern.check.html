@@ -25,8 +25,8 @@
 	<div id="outer-wrap0">
 	<div id="outer-wrap1">
 	<noscript>JavaScriptを使用しています。このページをご利用されるにはJavaScriptを許可する必要があります</noscript>
-	<div id="top-content"><div id="top-inner"><table id="top-content-table" cellspacing='10px'><tbody><tr>
-		<td><table id="input-table"><tbody>
+	<div id="top-content"><div id="top-inner"><table id="top-content-table" cellspacing='5px'><tbody><tr>
+		<td rowSpan="2"><table id="input-table"><tbody>
 			<tr>
 				<th class="input-label"><span>Pattern</span></th>
 				<td class="input-wrap"><input id="txt-pattern" class="txt" name="txt" type="text" value="/\d+/g" alt='Pattern' title='パターン' maxlength="128" /></td>
@@ -38,30 +38,31 @@
 			<tr>
 				<th class="input-label"><span>Exec Order</span></th>
 				<td id="exec-order-wrap">
-					<input type="radio" name="radio" id="exec-match" class="exec-order" value="match" checked="checked" /><label for="exec-match" class="exec-order-label" title="マッチした文字列を結果に表示します">Match</label><br />
-					<input type="radio" name="radio" id="exec-replace" class="exec-order" value="replace" /><label for="exec-replace" class="exec-order-label" title="マッチした文字列を指定した文字列に置き換え結果に表示します">Replace</label><br />
-				</td>
-			</tr>
-			<tr>
-				<td class="exec-wrap" colSpan="2">
-					<div class="outer"><div class="inner">
-						<a id="exec" href="javascript:void(0);" alt='exec' title='処理を実行します'>Replace or Match</a>
-					</div></div>
+					<input type="radio" name="radio" id="exec-match" class="exec-order" value="match" checked="checked" /><label for="exec-match" class="exec-order-label" title="マッチした文字列を結果に表示します">match</label><br />
+					<input type="radio" name="radio" id="exec-replace" class="exec-order" value="replace" /><label for="exec-replace" class="exec-order-label" title="マッチした文字列を指定した文字列に置き換え結果に表示します">replace</label><br />
+					<input type="radio" name="radio" id="exec-test" class="exec-order" value="test" /><label for="exec-test" class="exec-order-label" title="パターンにマッチした場合、trueを返します">test</label><br />
+					<input type="radio" name="radio" id="exec-exec" class="exec-order" value="exec" /><label for="exec-exec" class="exec-order-label" title="exec">exec</label><br />
+					<input type="radio" name="radio" id="exec-search" class="exec-order" value="search" /><label for="exec-search" class="exec-order-label" title="マッチした文字の位置を返します">search</label>
 				</td>
 			</tr>
 		</tbody></table></td>
-						
+				
 		<td><table><tbody>
 			<tr><th class="txtr-label-wrap"><span>Target Word</span></th></tr>
-			<tr><td class="txtr-wrap"><textarea id="txtr-target" name="txtr-target" class="txtar" rows="6" alt='Target Word' title='対象文字列'></textarea></td></tr>
+			<tr><td class="txtr-wrap"><textarea id="txtr-target" name="txtr-target" class="txtar" rows="5" alt='Target Word' title='対象文字列'></textarea></td></tr>
 		</tbody></table></td>
 		
 		<td><table><tbody>
-			<tr><th class="txtr-label-wrap"><span>Result</span></th></tr>
-			<tr><td class="txtr-wrap"><textarea id="txtr-result" name="txtr-result" class="txtar" rows="6" alt='' title='結果'></textarea></td></tr>
+			<tr></th><th class="txtr-label-wrap"><span>Result</span></th></tr>
+			<tr><td class="txtr-wrap"><textarea id="txtr-result" name="txtr-result" class="txtar" rows="5" alt='' title='結果'></textarea></td></tr>
 		</tbody></table></td>
-
-	</tr></tbody></table></div></div>
+	</tr>
+	
+	<tr><td class="exec-wrap" colSpan="2"><div class="outer"><div class="inner">
+		<a id="exec" href="javascript:void(0);" alt='Check' title='処理を実行します'>Check</a>
+	</div></div></td></tr>
+	
+	</tbody></table></div></div>
 	
 	<div class="clear dummy"></div>
 	
