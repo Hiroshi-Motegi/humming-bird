@@ -22,9 +22,11 @@ h1{
 textarea{
 	overflow:auto;
 }
+/*
 * html textarea{
 	height: 5em;
 }
+*/
 textarea,input{
 	border-width:0;
 }
@@ -151,15 +153,9 @@ span.attention{
 }
 #top-content-table{
 	table-layout:fixed;
-	border-spacing:10px;
+	border-spacing:5px;
 }
 
-#top-content-table tr{
-	vertical-align:text-top;
-}
-#top-content-table td{
-	vertical-align:top;
-}
 #top-content-table td{
 	vertical-align: bottom;
 }
@@ -307,7 +303,7 @@ textarea,input.txt{
 }
 /* -=-=-=-=-=-=- footer -=-=-=-=-=-=- */
 #footer-wrap{
-	background-color:#303030;
+	/*background-color:#303030;*/
 }
 #footer{
 	text-align:center;

@@ -335,7 +335,7 @@
 	}, {
 		title: {
 			ja: 'キャプチャ',
-			en: 'Capturing Groups'
+			en: 'Capturing Parentheses'
 		},
 		content: [{
 			pt: {
