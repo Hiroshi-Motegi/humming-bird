@@ -11,6 +11,6 @@ $.flickrPics = function(options, callback){
 		format:'json'
 	}, options);
 	
-	$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?' , opt, callback);
+	$.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?', opt, callback);
 }
 })(jQuery);

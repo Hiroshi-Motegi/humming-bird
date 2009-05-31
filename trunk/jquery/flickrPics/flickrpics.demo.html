@@ -9,17 +9,29 @@
 		<script src="./jquery.flickrpics.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
-	var tag = 'color';
-	$.flickrPics({tags:tag}, function(data){
-		$(document.body).append('<h3>flickr Pics - Tag : ' + tag + '</h3>');
-		$.each(data.items, function(i, item){
-			$('<img>').attr('src', item.media.m).appendTo(document.body);
-		});
+
+var tag = 'color';
+$.flickrPics({tags:tag}, function(data){
+	$(document.body).append(
+		'<h3>Tag : ' + tag + '</h3>',
+		$.map(data.items, function(item, index){
+			return '<img src=\'' + item.media.m + '\'/>';
+		}).join(','));
+});
+
+
+/*
+$.flickrPics({tags:tag}, function(data){
+	$(document.body).append('<h3>Tag : ' + tag + '</h3>');
+	$.each(data.items, function(i, item){
+		$('<img>').attr('src', item.media.m).appendTo(document.body);
 	});
+});
+*/
+
 	
-	//http://www.flickr.com/photos/
-	//var id = 'dlc0421';
-	//31927248@N03
+	// http://www.flickr.com/photos/
+	// id = 'dlc0421';
 });
 </script>
 
@@ -28,5 +40,7 @@ $(function(){
     </head>
     <body>
     	<h1>jQuery plugin - flickrPics demo</h1>
+		
+		<ul><li>参考:<a href="http://www.flickr.com/services/feeds/docs/photos_public/" title="Flickr Services">Flickr Services</a></li></ul>
     </body>
 </html>
