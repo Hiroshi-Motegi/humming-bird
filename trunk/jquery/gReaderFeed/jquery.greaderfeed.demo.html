@@ -10,33 +10,33 @@
 
 <script type="text/javascript">
 $(function(){
-	//気まぐれでjQueryを使わずに書いてみた。
-	$.gReaderFeed('http://googleblog.blogspot.com/feeds/posts/default',
-		{'alt':'json'}, 
-		function ( data ){		
-			var list = document.createElement('ul');
+//気まぐれでjQueryを使わずに書いてみた。
+$.gReaderFeed('http://googleblog.blogspot.com/feeds/posts/default',
+	{'alt':'json'}, 
+	function ( data ){		
+		var list = document.createElement('ul');
+		
+		for (i in data.items) {
+			var item = data.items[i];
+			var post = document.createElement('li');
 			
-			for (i in data.items) {
-				var item = data.items[i];
-				var post = document.createElement('li');
-				
-				var link = document.createElement('a');
-				link.appendChild(document.createTextNode(item.title));
-				link.href = item.alternate.href;
-				post.appendChild(link);
-				
-				var timestamp = document.createElement('span');
-				timestamp.appendChild(document.createTextNode(' - ' + 
-					(function( date ){
-						return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
-					})(new Date(item.published * 1000))));
-				post.appendChild(timestamp);
-				
-				list.appendChild(post);
-			}
+			var link = document.createElement('a');
+			link.appendChild(document.createTextNode(item.title));
+			link.href = item.alternate.href;
+			post.appendChild(link);
 			
-			document.body.appendChild(list);
-	});
+			var timestamp = document.createElement('span');
+			timestamp.appendChild(document.createTextNode(' - ' + 
+				(function( date ){
+					return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
+				})(new Date(item.published * 1000))));
+			post.appendChild(timestamp);
+			
+			list.appendChild(post);
+		}
+		
+		document.body.appendChild(list);
+});
 
 });
 
