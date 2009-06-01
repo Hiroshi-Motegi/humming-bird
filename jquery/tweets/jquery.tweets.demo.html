@@ -9,20 +9,23 @@
 		<script src="./tweets.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
-	//15421866 or gihren
-	$.tweets('15421866', {
+	//15421866 or google
+	
+	var user = 'google';
+	$.tweets(user, {
 		since:'2009/05/01'//,
 		//count:'3'
 		}, function(data){
-			$(document.body).append('<h3>Tweets</h3>');
+			$(document.body).append('<h3>Tweets - User : ' + user + '</h3>');
 			$('<ul>').append($.map(data, 
 			function(t, i){
 				return '<li>' + t.text + '</li>';
 			}).join('')).appendTo(document.body);
 	});
 	
-	$.twitterUserInfo('gihren', function(data){
-		$(document.body).append('<h3>Twitter User Info</h3>');
+	
+	$.twitterUserInfo(user, function(data){
+		$(document.body).append('<h3>Twitter User Info - User : ' + user + '</h3>');
 		var list = [];
 		for (var item in data)
 			list.push(item + ' : ' + data[item]);
@@ -30,7 +33,7 @@ $(function(){
 		$(document.body).append('<ul><li>' + list.join('</li><li>') + '</li></ul>');
 	});
 	
-	var keyword = 'jQuery';
+	var keyword = 'google';
 	$.twitterSeach(keyword, function(data){
 		$(document.body).append('<h3>Twitter Seach - keyword : ' + keyword + '</h3>');
 		var list = [];
