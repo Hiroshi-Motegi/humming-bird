@@ -7,57 +7,6 @@
 		<title>New Web Project</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-// chart data text encoding
-Array.prototype.textEncode = (function() {
-	return function(maxValue) {
-		var chartData = [];
-		for (var i = 0, len = this.length; i < len; i++) {
-			var currentValue = this[i];
-			chartData.push((!isNaN(currentValue) && currentValue >= 0) ? currentValue / maxValue * 100 : '-1');
-		}
-		return 't:' + chartData.join('|');
-	};
-})();
-
-// chart data simple encoding
-Array.prototype.simpleEncode = (function() {
-	var NODATA = "_";
-	var encoding = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	var encLen = encoding.length - 1;
-
-	return function(maxValue) {
-		var chartData = [encCode];
-		for (var i = 0, len = this.length; i < len; i++) {
-			var currentValue = this[i];
-			chartData.push((!isNaN(currentValue) && currentValue >= 0) ? encoding.charAt(Math.round(encLen * currentValue / maxValue)) : NODATA);
-		}
-		return chartData.join('');
-	};
-})();
-
-// chart data extended encoding
-Array.prototype.extendedEncode = (function(){
-	var encCode = "e:";
-	var NODATA = "__";
-	var encoding = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.";
-	var encLen = encoding.length;
-	var powLen = Math.pow(encLen, 2) - 1;
-
-	return function(maxValue) {
-		var chartData = [encCode];
-		for (var i = 0, len = this.length; i < len; i++) {
-			var currentValue = this[i];
-			if (!isNaN(currentValue) && currentValue >= 0) {
-				var pos = powLen * currentValue / maxValue;
-				chartData.push(encoding.charAt(Math.floor(pos / encLen)) + encoding.charAt(pos % encLen));
-			} else {
-				chartData.push(NODATA);
-			}
-		}
-		return chartData.join('');
-	};
-})();
-
 
 (function(){
 $.chart = {
@@ -70,41 +19,53 @@ $.chart = {
 		
 		return '<img src=\'http://chart.apis.google.com/chart?' +
 			(function(o){
-				var x = '';
+				var x = [];
 				for (var i in o) {
-					x += '&' + i + '=' + o[i];
+					x.push( i + '=' + o[i] );
 				}
-				return x.replace(/^&/, '')
+				return x.join('&')
 			})(op) + '\'/>';
 	},
 	sizeFormat: function(w, h){
 		return w + 'x' + h;
 	},
-	extendedEncode: function(v){
-		var eChar = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.';
-		if (v.length == 2) {
-			var s0 = v.charAt(0);
-			var s1 = v.charAt(1);
-			var i0 = (s0 == ".") ? 64 * 63 : eChar.search(new RegExp(s0)) * 64;
-			var i1 = (s1 == ".") ? 63 : eChar.search(new RegExp(s1)) * 1;
-			return i0 + i1;
+	simpleEncode:function(v){
+		var chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		if(/[a-zA-Z\d]/.test(v)){
+			return chr.search(v);
 		}
+		return '_'
+	},
+	extendedEncode: function(v){
+		var chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.';
+		var re;
+		if(re = /([\da-zA-Z-\.])([\da-zA-Z-\.])/.exec(v)){
+			var r1 = re[1] == '.' ? '\\' + re[1] : re[1];
+			var r2 = re[2] == '.' ? '\\' + re[2] : re[2];
+			return chr.search(r1) * 64 + chr.search(r2);
+		}
+		return '__';
+	},
+	textEncoding:function(arr){
+		var max = 0, min = 0;
+		for (var i = 0; i < arr.length; i++) {
+			max = Math.max(max, arr[i]);
+			min = Math.min(min, arr[i]);
+		}
+		
+		min = Math.abs(min);
+		var x = (max + min)/100, nar =[];
+		for (var i = 0; i < arr.length; i++) {
+			nar.push(Math.max(Math.min((arr[i] + min)/x, 100), 0));
+		}
+		return nar;
 	}
 }
 })(jQuery);
 
 $(function(){
 	$(document.body).append($.chart.create());
-	
-	var chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.';
-	var eArr = [];
-	for (var i = 0; i < chr.length; i++) {
-		for (var k = 0; k < chr.length; k++) {
-			eArr.push(chr.charAt(i) + chr.charAt(k) + '');
-		}
-	}
-	//alert(eArr.length);
-	//alert(eArr[eArr.length - 1]);
+	//var arr = $.chart.textEncoding([990,-9,-10]);
 });
 
 
@@ -177,6 +138,8 @@ Required parameters
 [chm] - 範囲マーカー
 	<r or R>
 
+テキストエンコードの範囲
+0 (0.0) から 100 (100.0)
 */
 </script>
 <style type="text/css">
