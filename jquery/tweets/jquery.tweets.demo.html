@@ -13,8 +13,7 @@ $(function(){
 	
 	var user = 'google';
 	$.tweets(user, {
-		since:'2009/05/01'//,
-		//count:'3'
+		since:'2009/05/01' //, count:'3'
 		}, function(data){
 			$(document.body).append('<h3>Tweets - User : ' + user + '</h3>');
 			$('<ul>').append($.map(data, 

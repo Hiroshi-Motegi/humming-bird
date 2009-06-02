@@ -3,7 +3,7 @@
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  * 
- * 以下のプラグインに依存しています。
+ * Dependencies:
  * [ jQuery plugin gFeed ]
  */
 
