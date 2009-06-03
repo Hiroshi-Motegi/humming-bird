@@ -1,6 +1,7 @@
-Date.prototype.myFormat = function() {
-    return (this.getFullYear() + "/" + (this.getMonth() + 1) + "/" + this.getDate());
-};
+/*@cc_on 
+var doc = document;
+eval('var document = doc');
+@*/
 
 var cs = {
 	err_emptyMsg:"ページ中央のテキストエリアに対象文字列を入力して下さい。",
@@ -56,8 +57,7 @@ var cs = {
 		
 		//<> → &lt; &gt;
 		if(document.getElementById("chk-ltgt").checked){
-			s = s.replace(/</g, "&lt;");
-			s = s.replace(/>/g, "&gt;");
+			s = s.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 		}
 		
 		//" → &quot;
@@ -66,7 +66,7 @@ var cs = {
 		}
 		
 		//' → &#39;
-		if(document.getElementById("chk-snglequot").checked){
+		if(document.getElementById("chk-singlequot").checked){
 			s = s.replace(/'/g, "&#39;");
 		}
 		
@@ -170,7 +170,7 @@ var cs = {
 		if(document.getElementById("sh-chk-collapse").checked) opt += ":collapse";
 		if (document.getElementById("sh-chk-firstline").checked) {
 			var num = $.trim($("#firstline-num").val());
-			if(num.match(/[^\d]/) || num == "") num = "1";
+			if(!num || num.match(/[^\d]/)) num = "1";
 			opt += ":firstline[" + num + "]";
 		}
 		if(document.getElementById("sh-chk-showcolumns").checked) opt += ":showcolumns";
@@ -194,46 +194,49 @@ var cs = {
 var vAct = {
 	lbl_color:"#666666",
 	lbl_hover_color:"#ffffff",
-	lbl_selecter:".lbl-chk,.lbl-tag,.lbl-code,.lbl-pretty-lang",
+	lbl_selector:".lbl-chk,.lbl-tag,.lbl-code,.lbl-pretty-lang",
 	lbl_hover_duration:400,
-	bindLabelHoverAnimate:function(){
-		$(vAct.lbl_selecter)
-			.hover(
-				function(){$(this).stop().animate(
-					{color:vAct.lbl_hover_color}, vAct.lbl_hover_duration);},
-				function(){$(this).stop().animate(
-					{color:vAct.lbl_color}, vAct.lbl_hover_duration);}
-				).css({color:vAct.lbl_color});
+	bindLabelHoverAnimate: function(){
+		$(vAct.lbl_selector).hover(function(){
+			$(this).stop().animate({
+				color: vAct.lbl_hover_color
+			}, vAct.lbl_hover_duration);
+		}, function(){
+			$(this).stop().animate({
+				color: vAct.lbl_color
+			}, vAct.lbl_hover_duration);
+		}).css({
+			color: vAct.lbl_color
+		});
 	},
 	
 	
-	radioTagSelecter:".rdo-tag",
+	radioTagSelector:"input[type=radio].rdo-tag",
 	shid:"rdo-syntaxHighlighter",
-	shTagSelecter:"#wrap-synxhr-code",
+	shTagSelector:"#wrap-synxhr-code",
 	prttyid:"rdo-prettify",
-	prttyTagSelecter:"#wrap-prettify-lang",
+	prttyTagSelector:"#wrap-prettify-lang",
 	shDuration:"normal",
 	bindShowRadioSHCode:function(){
-		$(vAct.radioTagSelecter).bind("click", function(){
+		$(vAct.radioTagSelector).click(function(){
 			if (document.getElementById(vAct.shid).checked) {
 				//チェックされたらスライドして表示する。
-				$(vAct.shTagSelecter).slideDown(vAct.shDuration);
+				$(vAct.shTagSelector).slideDown(vAct.shDuration);
 			}else{
 				//チェックを外したらスライドして隠す。
-				$(vAct.shTagSelecter).slideUp(vAct.shDuration);
+				$(vAct.shTagSelector).slideUp(vAct.shDuration);
 			}
 			
 			if (document.getElementById(vAct.prttyid).checked) {
 				//チェックされたらスライドして表示する。
-				$(vAct.prttyTagSelecter).slideDown(vAct.shDuration);
+				$(vAct.prttyTagSelector).slideDown(vAct.shDuration);
 			}else{
 				//チェックを外したらスライドして隠す。
-				$(vAct.prttyTagSelecter).slideUp(vAct.shDuration);
+				$(vAct.prttyTagSelector).slideUp(vAct.shDuration);
 			}
 		});
 	}
 };
-
 
 
 $(function(){
@@ -248,13 +251,21 @@ $(function(){
 			});
 		});
 	
-	$("input[type=checkbox]#sh-chk-firstline").bind("click", function(){
+	//input[type=checkbox]
+	$("#sh-chk-firstline").click(function(){
 		$("#firstline-num").attr("disabled", !document.getElementById("sh-chk-firstline").checked);
 	});
 	
-	$("input[type=checkbox]#chk-tab").bind("click", function(){
+	//input[type=checkbox]
+	$("#chk-tab").click(function(){
 		$("#space-count").attr("disabled", !document.getElementById("chk-tab").checked);
 	});
 	
-	$(".lastmod-date").text(new Date(document.lastModified).myFormat());
+	$(".lastmod-date").text((function(date) {
+	    return (date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate());
+	})(new Date(document.lastModified)));
+	
+	$('#result').focus(function(){
+		$(this).select();
+	});
 });
