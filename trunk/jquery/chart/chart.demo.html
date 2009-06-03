@@ -16,35 +16,56 @@ $.chart = {
 			chs: '200x100' //size(pixel)
 		}, options);
 		
-		return '<img src=\'http://chart.apis.google.com/chart?' +
+		return 'http://chart.apis.google.com/chart?' +
 			(function(o){
 				var x = [];
 				for (var i in o) {
 					x.push( i + '=' + o[i] );
 				}
 				return x.join('&')
-			})(op) + '\'/>';
+			})(op);
+	},
+	
+	dataFormat: function(w, data){
+		return 't:' + $.isArray(data) ? data.join(',') : data;
 	},
 	sizeFormat: function(w, h){
 		return w + 'x' + h;
 	},
+	
+	
+	/*
+	 * 簡易エンコード
+	 * Simple Encode
+	 */
 	simpleEncode:function(v){
 		var chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-		if(/[a-zA-Z\d]/.test(v)){
+		if(/[A-Za-z\d]/.test(v)){
 			return chr.search(v);
 		}
 		return '_'
 	},
+	
+	/*
+	 * 拡張エンコード
+	 * Extended Encode
+	 */
 	extendedEncode: function(v){
 		var chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.';
 		var re;
-		if(re = /([\da-zA-Z-\.])([\da-zA-Z-\.])/.exec(v)){
-			var r1 = re[1] == '.' ? '\\' + re[1] : re[1];
-			var r2 = re[2] == '.' ? '\\' + re[2] : re[2];
-			return chr.search(r1) * 64 + chr.search(r2);
+		if(re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v)){
+			//var r1 = re[1] == '.' ? '\\.' : re[1];
+			//var r2 = re[2] == '.' ? '\\.' : re[2];
+			return chr.search(re[1] == '.' ? '\\.' : re[1]) * 64 + chr.search(re[2] == '.' ? '\\.' : re[2]);
 		}
 		return '__';
 	},
+	
+	/*
+	 * テキストエンコードの範囲は 0 (0.0) から 100 (100.0)
+	 * 0 ~ 100の範囲に収まるように数値をエンコードする
+	 * @Param arr 数値の配列
+	 */
 	textEncoding:function(arr){
 		var max = 0, min = 0;
 		for (var i = 0; i < arr.length; i++) {
@@ -62,20 +83,31 @@ $.chart = {
 }
 })(jQuery);
 
+
+
 $(function(){
-	$(document.body).append($.chart.create());
-	//var arr = $.chart.textEncoding([990,-9,-10]);
+	var cht = $.chart.create();
+	$(document.body).append(
+		'<a href=\'' + cht + '\'><img src=\'' + cht + '\'\/></a>'
+	);
+	
+	
+	var arr = $.chart.textEncoding([990,-9,-10]);
+	var et = $.chart.extendedEncode('.-');
+	console.log(et);
+	
+	
 });
 
 
 /*
-Required parameters
-	chart type
-	chart data
-	chart size
+Required Parameters
+	- chart type
+	- chart data
+	- chart size
 
 [cht] - チャート タイプ(chart type)
-	cht=<chart type>
+	ex:cht=<chart type>
 	lc,lxy:折れ線グラフ
 	ls:スパークライン
 	bhs,bhg,bvs,bvg,chbh:棒グラフ(bar chart type)
@@ -122,6 +154,8 @@ Required parameters
 [chls] - 線のスタイル
 [chm] - 折れ線グラフ、スパークライン、棒グラフの線のスタイル
 [chg] - グリッド線
+
+
 [chm] - 図形マーカーと範囲マーカー
 	<marker type>
 		a:矢印を表します。
@@ -137,8 +171,7 @@ Required parameters
 [chm] - 範囲マーカー
 	<r or R>
 
-テキストエンコードの範囲
-0 (0.0) から 100 (100.0)
+
 */
 </script>
 <style type="text/css">
