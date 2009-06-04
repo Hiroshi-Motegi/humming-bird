@@ -30,6 +30,7 @@
 					<th><span>font family</span></th>
 					<th><span>font size</span></th>
 				</tr>
+				
 				<tr>
 					<td><span id="current-bg-color">none specified</span></td>
 					<td><span id="current-font-color">none specified</span></td>
@@ -48,7 +49,7 @@
 						<td class="ws-td"><div class="wrap-ws"><a id="tgl-font-weight"><b>bold</b></a></div></td>
 						<td class="ws-td"><div class="wrap-ws"><a id="tgl-font-style"><i>italic</i></a></div></td>
 					</tr>
-					
+					<tr><td class='space' colSpan='2'></td></tr>
 					<tr>
 						<td  colSpan="2" style="text-align:center;"><div id="wrap-prev-font-size">
 							<span id="prev-font-size-lbl">font-size:</span>
@@ -59,6 +60,7 @@
 								<option value="12" class="opt-font-size">12</option>
 								<option value="14" class="opt-font-size">14</option>
 								<option value="16" class="opt-font-size" selected="selected">16</option>
+								<option value="18" class="opt-font-size">18</option>
 								<option value="20" class="opt-font-size">20</option>
 								<option value="22" class="opt-font-size">22</option>
 								<option value="24" class="opt-font-size">24</option>
@@ -70,13 +72,13 @@
 								<option value="72" class="opt-font-size">72</option>
 							</select><span>&nbsp;px</span></div></td>
 					</tr>
-					
+					<tr><td class='space' colSpan='2'></td></tr>
 					<tr><td colSpan="2"><textarea id="prev-textarea" name="txtarea" class="txtarea" rows="3" value=""></textarea></td></tr>
-					
+					<tr><td class='space' colSpan='2'></td></tr>
 					<tr><td colSpan="2"><div id="wrap-show-css">
 						<a id="show-css"><b>show css text</b></a>
 					</div></td></tr>
-					
+					<tr><td class='space' colSpan='2'></td></tr>
 					<tr><td colSpan="2"><div class="outer">
 						<div class="inner"><div id="tgl-apply-color"><div id="tgl-apply-color-string">
 							<a><b>bg color</b></a>
@@ -95,14 +97,14 @@
 				<td><b><a class="item-navi" href='javascript:void(0);'>named-color</a></b></td>
 				<td><b><a class="item-navi" href='javascript:void(0);'>web-color</a></b></td>
 				<td><b><a class="item-navi" href='javascript:void(0);'>font-family</a></b></td>
-			</tr></tbody></table></div></div>
+			</tr></tbody></table></div></div></div>
 			
-			</div><div style="clear:both;"></div>
+			<div style="clear:both;"></div>
 
 			<div id="wrap-items">
-				<div id="wrap-named-color" class="item-container"></div>
-				<div id="wrap-web-color" class="item-container"></div>
-				<div id="wrap-font-family" class="item-container"</div>
+				<div id="wrap-named-color" class="item-container" style='display: block;'></div>
+				<div id="wrap-web-color" class="item-container" style='display: none;'></div>
+				<div id="wrap-font-family" class="item-container" style='display: none;'></div>
 			</div>
 			
 			<div style="clear:both;"></div>
