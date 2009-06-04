@@ -182,74 +182,45 @@ var cs = {
 
 
 (function($){
-$.bindLabelHoverAnimate = function(selector, nParams, hParams, options){
+$.bindLabelHoverAnimate = function(selector, nParams, hParams, duration){
 	var
-	op = $.extend({duration:400}, options),
 	nPrms = $.extend({color:'#666'}, nParams),
-	hPrms = $.extend({color:'#fff'}, hParams);
+	hPrms = $.extend({color:'#fff'}, hParams),
+	duration = duration ? duration : 400;
 	
 	$(selector).hover(function(e){
-		$(e.target).stop().animate(hPrms, op);
+		$(e.target).stop().animate(hPrms, duration);
 	}, function(e){
-		$(e.target).stop().animate(nPrms, op);
+		$(e.target).stop().animate(nPrms, duration);
 	}).css(nPrms);
-}
+};
 
 $.bindSlideOption = function(){
-	$(vAct.radioTagSelector).click(function(){
-		if (document.getElementById(vAct.shid).checked) {
-			//チェックされたらスライドして表示する。
-			$(vAct.shTagSelector).slideDown(vAct.shDuration);
+	var
+	$wsyhr = $('#wrap-synxhr-code'),
+	$wprty = $('#wrap-prettify-lang'),
+	duration = 400;
+	
+	$('input[type=radio].rdo-tag').click( function(){
+		if ($('#rdo-syntaxHighlighter').is(':checked')) {
+			$wsyhr.slideDown(duration);
 		}else{
-			//チェックを外したらスライドして隠す。
-			$(vAct.shTagSelector).slideUp(vAct.shDuration);
+			$wsyhr.slideUp(duration);
 		}
 		
-		if (document.getElementById(vAct.prttyid).checked) {
-			//チェックされたらスライドして表示する。
-			$(vAct.prttyTagSelector).slideDown(vAct.shDuration);
+		if ($('#rdo-prettify').is(':checked')) {
+			$wprty.slideDown(duration);
 		}else{
-			//チェックを外したらスライドして隠す。
-			$(vAct.prttyTagSelector).slideUp(vAct.shDuration);
+			$wprty.slideUp(duration);
 		}
 	});
 }
 })(jQuery);
 
 
-var vAct = {
-	radioTagSelector:"input[type=radio].rdo-tag",
-	shid:"rdo-syntaxHighlighter",
-	shTagSelector:"#wrap-synxhr-code",
-	prttyid:"rdo-prettify",
-	prttyTagSelector:"#wrap-prettify-lang",
-	shDuration:"normal",
-	bindShowRadioSHCode:function(){
-		$(vAct.radioTagSelector).click(function(){
-			if (document.getElementById(vAct.shid).checked) {
-				//チェックされたらスライドして表示する。
-				$(vAct.shTagSelector).slideDown(vAct.shDuration);
-			}else{
-				//チェックを外したらスライドして隠す。
-				$(vAct.shTagSelector).slideUp(vAct.shDuration);
-			}
-			
-			if (document.getElementById(vAct.prttyid).checked) {
-				//チェックされたらスライドして表示する。
-				$(vAct.prttyTagSelector).slideDown(vAct.shDuration);
-			}else{
-				//チェックを外したらスライドして隠す。
-				$(vAct.prttyTagSelector).slideUp(vAct.shDuration);
-			}
-		});
-	}
-};
-
-
 $(function(){
 	$.bindLabelHoverAnimate('.lbl-chk,.lbl-tag,.lbl-code,.lbl-pretty-lang');
-	//vAct.bindLabelHoverAnimate();
-	vAct.bindShowRadioSHCode();
+	$.bindSlideOption();
 	
 	$('#btn-exec').click(function(){
 		$(this).flash('150%', {duration: 600});

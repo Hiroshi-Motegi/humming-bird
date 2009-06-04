@@ -113,16 +113,18 @@ var cl = {
 		});
 		
 	},
+	
+	
 	bindClickColorItem:function(){
-		var item_selector = "td.color-item";
+		var item_selector = 'td.web-color-item,td.named-color-item';
 		
 		$(item_selector).bind("click", function(){
 			var applyTarget = {
-				bgcolor:"background-color",
-				fontcolor:"color"
+				bgcolor:'background-color',
+				fontcolor:'color'
 			}
 			var tgt = cl.applyColorTarget;
-			var code = $.data(this, "color").code;
+			var code = $.data(this, 'color').code;
 			
 			$(cl.prev_slctr).css(tgt, code);
 			
@@ -283,75 +285,47 @@ var cl = {
 		}).trigger("change");
 	},
 	bindClickItemNavi:function(){
-		var item ={
-			kc:"named-color",
-			wc:"web-color",
-			ff:"font-family"
-		};
-		
 		var selectors ={
-			kc:"#wrap-named-color",
-			wc:"#wrap-web-color",
-			ff:"#wrap-font-family"
+			'named-color':"#wrap-named-color",
+			'web-color':"#wrap-web-color",
+			'font-family':"#wrap-font-family"
 		};
 		
-		var duration = "normal";
-		
-		$(".item-navi").bind("click", function(){
+		$('.item-navi').click( function(){
+			$(this).blur();
 			if(cl.effecting) return;
 			cl.effecting = true;
 			
 			$("a.item-navi").css({backgroundColor:"transparent"});
 			$(this).css({backgroundColor:"#1a1a1a"});
 			
-			$("div.item-container:visible").slideUp(duration);
-			
-			var showTgt;
-			
-			switch($(this).text()){
-				case item.kc:
-					showTgt = selectors.kc;
-					break;
-				case item.wc:
-					showTgt = selectors.wc;
-					break;
-				case item.ff:
-					showTgt = selectors.ff;
-					break;
-				default:
-					cl.effecting = false;
-					return;
-			}
-			
-			$(showTgt).slideDown(duration, function(){cl.effecting = false;});
+			$('div.item-container:visible').slideUp(400);
+			$(selectors[$(this).text()]).slideDown(400, function(){cl.effecting = false;});
 		});
 	},
+	cs:{
+		bgcolor:"#current-bg-color",
+		color:"#current-font-color",
+		family:"#current-font-family",
+		weight:"#current-font-weight",
+		style:"#current-font-style",
+		size:"#current-font-size"
+	},
 	currentStyleInit:function(){
-		var cs = {
-			bgcolor:"#current-bg-color",
-			color:"#current-font-color",
-			family:"#current-font-family",
-			weight:"#current-font-weight",
-			style:"#current-font-style",
-			size:"#current-font-size"
-		}
-		
-		$(cs.bgcolor).text( $.parseColorCode( $("body").css("background-color") ) );
-		$(cs.color).text( $.parseColorCode( $("body").css("color") ) );
-		$(cs.family).text($("body").css("font-family"));
+		var
+		cs = cl.cs,
+		$body = $('body');
+
+		$(cs.bgcolor).text( $.parseColorCode( $.getRGB( $body.css('background-color') ) ) );
+		$(cs.color).text( $.parseColorCode( $.getRGB( $body.css('color') ) ) );
+		$(cs.family).text($body.css("font-family"));
 		$(cs.weight).text("normal");
 		$(cs.style).text("normal");
 		$(cs.size).text($("option:selected","#prev-font-size-select").text() + "px");
+		
 	},
 	getCurrentStyleText:function(){
-		var cs = {
-			bgcolor:"#current-bg-color",
-			color:"#current-font-color",
-			family:"#current-font-family",
-			weight:"#current-font-weight",
-			style:"#current-font-style",
-			size:"#current-font-size"
-		}
+		var cs = cl.cs;
 		
 		return "selector {\n" +
 			"  background-color:" + $(cs.bgcolor).text() + ";\n" +
@@ -403,13 +377,14 @@ var cl = {
 		var _id = "ct_overlay";
 		var selector = "#" + _id;
 		
-		$.overlay({id:_id},function(){			
+		$.overlay.show({id:_id},function(){			
 			$(cssDlg)
 				.appendTo(document.body)
 				.positionCenter()
 				.children(":first").focus();
 		});
 		
+		/*
 		function _removeThis(){
 			$(cssDlg).remove();
 			$(window).unbind('resize');
@@ -430,12 +405,8 @@ var cl = {
 			if (_keycode == 27) _removeThis();
 			e.stopPropagation();
 		});
+		*/
 		
-	},
-	bindClickShowCss:function(){
-		$("#show-css").bind("click", function(){
-			cl.showCssText();
-		});
 	},
 	getWebColors:function(){
 		var
@@ -473,12 +444,16 @@ jQuery(function($){
 	cl.createFontFamilyItems();
 	cl.bindClickItemNavi();
 	cl.currentStyleInit();
-	cl.bindClickShowCss();
+	
+	$('#show-css').click(function(){
+		cl.showCssText();
+	});
 	
 	
 	//preview text init.
-	$("#prev-textarea").val("Sample Text\nThe quick brown fox jumps over the lazy dog.");
-	$("#prev-textarea").change();
+	$('#prev-textarea')
+		.val("Sample Text\nThe quick brown fox jumps over the lazy dog.")
+		.change();
 	
 
 	
@@ -490,8 +465,7 @@ jQuery(function($){
 	$('#lastmod').text((function(date){
 			return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
 		})(new Date(document.lastModified)));
-		
-	//show item init.
-	$("div.item-container").slideUp(0);
-	$("div.item-container:first").slideDown(0);
+	
 });
+
+

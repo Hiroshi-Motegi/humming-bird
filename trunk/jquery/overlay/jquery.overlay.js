@@ -65,7 +65,6 @@ $.overlay = {
 	},
 	hide:function(options, callback){
 		var opt = $.extend($.overlay.options, options);
-		
 		callback = $.isFunction(options) ? options : (callback || function(){});
 		
 		$(window).unbind('resize', $.overlay.resize);
