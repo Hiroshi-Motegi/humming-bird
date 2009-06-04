@@ -36,12 +36,10 @@ $.fn.getJsSource = function(jsUrl){
 		},
 		loadJs: function(callback){
 			var script = document.createElement("script");
-			$(script).load(function(){
-				callback.call(this);
-			});
 			script.src = '../../prettify/prettify.js';
 			script.setAttribute('type', 'text/javascript');
 			document.documentElement.firstChild.appendChild(script);
+			$(script).load(function(){callback.call(this)});
 		}
 	}
 	
@@ -58,16 +56,14 @@ $.fn.getJsSource = function(jsUrl){
 })(jQuery);
 
 
-$(function(){
-$('#code').getJsSource('test.js');
-
-$('h1').click(function(){
-	prettyPrint();
-});
+jQuery(function($){
+	$('#code').getJsSource('test.js');
+	
+	$('h1').click(function(){
+		prettyPrint();
+	});
 });
 </script>
-<style type="text/css">
-</style>
 </head>
 <body>
 	<h1>jQuery Load Js Source</h1>

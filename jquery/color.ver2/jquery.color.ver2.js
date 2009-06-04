@@ -12,21 +12,6 @@ $.extend({
 	parseColorCode:function(rgb){
 		return ((((1 << 8) + rgb[0] << 8) + rgb[1] << 8) + rgb[2]).toString(16).replace(/^1/, '#');
 	},
-	getWebColors:function(){
-		var
-		hxs =['ff', 'cc', '99', '66', '33', '00'],
-		len = hxs.length,
-		wccs = []; //web color codes.
-		
-		for(var i = 0; i < len; i++){
-			for(var n = 0; n < len; n++){
-				for(var m = 0; m < len; m++){
-					wccs.push('#' + hxs[i] + hxs[n] + hxs[m]);
-				}
-			}
-		}
-		return wccs;
-	},
 
 	// Color Conversion functions from highlightFade
 	// By Blair Mitchelmore

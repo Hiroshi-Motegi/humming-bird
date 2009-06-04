@@ -1,4 +1,4 @@
-namedColors = {
+{namedColors:{
 aqua:[0,255,255],
 azure:[240,255,255],
 beige:[245,245,220],
@@ -144,4 +144,4 @@ violetred:[208, 32, 144],
 wheat:[245, 222, 179],
 whitesmoke:[245, 245, 245],
 yellowgreen:[154, 205, 50]
-}
+}}
