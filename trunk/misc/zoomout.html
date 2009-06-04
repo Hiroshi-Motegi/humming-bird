@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<meta content="y@s" name="author"/>
+		<title>jQuery plugin - ZoomOut</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+function CharItemControl(){
+	this.initialize.apply(this, arguments);
+};
+CharItemControl.prototype = {
+	control: null,
+	chrImg: null,
+	Character: "",
+	size: 100,
+	itemClass: "chrItem",
+	imgClass: "chrImg",
+	IsShow: false,
+	IsEmpty: true,
+	initialize: function(ops){
+		var itmcls = this.itemClass;
+		var itmsize = this.size;
+		this.control = document.createElement("div");
+		
+		var thsCtrl = this;
+		$(this.control)
+			.addClass(itmcls)
+			.width(itmsize)
+			.height(itmsize)
+			.click(function(){
+				if (thsCtrl.IsEmpty) {
+					thsCtrl.SetCharacter(thsCtrl.Character);
+				}
+				thsCtrl.Show();
+			});
+		
+		this.SetCharacter(ops.Character);
+	},
+	SetCharacter: function(chr){
+		if(!this.IsEmpty || chr.length != 1 || chr.search(/[A-Z]/) == -1) return false;
+		
+		this.Character = chr;
+		
+		var itmsize = this.size;
+		var imgcls = this.imgClass;
+		this.chrImg = document.createElement("img");
+		this.control.appendChild(this.chrImg);
+		
+		var thsCtrl = this;
+		$(this.chrImg)
+			.css({"position":"absolute","padding": 0,"margin": 0})
+			.height(0)
+			.addClass(imgcls)
+			.width(itmsize)
+			.click(function(event){
+				thsCtrl.FadeOut();
+				event.stopPropagation();
+			});
+		
+		
+		var url = "chr_" + this.Character + ".png";
+		$(this.chrImg).attr("src", url).css("cursor","pointer");
+		this.IsEmpty = false;
+		this.IsShow = false;
+	},
+	Show: function(){
+		if (this.IsShow || this.IsEmpty) return false;
+		
+		var thsCtrl = this;
+		var itmsize = this.size;
+		
+		$(this.chrImg)
+			.animate({height:itmsize}, "slow", "easeOutElastic", 
+			function(){
+				thsCtrl.IsShow = true;
+				});
+	},
+	Hide: function(){
+		if (!this.IsShow || this.IsEmpty) return false;
+		
+		var thsCtrl = this;
+		$(this.chrImg)
+			.animate({height:0}, "normal", "easeInBack", function(){thsCtrl.IsShow = false;});
+	},
+	FadeOut: function(){	
+		if (!this.IsShow || this.IsEmpty) return false;
+		this.IsEmpty = true;
+		
+		var offset =  $(this.chrImg).offset();
+		$(this.chrImg)
+			.animate({left: offset.left, top: offset.top}, 0)
+			.animate({
+				opacity:0.0,
+				top: "-=100",
+				left: "-=100",
+				width: "+=200",
+				height: "+=200"}, 
+				"slow", "easeInOutExpo", 
+				function(){$(this).parent().empty();});
+
+	}
+};
+			
+			
+
+$(function(){
+	var cic = new CharItemControl({Character: 'A'});
+	
+	$('#Target').append(cic.control);
+	
+	
+	
+	$('.doAction').toggle(
+		function(){ cic.Show();}, 
+		function(){ cic.Hide();});
+	
+	$('.testAction').click(function(){cic.SetCharacter("A");});
+});
+</script>
+<style type="text/css">
+#Target{
+	width: 80%;
+	margin: 0 auto;
+	background-color: red;
+}
+.chrItem{
+	background-color: blue;
+	margin: 0 auto;
+}
+.chrImg{}
+.doAction,
+.testAction{
+	cursor: pointer;
+	display: block;
+	background-color: #333;
+	border: 3px double #ccc;
+	text-align: center;
+	color: #ccc;
+	width: 200px;
+	line-height: 1.8em;
+}
+</style>
+	</head>
+	<body>
+		<div><p class="doAction">Click Here.</p></div>
+		<div><p class="testAction">Test.</p></div>
+		<div id="Target"></div>
+		<div style="clear: both;"></div>
+		<div style="height: 100px; background-color: #ccc"></div>
+	</body>
+</html>

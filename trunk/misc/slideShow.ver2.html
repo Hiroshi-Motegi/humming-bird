@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>Untitled Document</title>
+		<script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BT21aFqu3bann7KEuE8AJXctX8bUxQnrQ2TKLZ2miaeY8w2pdh4zTxKRQ"  type="text/javascript"></script>
+		<script type="text/javascript">google.load("jquery", "1");</script>
+		<script type="text/javascript">
+			var SlideStringBoxOption = {
+				QsWord: '',
+				CharBoxSize: 0,
+				CharBoxMargin: 0,
+				CharBoxMaxLength: 0,
+				BasicOpacity: 0.0,
+				AnimateSpeed: 'fast',
+				CharBoxClassName: 'slideCharBlock',
+			}
+			
+			
+			function SlideStringBox(){
+				this.initialize.apply(this, arguments);
+			};
+			SlideStringBox.prototype = {
+				StringBox: null,
+				QsWord: '',
+				CharBoxSize: 0,
+				CharBoxMargin: 0,
+				CharBoxMaxLength: 0,
+				BasicOpacity: 0,
+				AnimateSpeed: '',
+				CharBoxClassName: '',
+				initialize: function(option){
+					this.StringBox = (function(){
+						var sbox = document.createElement('div');
+						$(sbox)
+							.attr("id", 'SlideBox')
+							.width('80%') //後に不要となると思われ。。。
+							.css('margin', '0 auto');
+						return sbox;
+					})();
+					this.CharBoxSize =  option.CharBoxSize;
+					this.CharBoxMargin =  option.CharBoxMargin;
+					this.CharBoxMaxLength =  option.CharBoxMaxLength;
+					this.BasicOpacity =  option.BasicOpacity;
+					this.AnimateSpeed =  option.AnimateSpeed;
+					this.CharBoxClassName =  option.CharBoxClassName;
+					this.SetQsWord(option.QsWord);
+				},
+				SetQsWord: function(qword){
+					this.QsWord = $.trim(qword);
+					if(this.QsWord.length != 0){
+						$(this.StringBox).width((this.CharBoxSize + this.CharBoxMargin) * this.QsWord.length + 2);
+						this.MakeCharBox();
+					}
+				},
+				AddTo: function(id){
+					$('#' + id).append($(this.StringBox));
+				},
+				MakeCharBox: function(){
+					for(var i = 0; i < this.QsWord.length; i++){
+						var addElement = document.createElement('div');
+						$(addElement)
+							.addClass(this.CharBoxClassName)
+							.text($.trim(this.QsWord).charAt(i));
+						$(this.StringBox).append($(addElement));
+					};
+					
+					$(this.StringBox).children()
+						.css({
+							'float': 'left',
+							border: 'none',
+							cursor: 'pointer'
+						})
+						.height(this.CharBoxSize)
+						.width(0)
+						.fadeTo(0, this.BasicOpacity);
+				},
+				Show: function(){
+					if (this.QsWord.length > 0) {
+						
+						var showAction = function(elm, cSize, cMargin, op, sp){
+							$(elm).animate({
+								width: cSize,
+								marginLeft: cMargin,
+								opacity: op
+							}, sp, function(){
+								if ($(elm).next() != null) {
+									this($(elm).next(), cSize, cMargin, op, sp)
+								};
+							});
+							
+						};
+						
+						showAction(
+							$(this.StringBox).children().eq(0),
+							this.CharBoxSize,
+							this.CharBoxMargin,
+							this.BasicOpacity,
+							this.AnimateSpeed
+						);
+					}
+				},
+				Hide: function(){
+					if (this.QsWord.length > 0) {
+						var HideAction = function(elm, sp){
+							$(elm).animate({
+								width: 0,
+								marginLeft: 0,
+								opacity: 0
+							}, sp, function(){
+								if ($(elm).prev() != null) {
+									this($(elm).prev(), sp)
+								};
+							});
+						};
+						
+						HideAction(
+							$(this.StringBox).children().eq(($(this.StringBox).children().length - 1)),
+							this.AnimateSpeed);
+					}
+				},
+				ShowActionBindTo: function(elm){
+					
+				}
+			}
+			
+			
+			
+			var quesWord = "あいうえお";
+			var charSize = 80;
+			var charMargin = 20;
+			var charMaxLength = 16;
+			var basicOpacity = 0.0;
+			var animateSpeed = 'fast';
+			var slideClassName = 'slideCharBlock';
+			
+			function InitSlideBox(){
+				$('#SlideBox')
+					.width('80%')
+					.css('margin', '0 auto');
+			};
+			
+			function ResetSlideBox(){
+				//"-2"は余裕を持たせる為のもの
+				var tmpSize = ($('#SlideBox').width() - 2) / charMaxLength;
+				charSize = tmpSize * 0.9;
+				charMargin = tmpSize * 0.1;
+				
+				$('#SlideBox')
+					.height(tmpSize)
+				.children()
+					.height(charSize)
+			};
+			
+			
+			function SlideShow(elm){
+				$(elm).animate({ 
+							width: charSize,
+							marginLeft: charMargin,
+							opacity: 1.0
+							}, animateSpeed,
+					function(){
+						if($(elm).next() != null){
+							SlideShow($(elm).next())
+						};
+					});
+			};
+			
+			
+			function SlideHide(elm){
+				$(elm).animate({ 
+							width: 0,
+							marginLeft: 0,
+							opacity: 0
+							}, animateSpeed,
+					function(){
+						if($(elm).prev() != null){
+							SlideHide($(elm).prev())
+						};
+					});
+			};
+			
+			
+			
+			function SetquesWord(){
+				for(var i = 0; i < quesWord.length; i++){
+					var addElement = document.createElement('div');
+					$(addElement)
+						.addClass(slideClassName)
+						.text($.trim(quesWord).charAt(i));
+					$('#SlideBox').append($(addElement));
+				};
+				
+				$('#SlideBox').children()
+					.css({
+						'float': 'left',
+						border: 'none',
+						cursor: 'pointer'
+					})
+					.width(0)
+					.fadeTo(0, basicOpacity);
+			};
+			
+			
+			function GetValue(){
+				return $('.slideCharBlock').map(function(){
+  					return $(this).text();
+				}).get().join('');
+			};
+			
+			
+			$(function(){
+				InitSlideBox();
+				SetquesWord();
+				
+				$('.showValue').click(function(){
+					alert(GetValue());
+				});
+				
+				$(window)
+					.load(function(){ ResetSlideBox(); })
+					.resize(function(){ ResetSlideBox(); });
+				
+				$('.doAction').toggle(function(){
+					SlideShow($('#SlideBox').children().eq(0));
+				},function(){
+					SlideHide($('#SlideBox').children().eq(($('#SlideBox').children().length - 1)));
+				});
+				
+			});
+		</script>
+		<style type="text/css">
+			#SlideBox{
+				background-color: #333;
+			}
+			.slideCharBlock{
+				background-color: silver;
+				text-align: center;
+			}
+			
+			.doAction,
+			.showValue{
+				cursor: pointer;
+				display: block;
+				background-color: #333;
+				border: 3px solid #ccc;
+				text-align: center;
+				color: #ccc;
+				width: 200px;
+				line-height: 1.8em;
+			}
+		</style>
+	</head>
+	<body>
+		<div><p class="doAction">Click Here.</p></div>
+		<div><p class="showValue">Click Here.</p></div>
+		<div id="SlideBox"></div>
+		<div style="clear: both;"></div>
+		<div style="height: 100px; background-color: #ccc"></div>
+	</body>
+</html>

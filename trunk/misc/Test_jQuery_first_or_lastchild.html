@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>Untitled Document</title>
+		<script src="http://www.google.com/jsapi"  type="text/javascript"></script>
+		<script type="text/javascript">google.load("jquery", "1");</script>
+<script type="text/javascript">
+
+function $$(id){
+	return document.getElementById(id);
+}
+
+function isExist(id){
+	return $$(id) != null;
+}
+
+//要素が取得できれば、子要素が0の場合、ちゃんと0を返してくれる。
+function hasChild(elm){
+	if($(elm) == null)
+		return false;
+	else
+		return $(elm).children().length > 0;
+}
+
+function lastChildIndex(elm){
+	if(hasChild(elm))
+		return $(elm).children().index($(elm).children(":last"));
+}
+
+//クロスブラウザなfirstChild
+function firstChild(elm){
+	var nd = elm.firstChild;
+	while (nd.nodeType != 1 && nd) {
+		nd = nd.nextSibling;
+	}
+	return nd;
+}
+
+
+var children;
+$(function(){
+	var id = "main";
+	
+	//firstChildとlastChildを取得する----------------------
+	$($$(id))
+		.children(":first").css("background-color","red")
+		.end()
+		.children(":last").css("background-color","blue");
+	//------------------------------------------------------
+
+
+	//最後の子要素のインデックスを取得する-------------
+	var lastIndex = $($$(id)).children().index($($$(id)).children(":last"));
+	
+	
+	
+	$(".exec").click(function(){
+		alert(lastChildIndex($$(id)));
+	});
+	//------------------------------------------------------
+	
+
+	
+	if(isExist(id)){
+		if(hasChild($$(id))){
+			children = $($$(id)).children();
+		}
+	}
+	//------------------------------------------------------
+	
+	
+	
+	var xx = firstChild($$(id));
+	alert(xx.tagName);
+	
+	var mElement = $$(id);
+	
+	alert("hasChildNodes : " + $$(id).hasChildNodes());
+	
+	
+	
+	
+	$(".fuga:first").css("color","yellow");
+});
+</script>
+<style type="text/css">
+	#main{
+		width: 200px;
+		clear: both;
+	}
+	#main .fuga{
+		margin: 2px;
+		border: 2px solid #333;
+	}
+	#main .fuga *{
+		margin: 4px;
+		line-height: 1.4em;
+	}
+	.exec{
+		cursor: pointer;
+		display: block;
+		background-color: #333;
+		border: 3px solid #ccc;
+		text-align: center;
+		color: #ccc;
+		width: 200px;
+		line-height: 1.8em;
+	}
+</style>
+
+	</head>
+	<body>
+		<div><p class="exec">Click Here.</p></div>
+		<div id="main">
+			<div class="fuga"><span>first child</span></div>
+			<h4 class="fuga"><span>second child</span></h4>
+			<p class="fuga"><span>third child</span></p>
+			<blockquote class="fuga"><span>last child</span></blockquote>
+		</div>
+		<div id="empty"></div>
+	</body>
+</html>

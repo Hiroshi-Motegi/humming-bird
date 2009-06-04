@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>Untitled Document</title>
+		<script src="http://www.google.com/jsapi/?key=ABQIAAAAiNKIZn622V1CXDf5kTGF4BT21aFqu3bann7KEuE8AJXctX8bUxQnrQ2TKLZ2miaeY8w2pdh4zTxKRQ"  type="text/javascript"></script>
+		<script type="text/javascript">google.load("jquery", "1");</script>
+		<script type="text/javascript">
+
+			function SlideStringBox(){
+				this.initialize.apply(this, arguments);
+			};
+			SlideStringBox.prototype = {
+				Element: null,
+				Height: 100,
+				Child: null,
+				initialize: function(){
+					var elm = document.createElement("div");
+						$(elm)
+							.attr("id", "ssb")
+							.css("background-color","red")
+							.css("margin","0 auto")
+							.width(300);
+					this.Element = elm;
+					
+					this.Child = (function(){
+						var el = document.createElement("div");
+						$(el)
+							.addClass("ssb_child")
+							.css("background-color","yellow")
+							.css("margin","0 auto")
+							.width(0)
+							.fadeTo(0, 0.0);
+						return el;
+					})();
+					
+					$(this.Element).append(this.Child);
+					$(this.Element).add(this.Child).height(this.Height);
+					
+					alert($(this.Element).height());
+				},
+				ChildFadeOut: function(){
+					
+					$(this.Child).animate({
+						width:0,
+						//marginLeft:0,
+						opacity:0}, "fast");	
+				},
+				ChildFadeIn: function(){
+					$(this.Child).animate({
+						width:100,
+						//marginLeft:2,
+						opacity:1.0}, "fast");	
+				}
+			}
+
+			
+			
+			$(function(){
+				var ssb = new SlideStringBox();
+				$('#SlideBox').append(ssb.Element);
+				
+				$('.testAction').toggle(
+				function(){
+					ssb.ChildFadeIn();
+				},function(){
+					ssb.ChildFadeOut();
+				})
+				
+				//document.getElementById("SlideBox").appendChild(ssb.Element);
+			});
+		</script>
+		<style type="text/css">
+			#SlideBox{
+				background-color: #191919;
+			}
+			
+			.doAction,
+			.testAction{
+				cursor: pointer;
+				display: block;
+				background-color: #333;
+				border: 3px solid #ccc;
+				text-align: center;
+				color: #ccc;
+				width: 200px;
+				line-height: 1.8em;
+			}
+		</style>
+	</head>
+	<body>
+		<div><p class="doAction">Click Here.</p></div>
+		<div><p class="testAction">Click Here.</p></div>
+		<div id="SlideBox"></div>
+		<div style="clear: both;"></div>
+		<div style="height: 50px; background-color: #ddd; text-align: center;">another</div>
+	</body>
+</html>
