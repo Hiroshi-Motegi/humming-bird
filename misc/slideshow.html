@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>Untitled Document</title>
+		<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+		<script type="text/javascript">google.load("jquery", "1");</script>
+		<script type="text/javascript" src='jquery.easing.1.3.js'></script>
+<script type="text/javascript">
+function WordModify(){
+	this.initialize.apply(this, arguments);
+};
+WordModify.prototype = {
+	control: null,
+	items:[],
+	QsWord: "",
+	itemsize: 100,
+	duration: "fast",
+	itemclass: "chrItem",
+	imgclass: "chrImg",
+	id: "ssb_control",
+	
+	initialize: function(){
+		var ssbControl = document.createElement("div");
+		$(ssbControl)
+			.attr("id", this.id)
+			.css("margin", "0 auto");
+		this.control = ssbControl;
+	},
+
+	
+	
+	SetQsWord: function(qword){
+		$(this.control).empty();
+		if (!this.Valid(qword)) qword = "";
+		else if (this.IsNumber(qword)) qword = String(qword);
+		this.QsWord = this.Trim(qword);
+		if(this.QsWord.length == 0) return false;
+
+		var itmsize = this.itemsize;
+		$(this.control)
+			.width((this.QsWord.length * itmsize))
+			.height((itmsize));
+		
+		var itmcls = this.itemclass;
+		var imgcls = this.imgclass;
+		var thsCtrl = this;
+		this.items = [];
+		
+		
+		for(var i = 0; i < this.QsWord.length; i++){
+			
+			this.items[i] = document.createElement("div");
+			var chrImg = document.createElement("img");
+			var url = "chr_" + this.QsWord.charAt(i) + ".png";
+			$(chrImg).attr("src", url);
+				
+				//.css({"position":"absolute","padding": 0,"margin": 0})
+			this.items[i].appendChild(chrImg);
+			this.control.appendChild(this.items[i]);		
+		};
+		
+		//.click(function(event){});
+		//thsCtrl.FadeOut();
+		//event.stopPropagation();
+		
+		
+		$(this.items)
+			.addClass(itmcls)
+			.css("float", "left")
+			.css("cursor", "pointer")
+			.height(itmsize)
+			.width(itmsize)
+		.children("img")
+			.addClass(imgcls)
+			.height(0)
+			.width(itmsize)
+			.css("cursor","pointer");
+	},
+	
+	
+
+	showBound: function(){
+		if (this.itemIsShow()) return false;
+		
+		var itmsize = this.itemsize;
+		$(this.control).children().children("img").animate({width:itmsize,height:0}, 1);
+		
+		var itmcls = "." + this.itemclass;
+		var lastindex = $(itmcls).index($(this.items).filter(":last"));
+		
+		
+		function showAction(elm){
+			$(elm).children("img:first-child").animate({height:itmsize}, 400, "easeOutElastic", 
+				function(){ 
+					var prnt = $(this).parent();
+					if(lastindex == $(itmcls).index(prnt)) return false;
+					showAction($(prnt).next()); 
+				});
+		};
+		
+		showAction($(this.control).children(":first-child"));
+	},
+	showRow: function(){
+		if (this.itemIsShow()) return false;
+		var itmsize = this.itemsize;
+		
+		$(this.control).children().children("img").animate({width:0,height:itmsize}, 1)
+		.css("margin", "0 auto");
+		$(this.control).children().children("img").animate({width:itmsize}, 700,  "easeOutBounce");
+	},
+	showAnimate:function(elm){
+		var itmsize = this.itemsize;
+		var el = $(elm).children("img:first-child");
+		
+		if($(el).height() != itmsize)
+			$(el).animate({height:itmsize}, 300, "easeOutElastic");
+	},
+	hide: function(){
+		if (!this.itemIsShow()) return false;
+		$(this.items)
+		.children(":first-child").animate({height:"+=100"}, 300, "easeInOutQuart",function(){
+			$(this).animate({height:0}, 300, "easeInExpo");
+		});
+		
+	},
+	Trim: function(val){
+		return val.replace(/(^\s+|\s+$)/g,"");
+	},
+	IsNumber: function(val){
+		return +val == val;
+	},
+	Valid: function(val){
+		if(val == 'undefined') return false;
+		if(val == null) return false;
+		if(val == "") return false;
+		return true;
+	},
+	itemIsShow: function(){
+		return $(this.items).filter(":last").children(":first-child").height() == this.itemsize && 
+		$(this.items).filter(":last").children(":first-child").width() == this.itemsize;
+	}
+};
+			
+			
+
+
+			
+$(function(){
+	var wordmodify = new WordModify();
+	$('#wmContainer').append(wordmodify.control);
+	wordmodify.SetQsWord("AAA");
+	
+	$('.doAction').toggle(
+	function(){wordmodify.showRow();},
+	function(){wordmodify.hide();});
+	
+	
+	
+	
+	
+	$('.testAction').click(function(){
+		//$(wordmodify.control).children().each(function(index, elm){});
+	});
+});
+</script>
+<style type="text/css">
+#wmContainer{
+	width: 80%;
+	margin: 0 auto;
+	background-color: blue;
+}
+#ssb_control{
+	background-color: red;
+}
+.chrItem{
+	background-color: silver;
+	text-align: center;
+}
+
+.doAction,
+.testAction{
+	cursor: pointer;
+	display: block;
+	background-color: #333;
+	border: 3px solid #ccc;
+	text-align: center;
+	color: #ccc;
+	width: 200px;
+	line-height: 1.8em;
+}
+</style>
+	</head>
+	<body>
+		<div><p class="doAction">Click Here.</p></div>
+		<div><p class="testAction">Test.</p></div>
+		<div id="wmContainer"></div>
+		<div style="clear: both;"></div>
+		<div style="height: 100px; background-color: #ccc"></div>
+	</body>
+</html>

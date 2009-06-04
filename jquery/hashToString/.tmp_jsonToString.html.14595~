@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+		<meta content="y@s" name="author"/>
+		<title>jQuery plugin - jsonToString demo</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+(function($){
+$.jsonToString = function(json){
+	function isDate(x){
+		return x && !isNaN(x) && ("undefined" !== typeof x.getDate);
+	}
+
+	function oFn(o){
+		switch (typeof o) {
+			case 'string':
+				return '\'' + o.replace(/\\/g, '\\\\').replace(/\n/g, '\\n') + '\'';
+			case 'number':
+				return o;
+			case 'object':
+				if (isDate(o)) {
+					return '\'' + o + '\'';
+				}
+				else 
+					if ($.isArray(o)) {
+						var lst = [];
+						for (var i = 0; i < o.length; i++) {
+							lst[lst.length] = oFn(o[i]);
+						}
+						return '[' + lst.join(',') + ']';
+					}
+					else {
+						var lst = [];
+						for (var x in o) {
+							lst.push(x + ':' + oFn(o[x]));
+						}
+						return '{' + lst.join(',') + '}';
+					}
+			default:
+				return;
+		}
+	}
+	
+	return oFn(json);
+}
+})(jQuery);
+
+
+$(function(){
+var o = {
+	a: 'f\\d',
+	b: {
+		c: 'dd\ndd',
+		d: new Date(document.lastModified)
+	},
+	e: {
+		f: [1, 99]
+	}
+};
+
+
+
+
+//console.log(o.toSource());
+
+	var str = $.jsonToString(o);
+	//str = $.browser.msie ? str.replace(/\n/g,'\r') : str;
+	
+	$('<textarea>')
+		.css({
+			width: '100%',
+			height: '600px'
+		})
+		.text('var o = ' + str)
+		.appendTo('#code');
+});
+
+</script>
+<style type="text/css">
+</style>
+</head>
+<body>
+	<h1>jQuery plugin - jsonToString demo</h1>
+	<div id='code'></div>
+</body>
+</html>
