@@ -66,6 +66,7 @@ a:hover{
 
 /* -- wrap-preview -------------------------------- */
 #wrap-preview{
+	position:relative;
 	width:100%;
 }
 #prev-styles-table{
@@ -73,10 +74,11 @@ a:hover{
 }
 
 #preview{
-	width:630px;
+	position:relative;
+	left:20px;
+	margin-right:20px;
 	height:180px;
 	overflow:hidden;
-	float:right;
 	padding:10px;
 }
 
@@ -91,6 +93,7 @@ a:hover{
 #wrap-prev-styles{
 	text-align:center;
 	width:220px;
+	float:left;
 }
 
 #prev-styles-table{
@@ -226,6 +229,14 @@ div.item-container{
 	color:#1a1a1a;
 }
 
+#named-color-table td{
+	height: 24px;
+	line-height: 24px;
+}
+#web-color-table td{
+	height: 40px;
+	line-height: 40px;
+}
 /* -- font-family-item --------------------- */
 #wrap-items table td.font-family-item{
 	background-color:#4c4c4c;
@@ -234,9 +245,10 @@ div.item-container{
 	text-align:center;
 	color:#eee;
 	overflow:hidden;
+	line-height: 18px;
 }
 
-.font-family-item:hover{
+#wrap-items table td.font-family-item:hover{
 	background-color:#333;
 }
 

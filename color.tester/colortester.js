@@ -14,7 +14,7 @@ var cl = {
 		$tr;
 		
 		for(var i = 0;i < wcs.length;i++){
-			if((i%12)==0){
+			if((i%15)==0){
 				$tr = $('<tr>');
 				$tbody.append($tr);
 			}
@@ -47,7 +47,7 @@ var cl = {
 		n = 0;
 		
 		for(var c in kcs){
-			if((n%12)==0){
+			if((n%6)==0){
 				$tr = $('<tr>');
 				$tbody.append($tr);
 			}
@@ -60,7 +60,7 @@ var cl = {
 					.addClass(itemClass)
 					.css({backgroundColor: cc})
 					.data('color', {code:cc, name:c})
-					.append('<span>' + cc + '</span>'));
+					.append('<span>' + c + '</span>'));
 			
 			n++;
 		}
