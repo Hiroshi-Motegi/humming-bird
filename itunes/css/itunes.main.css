@@ -6,7 +6,7 @@ html *{
 
 body{
 	min-width: 984px;
-	background-color: #191919;
+	background-color: #333;
 	color: #bbbbc9;
 	font-size: 12px;
 	font-family: Meiryo,
@@ -51,38 +51,23 @@ li{
 	display: block;
 }
 
-/* ----------------------------------------- Header-Wrap -- */
-#Header-Wrap{
-	height: 120px;
-	background: url("../img/if_header_bg.png") repeat-x bottom;
-}
-.header-logo{
-	width: 984px;
-	height: 120px;
-	margin: 0 auto;
-	background: url("../img/hblogo.png") no-repeat bottom left;
-}
-.header{
-	height: 120px;
-	background: url("../img/ks_if_header.png") no-repeat bottom center;
-}
 /* ----------------------------------------- Outer-Wrap -- */
-#Outer-Wrap{
-	background: url("../img/if_bg03.png");
+#outer-wrap0{
+	background: url("../img/bg_cb_120x120.png");
 }
 
-#Content-Wrap1{
+#outer-wrap1{
 	width: 984px;
 	margin: 0 auto;
-	border-right: 1px solid #333;
-	border-left: 1px solid #111;
+	border-right: 1px solid #1a1a1a;
+	border-left: 1px solid #1a1a1a;
 }
-#Content-Wrap2{
-	background-color: #252525;
-	border-right: 1px solid #111;
-	border-left: 1px solid #333;
+#outer-wrap2{
+	background-color: #2a2a2a;
+	border-right: 1px solid #4c4c4c;
+	border-left: 1px solid #4c4c4c;
 }
-#Content-Wrap3{
+#outer-wrap3{
 	width: 940px;
 	margin: 0 auto;
 }
@@ -90,7 +75,7 @@ li{
 /* ------------------------------ background-color -- */
 #Search,#feedTitle,#eOption,.mnTitle,
 .disclaimer,.listOption,.ddLst{
-	background-color: #191919;	
+	background-color: #1a1a1a;	
 }
 
 /* ----------------------------------------- border -- */
@@ -184,7 +169,7 @@ li{
 	text-align: left;
 }
 
-/* ----------------------------------------- Content-Wrap -- */
+/* ----------------------------------------- outer-wrap -- */
 #Rank-Wrap{
 	width: 440px;
 	float: left;
@@ -268,30 +253,4 @@ td.cprght{
 	width : 300px;
 	margin: 1em auto 0;
 	padding: 0;
-}
-
-
-/* ----------------------------------------- Footer-Wrap -- */
-#Footer-Wrap{
-	text-align: center;
-}
-
-.Liner-Outer{
-	border-top: 1px solid #111;
-	border-bottom: 1px solid #333;
-}
-
-.Liner{
-	height: 20px;
-	background: url("../img/if_menu_bg.png") repeat-x ;
-	border-top: 1px solid #333;
-	border-bottom: 1px solid #111;
-	clear:both;
-}
-
-.clear{
-	clear: both;
-}
-.dummy{
-	height: 20px;
 }

@@ -8,24 +8,26 @@
 	<meta content='iTunes Storeでランキングされたアーティスト、アルバムタイトルをキーワードに検索する' name='description'/>
 	<meta content='iTunes,Ranking,iTune,iTunes Store,' name='keyword'/>
 	<title>Keyword Search@iTunes Store Ranking β</title>
-	<link rel="stylesheet" href="./style/main.css" media="screen" type="text/css" charset="utf-8"/>
-	<link rel="stylesheet" href="./style/gs.css" media="screen" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="./css/common.css" media="screen" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="./css/itunes.main.css" media="screen" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="./css/itunes.gs.css" media="screen" type="text/css" charset="utf-8"/>
 	<script src="http://www.google.com/jsapi/"  type="text/javascript"></script>
 	<script type="text/javascript">
 		google.load('jquery', '1');
 		google.load('feeds', '1', {'nocss' : true});
 		google.load('search', '1', {'nocss' : true});
 	</script>
+	<script src="./js/common.js" type="text/javascript"></script>
 	<script src="./js/itunes.js" type="text/javascript"></script>
 </head>
 <body>
-	<div id="Header-Wrap"><div class="header-logo"><div class="header"></div></div></div>
-	<div class="Liner-Outer"><div class="Liner"></div></div>
-	
-	<div id= Outer-Wrap>
-		<div id= Content-Wrap1>
-		<div id= Content-Wrap2>
-		<div id= Content-Wrap3>
+	<div id="header-wrap"><div id="header-inner"><div id="header">
+		<h1 id="title" title="page title">color and font style tester β</h1>
+	</div></div></div>
+	<div class="line-outer"><div class="line-inner"></div></div>
+		
+	<div id="outer-wrap0"><div id="outer-wrap1">
+		<div id= outer-wrap2><div id= outer-wrap3>
 			<div class="clear dummy"></div>
 			<div id="Side-Wrap">
 				<ul id="Menu">
@@ -172,12 +174,13 @@
 		</div><!-- Content-Wrap1 End -->
 	</div><!-- Outer-Wrap End -->
 	
-	<div id="Footer-Wrap">
-		<div class="Liner-Outer"><div class="Liner"></div></div>
-		<div class="footerContent">
-			<br><span class="copyright">iTunes Store:Feed & Google Feed API & Google Search API</span>
-			<br><span class="copyright">©2009 <a href="http://www.apple.com/jp/itunes/"><b>iTunes</b></a> K.K, ©2008-2009 <a href="http://yas-hummingbird.blogspot.com"><b>humming bird</b></a>. author:y@s</span>
-			<br><br>
+	<div class="line-outer"><div class="line-inner"></div></div>
+	<div id="footer-wrap">
+		<div id="footer"><br>
+			<small id='footer-page-title' title="page title"></small><br>
+			<small>Last Modified:</small><small id="lastmod-date" title="last modified"></small><br>
+			<small>© <a href="http://yas-hummingbird.blogspot.com/2008/10/replace-code-string.html">humming bird</a>.</small>
+			<small title="author">author:y@s</small><br><br>
 		</div>
 	</div>
 </body>
