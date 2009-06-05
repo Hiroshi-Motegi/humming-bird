@@ -6,19 +6,12 @@
 		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 		<title>jQuery plugin - chart demo</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-		<script src="./jquery.chart.js" type="text/javascript"></script>
+		<script src="../lib/jquery.chart.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
 	var cht = $.chart.create();
-	$(document.body).append(
-		'<a href=\'' + cht + '\'><img src=\'' + cht + '\'\/></a>'
-	);
-	
-	
-	var arr = $.chart.textEncoding([990,-9,-10]);
-	var et = $.chart.extendedEncode('.-');
-	console.log(et);
-	
+	$(document.body).append('<a href=\'' + cht + '\'><img src=\'' + cht + '\'\/></a>');
+
 });
 
 
