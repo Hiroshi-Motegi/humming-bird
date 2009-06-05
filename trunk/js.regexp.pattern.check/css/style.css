@@ -215,7 +215,7 @@ textarea,input.txt{
 #tab-list-wrap{
 	position:absolute;
 	z-index:999;
-	width:240px;
+	width:230px;
 }
 #tab-list{
 	list-style:none;
@@ -250,8 +250,8 @@ textarea,input.txt{
 #content-right-wrap{
 	position:relative;
 	overflow:hidden;
-	left:239px;
-	margin-right:239px;
+	left:229px;
+	margin-right:229px;
 	border: 1px solid #222;
 }
 
@@ -296,7 +296,7 @@ textarea,input.txt{
 		'メイリオ',
 		'Hiragino Kaku Gothic Pro',
 		'ヒラギノ角ゴ Pro W3' ,
-		tahoma,
+		Tahoma,
 		Verdana;
 	word-break:break-all;
 	word-wrap:break-word;
