@@ -1,0 +1,74 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family:
+		Meiryo,
+		'メイリオ',
+		'Hiragino Kaku Gothic Pro',
+		'ヒラギノ角ゴ Pro W3' ,
+		'Century Gothic',
+		Verdana;
+}
+/* -=-=-=-=-=-=- header -=-=-=-=-=-=-=- */
+#header-wrap,#header-inner,#header,#title{
+	height: 80px;
+}
+#header-wrap{
+	background-image: url(../img/hb_head_bg_100x80.png);
+}
+#header-inner{}
+#header{
+	background: url(../img/hb_logo_100x80.png) no-repeat bottom left;
+}
+#title{
+	color:#cc6699;
+	font-size:24px;
+	font-family:"Candara";
+	text-align:center;
+	font-weight:normal;
+	line-height:80px;
+	margin:0;
+	padding:0;
+}
+
+/* -=-=-=-=-=-=- content wrap -=-=-=-=-=-=-=- */
+#header-inner,
+#outer-wrap1,
+#footer{
+	width:1000px;
+	margin:0 auto;
+	min-width: 1000px;
+}
+/* -=-=-=-=-=-=- footer -=-=-=-=-=-=- */
+#footer-wrap{
+	/*background-color:#303030;*/
+}
+#footer{
+	text-align:center;
+}
+#footer small{
+	color: #808080;
+	font-family:"Candara";
+	font-weight:bold;
+	font-size:14px;
+	line-height:20px;
+	color:#999;
+	/*color:#ffc0cb;*/
+}
+
+/* -=-=-=-=-=-=- line -=-=-=-=-=-=-=- */
+.line-outer{
+	border-top: 1px solid #1a1a1a;
+	border-bottom: 1px solid #4c4c4c;
+}
+.line-inner{
+	border-top: 1px solid #4c4c4c;
+	border-bottom: 1px solid #1a1a1a;
+	background-color:#333;
+	background-image: url('../img/line_gra_40x40.png');
+}
+.clear,
+.line-inner{ clear: both; }
+.line-inner{ height: 20px; }
+
+.dummy{ height:20px; }
