@@ -6,6 +6,7 @@
 
 (function($) {
 $.overlay = {
+	eventKey:'ovrlyRaiseEvents',
 	selector:'',
 	options:{
 		id: 'overlay',
@@ -98,13 +99,17 @@ $.overlay = {
 		$(document).unbind('keydown', $.overlay.keydownEvh);
 	},
 	clickEvh:function(e){
-		$.overlay.hide();
+		//$.overlay.hide();
+		$($.overlay.selector).trigger($.overlay.eventKey);
 		e.stopPropagation();
 		return false;
 	},
 	keydownEvh:function(e){
 		var keycode = (e == null) ? e.keyCode : e.which;
-		if (keycode == 27 || keycode == 13) { $.overlay.hide() }
+		if (keycode == 27 || keycode == 13) { 
+			//$.overlay.hide();
+			$($.overlay.selector).trigger($.overlay.eventKey);
+		}
 		return false;
 	}
 }

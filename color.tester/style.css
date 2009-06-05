@@ -50,6 +50,7 @@ a:hover{
 	line-height:4em;
 	margin:0;
 }
+
 /* -- wrap-current-styles -------------------------- */
 #current-styles{
 	margin:0 0 20px 0;
@@ -64,45 +65,29 @@ a:hover{
   color:#708090	;
 }
 
-/* -- wrap-preview -------------------------------- */
-#wrap-preview{
+
+/* -- preview-table -------------------------- */
+#middle-content{
 	width:100%;
-}
-
-#preview{
-	margin-left:240px;
-	height:180px;
 	overflow:hidden;
-	padding:10px;
 }
 
-#preview p{
-	line-height:1.2em;
-	margin:0;
+/* ---------prev-styles--------- */
+#styles-table{
+	float: left;
+	text-align:center;
+	width:220px;
+	border-spacing: 0;
 	padding:0;
 }
 
-
-/* ---------prev-styles--------- */
-#wrap-prev-styles{
-	text-align:center;
-	width:220px;
-	float:left;
-}
-
-#prev-styles-table{
-	width:100%;
-	border-spacing: 0;
-	table-layout:fixed;
-}
-
-#prev-styles-table td.space{
+#styles-table td.space{
 	width:100%;
 	height: 6px;
 }
 
 /* -- textarea -- */
-#prev-textarea{
+#styles-textarea{
 	color:#1a1a1a;
 	background-color:#c0c0c0;
 	font-size:16px;
@@ -173,6 +158,22 @@ a:hover{
 
 .ws-td b,.ws-td i{}
 
+/* -- wrap-preview -------------------------------- */
+#wrap-preview{
+	margin-left:240px;
+	height:185px;
+}
+
+#preview{
+	height:100%;
+	padding:10px;
+}
+
+#preview p{
+	line-height:1.2em;
+	margin:0;
+	padding:0;
+}
 /* ------- font-size -------*/
 #wrap-prev-font-size{
 	height:24px;
