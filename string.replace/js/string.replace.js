@@ -182,6 +182,12 @@ var cs = {
 
 
 (function($){
+$.extend($.my.title,{
+	ja: 'String Replace Beta',
+	en: 'String Replace β'
+});
+$.my.ver = '1.4';
+
 $.bindLabelHoverAnimate = function(selector, nParams, hParams, duration){
 	var
 	nPrms = $.extend({color:'#666'}, nParams),
@@ -236,7 +242,8 @@ $(function(){
 		$('#firstline-num').attr('disabled', !$(this).is(':checked'));
 	});
 	
-	
+	$.setTitle($.my.title.en, $.my.ver);
+	$.showLastModDate();
 	
 	$(".lastmod-date").text((function(date) {
 	    return (date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate());

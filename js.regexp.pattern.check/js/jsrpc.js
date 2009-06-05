@@ -17,7 +17,7 @@ $.rpc = {
 			pattern = $.rpc.convertRegex(pattern);
 		}
 		else {
-			$.rpc.showResult("Patternが正しくありません。");
+			$.rpc.showResult("正規表現パターンに間違いがあるようです。");
 			return false;
 		}
 		
@@ -68,7 +68,7 @@ $.rpc = {
 
 $.showContent = function(callback){
 	$.ajax({
-		url: $.my.prop.contentUrl,
+		url: $.my.contentUrl,
 		dataType: 'json',
 		cache: false,
 		success: function(data){
@@ -160,12 +160,6 @@ $.arrangeHeight = function(){
 	});
 }
 
-$.setTitle = function(){
-	var pagetitle = $.my.prop.title.en + ' ver. ' + $.my.prop.ver;
-	$($.my.slctr.title).text(pagetitle);
-	$($.my.slctr.fTitle).text(pagetitle);
-}
-
 $.setLabelEffect = function(){
 	$($.my.slctr.lbl)
 		.css('color', '#999')
@@ -201,67 +195,42 @@ $.bindPastePattern = function(){
 	});
 }
 
-$.attachEvent = function(evName, fn){
-	evName = evName.toLowerCase();
-	if (window.addEventListener) {
-		window.addEventListener(evName, fn, false)}
-	else if (window.attachEvent) {
-		window.attachEvent('on' + evName, fn)
-	}
-}
 
-$.showLastModDate = function(date){
-	$.attachEvent('load', function(){
-		$($.my.slctr.lastmod).text(
-			(function(date){
-				return date.getFullYear() + $.my.prop.dateDelimiter + (date.getMonth() + 1) + $.my.prop.dateDelimiter + date.getDate()
-			})(new Date(document.lastModified)));
-	});
-}
+$.extend($.my.slctr,{
+	tgt: '#txtr-target',
+	lbl: 'label.exec-order-label',
+	tabList: '#tab-list',
+	tabListTgl: '#tab-list li.tab a',
+	pattrnContWrap: '#content-right-wrap',
+	pattrnCont:'#content-right-wrap .cont',
+	pattern:'a.pattern',
+	execBtn:'#exec',
+	ptTxt:'#txt-pattern',
+	reTxt:'#txt-replace',
+	tgtTxtr:'#txtr-target',
+	reTxtr:'#txtr-result',
+	checkedOrder:'input.exec-order:checked'
+});
+$.extend($.my.title,{
+	ja: 'Javascript 正規表現 パターン チェック Beta',
+	en: 'Javascript Regular Expressions Pattern Check β'
+});
+$.my.ver = '1.3';
+$.my.contentUrl = './js/json.js';
 
-$.my = {
-	slctr: {
-		title:'#title',
-		fTitle:'#footer-page-title',
-		tgt: '#txtr-target',
-		lastmod: '#lastmod-date',
-		lbl: 'label.exec-order-label',
-		tabList: '#tab-list',
-		tabListTgl: '#tab-list li.tab a',
-		pattrnContWrap: '#content-right-wrap',
-		pattrnCont:'#content-right-wrap .cont',
-		pattern:'a.pattern',
-		execBtn:'#exec',
-		ptTxt:'#txt-pattern',
-		reTxt:'#txt-replace',
-		tgtTxtr:'#txtr-target',
-		reTxtr:'#txtr-result',
-		checkedOrder:'input.exec-order:checked'
-	},
-	prop: {
-		title:{
-			ja: 'Javascript 正規表現 パターン チェック Beta',
-			en: 'Javascript Regular Expressions Pattern Check β'
-		},
-		ver: '1.3',
-		dateDelimiter: '/',
-		contentUrl: './js/json.js'
-	}
-};
 })(jQuery);
 
 
-(function(){
-$(function(){	
+
+jQuery(function($){	
 	$.showContent($.accordion);
 	$.setLabelEffect();
 	$($.my.slctr.tgt).val("abc 12.3 de -4あ5 f 6\ng,hi +78あ9\n01\t23 jklmn");
-	$.setTitle();
 	$.bindExec();
 	$.bindPastePattern();
+	
+	$.setTitle($.my.title.en, $.my.ver);
 	$.showLastModDate();
-	
-	
 	
 	if($.browser.msie){
 		if ($.browser.version > 6) {
@@ -271,18 +240,4 @@ $(function(){
 		}
 	}
 });
-})(jQuery);
 
-/*
-$.fn.setData = function(key, val){
-	return this.each(function(index, elm){
-		$.data(elm, key, val);
-	});
-}
-
-$.fn.getData = function(key){
-	return $.map(this.each(function(index, elm){
-		return $.data(elm, key);
-	}));
-}
-*/
