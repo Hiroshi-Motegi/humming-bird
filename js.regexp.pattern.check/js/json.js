@@ -180,7 +180,7 @@
 				$t: '/<span class="attention">[</span>abc<span class="attention">]</span>/'
 			},
 			dl: {
-				dt: '[]内のいずれかの文字',
+				dt: '"[]"内のいずれかの文字',
 				dd: '"a"または"b"または"c"にマッチします。\n' +
 				'『/[a-c]/』に等しいです。'
 			}
@@ -209,29 +209,29 @@
 				$t: '/<span class="attention">(</span>abc<span class="attention">)</span>+/'
 			},
 			dl: {
-				dt: '『abc』の連続',
+				dt: 'グループ化',
 				dd: '"()" で囲んだ文字列をグループ化します。\n' +
 				'"abc", "abcabc..." にマッチします。'
 			}
 		}, {
 			pt: {
-				re: /Zaku|Dom/,
-				$t: '/Zaku<span class="attention">|</span>Dom/'
+				re: /child|children/,
+				$t: '/child<span class="attention">|</span>children/'
 			},
 			dl: {
 				dt: '『a|b』 - "a" または "b"',
-				dd: '"Zaku" または "Dom" にマッチします。'
+				dd: '"child" または "children"にマッチしますが、"children" が対象文字列の場合でも、"child" の部分のみがマッチします。\n' +
+				'これ対処するには『/children|child/』とします。\n' +
+				'『/children|child/』は『/child(?:ren)?/』に等しい。'
 			}
 		}, {
 			pt: {
-				re: /(child|children)/,
-				$t: '/<span class="attention">(</span>child|children<span class="attention">)</span>/'
+				re: /(Dozle|Gihren) Zabi/,
+				$t: '/<span class="attention">(</span>Dozle<span class="attention">|</span>Gihren<span class="attention">)</span> Zabi/'
 			},
 			dl: {
-				dt: '『(a|b)』 - "a" または "b"',
-				dd: '"child" または "children"にマッチしますが、"children" が対象文字列の場合でも、"child" の部分のみがマッチします。\n' +
-				'これ対処するには『/(children|child)/』とします。\n' +
-				'『/(children|child)/』は『/child(?:ren)?/』に等しい。'
+				dt: '『(a|b)c』 - "ac" または "bc"',
+				dd: '"Dozle Zabi" または "Gihren Zabi" にマッチします。'
 			}
 		}]
 	}, {
