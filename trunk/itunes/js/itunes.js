@@ -418,9 +418,7 @@ function initMenu() {
 
 $(function(){
 // ------------------------------------------------------------------------
-
 initMenu();
-
 // ------------------------------------------------------------------------
 
 $('.titleToggle').live("click", function(){
@@ -440,6 +438,14 @@ $('.titleToggle').live("click", function(){
 	});
 // ------------------------------------------------------------------------
 
+	$.extend($.my.title,{
+		ja: 'Keyword Search@iTunes Store Ranking Beta',
+		en: 'Keyword Search@iTunes Store Ranking β'
+	});
+	$.my.ver = '1.1';
+	
+	$.setTitle($.my.title.en, $.my.ver);
+	$.showLastModDate();
 	
 	gfInit(0,0); 
 	gsInit('');
