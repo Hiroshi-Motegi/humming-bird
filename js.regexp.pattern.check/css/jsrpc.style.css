@@ -162,8 +162,9 @@ textarea,input.txt{
 }
 #input-table td.input-wrap,
 #top-content-table td.txtr-wrap{
-	border: 1px inset #666;
-	background-color: #999;
+	border-width: 1px;
+	border-style: inset;
+	background-color: #c0c0c0;
 	vertical-align: middle;
 }
 
@@ -270,4 +271,3 @@ textarea,input.txt{
 	word-break:break-all;
 	word-wrap:break-word;
 }
-.dummy{ height: 20px; }
