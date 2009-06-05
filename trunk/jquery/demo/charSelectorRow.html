@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<title>Untitled Document</title>
+		<script src="http://www.google.com/jsapi"  type="text/javascript"></script>
+		<script type="text/javascript">google.load("jquery", "1");</script>
+		<script type="text/javascript" src='jquery.easing.1.3.js'></script>
+		<script type="text/javascript" src='jquery.color.js'></script>
+		
+<script type="text/javascript">
+function CharSelecter(){
+	this.initialize.apply(this, arguments);
+};
+CharSelecter.prototype = {
+	control: null,
+	controlWidth: 200,
+	cHeight: 600,
+	itemType: "li",
+	fontSize: 18,
+	itemWidth: 100,
+	itemHeight: 24,
+	hoverScaling:1.5,
+	borderWidth: 1,
+	duration : 'normal',
+	id: "char_selecter",
+	itemClass: "cs_item",
+	easing: "easeOutBack",
+	color: "#cccccc",
+	hoverColor: "#ee3344",
+	backColor: "#222222",
+	hoverBackColor: "#404040",
+	fontFamily:"Century Gothic",
+	borderLeftColor: "#333333",
+	borderBottomColor: "#111111",
+	borderRightColor: "#111111",
+	hoverBorderLeftColor: "#555555",
+	hoverBorderBottomColor: "#333333",
+	hoverBorderRightColor: "#333333",
+	selectedChar:"",
+	selectedfontColor: "#ff3355",
+	
+	initialize: function(){
+		
+		var cid = this.id;
+		var cwdth = this.controlWidth + "px";
+		var cheight = this.cHeight;
+		var itmcls = this.itemClass;
+		var itmType = this.itemType;
+		var itmselecter = "#" + cid + " > " + itmType + "." + itmcls;
+		
+		var itmwdth = this.itemWidth;
+		var itmheight = this.itemHeight;
+		var hvwdth = itmwdth * this.hoverScaling;
+		
+		var fntsize = this.fontSize;
+		var hvfntsize =fntsize * this.fontHoverScaling;
+		var fntfamily = this.fontFamily;
+		var selectedfntcolor = this.selectedfontColor;
+		
+		var sp = this.duration;
+		var es = this.easing;
+		var chrmargintop = this.charMarginTop + "px";
+		var hvchrmargintop = this.hoverCharMarginTop + "px";
+		
+		var ncolor = this.color;
+		var hvcolor = this.hoverColor;
+		var bcolor = this.backColor;
+		var hvbcolor = this.hoverBackColor;
+		
+		var bdrwdth = this.borderWidth;
+		var bdrpart = "px solid ";
+		var bdrleftvalue = bdrwdth +bdrpart + this.borderLeftColor;
+		var bdrbottomvalue = bdrwdth +bdrpart + this.borderBottomColor;
+		var bdrrightvalue = bdrwdth +bdrpart + this.borderRightColor;
+		var hvbdrleftvalue = bdrwdth +bdrpart + this.hoverBorderLeftColor;
+		var hvbdrbottomvalue = bdrwdth +bdrpart + this.hoverBorderBottomColor;
+		var hvbdrrightvalue = bdrwdth +bdrpart + this.hoverBorderRightColor;
+		
+		
+		
+		this.control = $("<ul></ul>").attr("id", cid).width(cwdth);//.height(cheight);
+		
+		
+		
+		var citm = "";//この初期化は必須。無いとundefinedが入ってしまう。
+		for(var i = 65; i < 91; i++){
+			citm += "<"+ itmType +"><span>"+ String.fromCharCode(i) + "</span></" + itmType +">";
+		}
+		$(this.control).append(citm);
+		
+		
+		$(this.control).children(itmType)
+			.addClass(itmcls)
+			.css({
+			"display":"block",
+			'cursor':'pointer',
+			'border-left':bdrleftvalue,
+			'border-bottom':bdrbottomvalue,
+			'border-right':bdrrightvalue,
+			"color":ncolor,
+			"background-color":bcolor,
+			"font-size":fntsize,
+			"vertical-align":"bottom",
+			"overflow":"hidden" //←これ重要
+			})
+		.children("span")
+			.css({
+			"display":"block",
+			"float":"right",
+			"width":"30px",
+			"font-family":fntfamily,
+			'text-align':'center'
+			});
+			
+
+		
+		
+		
+
+		//10は余裕
+		$(this.control)
+			.height(hvwdth + bdrwdth + 10)
+			.children(itmselecter).height(itmheight).width(itmwdth);
+		
+		
+		var thisinstance = this;
+		
+		//Item hover Animation
+		$(this.control).children("li.cs_item")
+			.hover(function(){
+				$(this).queue([]).stop().animate({
+					width:hvwdth,
+					backgroundColor:bcolor,
+					color:ncolor,
+					borderLeft:bdrleftvalue,
+					borderBottom:bdrbottomvalue,
+					borderRight:bdrrightvalue}, sp, es,
+					function(){
+						$(this).animate({
+							backgroundColor:bcolor,
+							color:ncolor,
+							borderLeft:bdrleftvalue,
+							borderBottom:bdrbottomvalue,
+							borderRight:bdrrightvalue}, sp);
+					});
+	
+			},function(){
+				$(this).queue([]).stop().animate({
+					width:itmwdth,
+					backgroundColor:bcolor,
+					color:ncolor,
+					borderLeft:bdrleftvalue,
+					borderBottom:bdrbottomvalue,
+					borderRight:bdrrightvalue}, sp);
+		});
+		
+		//click Animation
+		//$(this.control).children("li.cs_item").click(function(){
+		$("li.cs_item", this.control).click(function(){
+			
+			$(this).queue([]).stop()
+			.animate({
+				backgroundColor:"#aaaaaa",
+				color:selectedfntcolor,
+				borderLeft:hvbdrleftvalue,
+				borderBottom:hvbdrbottomvalue,
+				borderRight:hvbdrrightvalue}, 50)
+			.animate({
+				backgroundColor:bcolor,
+				color:selectedfntcolor,
+				borderLeft:bdrleftvalue,
+				borderBottom:bdrbottomvalue,
+				borderRight:bdrrightvalue}, 500);
+			
+			thisinstance.selectedChar = $(this).text();
+		});
+	}
+}
+			
+			
+			
+$(function(){
+	var csc = new CharSelecter();
+	$("#target").append(csc.control);
+	
+	$(".testAction").click(function(){
+		alert(csc.selectedChar);
+	});
+	
+});
+</script>
+<style type="text/css">
+html *{
+	padding: 0;
+	margin: 0;
+}
+body{
+	background-color: #333;
+}
+
+.border{
+	border-top: 1px solid #111111;
+	border-bottom: 1px solid #333333;
+}
+
+.testAction{
+	cursor: pointer;
+	display: block;
+	background-color: #333;
+	border: 3px double #ccc;
+	text-align: center;
+	color: #ccc;
+	width: 200px;
+	line-height: 1.8em;
+}
+</style>
+	</head>
+	<body>
+		<div id="target"></div>
+		<div style="clear: both;"></div>
+		<div class="border" style="width: 100%;"></div>
+		<div><p class="testAction">Test.</p></div>
+	</body>
+</html>
