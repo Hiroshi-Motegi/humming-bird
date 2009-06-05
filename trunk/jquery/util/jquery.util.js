@@ -115,3 +115,19 @@ $.fn.extend({
 })
 })(jQuery);
 
+
+
+$.fn.setData = function(key, val){
+	return this.each(function(index, elm){
+		$.data(elm, key, val);
+	});
+}
+
+$.fn.getData = function(key){
+	if($(this).length == 1)
+		return $.data($(this).get(0), key);
+	
+	return $.map(this.each(function(index, elm){
+		return $.data(elm, key);
+	}));
+}
