@@ -69,7 +69,7 @@ $.rpc = {
 $.showContent = function(callback){
 	$.ajax({
 		url: $.my.prop.contentUrl,
-		dataType: "json",
+		dataType: 'json',
 		cache: false,
 		success: function(data){
 			
