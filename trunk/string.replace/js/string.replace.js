@@ -245,10 +245,6 @@ $(function(){
 	$.setTitle($.my.title.en, $.my.ver);
 	$.showLastModDate();
 	
-	$(".lastmod-date").text((function(date) {
-	    return (date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate());
-	})(new Date(document.lastModified)));
-	
 	$('#result').focus(function(){
 		$(this).select();
 	});

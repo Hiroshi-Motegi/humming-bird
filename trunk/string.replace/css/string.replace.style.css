@@ -3,14 +3,9 @@
 	padding: 0;
 }
 body,
-textarea,
 input.txtbox{
 	font-size: 14px;
 	color: #999;
-}
-textarea,
-input.txtbox{
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;;
 }
 
 input[type=radio] ,
@@ -22,11 +17,7 @@ label{
 body{
 	background-color: #333;
 }
-textarea,
-.txtarea-wrap,
-input.txtbox{
-	background-color: #1a1a1a;
-}
+
 #outer-wrap1{
 	background-color: #333;
 }
@@ -58,14 +49,6 @@ a:hover{
 	display: block;
 	line-height: 1.8em;
 	background-color: #303030;
-}
-
-textarea{
-	line-height: 1.4em;
-	width:100%;
-	height:100%;
-	border-width:0;
-	overflow:auto;
 }
 
 #sidebar,
@@ -120,14 +103,26 @@ h4{
 
 .txtarea-wrap{
 	text-align:center;
+	border-width: 1px;
+	border-style:inset;
+	background-color:#c0c0c0;
 }
-
-.txtarea-wrap,
-input[type=text]{
-	border: 1px solid #222222;
+textarea{
+	font-size: 14px;
+	color: #1a1a1a;
+	line-height: 1.4em;
+	width:100%;
+	height:100%;
+	border-width:0;
+	overflow:auto;
 }
-
-input[type=text]:disabled{
+textarea,
+input.txtbox{
+	border-width: 0;
+	background-color: transparent;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+input.txtbox:disabled{
 	background-color: #333333;
 	border: 1px solid #222222;
 }
@@ -162,7 +157,4 @@ label{
 	border-spacing: 0px 10px;
 	padding:0px 5px;
 	font-size:12px;
-}
-.dummy{
-	height:20px;
 }

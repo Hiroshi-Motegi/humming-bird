@@ -27,6 +27,8 @@ body {
 	text-align:center;
 	font-weight:normal;
 	line-height:80px;
+	margin:0;
+	padding:0;
 }
 
 /* -=-=-=-=-=-=- content wrap -=-=-=-=-=-=-=- */
@@ -68,3 +70,5 @@ body {
 .clear,
 .line-inner{ clear: both; }
 .line-inner{ height: 20px; }
+
+.dummy{ height:20px; }
