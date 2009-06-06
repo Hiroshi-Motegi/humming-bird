@@ -131,3 +131,24 @@ $.fn.getData = function(key){
 		return $.data(elm, key);
 	}));
 }
+
+
+$.merge = function(o1, o2){
+
+	o1 = o1 || {};
+	o2 = o2 || {};
+	
+	var ret = {}, i;
+	
+	for (i in o1) {
+		if (o1.hasOwnProperty(i)) {
+			ret[i] = o1[i];
+		}
+	}
+	for (i in o2) {
+		if (o2.hasOwnProperty(i)) {
+			ret[i] = o2[i];
+		}
+	}
+	return ret;
+}
