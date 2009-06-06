@@ -8,12 +8,12 @@
 	<meta content='Blogにコードを投稿するために必要な文字変換を行います。' name='description'/>
 	<meta content='Blogger,投稿,コード,文字変換,ツール,ブログ' name='keyword'/>
 	<title>String Replace β - 文字変換&タグで囲むツール</title>
-	<link href='./css/string.replace.style.css' rel='stylesheet' charset='utf-8' type='text/css' />
+	<link href='./css/string.replace.css' rel='stylesheet' charset='utf-8' type='text/css' />
 	<link href='./css/common.css' rel='stylesheet' charset='utf-8' type='text/css' />
 	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js' type='text/javascript'></script>
-	<script src='../jquery/color.ver2/jquery.color.ver2.js' type="text/javascript"></script>
-	<script src='../jquery/changebright/jquery.changebright.js' type="text/javascript"></script>
-	<script src='../jquery/flash/jquery.flash.js' type="text/javascript"></script>
+	<script src='../jquery/lib/jquery.color.ver2.js' type="text/javascript"></script>
+	<script src='../jquery/lib/jquery.changebright.js' type="text/javascript"></script>
+	<script src='../jquery/lib/jquery.flash.js' type="text/javascript"></script>
 	<script src='./js/common.js' type='text/javascript'></script>
 	<script src='./js/string.replace.js' type='text/javascript'></script>
 </head>
@@ -24,11 +24,13 @@
 
 	<div class="line-outer"><div class="line-inner"></div></div>
 	<noscript>JavaScriptを使用しています。ご利用になるにはJavaScriptを許可する必要があります</noscript>
-	<div id="outer-wrap0"><div id="outer-wrap1"><div id="outer-wrap2"><div id="outer-wrap3">
-		<div class="clear dummy"></div>
-			<div id="left-wrap"><div class="outer">
-				<div class="inner"><div class="outer"><b><a id="btn-exec" href='javascript:void(0)' title="変換処理を実行します。">変換</a></b></div></div>
-				<div class="inner">
+	<div id="outer-wrap0"><div id="outer-wrap1">
+	<div class="clear"></div>
+		
+			<div id="left-wrap"><div id='left-wrap-inner'>
+			<div class="clear dummy"></div>
+				<div class='btn-outer wrap'><div class='btn-inner'><b><a id="btn-exec" href='javascript:void(0)' title="変換処理を実行します">変換</a></b></div></div>
+				<div class='wrap'>
 					<h4 title="Choice the Replace String">変換する文字列の指定</h4>
 					<ul>
 						<li><input type="checkbox" class="chk" id="chk-tab" /><label for="chk-tab" class="lbl-chk">Tab → &amp;nbsp;×</label><input id="space-count" class='txtbox' type="text" value="2" maxlength="2" disabled="true"/></li>
@@ -39,7 +41,7 @@
 						<li><input type="checkbox" class="chk" id="chk-blank" /><label for="chk-blank" class="lbl-chk">各行頭空白 → &amp;nbsp;</label></li>
 					</ul>
 				</div>
-				<div class="inner">
+				<div class='wrap'>
 					<h4 title="Wrapping Tag">タグで囲む</h4>
 					<ul>
 						<li><input type="radio" class="rdo-tag" name="radio" id="rdo-none" value="none" checked="checked" /><label for="rdo-none" class="lbl-tag" title="指定なし">None</label></li>
@@ -86,31 +88,39 @@
 						</li>
 					</ul>
 				</div>
-				<div class="inner">
+				<div class='wrap'>
 					<h4 title="Usage">使い方</h4>
-					<div id="usage"><table id="usage-table"><tbody>
+					<div id="usage"><table id="usage-table" cellspacing='0'><tbody>
 						<tr class="usage-text"><td>▶</td><td>ページ中央のテキストエリアに対象文字列をペーストします。</td></tr>
+						<tr class="tr-space"><td colSpan='2'>&nbsp;</td></tr>
 						<tr class="usage-text"><td>▶</td><td>上記オプションを必要に応じて選択します。</td></tr>
+						<tr class="tr-space"><td colSpan='2'>&nbsp;</td></tr>
 						<tr class="usage-text"><td>▶</td><td> 当ページ左上の[ <b>変換</b> ]ボタンを押下すると当ページ右側のテキストエリアに変換後の文字列が表示されます。</td></tr>
 					</tbody></table></div>
 				</div>
-			</div><div class="clear"></div></div><!--left-wrap-->
-		<div id="content-wrap">
-			<div id="center-wrap"><div class="outer"><div class="inner"><table><tbody>
-				<tr><th><h4>対象文字列</h4></th></tr>
-				<tr><td class="txtarea-wrap"><textarea id="target" name="target" class="txtarea" rows="28" title="ここに変換する文字列を入力、または貼り付けて下さい。"></textarea></td></tr>
-			</tbody></table></div></div><div class="clear"></div></div>
-			
-			<div id="right-wrap"><div class="outer"><div class="inner"><table><tbody>
-				<tr><th><h4>変換後の文字列</h4></th></tr>
-				<tr><td class="txtarea-wrap"><textarea id="result" name="result" class="txtarea" rows="28" title="ここに変換後の文字列が出力されます。" readonly="readonly"></textarea></td></tr>
-			</tbody></table></div></div><div class="clear"></div></div>
-		</div>
+		
 		<div class="clear dummy"></div>
-	</div><!-- End outer-wrap3 -->
-	</div><!-- End outer-wrap2 -->
-	</div><!-- End outer-wrap1 -->
-	</div><!-- End outer-wrap0 -->
+		</div></div><!--left-wrap-->
+		
+		<div id="content-wrap">
+		<div class="clear dummy"></div>
+		
+			<div id="center-wrap"><div class="wrap-inner"><table><tbody>
+				<tr><th><h4>対象文字列</h4></th></tr>
+				<tr><td class="txtarea-wrap"><textarea id="target" name="target" class="txtarea" rows="26" title="ここに変換する文字列を入力、または貼り付けて下さい。"></textarea></td></tr>
+			</tbody></table></div>
+			<div class="clear"></div>
+			</div>
+			
+			<div id="right-wrap"><div class="wrap-inner"><table><tbody>
+				<tr><th><h4>変換後の文字列</h4></th></tr>
+				<tr><td class="txtarea-wrap"><textarea id="result" name="result" class="txtarea" rows="26" title="ここに変換後の文字列が出力されます。" readonly="readonly"></textarea></td></tr>
+			</tbody></table></div><div class="clear"></div></div>
+		
+		<div class="clear"></div>
+		</div>
+	<div class="clear"></div>
+	</div><!-- End outer-wrap1 --></div><!-- End outer-wrap0 -->
 	
 		
 
