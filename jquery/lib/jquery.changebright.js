@@ -9,10 +9,12 @@
 
 (function($){
 $.changeBright = function(color, p) {
+	
+	if (color == 'transparent') return color;
+	
 	var rgb = $.getRGB(color);
 	var n = 0;
 	
-
 	if (n = /^(\d+)%$/.exec(p)) { //example: '150%', '50%'
 		n = parseInt(n[1]);
 		for (var i = 0; i < rgb.length; i++) 

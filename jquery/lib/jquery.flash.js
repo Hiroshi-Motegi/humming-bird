@@ -12,11 +12,11 @@
 
 (function($){
 $.fn.flash = function(bright, attrs, options){
+	
 	options = (!$.isArray(bright) && typeof bright == 'object') ? bright :
 		(!$.isArray(attrs) && typeof attrs == 'object') ? attrs : options || {};
 
 	attrs = $.isArray(bright) ? bright : $.isArray(attrs) ? attrs : ['backgroundColor'];
-	$.isArray(bright);
 	
 	bright = typeof bright == 'string' || +bright == bright ? bright : '+=40';
 
@@ -28,9 +28,11 @@ $.fn.flash = function(bright, attrs, options){
 	dataKey = 'flash';
 	
 	return this.each(function(){
+		
 		var $t = $(this);
 
 		if(!$.data(this, dataKey)){
+			
 			var tmp = {};
 			
 			$.each([
@@ -39,23 +41,25 @@ $.fn.flash = function(bright, attrs, options){
 				'borderLeftColor',
 				'borderRightColor',
 				'borderTopColor',
-				'color',
-				'outlineColor'],
+				'color'],
 				 function(i, attr){
-					tmp[attr] = $t.css(attr);
+				 	var c = $t.css(attr);
+					tmp[attr] = c == 'transparent' ? '#000' : c;
 				});
-				
+			
 			$.data(this, dataKey,{'def_attrs': tmp});
 		}
 		
 		var def_attrs = {}, hi_attrs = {};
-		for (var i = 0; i < attrs.length;i++) {
+		
+		for (var i = 0, j = attrs.length; i < j; i++) {
 			var key = attrs[i];
 			def_attrs[key] = $.data(this, dataKey).def_attrs[key];
 			hi_attrs[key] = $.changeBright(def_attrs[key], bright);
 		}
 		
 		$t.css(hi_attrs).animate(def_attrs, opt);
+		
 	});
 }
 })(jQuery);

@@ -11,7 +11,7 @@ var cs = {
 		var w = cs.getTargetString();
 		
 		//Validation
-		if (cs.isEmpty(w)) {
+		if (w == '') {
 			cs.showChangedString(cs.err_emptyMsg);
 			$('#target').flash();
 			return false;
@@ -34,10 +34,6 @@ var cs = {
 	//置換後の文字列を結果(テキストエリア)に表示する
 	showChangedString: function(s){
 		$("#result").val(s);
-	},
-	
-	isEmpty: function(s){
-		return s == ""||s==undefined||s=='undefined'||s==null;
 	},
 	
 	//置換を行う
@@ -82,22 +78,22 @@ var cs = {
 	
 	//各行頭にある空白(space)を"&nbsp;"に変換する
 	replaceBlank: function(s){
-			var str = s.split('\n');
-			
-			if (str) {
-				var tmp = [];
-				for (var i = 0; i < str.length; i++) {
-					var w = str[i], re;
-					if (re = /^(?:[ 　])+/.exec(w)) {
-						w = w.replace(/^(?:[ 　])+/, this.strConcat('&nbsp;', re[0].length));
-					}
-					tmp.push(w);
-				}
-				
-				s = tmp.join('\n');
+		
+		if(s == '') return s;
+		
+		var str = s.split('\n'), tmp = [], regex = /^(?:[ 　])+/;
+		
+		for (var i = 0, j = str.length; i < j; i++) {
+			var w = str[i], re;
+			if (re = regex.exec(w)) {
+				w = w.replace(regex, cs.strConcat('&nbsp;', re[0].length));
 			}
-			
-			return s;
+			tmp.push(w);
+		}
+		
+		s = tmp.join('\n');
+		
+		return s;
 	},
 	
 	//文字列を指定したタグで囲む
@@ -224,12 +220,12 @@ $.bindSlideOption = function(){
 })(jQuery);
 
 
-$(function(){
+jQuery(function($){
 	$.bindLabelHoverAnimate('.lbl-chk,.lbl-tag,.lbl-code,.lbl-pretty-lang');
 	$.bindSlideOption();
 	
 	$('#btn-exec').click(function(){
-		$(this).flash('150%', {duration: 600});
+		$(this).blur().flash('170%', {duration: 600});
 		cs.func();
 	});
 	
