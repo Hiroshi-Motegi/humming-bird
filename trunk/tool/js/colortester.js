@@ -1,145 +1,147 @@
-var cl = {
-	effecting:false, //animating.
-	applyColorTarget:"background-color", //background-color or color(font color)
-	prev_slctr:"#preview", //Preview Element Selecter
+(function($){
+$.getWebColors = function(){
+	var hxs = ['ff', 'cc', '99', '66', '33', '00'], len = hxs.length, wccs = [];
 	
-
-	tableClass: 'item-table',
-	createWebColorItems:function(){
-		var
-		wcs = cl.getWebColors(),
-		slctrPart = 'web-color',
-		itemClass = slctrPart + '-item',
-		$tbody = $('<tbody>'),
-		$tr;
-		
-		for(var i = 0;i < wcs.length;i++){
-			if((i%15)==0){
-				$tr = $('<tr>');
-				$tbody.append($tr);
+	for (var i = 0; i < len; i++) {
+		for (var n = 0; n < len; n++) {
+			for (var m = 0; m < len; m++) {
+				wccs.push('#' + hxs[i] + hxs[n] + hxs[m]);
 			}
-			
-			var cc = wcs[i];
-			
-			$tr.append(
-				$('<td>')
-					.attr('title', cc)
-					.addClass(itemClass)
-					.css({backgroundColor:cc})
-					.data('color', {code:cc, name:''})
-					.append('<span>' + cc + '</span>')
-			);
 		}
+	}
+	return wccs;
+}
+
+$.createItemTable = function(slctrPart, colNum, data, callback){
+
+	var tableClass = 'item-table', itemClass = slctrPart + '-item', $tbody = $('<tbody>'), $tr;
+	
+	if ($.isArray(data)) {
+		for (var i = 0, j = data.length; i < j; i++) {
 		
-		$('<table>')
-			.attr('id', slctrPart + '-table')
-			.addClass(cl.tableClass)
-			.append($tbody)
-			.appendTo('#wrap-' + slctrPart);
-	},
-	createKnownColorItems:function(){
-		var
-		kcs = $.namedColors,
-		slctrPart = 'named-color',
-		itemClass = slctrPart + '-item',
-		$tbody = $('<tbody>'),
-		$tr,
-		n = 0;
-		
-		for(var c in kcs){
-			if((n%6)==0){
+			if ((i % colNum) == 0) {
 				$tr = $('<tr>');
-				$tbody.append($tr);
+				$tr.appendTo($tbody);
 			}
 			
-			var cc = $.parseColorCode(kcs[c]);
+			$tr.append(callback.call(this, data[i], itemClass));
+		}
+	}
+	else {
+		var n = 0;
+		for (var key in data) {
+			if ((n++ % colNum) == 0) 
+				$tr = $('<tr>').appendTo($tbody);
 			
-			$tr.append(
-				$('<td>')
+			$tr.append(callback.call(this, key, $.parseColorCode(data[key]), itemClass));
+		}
+	}
+	
+	$('<table>').attr('id', slctrPart + '-table').addClass(tableClass).append($tbody).appendTo('#wrap-' + slctrPart);
+	
+}
+
+$.makeThreeTables = function(){
+	
+	var fonts = ["Aharoni", "Albany", "Amienne", "Andale Sans", "Andale Sans UI", "Andalus", "Angsana New", "AngsanaUPC", "Arabic Typesetting", "Arial", "Arial Black", "Arial Narrow", "Arial Unicode MS", "Arnprior", "Batang", "BatangChe", "Baveuse", "Berylium", "Biondi", "Bitstream Vera Sans", "Bitstream Vera Sans Mono", "Bitstream Vera Serif", "Blue Highway", "Blue Highway Condensed", "Blue Highway D Type", "Blue Highway Linocut", "Book Antiqua", "Bookman Old Style", "Bookshelf Symbol 7", "Boopee", "Broadway", "Browallia New", "BrowalliaUPC", "Burnstown Dam", "Byington", "Calibri", "Cambria", "Cambria Math", "Candara", "Carbon Block", "Catriel", "Century", "Century Gothic", "Comic Sans MS", "Consolas", "Constantia", "Corbel", "Cordia New", "CordiaUPC", "Courier New", "Credit Valley", "Cumberland", "DaunPenh", "David", "DFKai-SB", "DilleniaUPC", "DokChampa", "Dotum", "DotumChe", "Earwig Factory", "Estrangelo Edessa", "EucrosiaUPC", "Euphemia", "Euphorigenic S", "FangSong", "Franklin Gothic Medium", "FrankRuehl", "FreesiaUPC", "Garamond", "Gautami", "Georgia", "Gisha", "Gulim", "GulimChe", "Gungsuh", "GungsuhChe", "Heavy Heap", "HG Mincho Light J", "HG PゴシックB Sun", "HG P明朝L Sun", "HG ゴシックB Sun", "HG 明朝L Sun", "HGP創英角ｺﾞｼｯｸUB", "HGP創英角ﾎﾟｯﾌﾟ体", "HGP創英ﾌﾟﾚｾﾞﾝｽEB", "HGP教科書体", "HGP明朝B", "HGP明朝E", "HGP行書体", "HGPｺﾞｼｯｸE", "HGPｺﾞｼｯｸM", "HGS創英角ｺﾞｼｯｸUB", "HGS創英角ﾎﾟｯﾌﾟ体", "HGS創英ﾌﾟﾚｾﾞﾝｽEB", "HGS教科書体", "HGS明朝B", "HGS明朝E", "HGS行書体", "HGSｺﾞｼｯｸE", "HGSｺﾞｼｯｸM", "HG丸ｺﾞｼｯｸM-PRO", "HG創英角ｺﾞｼｯｸUB", "HG創英角ﾎﾟｯﾌﾟ体", "HG創英ﾌﾟﾚｾﾞﾝｽEB", "HG教科書体", "HG明朝B", "HG明朝E", "HG正楷書体-PRO", "HG行書体", "HGｺﾞｼｯｸE", "HGｺﾞｼｯｸM", "Hurry Up", "Huxtable", "Impact", "Imprint MT Shadow", "IrisUPC", "Iskoola Pota", "JasmineUPC", "KaiTi", "Kalinga", "Kartika", "Kidprint", "KodchiangUPC", "Kootenay", "Kredit", "Latha", "Leelawadee", "Levenim MT", "Ligurino", "Ligurino Condensed", "LilyUPC", "Lindsey", "Lucida Console", "Lucida Sans Unicode", "Malgun Gothic", "Mangal", "Marlett", "Microsoft Himalaya", "Microsoft JhengHei", "Microsoft Sans Serif", "Microsoft Uighur", "Microsoft YaHei", "Microsoft Yi Baiti", "MingLiU", "MingLiU-ExtB", "MingLiU_HKSCS", "MingLiU_HKSCS-ExtB", "Minya Nouvelle", "Miramonte", "Miriam", "Miriam Fixed", "Mongolian Baiti", "MoolBoran", "MS Outlook", "MS Reference Sans Serif", "MS Reference Specialty", "MS UI Gothic", "MT Extra", "Mufferaw", "MV Boli", "Narkisim", "Neuropol", "NSimSun", "Nyala", "OCRB", "Palace Script", "Palace Script MT", "Palatino Linotype", "Pericles", "Pericles Light", "Pescadero", "Planet Benson 2", "Plantagenet Cherokee", "PMingLiU", "PMingLiU-ExtB", "Pupcat", "Raavi", "Rod", "Segoe Print", "Segoe Script", "Segoe UI", "Sheffield", "Shruti", "SimHei", "Simplified Arabic", "Simplified Arabic Fixed", "SimSun", "SimSun-ExtB", "StarSymbol", "Stereofidelic", "Sybil Green", "Sylfaen", "Symbol", "Tahoma", "Tandelle", "Teen", "Teen Light", "Thorndale", "Times New Roman", "Traditional Arabic", "Trebuchet MS", "Tunga", "Velvenda Cooler", "Verdana", "Vrinda", "Waker", "Webdings", "Wingdings", "Wingdings 2", "Wingdings 3", "メイリオ", "ＭＳ ゴシック", "ＭＳ 明朝", "ＭＳ Ｐゴシック", "ＭＳ Ｐ明朝"];
+	
+	var tParams = {
+		'named-color': {
+			colNum:7,
+			data:$.namedColors,
+			callback: function(c, cc, cls){
+				return $('<td>')
 					.attr('title', c)
-					.addClass(itemClass)
+					.addClass(cls)
 					.css({backgroundColor: cc})
 					.data('color', {code:cc, name:c})
-					.append('<span>' + c + '</span>'));
-			
-			n++;
+					.append('<span>' + c + '</span>');
+			}
+		},
+		'web-color': {
+			colNum:16,
+			data:$.getWebColors(),
+			callback: function(cc, cls){
+				return $('<td>')
+					.attr('title', cc)
+					.addClass(cls)
+					.css({backgroundColor: cc})
+					.data('color', { code: cc })
+					.append('<span>' + cc + '</span>');
+			}
+		},
+		'font-family': {
+			colNum: 6,
+			data: fonts,
+			callback: function(f, cls){
+				return $('<td>')
+					.attr('title', f)
+					.addClass(cls)
+					.data('family', {name:f})
+					.append('<span>' + f + '</span>');
+			}
 		}
-		
-		$('<table>')
-			.attr('id', slctrPart + '-table')
-			.addClass(cl.tableClass)
-			.append($tbody)
-			.appendTo('#wrap-' + slctrPart);
-			
-	},
-	createFontFamilyItems: function(){
-		$.getJSON('./js/fonts.js', function(json){
-			var
-			slctrPart = 'font-family',
-			itemClass = slctrPart + '-item',
-			$tbody = $('<tbody>'),
-			fonts = json.fonts,
-			$tr;
-			
-			for (var i = 0; i < fonts.length; i++) {
-				if ((i % 6) == 0) {
-					$tr = $('<tr>');
-					$tbody.append($tr);
-				}
-				
-				var f =  fonts[i];
-				
-				$tr.append(
-					$('<td>')
-						.attr('title', f)
-						.addClass(itemClass)
-						.data('family', {name:f})
-						.append('<span>' + f + '</span>'));
-			}
-			
-			$('<table>')
-				.attr('id', slctrPart + '-table')
-				.addClass(cl.tableClass)
-				.append($tbody)
-				.appendTo('#wrap-' + slctrPart);
-			
-			//-- bind click event action. --//
-			$('td.' + itemClass).click(function(){
-				var fndata = jQuery.data(this, 'family').name;
-				$(cl.prev_slctr).css({fontFamily: fndata});
-				$('#current-' + slctrPart).text(fndata);
-			});
-			
+	};
+	
+	for (var key in tParams){
+		$.createItemTable(key,
+			tParams[key].colNum,
+			tParams[key].data,
+			tParams[key].callback);
+	}
+}
+
+})(jQuery);
+
+
+
+var cl = {
+	effecting:false, //animating.
+	applyAttr:'background-color', //background-color or color(font color)
+	prev_slctr:"#preview", //Preview Element Selecter
+
+	bindClickFontFamilyItem:function(){
+		var attrKey = 'font-family';
+		$('td.' + attrKey + '-item').click(function(){
+			var fndata = jQuery.data(this, 'family').name;
+			$(cl.prev_slctr).css({fontFamily: fndata});
+			$('#current-' + attrKey).text(fndata);
 		});
-		
 	},
-	
-	
 	bindClickColorItem:function(){
-		var item_selector = 'td.web-color-item,td.named-color-item';
+		var
+		item_selector = 'td.web-color-item,td.named-color-item',
+		attrKey = {
+			'background-color':'bg-color',
+			'color':'font-color'
+		};
 		
-		$(item_selector).bind("click", function(){
-			var applyTarget = {
-				bgcolor:'background-color',
-				fontcolor:'color'
+		$(item_selector).click( function(){
+			
+			var
+			attr = cl.applyAttr,
+			colorCode = $.data(this, 'color').code;
+			
+			if (attr == 'background-color' || attr == 'color' ) {
+				//プレビューエレメントに色を設定
+				$(cl.prev_slctr).css(attr, colorCode);
+				//設定した色(カラーコード)を表示
+				$('#current-' + attrKey[attr]).text(colorCode);
 			}
-			var tgt = cl.applyColorTarget;
-			var code = $.data(this, 'color').code;
-			
-			$(cl.prev_slctr).css(tgt, code);
-			
-			if(tgt == applyTarget.bgcolor){
-				$("#current-bg-color").text(code);
-			}else if(tgt == applyTarget.fontcolor ){
-				$("#current-font-color").text(code);
-			}else{
-				cl.applyColorTarget == applyTarget.bgcolor;
-				$("#current-bg-color").text(code);
+			else {
+				cl.applyAttr == 'background-color';
+				$('#current-bg-color').text(code);
+				
 				cl.effecting = true;
-				$("#tgl-apply-color-string").stop().queue([])
-					.animate({"top":"0px"},"fast",
-					function(){cl.effecting = false;});
+				
+				$('#tgl-apply-color-string')
+					.stop(true).animate({
+						top: '0px'
+					}, 'fast', function(){
+						cl.effecting = false;
+					});
 			}
+			
 		});
 	},
 	bindSelectApplyColor:function(){
@@ -156,20 +158,20 @@ var cl = {
 			if(cl.effecting) return;
 			cl.effecting = true;
 			
-			if (cl.applyColorTarget == tgt.back) {
-				cl.applyColorTarget = tgt.font;
+			if (cl.applyAttr == tgt.back) {
+				cl.applyAttr = tgt.font;
 				$(this).stop().queue([])
 					.animate({"top":upRange},duration,
 					function(){cl.effecting = false;});
 			}
-			else if (cl.applyColorTarget == tgt.font){
-				cl.applyColorTarget = tgt.back;
+			else if (cl.applyAttr == tgt.font){
+				cl.applyAttr = tgt.back;
 				$(this).stop().queue([])
 					.animate({"top":downRange},duration,
 					function(){cl.effecting = false;});
 			}
 			else{
-				cl.applyColorTarget = tgt.back;
+				cl.applyAttr = tgt.back;
 				$(this).stop().queue([])
 					.animate({"top":"0px"},duration,
 					function(){cl.effecting = false;});
@@ -365,21 +367,6 @@ var cl = {
 			$(cssDlg).remove();
 			$.overlay.hide();
 		});
-	},
-	getWebColors:function(){
-		var
-		hxs =['ff', 'cc', '99', '66', '33', '00'],
-		len = hxs.length,
-		wccs = []; //web color codes.
-		
-		for(var i = 0; i < len; i++){
-			for(var n = 0; n < len; n++){
-				for(var m = 0; m < len; m++){
-					wccs.push('#' + hxs[i] + hxs[n] + hxs[m]);
-				}
-			}
-		}
-		return wccs;
 	}
 };
 
@@ -387,17 +374,16 @@ var cl = {
 
 
 jQuery(function($){
-	//三つでセット
-	cl.createWebColorItems();
-	cl.createKnownColorItems();
+
+	$.makeThreeTables();
 	cl.bindClickColorItem();
+	cl.bindClickFontFamilyItem();
 	
 	cl.bindChangePrevTextArea();
 	cl.bindSelectApplyColor();
 	cl.bindSelectFontWeight();
 	cl.bindSelectFontStyle();
 	cl.bindChangeFontSize();
-	cl.createFontFamilyItems();
 	cl.bindClickItemNavi();
 	cl.currentStyleInit();
 	
