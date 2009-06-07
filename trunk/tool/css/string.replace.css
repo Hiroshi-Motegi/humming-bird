@@ -5,7 +5,7 @@
 body,
 input.txtbox{
 	font-size: 14px;
-	color: #999;
+	color: #BBBBBB;
 }
 
 input[type=radio] ,
@@ -17,8 +17,6 @@ label{
 body{
 	background-color: #333;
 }
-
-
 
 .btn-outer{
 	border-top: 1px solid #1a1a1a;
@@ -32,7 +30,6 @@ body{
 	border-left: 1px solid #4c4c4c;
 	border-right: 1px solid #1a1a1a;
 }
-
 
 a{
 	cursor: pointer;
@@ -54,7 +51,6 @@ a:hover{
 	background-color: #303030;
 }
 
-#outer-wrap1,
 .txtarea-wrap,
 table,.label{ margin: 0 auto; }
 
@@ -65,7 +61,10 @@ table,.label{ margin: 0 auto; }
 #left-wrap{
 	border-left: 1px solid #1a1a1a;
 	border-right: 1px solid #1a1a1a;
+	width: 230px;
+	float:left;
 }
+
 #left-wrap-inner{
 	border-left: 1px solid #4c4c4c;
 	border-right: 1px solid #4c4c4c;
@@ -73,28 +72,45 @@ table,.label{ margin: 0 auto; }
 	padding:0 10px;
 }
 
-#left-wrap{
-	width: 22%;
-	float: left;
-}
+
+
 #content-wrap{
-	width: 75%;
+	width: 740px;
 	height:100%;
-	float: right;
+	float:right;
 }
+
 #center-wrap,#right-wrap{
-	width: 48%;
-	border: 1px solid #1a1a1a;
+	width: 100%;
 	background-color: #333;
 }
+
+#center-wrap{
+	border-right: 1px solid #1a1a1a;
+	border-bottom: 1px solid #1a1a1a;
+	border-left: 1px solid #1a1a1a;
+	margin-bottom:20px;
+}
+
+#right-wrap{
+	border: 1px solid #1a1a1a;
+	bottom:0;
+}
+
 #center-wrap .wrap-inner,
 #right-wrap .wrap-inner{
-	border: 1px solid #4c4c4c;
 	padding: 10px;
 }
 
-#center-wrap{float: left;}
-#right-wrap{float: right;}
+#center-wrap .wrap-inner{
+	border-right: 1px solid #4c4c4c;
+	border-bottom: 1px solid #4c4c4c;
+	border-left: 1px solid #4c4c4c;
+}
+
+#right-wrap .wrap-inner{
+	border: 1px solid #4c4c4c;
+}
 
 form{ cursor: default; }
 table{
@@ -130,6 +146,7 @@ textarea{
 	border-width:0;
 	overflow:auto;
 }
+
 textarea,
 input.txtbox{
 	border-width: 0;
@@ -174,5 +191,7 @@ label{
 }
 
 .tr-space,.tr-space td{
-	height:0;
+	height:10px;
+	line-height:0;
+	font-size:0;
 }

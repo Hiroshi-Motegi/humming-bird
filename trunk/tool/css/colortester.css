@@ -1,13 +1,14 @@
+@charset 'UTF-8';
+@import url(common.css);
 body{
 	margin:0;
 	padding:0;
-	background-color:#333333;
 	color:#c0c0c0;
 	font-size:16px;
 }
 
 body,textarea,select,option{
-	font-family:tahoma,Gisha;
+	font-family:tahoma;
 }
 
 a,a:link,a:visited{
@@ -15,6 +16,7 @@ a,a:link,a:visited{
 	color:#999966;
 	text-decoration:none;
 }
+
 a:hover{
 	color:#ffff99;
 }
@@ -28,8 +30,26 @@ a:hover{
 	border-bottom:1px solid #202020;
 }
 
-#outer-wrap1{}
-
+#outer-wrap0{
+	background-color:#333;
+	background-image:url(../img/body_bg_chcl.gif);
+}
+#outer-wrap1{
+	border-right:1px solid #202020;
+	border-left:1px solid #202020;	
+}
+#outer-wrap2{
+	border-right:1px solid #4c4c4c;
+	border-left:1px solid #4c4c4c;
+	background-color:#333;	
+}
+#outer-wrap3{
+	width:960px;
+	margin: 0 auto;
+}
+#title{
+	color:#cc6699;
+}
 /* -- wrap-current-styles ---------------------- */
 #current-styles{
 	margin:0 0 20px 0;

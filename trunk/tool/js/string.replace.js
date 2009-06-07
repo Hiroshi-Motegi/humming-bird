@@ -4,7 +4,7 @@ eval('var document = doc');
 @*/
 
 var cs = {
-	err_emptyMsg:"ページ中央のテキストエリアに対象文字列を入力して下さい。",
+	err_emptyMsg:'ページ中央のテキストエリアに対象文字列を入力して下さい。',
 	func: function(){
 	
 		//置換対象文字列を取得
@@ -33,7 +33,7 @@ var cs = {
 	
 	//置換後の文字列を結果(テキストエリア)に表示する
 	showChangedString: function(s){
-		$("#result").val(s);
+		$('#result').val(s);
 	},
 	
 	//置換を行う
@@ -44,8 +44,12 @@ var cs = {
 		if($('#chk-tab').is(':checked')){
 			var sc = $('#space-count').val();
 			sc = (+sc == sc && sc > 0) ? parseInt( sc ) : 1;
-			s = s.replace(/\t/g, this.strConcat('&nbsp;', sc));
+			s = s.replace( /\t/g, this.strConcat( '&nbsp;' , sc ) );
 		}
+		
+		//& → &amp;
+		if($('#chk-amp').is(':checked'))
+			s = s.replace(/&/g, '&amp;');
 		
 		//<> → &lt; &gt;
 		if($('#chk-ltgt').is(':checked'))
@@ -59,9 +63,17 @@ var cs = {
 		if($('#chk-singlequot').is(':checked'))
 			s = s.replace(/'/g, '&#39;');
 		
+		//\ → \\;
+		if($('#chk-bs').is(':checked'))
+			s = s.replace(/\\/g, '\\\\');
+		
 		//\n → &lt;br/&gt;
 		if($('#chk-return').is(':checked'))
 			s = s.replace(/\n/gm, '&lt;br/&gt;\n');
+		
+		//空行の空白 → 削除
+		if($('#chk-nullcol').is(':checked'))
+			s = s.replace(/^\s+$/gm,'');
 		
 		//各行頭空白 → &nbsp;
 		if($('#chk-blank').is(':checked'))
@@ -70,13 +82,26 @@ var cs = {
 		return s;
 	},
 	
+	removeSpace:function(s){
+		/*
+		var cols = s.split('\n');
+		for(var i = 0, j = cols.length; i < j; i++)
+			cols[i] = /[^\s]/g.test(cols[i]) ? cols[i] : '';
+			//cols[i] = cols[i].replace(/\s/g,'') == '' ? '' : cols[i];
+		return cols.join('\n');
+		*/
+	},
+	
 	strConcat: function (str, n){
 	    var re = '';
-	    for(n *= 1; n > 0; n >>>= 1, str += str) if (n & 1) re += str;
+	    for (n *= 1; n > 0; n >>>= 1, str += str) {
+			if (n & 1) 
+				re += str;
+		}
 	    return re;
 	},
 	
-	//各行頭にある空白(space)を"&nbsp;"に変換する
+	//各行頭にある空白(space)を'&nbsp;'に変換する
 	replaceBlank: function(s){
 		
 		if(s == '') return s;
@@ -91,9 +116,7 @@ var cs = {
 			tmp.push(w);
 		}
 		
-		s = tmp.join('\n');
-		
-		return s;
+		return tmp.join('\n');
 	},
 	
 	//文字列を指定したタグで囲む
@@ -109,29 +132,29 @@ var cs = {
 		var tg = [,];
 		
 		switch (op) {
-			case "none":
-				tg[0] = "";
-				tg[1] = "";
+			case 'none':
+				tg[0] = '';
+				tg[1] = '';
 				break;
-			case "blockquote":
-				tg[0] = "<blockquote>\n";
-				tg[1] = "\n</blockquote>";
+			case 'blockquote':
+				tg[0] = '<blockquote>\n';
+				tg[1] = '\n</blockquote>';
 				break;
-			case "pre":
-				tg[0] = "<pre>\n";
-				tg[1] = "\n</pre>";
+			case 'pre':
+				tg[0] = '<pre>\n';
+				tg[1] = '\n</pre>';
 				break;
-			case "prettify":
-				tg[0] = "<pre class='prettyprint" + cs.getPrettifyLang() + "'>\n";
-				tg[1] = "\n</pre>";
+			case 'prettify':
+				tg[0] = '<pre class=\'prettyprint' + cs.getPrettifyLang() + '\'>\n';
+				tg[1] = '\n</pre>';
 				break;
-			case "SyntaxHighlighter":
-				tg[0] = "<pre class='" + cs.getCodeName() + cs.getSHOptions() + "' name='code'>\n";
-				tg[1] = "\n</pre>";
+			case 'SyntaxHighlighter':
+				tg[0] = '<pre class=\'' + cs.getCodeName() + cs.getSHOptions() + '\' name=\'code\'>\n';
+				tg[1] = '\n</pre>';
 				break;
 			default:
-				tg[0] = "";
-				tg[1] = "";
+				tg[0] = '';
+				tg[1] = '';
 				break;
 		}
 		return tg;
@@ -139,7 +162,7 @@ var cs = {
 	
 	//prettifyタグのclass属性にlang指定を行う
 	getPrettifyLang:function(){
-		var lang = $("input.rdo-pretty-lang:checked").val();
+		var lang = $('input.rdo-pretty-lang:checked').val();
 		if (lang == 'none') {
 			return '';
 		}else{
@@ -148,29 +171,29 @@ var cs = {
 	},
 	
 	getSHOptions:function(){
-		var opt = "";
-		if(document.getElementById("sh-chk-nogutter").checked) opt += ":nogutter";
-		if(document.getElementById("sh-chk-nocontrols").checked) opt += ":nocontrols";
-		if(document.getElementById("sh-chk-collapse").checked) opt += ":collapse";
-		if (document.getElementById("sh-chk-firstline").checked) {
-			var num = $.trim($("#firstline-num").val());
+		var opt = '';
+		if(document.getElementById('sh-chk-nogutter').checked) opt += ':nogutter';
+		if(document.getElementById('sh-chk-nocontrols').checked) opt += ':nocontrols';
+		if(document.getElementById('sh-chk-collapse').checked) opt += ':collapse';
+		if (document.getElementById('sh-chk-firstline').checked) {
+			var num = $.trim($('#firstline-num').val());
 			if(!num || num.match(/[^\d]/)) num = 1;
-			opt += ":firstline[" + num + "]";
+			opt += ':firstline[' + num + ']';
 		}
-		if(document.getElementById("sh-chk-showcolumns").checked) opt += ":showcolumns";
+		if(document.getElementById('sh-chk-showcolumns').checked) opt += ':showcolumns';
 		return opt;
 	},
 	
 	//囲むタグの指定情報を取得
 	//指定しない場合はnoneが返る
 	getTagOrder: function(){
-		return $("input[type='radio'].rdo-tag:checked").val();
+		return $('input[type=\'radio\'].rdo-tag:checked').val();
 	},
 	
 	//SyntaxHighlighterのタグで使用するコード名を取得し、返します。
 	//チェックされたラジオボタンのValueに格納された値を取得しています。
 	getCodeName: function(){
-		return $("input[type='radio'].rdo-code:checked").val();
+		return $('input[type="radio"].rdo-code:checked').val();
 	}
 };
 

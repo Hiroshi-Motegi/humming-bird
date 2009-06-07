@@ -8,6 +8,7 @@ body {
 		'ヒラギノ角ゴ Pro W3' ,
 		'Century Gothic',
 		Verdana;
+	background-color:#1a1a1a;
 }
 /* -=-=-=-=-=-=- header -=-=-=-=-=-=-=- */
 #header-wrap,#header-inner,#header,#title{
@@ -21,7 +22,7 @@ body {
 	background: url(../img/hb_logo_100x80.png) no-repeat bottom left;
 }
 #title{
-	color:#cc6699;
+	color:#bbb;
 	font-size:24px;
 	font-family:"Candara";
 	text-align:center;
@@ -32,6 +33,8 @@ body {
 }
 
 /* -=-=-=-=-=-=- content wrap -=-=-=-=-=-=-=- */
+#outer-wrap0{}
+
 #header-inner,
 #outer-wrap1,
 #footer{
@@ -41,7 +44,8 @@ body {
 }
 /* -=-=-=-=-=-=- footer -=-=-=-=-=-=- */
 #footer-wrap{
-	/*background-color:#303030;*/
+	background-image: url(../img/hb_footer_bg_100x80.png);
+	background-repeat:repeat-x;
 }
 #footer{
 	text-align:center;
