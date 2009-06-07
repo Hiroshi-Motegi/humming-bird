@@ -323,7 +323,7 @@ jQuery(function($){
 	$('div.post-body table').attr('cellSpacing','1');
 	
 	// show Blog description Effect.
-	$.hb.windowOnloadattachEvent(hb.showDesc);
+	$.hb.windowOnloadattachEvent($.hb.showDesc);
 
 	//Modify and show the post date.
 	$.hb.show_post_date();
