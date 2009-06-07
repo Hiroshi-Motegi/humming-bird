@@ -3,22 +3,23 @@ $.my = $.extend($.my,{
 	slctr: {
 		title:'#title',
 		footerTitle:'#footer-page-title',
-		lastmod: '#lastmod-date',
+		lastmod: '#lastmod-date'
 	},
 	title:{
 		ja: 'ページタイトル',
 		en: 'page title'
 	},
 	ver: '0.0',
-	dateDelimiter: '/',
+	dateDelimiter: '/'
 });
 
 $.attachEvent = function(evName, fn){
+	var win = window;
 	evName = evName.toLowerCase();
-	if (window.addEventListener) {
-		window.addEventListener(evName, fn, false)}
-	else if (window.attachEvent) {
-		window.attachEvent('on' + evName, fn)
+	if (win.addEventListener) {
+		win.addEventListener(evName, fn, false)}
+	else if (win.attachEvent) {
+		win.attachEvent('on' + evName, fn)
 	}
 }
 

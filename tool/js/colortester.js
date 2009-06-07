@@ -73,7 +73,7 @@ var cl = {
 			
 	},
 	createFontFamilyItems: function(){
-		$.getJSON('fonts.js', function(json){
+		$.getJSON('./js/fonts.js', function(json){
 			var
 			slctrPart = 'font-family',
 			itemClass = slctrPart + '-item',
