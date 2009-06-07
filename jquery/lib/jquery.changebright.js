@@ -10,34 +10,42 @@
 (function($){
 $.changeBright = function(color, p) {
 	
-	if (color == 'transparent') return color;
+	if (!color || color == 'transparent') return color;
 	
-	var rgb = $.getRGB(color);
-	var n = 0;
+	var rgb = $.getRGB(color), re, n = 0;
 	
-	if (n = /^(\d+)%$/.exec(p)) { //example: '150%', '50%'
-		n = parseInt(n[1]);
-		for (var i = 0; i < rgb.length; i++) 
-			rgb[i] = (rgb[i] / 100) * n;
+	if (re = /^(\d+)%$/.exec(p)) { //example: '150%', '50%'
+	
+		n = re[1];
+		
+		return 'rgb(' + [
+				Math.max( Math.min( parseInt( (rgb[0] / 100) * n ), 255), 0 ),
+				Math.max( Math.min( parseInt( (rgb[1] / 100) * n ), 255), 0 ),
+				Math.max( Math.min( parseInt( (rgb[2] / 100) * n ), 255), 0 )
+			].join(',') + ')';
+
 	}
 	else {
-		if (+p == p) { //example: 10, -20, +30
+		
+		if (+p == p) { //example: '10', -20, +30
 			n = p;
 		}
-		else if (n = /^([\+-])=(\d+)$/.exec(p)) { //example: '+=20', '-=100'
-			n = n[1] + n[2]; 
-		}
+		else 
+			if (re = /^([\+\-])=(\d+)$/.exec(p)) { //example: '+=20', '-=100'
+				n = re[1] + re[2];
+			}
+			else {
+				return color;
+			}
 		
 		n = parseInt(n);
 		
-		for (var i = 0; i < rgb.length; i++)
-			rgb[i] = rgb[i] + n;
+		return 'rgb(' + [
+				Math.max( Math.min( rgb[0] + n, 255), 0 ),
+				Math.max( Math.min( rgb[1] + n, 255), 0 ),
+				Math.max( Math.min( rgb[2] + n, 255), 0 )
+			].join(',') + ')';
 	}
-	
-	
-	for (var i = 0; i < rgb.length; i++)
-		rgb[i] = Math.max(Math.min(parseInt(rgb[i]), 255), 0);
-	
-	return $.parseColorCode(rgb);
+
 }
 })(jQuery);

@@ -1,5 +1,5 @@
 /*
- * jQuery Color Animations Ver.2
+ * jQuery plugin Color Animations Custom
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  */

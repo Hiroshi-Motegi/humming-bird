@@ -1,4 +1,4 @@
-/*
+/**
  * jQuery plugin Flash
  * Copyright 2009 y@s
  * Version 1.1
@@ -6,6 +6,7 @@
  * 
  * Dependencies:
  * [ jQuery plugin changeBright ]
+ * [ jQuery plugin Color Animations Custom ]
  * 
  * @Param bright : '+=20', '40', '60%' など
  * ＠Param attr : 'backgroundColor', 'borderColor', 'color'
@@ -47,7 +48,7 @@ $.fn.flash = function(bright, attr, options){
 		
 		var $t = $(this), attrs = toArray(attr);
 		
-		if(!$.data(this, dataKey) || !$.data(this, dataKey)[attrs[0]]){
+		if( !$.data(this, dataKey) || !$.data(this, dataKey)[attrs[0]] ){
 			
 			var tmp = {};
 			
