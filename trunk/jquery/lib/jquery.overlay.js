@@ -1,7 +1,10 @@
-/*
- * jQuery plugin overlay
+/**
+ * jQuery plugin Overlay
  * Copyright 2009 y@s
+ * Version 1.0
  * Released under the MIT and GPL licenses.
+ * 
+ * demo http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
  */
 
 (function($) {
@@ -99,7 +102,6 @@ $.overlay = {
 		$(document).unbind('keydown', $.overlay.keydownEvh);
 	},
 	clickEvh:function(e){
-		//$.overlay.hide();
 		$($.overlay.selector).trigger($.overlay.eventKey);
 		e.stopPropagation();
 		return false;
@@ -107,7 +109,6 @@ $.overlay = {
 	keydownEvh:function(e){
 		var keycode = (e == null) ? e.keyCode : e.which;
 		if (keycode == 27 || keycode == 13) { 
-			//$.overlay.hide();
 			$($.overlay.selector).trigger($.overlay.eventKey);
 		}
 		return false;

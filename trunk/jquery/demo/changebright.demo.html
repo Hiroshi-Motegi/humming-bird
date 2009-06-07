@@ -12,26 +12,39 @@
 <script type="text/javascript">
 $(function(){
 	$('#tgt1').click(function(){
-		var color = $(this).css('background-color');
-		color = $.changeBright(color, "-=20");
-		$(this).css('background-color', color);
+		$(this).css('background-color', $.changeBright($(this).css('background-color'), "-=20"));
 	});
 	
 	$('#tgt2').click(function(){
-		var color = $(this).css('background-color');
-		color = $.changeBright(color, '120%');
+		var color = $(this).css('backgroundColor');
+		color = $.changeBright(color, '150%');
 		$(this).css('background-color', color);
+	});
+	
+	$('#tgt3').click(function(){
+
+		var
+		$t = $(this),
+		colors = {},
+		borders = ['borderTopColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor'];
+		
+		for(var i = 0; i < borders.length;i++)
+			colors[borders[i]] = $.changeBright($(this).css(borders[i]), '+=20');
+		
+		$(this).css(colors);
+		
 	});
 });
 </script>
 <style type="text/css">
-#tgt1,#tgt2{
+#tgt1,#tgt2,#tgt3{
 	width:200px;
 	height:100px;
 	line-height:100px;
 	text-align:center;
-	border:1px solid #333;
+	border:2px solid #333;
 	margin-bottom:10px;
+	border-color:#444;
 }
 #tgt1{
 	background-color:#ccc;
@@ -39,11 +52,16 @@ $(function(){
 #tgt2{
 	background-color:#333;
 }
+#tgt3{
+	background-color:#808080;
+	border:5px solid #600;
+}
 </style>
 	</head>
 	<body>
 		<h1>jQuery plugin - changeBright demo</h1>
 		<div id='tgt1'><span>Click Here.</span></div>
 		<div id='tgt2'><span>Click Here.</span></div>
+		<div id='tgt3'><span>Click Here.</span></div>
 	</body>
 </html>
