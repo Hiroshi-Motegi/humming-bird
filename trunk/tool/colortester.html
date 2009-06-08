@@ -25,39 +25,26 @@
 		
 	<div id="outer-wrap0"><div id="outer-wrap1"><div id="outer-wrap2"><div id="outer-wrap3">
 		<div class="clear dummy"></div>
-		<div id="current-styles"><div class="outer"><div class="inner"><table id="current-styles-table"><tbody>
-			<tr>
-				<th><span>bg color</span></th>
-				<th><span>font color</span></th>
-				<th><span>font weight</span></th>
-				<th><span>font style</span></th>
-				<th><span>font family</span></th>
-				<th><span>font size</span></th>
-			</tr>
+		<div id="left-wrap">
+		
+		<div id="wrap-preview"><div id="preview"></div></div>
+		<div class="clear dummy"></div>
+		
+		<table id="content"><tbody><tr>
 			
-			<tr>
-				<td><span id="current-bg-color">none specified</span></td>
-				<td><span id="current-font-color">none specified</span></td>
-				<td><span id="current-font-weight">none specified</span></td>
-				<td><span id="current-font-style">none specified</span></td>
-				<td><span id="current-font-family">none specified</span></td>
-				<td><span id="current-font-size">none specified</span></td>
-			</tr>
-		</tbody></table></div></div></div>
-		
-		<div style="clear:both;"></div>
-		
-    	<div id="middle-content">
-			<table id="styles-table"><tbody>
-				<tr>
-					<td class="ws-td"><div class="wrap-ws"><a id="tgl-font-weight"><b>bold</b></a></div></td>
-					<td class="ws-td"><div class="wrap-ws"><a id="tgl-font-style"><i>italic</i></a></div></td>
-				</tr>
+			<td id="content-left">
+				<h4 class="title">Setting</h4>
+				<table id="styles-table"><tbody>
+				<tr><td colSpan="2"><textarea id="styles-textarea" name="txtarea" class="txtarea" rows="3" value=""></textarea></td></tr>
+				<tr><td class='space' colSpan='2'></td></tr>
+				<tr><td class="ws-td" colSpan='2'><div class="wrap-ws"><a id="tgl-font-weight"><b>bold</b></a></div></td></tr>
+				<tr><td class='space' colSpan='2'></td></tr>
+				<tr><td class="ws-td" colSpan='2'><div class="wrap-ws"><a id="tgl-font-style"><i>italic</i></a></div></td></tr>
 				<tr><td class='space' colSpan='2'></td></tr>
 				<tr>
-					<td  colSpan="2" style="text-align:center;"><div id="wrap-prev-font-size">
-						<span id="prev-font-size-lbl">font-size:</span>
-						<select id="prev-font-size-select" title="font size(px)">
+					<td  colSpan="2" style="text-align:center;"><div id="wrap-font-size">
+						<span id="font-size-lbl">font-size:</span>
+						<select id="font-size-select" title="font size(px)">
 							<option value="9" class="opt-font-size">9</option>
 							<option value="10" class="opt-font-size">10</option>
 							<option value="11" class="opt-font-size">11</option>
@@ -69,38 +56,63 @@
 							<option value="22" class="opt-font-size">22</option>
 							<option value="24" class="opt-font-size">24</option>
 							<option value="28" class="opt-font-size">28</option>
-							<option value="28" class="opt-font-size">30</option>
+							<option value="30" class="opt-font-size">30</option>
 							<option value="32" class="opt-font-size">32</option>
 							<option value="36" class="opt-font-size">36</option>
 							<option value="48" class="opt-font-size">48</option>
 							<option value="72" class="opt-font-size">72</option>
 						</select><span>&nbsp;px</span></div></td>
 				</tr>
+				
 				<tr><td class='space' colSpan='2'></td></tr>
-				<tr><td colSpan="2"><textarea id="styles-textarea" name="txtarea" class="txtarea" rows="3" value=""></textarea></td></tr>
-				<tr><td class='space' colSpan='2'></td></tr>
-				<tr><td colSpan="2"><div id="wrap-show-css">
-					<a id="show-css"><b>show css text</b></a>
-				</div></td></tr>
-				<tr><td class='space' colSpan='2'></td></tr>
-				<tr><td colSpan="2"><div class="outer">
-					<div class="inner"><div id="tgl-apply-color"><div id="tgl-apply-color-string">
-						<a><b>bg color</b></a>
-						<a><b>font color</b></a>
-					</div></div></div>
-				</div></td></tr>
-			</tbody></table>
+			</tbody></table></td>
 			
-			<div id="wrap-preview"><div id="preview"></div></div>
-		</div>
+			<td id="content-center">
+				<h4 class="title">Current Styles</h4>
+				<div class="outer"><div class="inner"><table id="current-styles-table" cellspacing="0"><tbody>
+					<tr><th><span>bg color</span></th><td><span id="current-background-color">none specified</span></td></tr>
+					<tr><td class="tr-border" colSpan="2">&nbsp;</td></tr>
+					<tr><th><span>font color</span></th><td><span id="current-color">none specified</span></td></tr>
+					<tr><td class="tr-border" colSpan="2">&nbsp;</td></tr>
+					<tr><th><span>font family</span></th><td><span id="current-font-family">none specified</span></td></tr>
+					<tr><td class="tr-border" colSpan="2">&nbsp;</td></tr>
+					<tr><th><span>font size</span></th><td><span id="current-font-size">none specified</span></td></tr>
+					<tr><td class="tr-border" colSpan="2">&nbsp;</td></tr>
+					<tr><th><span>font style</span></th><td><span id="current-font-style">none specified</span></td></tr>
+					<tr><td class="tr-border" colSpan="2">&nbsp;</td></tr>
+					<tr><th><span>font weight</span></th><td><span id="current-font-weight">none specified</span></td></tr>
+				</tbody></table></div></div>
+				
+				<div id="wrap-show-css"><a id="show-css"><b>Make CSS Text</b></a></div>
+			</td>
+			
+			<td id='content-right'>
+				<div id="wrap-navi">
+					<h4 class="title">Navi</h4>
+					<div class="outer"><div class="inner">
+						<ul id="navi-list">
+							<li><a class="navi-item"><b>named-color</b></a></li>
+							<li><a class="navi-item"><b>web-color</b></a></li>
+							<li><a class="navi-item"><b>font-family</b></a></li>
+						</ul>
+				</div></div></div>
+							
+				<div di='apply-attr-wrap'>
+					<h4 class="title">Apply Attr</h4>
+					<div class="outer"><div class="inner">
+						<div id="apply-attr-outer"><div id="apply-attr-inner">
+							<a><b>bg color</b></a>
+							<a><b>font color</b></a>
+						</div></div>
+					</div></div>
+				</div>
+			</td>
+			
+		</tr></tbody></table>
 		
-		<div id="wrap-item-navi"><div class="outer"><div class="inner"><table id="item-navi-table"><tbody><tr>
-			<td><a class="item-navi"><b>named-color</b></a></td>
-			<td><a class="item-navi"><b>web-color</b></a></td>
-			<td><a class="item-navi"><b>font-family</b></a></td>
-		</tr></tbody></table></div></div></div>
 		
 		<div style="clear:both;"></div>
+		</div><!-- content-wrap -->
 
 		<div id="wrap-items">
 			<div id="wrap-named-color" class="item-container" style='display: block;'></div>
@@ -116,7 +128,7 @@
 		<div id="footer"><br>
 			<small id='footer-page-title' title="page title"></small><br>
 			<small>Last Modified:</small><small id="lastmod-date" title="last modified"></small><br>
-			<small>© <a href="http://yas-hummingbird.blogspot.com/2008/10/replace-code-string.html">humming bird</a>.</small>
+			<small>© <a href="http://yas-hummingbird.blogspot.com/2009/03/color-and-font-style-tester.html">humming bird</a>.</small>
 			<small title="author">author:y@s</small><br><br>
 		</div>
 	</div>
