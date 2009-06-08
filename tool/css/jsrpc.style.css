@@ -48,6 +48,7 @@ a:hover{
 
 label{
 	padding-left:3px;
+	vertical-align: top;
 }
 
 ol,ul{
@@ -129,7 +130,8 @@ span.attention{
 }
 
 input.exec-order{
-	margin-left:5px;
+	margin:0 0 0 5px;
+	vertical-align:middle;
 }
 
 .txtr-label-wrap,

@@ -4,7 +4,7 @@ eval('var document = doc');
 @*/
 
 var cs = {
-	err_emptyMsg:'ページ中央のテキストエリアに対象文字列を入力して下さい。',
+	err_emptyMsg:'[対象文字列]テキストエリアに対象文字列を入力して下さい。',
 	func: function(){
 	
 		//置換対象文字列を取得
@@ -80,16 +80,6 @@ var cs = {
 			s = cs.replaceBlank(s);
 		
 		return s;
-	},
-	
-	removeSpace:function(s){
-		/*
-		var cols = s.split('\n');
-		for(var i = 0, j = cols.length; i < j; i++)
-			cols[i] = /[^\s]/g.test(cols[i]) ? cols[i] : '';
-			//cols[i] = cols[i].replace(/\s/g,'') == '' ? '' : cols[i];
-		return cols.join('\n');
-		*/
 	},
 	
 	strConcat: function (str, n){
