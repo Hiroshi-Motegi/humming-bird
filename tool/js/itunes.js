@@ -438,13 +438,8 @@ $('.titleToggle').live("click", function(){
 	});
 // ------------------------------------------------------------------------
 
-	$.extend($.my.title,{
-		ja: 'Keyword Search@iTunes Store Ranking Beta',
-		en: 'Keyword Search@iTunes Store Ranking β'
-	});
-	$.my.ver = '1.1';
 	
-	$.setTitle($.my.title.en, $.my.ver);
+	$.setTitle('Keyword Search@iTunes Store Ranking β', '1.1');
 	$.showLastModDate();
 	
 	gfInit(0,0); 

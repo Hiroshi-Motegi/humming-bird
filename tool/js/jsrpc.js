@@ -68,7 +68,7 @@ $.rpc = {
 
 $.showContent = function(callback){
 	$.ajax({
-		url: $.my.contentUrl,
+		url: './js/json.js',
 		dataType: 'json',
 		cache: false,
 		success: function(data){
@@ -211,12 +211,6 @@ $.extend($.my.slctr,{
 	reTxtr:'#txtr-result',
 	checkedOrder:'input.exec-order:checked'
 });
-$.extend($.my.title,{
-	ja: 'Javascript 正規表現 パターン チェック Beta',
-	en: 'Javascript Regular Expressions Pattern Check β'
-});
-$.my.ver = '1.3';
-$.my.contentUrl = './js/json.js';
 
 })(jQuery);
 
@@ -229,7 +223,7 @@ jQuery(function($){
 	$.bindExec();
 	$.bindPastePattern();
 	
-	$.setTitle($.my.title.en, $.my.ver);
+	$.setTitle('Javascript Regular Expressions Pattern Check β', '1.3');
 	$.showLastModDate();
 	
 	if($.browser.msie){

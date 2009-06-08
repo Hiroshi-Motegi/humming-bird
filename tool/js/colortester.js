@@ -372,15 +372,7 @@ jQuery(function($){
 	
 	$.bindMakeCssText();
 	
-	
-	$.extend($.my.title,{
-		ja: 'color and font style tester Beta',
-		en: 'color and font style tester β'
-	});
-	
-	$.my.ver = '1.1';
-	
-	$.setTitle($.my.title.en, $.my.ver);
+	$.setTitle('color and font style tester β', '1.1');
 	$.showLastModDate();
 	
 });
