@@ -16,12 +16,17 @@ body{
 					Verdana;
 }
 
-a:link, a:visited{
+a,a:link, a:visited{
 	cursor: pointer;
 	color: #99cc00;
 	text-decoration:none;
 }
-a:hover,.mnTitle:hover,span.titleToggle:hover{
+a.mnTitle{
+	color: #bbbbc9;
+}
+a:hover,
+.mnTitle:hover,
+span.titleToggle:hover{
 	color: #f66;
 	text-decoration: none;
 }

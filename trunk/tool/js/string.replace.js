@@ -191,11 +191,6 @@ var cs = {
 
 
 (function($){
-$.extend($.my.title,{
-	ja: 'String Replace Beta',
-	en: 'String Replace β'
-});
-$.my.ver = '1.4';
 
 $.bindLabelHoverAnimate = function(selector, nParams, hParams, duration){
 	var
@@ -235,13 +230,13 @@ $.bindSlideOption = function(){
 
 jQuery(function($){
 	$.bindLabelHoverAnimate('.lbl-chk,.lbl-tag,.lbl-code,.lbl-pretty-lang');
+	
 	$.bindSlideOption();
 	
 	$('#btn-exec').click(function(){
 		$(this).blur().flash('170%', {duration: 600});
 		cs.func();
 	});
-	
 	
 	$('#chk-tab').click(function(){
 		$('#space-count').attr('disabled', !$(this).is(':checked'));
@@ -251,7 +246,8 @@ jQuery(function($){
 		$('#firstline-num').attr('disabled', !$(this).is(':checked'));
 	});
 	
-	$.setTitle($.my.title.en, $.my.ver);
+
+	$.setTitle('String Replace β', '1.4');
 	$.showLastModDate();
 	
 	$('#result').focus(function(){

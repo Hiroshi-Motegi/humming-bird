@@ -1,16 +1,11 @@
 (function($){
 $.my = $.extend($.my,{
+	dateDelimiter: '/',
 	slctr: {
 		title:'#title',
 		footerTitle:'#footer-page-title',
 		lastmod: '#lastmod-date'
-	},
-	title:{
-		ja: 'ページタイトル',
-		en: 'page title'
-	},
-	ver: '0.0',
-	dateDelimiter: '/'
+	}
 });
 
 $.attachEvent = function(evName, fn){
