@@ -1,10 +1,9 @@
 /*
- * jQuery plugin gFeed
+ * jQuery plugin iTunesFeed
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  * 
- * Dependencies:
- * [ jQuery plugin gFeed ]
+ * demo http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
  */
 
 (function($){
@@ -14,8 +13,7 @@ $.iTunes = {
 		Top_Songs: 'topsongs',
 		New_Releases: 'newreleases',
 		Just_Added: 'justadded',
-		Featured_Albums: 'featuredalbums',
-		_default: 'topalbums'
+		Featured_Albums: 'featuredalbums'
 	},
 	genre: {
 		all: 0,
@@ -51,25 +49,37 @@ $.iTunes = {
 			italy: 143450,
 			canada:143455,
 			australia: 143460,
-			japan: 143462,
-			// etc ...
-			_default: 143462
+			japan: 143462
 		};
 		
 		prms.country = (function(c){
-			return (+c == c) ? c : countries[c.toLowerCase()] || countries._default;
+			return (+c == c) ? c : countries[c.toLowerCase()] || countries.japan;
 		})(prms.country);
 		
 		callback = $.isFunction(options) ? options : callback || function(){};
 		options = ( !options || $.isFunction(options) ) ? {} : options;
-		options.q = 
-			'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
+		options.q = 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
 			prms.category +
 			'/sf=' + prms.country +
 			'/limit=' + prms.limit +
 			'/genre=' + prms.genre + '/rss.xml';
 		
 		$.gFeed(options, callback);
+	}
+}
+
+
+$.gFeed = function(options, callback){
+	var opt = $.extend({
+		v: '1.0',
+		num: 10
+	}, options);
+	
+	if (opt.q) {
+		$.getJSON('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', opt, function(data){
+			if (data) 
+				callback.call(this, data.responseData.feed);
+		});
 	}
 }
 })(jQuery);
