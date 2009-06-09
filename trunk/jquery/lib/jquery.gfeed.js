@@ -8,6 +8,9 @@
  * 
  * reference:
  * http://code.google.com/intl/ja/apis/ajaxfeeds/documentation/reference.html#_intro_fonje
+ * 
+ * demo:
+ * http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/gfeed.demo.html
  */
 
 (function($){

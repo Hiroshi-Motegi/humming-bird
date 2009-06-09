@@ -318,16 +318,18 @@ $.getCssDialog = function(){
 		color: '#fff',
 		fontFamily: 'Tahoma',
 		fontSize: '16px',
+		lineHeight:'20px',
 		margin: '10px',
 		overflow: 'auto',
 		width: '80%'
+	}).focus(function(){
+		$(this).select();
 	}).click(function(event){
 		event.stopPropagation();
 	}).keydown(function(e){
 		e.stopPropagation();
 	}).val((function(){
 		var cs = ['background-color', 'color', 'font-family', 'font-size', 'font-style', 'font-weight'], str = [];
-		
 		for (var i = 0; i < cs.length; i++) 
 			str.push(cs[i] + ':' + $('#current-' + cs[i]).text());
 		

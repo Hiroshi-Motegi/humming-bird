@@ -3,37 +3,66 @@
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  * 
- * demo http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
+ * demo:
+ * http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
  */
 
 (function($){
 $.iTunes = {
 	categories: {
-		Top_Albums: 'topalbums',
-		Top_Songs: 'topsongs',
-		New_Releases: 'newreleases',
-		Just_Added: 'justadded',
-		Featured_Albums: 'featuredalbums'
+		'Top Albums': 'topalbums',
+		'Top Songs': 'topsongs',
+		'New Releases': 'newreleases',
+		'Just Added': 'justadded',
+		'Featured Albums': 'featuredalbums'
 	},
 	genre: {
-		all: 0,
-		country:6,
-		electronic: 7,
-		folk: 10,
-		jazz:11,
-		newAge: 13,
-		pop: 14,
-		rb_Soul: 15,
-		dance:17,
-		hiphop_Rap: 18,
-		world: 19,
-		rock: 21,
-		vocal:23,
-		reggae:24,
-		jPop: 27
+		'All': 0,
+		'Country':6,
+		'Electronic': 7,
+		'Folk': 10,
+		'Jazz':11,
+		'New Age': 13,
+		'Pop': 14,
+		'R&B/Soul': 15,
+		'Dance':17,
+		'HipHop/Rap': 18,
+		'World': 19,
+		'Rock': 21,
+		'Vocal':23,
+		'Reggae':24,
+		'J-Pop': 27
 		// etc ...
 	},
-	feed: function( params, options, callback){
+	//genre exchanger
+	gex: {
+		0:'All',
+		6:'Country',
+		7:'Electronic',
+		10:'Folk',
+		11:'Jazz',
+		13:'New Age',
+		14:'Pop',
+		15:'R&B/Soul',
+		17:'Dance',
+		18:'HipHop/Rap',
+		19:'World',
+		21:'Rock',
+		23:'Vocal',
+		24:'Reggae',
+		27:'J-Pop'
+	},
+	countries: {
+		usa: 143441,
+		france: 143442,
+		germany: 143443,
+		uk: 143444,
+		italy: 143450,
+		canada:143455,
+		australia: 143460,
+		japan: 143462
+	},
+	feed: function( params, callback){
 		var prms = $.extend({
 			category:'topalbums',
 			country:143462,
@@ -41,43 +70,34 @@ $.iTunes = {
 			genre:0
 		}, params);
 		
-		var countries = {
-			usa: 143441,
-			france: 143442,
-			germany: 143443,
-			uk: 143444,
-			italy: 143450,
-			canada:143455,
-			australia: 143460,
-			japan: 143462
-		};
+		callback = $.isFunction(params) ? params : callback || function(){};
 		
-		prms.country = (function(c){
-			return (+c == c) ? c : countries[c.toLowerCase()] || countries.japan;
-		})(prms.country);
+		var op = {
+			num: '-1',
+			scoring:'h',
+			q: 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
+				prms.category.toLowerCase() +
+				'/sf=' + (function(c){
+					return (+c == c) ? c : $.iTunes.countries[c.toLowerCase()] || $.iTunes.countries.japan;
+				})(prms.country) +
+				'/limit=' + prms.limit +
+				'/genre=' + prms.genre + '/rss.xml'
+		}
 		
-		callback = $.isFunction(options) ? options : callback || function(){};
-		options = ( !options || $.isFunction(options) ) ? {} : options;
-		options.q = 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
-			prms.category +
-			'/sf=' + prms.country +
-			'/limit=' + prms.limit +
-			'/genre=' + prms.genre + '/rss.xml';
-		
-		$.gFeed(options, callback);
+		$.gFeed(op, callback);
 	}
 }
 
 
 $.gFeed = function(options, callback){
-	var opt = $.extend({
+	var op = $.extend({
 		v: '1.0',
 		num: 10
 	}, options);
 	
-	if (opt.q) {
-		$.getJSON('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', opt, function(data){
-			if (data) 
+	if (op.q) {
+		$.getJSON('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', op, function(data){
+			if (data)
 				callback.call(this, data.responseData.feed);
 		});
 	}

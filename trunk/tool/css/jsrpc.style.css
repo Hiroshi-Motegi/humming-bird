@@ -232,13 +232,16 @@ textarea,input.txt{
 }
 
 #content-right-wrap .pt-wrap{
-	font-size:14px;
-	height:28px;
-	line-height:28px;
 	background-color:#202020;
 	border: 1px solid #333;
 	word-break:break-all;
 	word-wrap:break-word;
+}
+#content-right-wrap .pt-wrap,
+#content-right-wrap .pt-wrap .pattern{
+	font-size:14px;
+	height:28px;
+	line-height:28px;
 }
 #content-right-wrap .pt-wrap .pattern{
 	font-weight: normal;
