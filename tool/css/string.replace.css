@@ -1,19 +1,16 @@
- * {
-	margin: 0;
-	padding: 0;
-}
-body,
-input.txtbox{
+body,input.txtbox{
 	font-size: 14px;
 	color: #BBBBBB;
 }
-
-input[type=radio] ,
-input[type=checkbox] ,
-label{
-	vertical-align:middle;
+a{color:#999966;}
+a:hover{color:#ffff99}
+.wrap{margin-bottom:10px}
+#btn-exec{
+	text-align: center;
+	display: block;
+	line-height: 1.8em;
+	background-color: #303030;
 }
-
 .btn-outer{
 	border-top: 1px solid #1a1a1a;
 	border-bottom: 1px solid #4c4c4c;
@@ -27,38 +24,15 @@ label{
 	border-right: 1px solid #1a1a1a;
 }
 
-a{
-	cursor: pointer;
-	text-decoration:none;
-	color:#999966;
-}
-a:hover{
-	color:#ffff99;
-}
+.txtarea-wrap,table,.label{margin: 0 auto}
 
-.wrap{
-	margin-bottom:10px;
-}
-
-#btn-exec{
-	text-align: center;
-	display: block;
-	line-height: 1.8em;
-	background-color: #303030;
-}
-
-.txtarea-wrap,
-table,.label{ margin: 0 auto; }
-
-#outer-wrap0{
-	background: url("../img/bg_cb_120x120.png");
-}
+#outer-wrap0{background: url("../img/bg_cb_120x120.png")}
 
 #left-wrap{
 	border-left: 1px solid #1a1a1a;
 	border-right: 1px solid #1a1a1a;
-	width: 230px;
 	float:left;
+	width: 230px;
 }
 
 #left-wrap-inner{
@@ -67,8 +41,6 @@ table,.label{ margin: 0 auto; }
 	background-color:#333;
 	padding:0 10px;
 }
-
-
 
 #content-wrap{
 	width: 740px;
@@ -183,8 +155,9 @@ label{
 	margin-left: 4px;
 }
 
-#usage table{ 
+#usage-table tr td{ 
 	font-size:12px;
+	line-height:1.5em;
 }
 
 .tr-space,.tr-space td{

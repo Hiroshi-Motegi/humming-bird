@@ -1,16 +1,8 @@
-*{padding:0;margin:0}
+*{padding:0;margin:0;line-height:1.5em}
 body {
 	background-color:#1a1a1a;
-	font-family:
-		Meiryo,
-		'メイリオ',
-		'Hiragino Kaku Gothic Pro',
-		'ヒラギノ角ゴ Pro W3' ,
-		'Century Gothic',
-		Verdana;
+	font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,'Century Gothic',Verdana;
 	font-size:16px;
-	margin: 0;
-	padding: 0;
 }
 h1{font-size:32px}
 h2{font-size:24px}
@@ -19,8 +11,8 @@ h4{font-size:16px}
 h5{font-size:13px}
 h6{font-size:11px}
 small{font-size:13px}
-h1,h2,h3,h4,h5,h6,p,small{line-height:1em}
-ol,ul{text-indent:0;margin: 0 0 0 1em;padding:0}
+ol,ul{text-indent:0;margin:0 0 0 1em;padding:0}
+ol{margin-left:1.6em}
 /*ブラウザによって異なるので後に明確に指定すること*/
 img{border-width:0}
 a{
@@ -29,9 +21,8 @@ a{
 	text-decoration:none;
 }
 a:hover{color:#0099ff}
-/*下に隙間が出来るのを防ぐ*/
-a img{vertical-align:middle}
 
+a img,input,label{vertical-align:middle}
 /* -=-=-=-=-=-=- header -=-=-=-=-=-=-=- */
 #header-wrap,#header-inner,#header,#title{height:80px}
 #header-wrap{background-image: url(../img/hb_head_bg_100x80.png)}

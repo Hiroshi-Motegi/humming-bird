@@ -5,7 +5,7 @@
 	<meta http-equiv='Content-Script-Type' content='text/javascript; charset=utf-8' />
 	<meta http-equiv='Content-Style-Type' content='text/css; charset=utf-8' />
 	<meta content='y@s' name='author'/>
-	<meta content='iTunes + YouTube' name='description'/>
+	<meta content='iTunes + YouTube = iTube' name='description'/>
 	<meta content='iTunes,YouTube' name='keyword'/>
 	<title>iTube β</title>
 	<link rel='stylesheet' href='./css/common.css' media='screen' type='text/css' charset='utf-8' />
@@ -42,11 +42,13 @@
 
 jQuery(function($){
 
+var itunes = $.iTunes;
+
 $.iTunes.feed({
-		category:$.iTunes.categories.Top_Albums,
+		category:itunes.categories['Top Songs'],
 		country:'japan',
-		limit:10,
-		genre:$.iTunes.genre.rock
+		limit:3,
+		genre:itunes.genre['Rock']
 	},
 	function(feed){
 		var $div = $('<div>').append($('<h3>').text(feed.description));
@@ -57,15 +59,28 @@ $.iTunes.feed({
 });
 
 
-var $gLst = $('<ul>');
 
-for(var g in $.iTunes.genre){
-	var $a = $('<a>').attr('href', 'javascript:void(0)').text(g);
-	$.data($a.get(0), 'genre', $.iTunes.genre[g]);
-	$('<li>').append($a).appendTo($gLst);
+
+var categories = $.iTunes.categories;
+var genre = $.iTunes.genre;
+var datakey = 'itunes';
+
+for (var c in categories) {
+	var $gLst = $('<ul>');
+	for (var g in genre) {
+		var $a = $('<a>').attr('href', 'javascript:void(0)').text(g);
+		
+		$.data($a.get(0), datakey, {
+			'category':categories[c],
+			'genre': genre[g]
+		});
+		
+		$('<li>').append($a).appendTo($gLst);
+	}
+	$('#outer-wrap3').append($gLst);
 }
 
-$('#outer-wrap3').append($gLst);
+
 
 
 
@@ -97,7 +112,7 @@ $('#outer-wrap3').append($gLst);
 </head>
 <body>
 	<div id="header-wrap"><div id="header-inner"><div id="header">
-		<h1 id="title" title="page title">iTube β</h1>
+		<h1 id="title" title="Page Title">iTube β</h1>
 	</div></div></div>
 	<div class="line-outer"><div class="line-inner"></div></div>
 	
