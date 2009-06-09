@@ -246,6 +246,9 @@ jQuery(function($){
 		$('#firstline-num').attr('disabled', !$(this).is(':checked'));
 	});
 	
+	$('textarea').attr({
+		'Rows': $.browser.msie ? 14 : 11
+	});
 
 	$.setTitle('String Replace β', '1.4');
 	$.showLastModDate();

@@ -1,7 +1,6 @@
 body {
 	color: #ccc;
 }
-
 body,textarea,input,label{
 	font-size: 14px;
 	font-family:
@@ -12,17 +11,11 @@ body,textarea,input,label{
 		'ヒラギノ角ゴ Pro W3' ,
 		Verdana;
 }
-h1{
-	margin:0;
-}
+h1{margin:0}
 
-textarea{
-	overflow:auto;
-}
+textarea{overflow:auto}
 
-textarea,input{
-	border-width:0;
-}
+textarea,input{border-width:0}
 
 textarea,input.txt{
 	padding:0;
