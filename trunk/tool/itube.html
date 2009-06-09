@@ -15,35 +15,126 @@
 
 <script type='text/javascript'>
 (function($){
-	$.myAccordion = function(options){
-		var opt = $.extend({
-			tglSelector: '#sac-tab-list li.sac-tab',
-			contSelector: '#sac .sac-cont',
-			duration: 250
-		}, options), $conts = jQuery(opt.contSelector), $tgls = jQuery(opt.tglSelector);
+$.myAccordion = function(options){
+	var op = $.extend({
+		cont: '', //content selector
+		cWrap:'', //category wrapper selector
+		duration: 350,
+		navi: '', // navigation selector
+		wrap:'' // navigation wrapper selector
+	}, options),
+	$navi = $(op.navi),
+	$conts = $(op.cont),
+	$cWrap = $(op.cWrap);
+	
+	$conts.sameHeight().hide().filter(':first').show();
+	$(op.wrap).height(($cWrap.eq(1).outerHeight() * ($cWrap.length - 1)) + $cWrap.eq(0).outerHeight());
+	
+	$cWrap
+		.width($cWrap.width())
+		.each(function(index,elm){
+			$.data(elm,'posTop',$(elm).position().top);
+		})
+		.eq(0)
+		.css({top:'auto',position:'static'})
+		.nextAll()
+		.setAbsolute();
+	
+	$navi.eq(0).addClass('current').end().click(function(e){
+		var
+		$t = $(e.target),
+		$c = $conts.eq($navi.index($t));
 		
-		$conts.hide().filter(':first').show();
-		$tgls.eq(0).addClass('current');
+		if ($c.is(':hidden')) {
+			$t.addClass('current').parent().prevAll().andSelf().css({top:'auto',position:'static'});
+			$conts.filter(':visible').slideUp(op.duration);
+			$c.slideDown(op.duration,function(){
+				$navi.not($t).removeClass('current');
+				$t.parent().nextAll().setAbsolute();
+			});
+		}
 		
-		$tgls.click(function(e){
-			var $t = $(e.target), index = $tgls.index($t), $c = $conts.eq(index);
-			
-			if ($c.is(':hidden')) {
-				$conts.filter(':visible').slideUp(opt.duration);
-				$t.siblings().removeClass('current');
-				$c.slideDown(opt.duration);
-				$t.addClass('current');
-			}
+		return false;
+	});
+}
+
+
+
+$.fn.extend({
+setAbsolute:function(){
+	return this.each(function(){
+		$(this).css({
+			top: $.data(this, 'posTop'),
+			position: 'absolute'
 		});
+	});
+},
+createiTunesNavi:function(){
+	
+	var
+	datakey = 'itunes',
+	elmKey = datakey + '-navi',
+	wrapID = elmKey + '-wrap',
+	cWrapClass = elmKey + '-category-wrap',
+	tglClass = elmKey + '-tgl',
+	contClass = elmKey + '-list',
+	categories = $.iTunes.categories,
+	genre = $.iTunes.genre,
+	$wrap = $('<div>').attr('id', wrapID);
+	
+	for (var c in categories) {
+		
+		var $cWrap = $('<div>')
+			.addClass(cWrapClass)
+			.append($('<a>').addClass(tglClass).text(c))
+			.appendTo($wrap);
+		
+		var $gLst = $('<ul>').addClass(contClass).appendTo($cWrap);
+		
+		for (var g in genre) {
+			var $a = $('<a>').attr('href', 'javascript:void(0)').text(g);
+			
+			$.data($a.get(0), datakey, {
+				'category':categories[c],
+				'genre': genre[g]
+			});
+			
+			$('<li>').append($a).appendTo($gLst);
+		}
 	}
+	
+	$(this).append($wrap);
+	
+	$.myAccordion({
+		cont:'ul.' + contClass,
+		cWrap:'div.' + cWrapClass,
+		navi:'a.' + tglClass,
+		wrap:'#' + wrapID
+	});
+	
+	return this;
+},
+sameHeight: function(){
+	var h = 0;
+	return this.each(function(){
+		h = Math.max(h, $(this).outerHeight());
+	}).height(h);
+}
+
+});
 	
 })(jQuery);
 
 
 jQuery(function($){
 
-var itunes = $.iTunes;
+	$('#outer-wrap3').createiTunesNavi();
 
+	$.setTitle('iTube β', '1.0');
+	$.showLastModDate();
+
+
+/*
 $.iTunes.feed({
 		category:itunes.categories['Top Songs'],
 		country:'japan',
@@ -57,41 +148,21 @@ $.iTunes.feed({
 	    });
 		$('#outer-wrap3').append($div);
 });
+*/
 
-
-
-
-var categories = $.iTunes.categories;
-var genre = $.iTunes.genre;
-var datakey = 'itunes';
-
-for (var c in categories) {
-	var $gLst = $('<ul>');
-	for (var g in genre) {
-		var $a = $('<a>').attr('href', 'javascript:void(0)').text(g);
-		
-		$.data($a.get(0), datakey, {
-			'category':categories[c],
-			'genre': genre[g]
-		});
-		
-		$('<li>').append($a).appendTo($gLst);
-	}
-	$('#outer-wrap3').append($gLst);
-}
-
-
-
-
-
-
-	$.setTitle('iTube β', '1.0');
-	$.showLastModDate();
 });
 </script>
 
 
 <style>
+
+a{
+	color:#aba;
+}
+a:hover{
+	color:#dfd;
+}
+
 /* --wrap ----------------------------------- */
 #outer-wrap0{}
 #outer-wrap1{
@@ -106,6 +177,51 @@ for (var c in categories) {
 #outer-wrap3{
 	width:960px;
 	margin: 0 auto;
+}
+
+/* --itunes-navi ----------------------------------- */
+#itunes-navi-wrap{
+	background-color:#4c4c4c;
+	border: 1px solid #2a2a2a;
+	font-size:14px;
+	overflow:hidden;
+	padding-top:2px;
+	position: relative;
+	width:160px;
+}
+
+#itunes-navi-wrap div.itunes-navi-category-wrap{
+	padding:0 2px 2px;
+}
+
+#itunes-navi-wrap a.itunes-navi-tgl{
+	background-color:#333;
+	border: 1px solid #2a2a2a;
+	display:block;
+	font-weight:bold;
+	height:24px;
+	line-height:24px;
+	text-align:center;
+}
+
+#itunes-navi-wrap a.itunes-navi-tgl.current{
+	background-color:#4c4c4c;
+	border: 1px solid #4c4c4c;
+	color:#000;
+	cursor:default;
+}
+#itunes-navi-wrap a.itunes-navi-tgl.current:hover{
+	color:#000;
+}
+
+#itunes-navi-wrap ul.itunes-navi-list{
+	margin:0;
+	list-style:none;
+	text-align:center;
+}
+
+#itunes-navi-wrap ul.itunes-navi-list li a{
+	display:block;
 }
 
 </style>

@@ -7,29 +7,25 @@
 	<title>Basic CSS</title>
 
 <style type="text/css">
-/* テスト用 */
-*{margin:0;padding:0;line-height:1em}
-body{font-family:Meiryo,'メイリオ',Verdana, Geneva, Arial, Helvetica, sans-serif}
-body{font-size:16px}
+a,b,body,dd,div,dl,dt,form,h1,h2,h3,h4,h5,h6,input,label,li,ol,p,small,span,strong,table,textarea,tbody,td,tr,ul{margin:0;padding:0;line-height:1.5em}
+body,input,textarea{font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,'Century Gothic',Verdana, Geneva, Arial, Helvetica, sans-serif}
 h1{font-size:32px}
 h2{font-size:24px}
 h3{font-size:19px}
-h4{font-size:16px}
-h5{font-size:13px}
+body,h4,textarea{font-size:16px}
+h5,input,small{font-size:13px}
 h6{font-size:11px}
-small{font-size:13px}
-/*h1,h2,h3,h4,h5,h6,p,small,dl,dt,dd,span{line-height:1em}*/
 ol,ul{text-indent:0;margin:0 0 0 1em;padding:0}
 ol{margin-left:1.6em}
-/*ブラウザによって異なるので後に明確に指定すること*/
 img{border-width:0}
-/*下に隙間が出来るのを防ぐ*/
-a img{vertical-align:middle}
+a{color:#006699;cursor:pointer;text-decoration:none}
+a:hover{color:#0099ff}
+a img,input,label,textarea{vertical-align:middle}
+textarea{overflow:auto}
+
 
 /*IEで隙間が出来る*/
 /*li{ vertical-align:bottom; }*/
-
-
 </style>
 </head>
 <body>
@@ -40,6 +36,7 @@ a img{vertical-align:middle}
 	<h5>h5 あいうえお New Web Project Page</h5>
 	<h6>h6 あいうえお New Web Project Page</h6>
 	<p>p あいうえお New Web Project Page</p>
+	<a>a あいうえお New Web Project Page</a><br>
 	<small>small あいうえお New Web Project Page</small>
 	<div style='margin:20px 0;'>
 		<p style='font-size:32px'>32px あいうえお New Web Project Page</p>
@@ -49,6 +46,13 @@ a img{vertical-align:middle}
 		<p style='font-size:13px'>13px あいうえお New Web Project Page</p>
 		<p style='font-size:11px'>11px あいうえお New Web Project Page</p>
 	</div>
+	
+	<form action="" method="" accept-charset="utf-8">
+		<p><input type="radio" name='rdo1' id='rdo01' /><label for='rdo01'>label 1</label></p>
+		<p><input type="checkbox" name='chk1' id='chk01' /><label for='chk01'>label 1</label></p>
+		<p><input type="text" value="text" /><input type="submit" value="Continue" /></p>
+		<p><textarea>textarea</textarea></p>
+	</form>
 	<ul>
 		<li>ul li - 01</li>
 		<li>ul li - 02</li>
@@ -58,15 +62,13 @@ a img{vertical-align:middle}
 		<li>ol li - 01</li>
 		<li>ol li - 02</li>
 		<li>ol li - 03</li>
-		<li>ol li - 01</li>
-		<li>ol li - 02</li>
-		<li>ol li - 03</li>
-		<li>ol li - 01</li>
-		<li>ol li - 02</li>
-		<li>ol li - 03</li>
-		<li>ol li - 01</li>
-		<li>ol li - 02</li>
-		<li>ol li - 03</li>
+		<li>ol li - 04</li>
+		<li>ol li - 05</li>
+		<li>ol li - 06</li>
+		<li>ol li - 07</li>
+		<li>ol li - 08</li>
+		<li>ol li - 09</li>
+		<li>ol li - 10</li>
 	</ol>
 </body>
 </html>
