@@ -16,8 +16,16 @@ $.iTunes = {
 		'Just Added': 'justadded',
 		'Featured Albums': 'featuredalbums'
 	},
+	cex: {
+		'Top Albums': 'トップアルバム',
+		'Top Songs': 'トップソング',
+		'New Releases': '最新リリース',
+		'Just Added': '新規追加',
+		'Featured Albums': '特集 & 限定'
+	},
 	genre: {
 		'All': 0,
+		'Blues':2,
 		'Country':6,
 		'Electronic': 7,
 		'Folk': 10,
@@ -81,7 +89,7 @@ $.iTunes = {
 					return (+c == c) ? c : $.iTunes.countries[c.toLowerCase()] || $.iTunes.countries.japan;
 				})(prms.country) +
 				'/limit=' + prms.limit +
-				'/genre=' + prms.genre + '/rss.xml'
+				'/genre=' + prms.genre + '/explicit=true/rss.xml'
 		}
 		
 		$.gFeed(op, callback);

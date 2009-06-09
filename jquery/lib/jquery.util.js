@@ -109,7 +109,7 @@ $.fn.extend({
   arrangeHeight:function() {
     var h = 0;
     return this.each(function() {
-        h = Math.max($(this).height(), h);
+        h = Math.max($(this).outerHeight(), h);
       }).height(h);
   }
 })
@@ -138,17 +138,17 @@ $.merge = function(o1, o2){
 	o1 = o1 || {};
 	o2 = o2 || {};
 	
-	var ret = {}, i;
+	var re = {}, i;
 	
 	for (i in o1) {
 		if (o1.hasOwnProperty(i)) {
-			ret[i] = o1[i];
+			re[i] = o1[i];
 		}
 	}
 	for (i in o2) {
 		if (o2.hasOwnProperty(i)) {
-			ret[i] = o2[i];
+			re[i] = o2[i];
 		}
 	}
-	return ret;
+	return re;
 }
