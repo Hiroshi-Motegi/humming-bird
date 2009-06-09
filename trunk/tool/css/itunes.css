@@ -5,7 +5,6 @@ html *{
 }
 
 body{
-	min-width: 984px;
 	color: #bbbbc9;
 	font-size: 12px;
 	font-family: Meiryo,
@@ -16,7 +15,7 @@ body{
 					Verdana;
 }
 
-a,a:link, a:visited{
+a{/*,a:link, a:visited{*/
 	cursor: pointer;
 	color: #99cc00;
 	text-decoration:none;
@@ -24,13 +23,10 @@ a,a:link, a:visited{
 a.mnTitle{
 	color: #bbbbc9;
 }
-a:hover,
-.mnTitle:hover,
-span.titleToggle:hover{
+a:hover{
 	color: #f66;
 	text-decoration: none;
 }
-
 a img{
 	cursor: pointer;
 	vertical-align: middle;
@@ -126,23 +122,25 @@ li{
 	background: url("../img/if_menubg.png") no-repeat center;
 }
 
-.mnChild a{
+li.mnChild a{
 	display: block;
-	line-height: 2em;
 	margin:0 10px;
 }
 
-.mnTitle span.tglL,.mnTitle span.tglR{
-	color: #333;
-	width: 1.4em;
+li.mnChild a,
+a.mnTitle span{
+	height:24px;
+	line-height:24px;
+}
+
+a.mnTitle span.tglL,
+a.mnTitle span.tglR{
+	color: #4c4c4c;
 	text-align: center;
+	width: 1.4em;
 }
-.mnTitle span.tglL{
-	float: left;
-}
-.mnTitle span.tglR{
-	float: right;
-}
+a.mnTitle span.tglL{float: left}
+a.mnTitle span.tglR{float: right}
 
 #eOptionForm{
 	 margin: 0 0 0 8px;

@@ -125,13 +125,14 @@ a:hover{
 
 /* -- textarea -- */
 #styles-textarea{
-	color:#1a1a1a;
 	background-color:#c0c0c0;
+	border-width:1px;
+	color:#1a1a1a;
 	font-size:16px;
-	overflow:auto;
 	line-height:1em;
 	margin:0 auto;
-	border-width:1px;
+	overflow:auto;
+	vertical-align:bottom;
 	width:218px;
 }
 

@@ -1,4 +1,4 @@
-body,input.txtbox{
+body,input,label,textarea{
 	font-size: 14px;
 	color: #BBBBBB;
 }
@@ -155,13 +155,9 @@ label{
 	margin-left: 4px;
 }
 
-#usage-table tr td{ 
-	font-size:12px;
-	line-height:1.5em;
-}
-
-.tr-space,.tr-space td{
-	height:10px;
+#usage-table tr td{ font-size:12px }
+#usage-table .tr-space td{
+	height:6px;
 	line-height:0;
 	font-size:0;
 }
