@@ -12,21 +12,27 @@
 <script type="text/javascript">
 $(function(){
 	$(document).click(function(e){
-		if(e.button == 0) $.overlay.show(function(){
-			$('<p>')
-				.attr('id', 'pdesc')
-				.css({color:'#fff',fontSize:'18px',position:'absolute'})
-				.text('Press Key [Enter] or [Esc]. else [Click]')
-				.positionCenter()
-				.appendTo(document.body);
-				
-		});
-	});
-	
-	$($.overlay.selector).bind($.overlay.eventKey, function(){
-		$.overlay.hide(function(){
-			$('#pdesc').remove();
-		});
+		
+		if (e.button == 0) {
+			$.overlay.show(function(){
+				$('<p>')
+					.attr('id', 'pdesc')
+					.text('Press Key [Enter] or [Esc]. else [Click]')
+					.positionCenter()
+					.click(function(e){
+						e.stopPropagation();
+					})
+					.appendTo(document.body);
+			});
+			
+			
+			$.overlay.$ovLayer.bind($.overlay.evName, function(){
+				$.overlay.hide(function(){
+					$('#pdesc').remove();
+				});
+			});
+		}
+		
 	});
 	
 });
@@ -34,6 +40,11 @@ $(function(){
 <style>
 body{
 	height:1200px;
+}
+#pdesc{
+	color:#fff;
+	font-size:18px;
+	position:absolute;
 }
 span.lbl-select{
 	vertical-align:middle;

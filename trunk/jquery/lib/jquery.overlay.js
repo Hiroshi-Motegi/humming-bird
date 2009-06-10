@@ -1,117 +1,135 @@
 /**
  * jQuery plugin Overlay
  * Copyright 2009 y@s
- * Version 1.0
+ * Version 1.1
  * Released under the MIT and GPL licenses.
  * 
  * demo http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
  */
 
 (function($) {
+	
+	function clickEvh(e){
+		$.overlay.$ovLayer.trigger($.overlay.evName);
+		e.stopPropagation();
+		return false;
+	}
+	
+	function keydownEvh(e){
+		var keycode = (e == null) ? e.keyCode : e.which;
+		if (keycode == 27 || keycode == 13) 
+			$.overlay.$ovLayer.trigger($.overlay.evName);
+		return false;
+	}
+	
+	function resizeEvh(){
+		$.overlay.$ovLayer
+			.hide()
+			.height($(document).height())
+			.width($(document).width())
+			.show();
+	}
+	
 $.overlay = {
-	eventKey:'ovrlyRaiseEvents',
-	selector:'',
+	evName: 'ovrly',
+	$ovLayer: null,
 	options:{
 		id: 'overlay',
 		bgColor: '#000000',
 		bgImgUrl:'none',
-		bgImgOpt:'repeat',
+		bgImgOption:'repeat',
 		opacity: 0.75,
 		duration: 400,
-		easing:'swing',
-		modal:true
+		easing:'swing'
 	},
-	show:function(options, callback){
+	
+	
+	create: function( options, callback ){
+		
+		if($.overlay.$ovLayer) return;
+		
+		callback = $.isFunction(options) ? options : callback || function(){};
+		
 		var
-		opt = $.extend($.overlay.options, options),
-		tmp_id = opt.id,
+		op = $.extend($.overlay.options, options),
+		tmpID = op.id,
 		cnt = 0;
 		
-		while(document.getElementById(tmp_id)){
-			tmp_id = opt.id + cnt;
+		while(document.getElementById(tmpID)){
+			tmpID = op.id + cnt;
 			cnt++;
 		}
 		
-		if(tmp_id != opt.id) opt.id = tmp_id;
-		$.overlay.selector = '#' + opt.id
+		if(tmpID != op.id)
+			op.id = tmpID;
 		
-		if(opt.bgImgUrl != 'none')
-			opt.bgImgUrl = 'url(\'' + opt.bgImg + '\') ' + $.overlay.options.bgImgOpt;
+		if(op.bgImgUrl != 'none')
+			op.bgImgUrl = 'url(\'' + op.bgImg + '\') ' + op.bgImgOption;
+		
+		$.overlay.$ovLayer = $('<div>')
+			.attr('id', op.id)
+			.css({
+				position: 'absolute',
+				left: 0,
+				top: 0,
+				margin: 0,
+				backgroundImage:op.bgImg,
+				backgroundColor: op.bgColor
+			});
+		
+		callback.call(this);
+	
+	},
+	
+	
+	show:function(options, callback){
+		var op = $.extend($.overlay.options, options);
+		
+		if(!$.overlay.$ovLayer)
+			$.overlay.create();
 		
 		callback = $.isFunction(options) ? options : callback || function(){};
 		
 		if( $.browser.msie && $.browser.version<7 )
 			$('embed,object,select').css('visibility', 'hidden');
 		
-		$(window).bind('resize', $.overlay.resize);
+		$(window).bind('resize', resizeEvh);
+		$(document).bind('keydown', keydownEvh);
 		
-		$('<div>')
-			.attr('id', opt.id)
+		$.overlay.$ovLayer
 			.width($(document).width())
 			.height($(document).height())
-			.css({
-				position: 'absolute',
-				left: 0,
-				top: 0,
-				margin: 0,
-				backgroundImage:opt.bgImg,
-				backgroundColor: opt.bgColor
-			})
 			.appendTo(document.body)
 			.fadeTo(0, 0)
-			.animate({opacity: opt.opacity},{
-					duration: opt.duration,
-					easing: opt.easing,
-					complete: callback
-				});
-		
-		$.overlay.bindEvents();
+			.bind('click', clickEvh)
+			.animate({opacity: op.opacity},{
+				duration: op.duration,
+				easing: op.easing,
+				complete: callback
+			});
 	},
+	
+	
 	hide:function(options, callback){
-		var opt = $.extend($.overlay.options, options);
+		var op = $.extend($.overlay.options, options);
 		callback = $.isFunction(options) ? options : (callback || function(){});
 		
-		$(window).unbind('resize', $.overlay.resize);
-		$.overlay.unbindEvents();
+		$(window).unbind('resize', resizeEvh);
 		
-		$($.overlay.selector)
+		$.overlay.$ovLayer
 			.stop(true)
 			.animate({opacity: 0},{
-				duration: opt.duration,
-				easing: opt.easing,
+				duration: op.duration,
+				easing: op.easing,
 				complete: function(){
 					$(this).remove();
 					if ($.browser.msie && $.browser.version < 7) 
 						$('embed, object, select').css('visibility', 'visible');
+						$(document).unbind('keydown', keydownEvh);
 					callback.call(this);
 				}
 			});
-	},
-	resize:function(){
-		$($.overlay.selector)
-			.hide()
-			.height($(document).height())
-			.width($(document).width())
-			.show();
-	},
-	bindEvents:function(){
-		$($.overlay.selector).bind('click', $.overlay.clickEvh)
-		$(document).bind('keydown', $.overlay.keydownEvh);
-	},
-	unbindEvents:function(){
-		$(document).unbind('keydown', $.overlay.keydownEvh);
-	},
-	clickEvh:function(e){
-		$($.overlay.selector).trigger($.overlay.eventKey);
-		e.stopPropagation();
-		return false;
-	},
-	keydownEvh:function(e){
-		var keycode = (e == null) ? e.keyCode : e.which;
-		if (keycode == 27 || keycode == 13) { 
-			$($.overlay.selector).trigger($.overlay.eventKey);
-		}
-		return false;
 	}
+	
 }
 })(jQuery);
