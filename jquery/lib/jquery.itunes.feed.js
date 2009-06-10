@@ -70,7 +70,12 @@ $.iTunes = {
 		australia: 143460,
 		japan: 143462
 	},
-	feed: function( params, callback){
+	feed: function( feedType, params, callback ){
+		
+		callback = $.isFunction(params) ? params : callback || function(){};
+		params = typeof feedType == 'object' ? feedType : params || {};
+		feedType = typeof feedType == 'string' ? feedType : 'xml'; 
+		
 		var prms = $.extend({
 			category:'topalbums',
 			country:143462,
@@ -78,11 +83,11 @@ $.iTunes = {
 			genre:0
 		}, params);
 		
-		callback = $.isFunction(params) ? params : callback || function(){};
-		
 		var op = {
+			v: '1.0',
 			num: '-1',
-			scoring:'h',
+			output:feedType, //json, json_xml, xml
+			//scoring:'h',
 			q: 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
 				prms.category.toLowerCase() +
 				'/sf=' + (function(c){
@@ -90,24 +95,61 @@ $.iTunes = {
 				})(prms.country) +
 				'/limit=' + prms.limit +
 				'/genre=' + prms.genre + '/explicit=true/rss.xml'
+		};
+		
+		function parseXMLfromString(xmlString){
+			if (window.DOMParser) {
+				var parser = new DOMParser();
+				parser.async = false;
+				var dom = parser.parseFromString(xmlString, 'text/xml');
+				return dom.documentElement.firstChild;
+			}
+			else 
+				if (window.ActiveXObject) {
+					var xobj = new ActiveXObject('Microsoft.XMLDOM');
+					xobj.async = false;
+					xobj.loadXML( xmlString );
+					return xobj.documentElement;
+				}
+			return;
 		}
 		
-		$.gFeed(op, callback);
-	}
-}
-
-
-$.gFeed = function(options, callback){
-	var op = $.extend({
-		v: '1.0',
-		num: 10
-	}, options);
-	
-	if (op.q) {
-		$.getJSON('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', op, function(data){
-			if (data)
-				callback.call(this, data.responseData.feed);
-		});
+		/*
+		function parseXMLfromString(xmlString){
+			if (window.DOMParser) {
+				return (new DOMParser()).parseFromString(xmlString, 'text/xml').documentElement;
+			}
+			else 
+				if (window.ActiveXObject) {
+					return (new ActiveXObject('Microsoft.XMLDOM')).loadXML(xmlString).documentElement;
+				}
+			return;
+		}
+		*/
+		
+		$.get('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', op,
+			function(data){
+				if (data && data.responseStatus == 200){
+					switch(op.output){
+						case 'json':
+						callback.call(this, data.responseData.feed);
+						break;
+						case 'xml':
+						callback.call(this, parseXMLfromString(data.responseData.xmlString));
+						break;
+						case 'json_xml':
+						callback.call(this, {
+							'feed':data.responseData.feed,
+							'xml':parseXMLfromString(data.responseData.xmlString)
+						});
+						break;
+						default:
+							return false;
+					}
+				}else{
+					return false;
+				}
+		},'json');
 	}
 }
 })(jQuery);
