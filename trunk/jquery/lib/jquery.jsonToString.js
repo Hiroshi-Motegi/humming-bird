@@ -35,14 +35,14 @@ $.jsonToString = function(json){
 				for (var i = 0, k = o.length; i < k; i++)
 					arr[arr.length] = oFn(o[i]);
 				
-				return '[' + arr.join(',') + ']';
+				return '[' + arr.join(',\n') + ']';
 			case Object:
 					var arr = [];
 					for (var x in o) {
 						if (o.hasOwnProperty(x))
 							arr.push(x + ':' + oFn(o[x]));
 					}
-					return '{' + arr.join(',') + '}';
+					return '{\n' + arr.join(',\n') + '\n}';
 			default:
 				return null;
 		}

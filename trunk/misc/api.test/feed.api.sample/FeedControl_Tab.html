@@ -1,15 +1,17 @@
 <html>
-  <head>
-  	<title>Google Feed API - Sample</title>
-    <script  type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      
+ <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	<title>Google Feed API - Sample</title>
+	<script  type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript">
       google.load("feeds", "1");
 
       function FeedOnSet() {
         var feedControl = new google.feeds.FeedControl();
-        feedControl.addFeed("http://feeds.feedburner.jp/hummingbird/rss", "humming bird");
-		feedControl.addFeed("http://ysnrws.spaces.live.com/feed.rss", "from Y@$");
+        feedControl.addFeed("http://b.hatena.ne.jp/hotentry?mode=rss", "はてな - 最近の人気エントリー");
+		feedControl.addFeed("http://news.google.com/news?hl=ja&ned=ja&ie=UTF-8&oe=UTF-8&output=rss&topic=po", "Google - 話題のニュース");
 		feedControl.setNumEntries(7); //必ず『feedControl.draw』の前に記述すること
         feedControl.draw(document.getElementById("feedfeed"),{drawMode : google.feeds.FeedControl.DRAW_MODE_TABBED});
 		feedControl.setLinkTarget({linkTarget : google.feeds.LINK_TARGET_SELF});

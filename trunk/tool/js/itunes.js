@@ -228,6 +228,7 @@ xFeedURL.prototype = {
 			4:"featuredalbums"};
 		
 		this.URL = urlPart.Top + feedCategory[fc] + urlPart.Country + List_GetSelectedValue("CountryList") + urlPart.Limit + List_GetSelectedValue("EntryCountList");
+		//+ "/explicit=false"
 		
 		if (fg == 0) {
 			this.URL +=  urlPart.Tail;
@@ -241,10 +242,10 @@ function gfInit(fC,fG){
 	
 	var fURL = new xFeedURL(fC,fG);
 	//カテゴリーとジャンルの値を保持するためにtextboxに書き出す
-	Set_CandG_Val(fC,fG);//+ "/explicit=false"
+	Set_CandG_Val(fC,fG);
 	
 	//取得したFeedの内容を表示するタグの取得
-	FeedElement = document.getElementById("feed");
+	var FeedElement = document.getElementById("feed");
 	
 	var feed = new google.feeds.Feed(fURL.URL);
 	
