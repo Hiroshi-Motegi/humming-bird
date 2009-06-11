@@ -344,10 +344,10 @@ $.bindMakeCssText = function(){
 		var $cssDlg = $.getCssDialog();
 		
 		$.overlay.show(function(){
-			$cssDlg.appendTo($($.overlay.selector)).positionCenter().find(':first').focus();
+			$cssDlg.appendTo($.overlay.$ovLayer).positionCenter().find(':first').focus();
 		});
 		
-		$($.overlay.selector).bind($.overlay.eventKey, function(){
+		$.overlay.bind(function(){
 			$.overlay.hide(function(){
 				$cssDlg.remove();
 			});
