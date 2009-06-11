@@ -95,23 +95,31 @@ $.iTunes = {
 		
 		$.get('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', op,
 			function(data){
+				
 				if (data && data.responseStatus == 200){
-					switch(op.output){
+					
+					var feed;
+					
+					switch (op.output) {
 						case 'json':
-						callback.call(this, data.responseData.feed);
-						break;
+							feed = data.responseData.feed;
+							break;
+							
 						case 'xml':
-						callback.call(this, parseXMLfromString(data.responseData.xmlString));
-						break;
+							feed = parseXMLfromString(data.responseData.xmlString);
+							break;
 						case 'json_xml':
-						callback.call(this, {
-							'feed':data.responseData.feed,
-							'xml':parseXMLfromString(data.responseData.xmlString)
-						});
-						break;
+							feed = {
+								'feed': data.responseData.feed,
+								'xml': parseXMLfromString(data.responseData.xmlString)
+							};
+							break;
 						default:
 							return false;
 					}
+					
+					callback.call(this, feed);
+					
 				}else{
 					return false;
 				}
