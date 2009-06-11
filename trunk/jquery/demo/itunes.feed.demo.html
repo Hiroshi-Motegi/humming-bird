@@ -12,17 +12,17 @@
 <script type="text/javascript">
 $(function(){
 // Usage
-$.iTunes.feed({
+$.iTunes.feed('json',{
 		category:$.iTunes.categories['New Releases'],
 		sf:$.iTunes.countries.japan,
 		limit:5,
 		genre:$.iTunes.genre['Rock']
 	},
-	function(feed){
+	function(result){
 		var
 		$div = $('<div>')
-			.append('<h3>' + feed.description + '</h3>'),
-		entries = feed.entries;
+			.append('<h3>' + result.description + '</h3>'),
+		entries = result.entries;
 		
 		for ( var i =0, j = entries.length ; i < j ; i++ )
 			$div.append(entries[i].content);
@@ -54,17 +54,17 @@ pre.prettyprint{
 <div id='usage'>
 <h3>Usage</h3>
 <pre class='prettyprint'>
-$.iTunes.feed({
+$.iTunes.feed('json',{
 &nbsp;&nbsp;&nbsp;&nbsp;category:$.iTunes.categories['New Releases'],
 &nbsp;&nbsp;&nbsp;&nbsp;sf:$.iTunes.countries.japan,
 &nbsp;&nbsp;&nbsp;&nbsp;limit:5,
 &nbsp;&nbsp;&nbsp;&nbsp;genre:$.iTunes.genre['Rock']
 &nbsp;&nbsp;},
-&nbsp;&nbsp;function(feed){
+&nbsp;&nbsp;function(result){
 &nbsp;&nbsp;&nbsp;&nbsp;var
 &nbsp;&nbsp;&nbsp;&nbsp;$div = $('&lt;div&gt;')
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append('&lt;h3&gt;' + feed.description + '&lt;/h3&gt;'),
-&nbsp;&nbsp;&nbsp;&nbsp;entries = feed.entries;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append('&lt;h3&gt;' + result.description + '&lt;/h3&gt;'),
+&nbsp;&nbsp;&nbsp;&nbsp;entries = result.entries;
 &nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;for ( var i =0, j = entries.length ; i &lt; j ; i++ )
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.append(entries[i].content);

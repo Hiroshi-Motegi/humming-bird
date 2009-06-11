@@ -64,17 +64,12 @@ $.iTunes = {
 			num: '-1',
 			output: 'json', //json, json_xml, xml
 			q: 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
-				prms.category.toLowerCase() + '/' +
-				(function(p){
-					var s = []; 
-					for(var a in p){
-						if(p.hasOwnProperty(a))
-							s.push(a + '=' + p[a]);
-					}
-					return s.join('/');
-				})(prms) + '/rss.xml'
-				
-		},{'output':type});
+				prms.category.toLowerCase() +
+				'/sf=' + prms.sf +
+				'/limit=' + prms.limit +
+				'/genre=' + prms.genre +
+				'/explicit=' + prms.explicit + '/rss.xml'
+		},{output:type});
 		
 		function parseXMLfromString(xmlString){
 			if (window.DOMParser) {
