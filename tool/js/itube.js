@@ -128,4 +128,5 @@ setAbsolute:function(){
 }
 
 });
+
 })(jQuery);
