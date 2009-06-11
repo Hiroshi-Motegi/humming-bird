@@ -16,13 +16,6 @@ $.iTunes = {
 		'Just Added': 'justadded',
 		'Featured Albums': 'featuredalbums'
 	},
-	cex: {
-		'Top Albums': 'トップアルバム',
-		'Top Songs': 'トップソング',
-		'New Releases': '最新リリース',
-		'Just Added': '新規追加',
-		'Featured Albums': '特集 & 限定'
-	},
 	genre: {
 		'All': 0,
 		'Blues':2,
@@ -42,24 +35,6 @@ $.iTunes = {
 		'J-Pop': 27
 		// etc ...
 	},
-	//genre exchanger
-	gex: {
-		0:'All',
-		6:'Country',
-		7:'Electronic',
-		10:'Folk',
-		11:'Jazz',
-		13:'New Age',
-		14:'Pop',
-		15:'R&B/Soul',
-		17:'Dance',
-		18:'HipHop/Rap',
-		19:'World',
-		21:'Rock',
-		23:'Vocal',
-		24:'Reggae',
-		27:'J-Pop'
-	},
 	countries: {
 		usa: 143441,
 		france: 143442,
@@ -70,32 +45,36 @@ $.iTunes = {
 		australia: 143460,
 		japan: 143462
 	},
-	feed: function( feedType, params, callback ){
+	feed: function( type, params, callback ){
 		
 		callback = $.isFunction(params) ? params : callback || function(){};
-		params = typeof feedType == 'object' ? feedType : params || {};
-		feedType = typeof feedType == 'string' ? feedType : 'xml'; 
+		params = typeof type == 'object' ? type : params || {};
+		type = typeof type == 'string' ? type : 'json'; 
 		
 		var prms = $.extend({
 			category:'topalbums',
-			country:143462,
+			sf:143462,
 			limit:10,
-			genre:0
+			genre:0,
+			explicit:true
 		}, params);
 		
-		var op = {
+		var op = $.extend({
 			v: '1.0',
 			num: '-1',
-			output:feedType, //json, json_xml, xml
-			//scoring:'h',
+			output: 'json', //json, json_xml, xml
 			q: 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
-				prms.category.toLowerCase() +
-				'/sf=' + (function(c){
-					return (+c == c) ? c : $.iTunes.countries[c.toLowerCase()] || $.iTunes.countries.japan;
-				})(prms.country) +
-				'/limit=' + prms.limit +
-				'/genre=' + prms.genre + '/explicit=true/rss.xml'
-		};
+				prms.category.toLowerCase() + '/' +
+				(function(p){
+					var s = []; 
+					for(var a in p){
+						if(p.hasOwnProperty(a))
+							s.push(a + '=' + p[a]);
+					}
+					return s.join('/');
+				})(prms) + '/rss.xml'
+				
+		},{'output':type});
 		
 		function parseXMLfromString(xmlString){
 			if (window.DOMParser) {
@@ -113,19 +92,6 @@ $.iTunes = {
 				}
 			return;
 		}
-		
-		/*
-		function parseXMLfromString(xmlString){
-			if (window.DOMParser) {
-				return (new DOMParser()).parseFromString(xmlString, 'text/xml').documentElement;
-			}
-			else 
-				if (window.ActiveXObject) {
-					return (new ActiveXObject('Microsoft.XMLDOM')).loadXML(xmlString).documentElement;
-				}
-			return;
-		}
-		*/
 		
 		$.get('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', op,
 			function(data){

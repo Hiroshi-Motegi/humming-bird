@@ -129,7 +129,11 @@ $.overlay = {
 					callback.call(this);
 				}
 			});
-	}
+	},
 	
+	bind:function(fn){
+		if ($.overlay.$ovLayer)
+			$.overlay.$ovLayer.bind($.overlay.evName, fn);
+	}
 }
 })(jQuery);
