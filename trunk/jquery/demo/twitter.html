@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+		<title>jQuery plugin - twitter demo</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+		<script src="../lib/jquery.twitter.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function(){
+	
+	//15421866 or google
+	var user = 'google';
+	$.twitter.tweets( user, {since:'2009-05-01'}, function( data ){
+		$(document.body).append(
+			$('<h3>').text('Tweets - User : ' + user),
+			$('<ul>').append($.map(data, function(t, i){
+					return ('<li>' + t.text + '</li>');
+				}).join('')));
+	});
+	
+	
+	
+	
+	$.twitter.userInfo(user, function(data){
+		var list = [];
+		for (var item in data)
+			list.push(item + ' : ' + data[item]);
+			
+		$(document.body).append('<h3>Twitter User Info - ' +
+			user + '</h3><ul><li>' + list.join('</li><li>') + '</li></ul>');
+	});
+	
+	
+	
+	
+	var keyword = 'google';
+	
+	$.twitter.seach( keyword, function( data ){
+		
+		var list = [];
+		$.each( data, function( indx , dt ) {
+			if (dt)
+				for (var i = 0; i < dt.length; i++)
+					if (dt[i] && dt[i].text)
+						list.push(dt[i].text);
+		});
+		
+		$(document.body).append('<h3>Twitter Seach - keyword : ' +
+			keyword + '</h3><ul><li>' + list.join('</li><li>') + '</li></ul>');
+		
+	});
+
+});
+</script>
+
+<style type="text/css">
+body{
+	font-size:small;
+	font-family:tahoma,verdana;
+}
+</style>
+    </head>
+    <body>
+    	<h1>jQuery plugin - twitter demo ✔</h1>
+    </body>
+</html>
