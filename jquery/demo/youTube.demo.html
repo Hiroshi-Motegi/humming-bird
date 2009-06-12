@@ -11,33 +11,25 @@
 $(function(){
 	// Usage
 	$.youTube({
-		vq: 'metallica',
+		vq: 'amuro',
 		'max-results': 20
 	}, function (feed){
 		var
 		entries = feed.entry,
 		$table = $('<table>'),
 		$tbody = $('<tbody>').appendTo($table),
-		$tr = null;
+		$tr;
 		
 		$.each(entries, function(i, entry){
 			 var mg = entry.media$group;
 			 
-			 if (i % 4 == 0) { 
-			 	$tr = $('<tr>');
-				$tr.appendTo($tbody);
-			 }
+			 if (i % 4 == 0)
+			 	$tr = $('<tr>').appendTo($tbody);
 			 
-			$tr.append(
-				$('<td>').append(
-					$('<a>')
-						.attr({
+			$tr.append($('<td>').append($('<a>').attr({
 							'href': mg.media$player[0].url,
 							'title': entry.title.$t
-						})
-						.append($('<img/>').attr('src', mg.media$thumbnail[0].url))
-				)
-			);
+						}).append($('<img/>').attr('src', mg.media$thumbnail[0].url))));
 		});
 		
 		$('h1').after($table);
