@@ -3,12 +3,12 @@ $.fn.extend({
 createiTunesNavi:function(){
 	
 	var
-	dataKey = $.iTunes.dataKey,
+	dataKey = 'itunes',
 	elmKey = dataKey + '-navi',
 	wrapID = elmKey + '-wrap',
 	cWrapClass = elmKey + '-category-wrap',
-	tglClass = elmKey + '-tgl',
-	contClass = elmKey + '-list',
+	tglClass = elmKey + '-category-tgl',
+	contClass = elmKey + '-genre-list',
 	iCategory = $.iTunes.categories,
 	iGenre = $.iTunes.genre,
 	$wrap = $('<div>').attr('id', wrapID);
@@ -23,21 +23,20 @@ createiTunesNavi:function(){
 		var $gLst = $('<ul>').addClass(contClass).appendTo($cWrap);
 		
 		for (var g in iGenre) {
-			var $a = $('<a>')
+			$('<li>').append($('<a>')
 				.addClass('genre')
-				.attr('href', 'javascript:void(0)')
 				.text(g)
+				.setData(dataKey, {
+					'category':iCategory[c],
+					'genre': iGenre[g]
+				})
 				.click(function(e){
 					$('a.genre.current').removeClass('current');
 					$(e.target).blur().addClass('current');
-				});
-			
-			$.data($a.get(0), dataKey, {
-				'category':iCategory[c],
-				'genre': iGenre[g]
-			});
-			
-			$('<li>').append($a).appendTo($gLst);
+					$.makeiTunesRankingList(
+						$.data(e.target, dataKey).category,
+						$.data(e.target, dataKey).genre);
+				})).appendTo($gLst);
 		}
 	}
 	
@@ -67,9 +66,16 @@ setAbsolute:function(){
 			position: 'absolute'
 		});
 	});
+},
+
+setData:function(key, val){
+	return this.each(function(indx, elm){
+		$.data(elm, key, val);
+	});
 }
 
 });
+
 
 
 $.iTunes = {
@@ -175,17 +181,17 @@ $.iTunes = {
 
 
 $.makeiTunesRankingList = function(category, genre){
-	$('#itunes-feed-list').slideUp(function(){
+	$('#itunes-ranking').slideUp(function(){
 		$.iTunes.gFeed({
 			'category':category,
-			sf: 143462,
-			limit: 10,
+			sf:143441,//$('#itunes-country option:selected').val(),
+			limit:10,//$('#itunes-entry-count option:selected').val(),
 			'genre':genre
 		}, function(feed){
-			
+		
 			var
 			entries = feed.entries,
-			$wrap = $('<div>').append('<h4 id=\'itunes-feed-title\'>' + feed.title + '</h4>');
+			$wrap = $('<div>').append('<h4 id=\'itunes-title\'>' + feed.title + '</h4>');
 			
 			function getNodes (xnd, nm, indx){
 				return google.feeds.getElementsByTagNameNS(xnd, 'http://phobos.apple.com/rss/1.0/modules/itms/', nm)[indx];
@@ -216,30 +222,40 @@ $.makeiTunesRankingList = function(category, genre){
 					var regx = /\s?-\s(?:EP|Single)|\s?\(Single\)/;
 					eex = nds.firstChild.nodeValue;
 					
-					td.push('<th class=\'eLabel\'>Album </th><td><a>' + 
+					td.push('<th class=\'eLabel\'>Album </th><td><a class=\'keyword\'>' + 
 						(regx.test(eex) ? eex.replace(regx, '') + '</a>' + eex.match(regx) :eex + '</a>') + '</td>');
 				}
 				
 				nds = getNodes(eNode, 'artist', 0);
 				if (nds) {
 					eex = nds.firstChild.nodeValue;
-					td.push('<th class=\'eLabel\'>Artist </th><td>' + (/Various Artist/.test(eex) ? eex : '<a>' + eex + '</a>') + '</td>');
+					td.push('<th class=\'eLabel\'>Artist </th><td>' + (/Various Artist/.test(eex) ? eex : '<a class=\'keyword\'>' + eex + '</a>') + '</td>');
 				}
 				
 				nds = getNodes(eNode, 'rights', 0);
 				if (nds)
 					td.push('<td class=\'c-rights\' colSpan=\'2\'>© ' + nds.firstChild.nodeValue + '</td>');
 				
-				$('<table>').append('<tbody><tr>' + td.join('</tr><tr>') + '</tr></tbody>').appendTo($eWrap);
+				$('<table>')
+					.attr({'cellSpacing':'0'})
+					.append('<tbody><tr>' + td.join('</tr><tr>') + '</tr></tbody>')
+					.appendTo($eWrap);
+				
 				$wrap.append($eWrap.append($('<div>').addClass('clear')));
 			}
 			
-			$('#itunes-feed-list').empty().append($wrap.contents()).slideDown();
+			$('#itunes-ranking')
+				.empty()
+				.append(
+					$wrap.contents(),
+					$('<div>').addClass('clear'))
+				.slideDown();
+			
 			$wrap.remove();
+			$.bindKeywordClick();
 		});
 	});
 }
-
 
 $.myAccordion = function(options){
 	var op = $.extend({
@@ -264,14 +280,17 @@ $.myAccordion = function(options){
 	$cWrap
 		.width($cWrap.width())
 		.each(function(index,elm){
-			$.data(elm,'posTop',$(elm).position().top);
+			$.data(elm, 'posTop', $(elm).position().top);
 		})
-		.eq(0).css({top:'auto',position:'static'})
-		.nextAll().setAbsolute();
+		.eq(0)
+		.css({top:'auto',position:'static'})
+		.nextAll()
+		.setAbsolute();
 	
 	$navi
 	.eq(0).addClass('current')
 	.end().each(function(index, elm){
+		
 		var
 		$t = $(elm),
 		$c = $conts.eq($navi.index($t)),
@@ -280,7 +299,7 @@ $.myAccordion = function(options){
 		$nxts = $t.parent().nextAll();
 		
 		$.data(elm, dataKey, function(){
-			if ($c.is(':hidden') && !isAnimated()) {
+			if ( $c.is(':hidden') && !isAnimated() ) {
 				$t.addClass('current');
 				$sttcsTgt.css({top:'auto',position:'static'});
 				$conts.filter(':visible').slideUp(op.duration);
@@ -290,11 +309,77 @@ $.myAccordion = function(options){
 				});
 			}
 		});
+
 	})
 	.click(function(e){
 		$.data(e.target, dataKey).call(e.target);
 		return false;
 	});
+}
+
+
+$.bindKeywordClick = function(){
+	$('a.keyword').click(function(e){
+		$.createThumbTable($(e.target).text(), 9);
+		return false;
+	}).eq(0).trigger('click');
+}
+
+$.createThumbTable = function(keyword, maxResults){
+	$.youTube({
+		'vq': keyword,
+		'max-results': maxResults
+	}, function( feed ){
+		var
+		entries = feed.entry,
+		tableID = 'youtube-thumb-table',
+		$table = $('<table>').attr({'id':tableID,'cellSpacing':'0'}),
+		$tbody = $('<tbody>').appendTo($table),
+		$tr;
+		
+		for( var i = 0, j = entries.length ; i < j ; i++ ){
+			if (i % 3 == 0) 
+				$tr = $('<tr>').appendTo($tbody);
+			
+			$tr.append($.createThumbNail(entries[i]));
+		}
+		
+		$('#' + tableID + '-wrap').empty().append($table, $('<div>').addClass('clear'));
+	});
+}
+
+$.createThumbNail = function(entry){
+	var mg = entry.media$group;
+	
+	return $('<td>')
+		.addClass('thumb-wrap')
+		.append($('<a>')
+			.addClass('thumb-link')
+			.setData('youtube',{
+				'content': mg.media$content ? mg.media$content[0].url.replace(/&f=videos&app=youtube_gdata/, '') : '',
+				'player' : mg.media$player[0].url || ''
+			})
+			.click(function(e){
+				var c = $.data(this, 'youtube').content.replace(/&f=videos&app=youtube_gdata/, '') + '&hl=ja&fs=1&autoplay=1';
+				if(c){
+					$('#movie_player').attr('src', c);//&autoplay=1&fmt=6&fmt=18&fs=1'
+				}else{
+					window.open($.data(this, 'youtube').player);
+				}
+				return false;
+			})
+			.append($('<img>').attr({
+				'src':mg.media$thumbnail[0].url,
+				'title':entry.title.$t})));
+}
+
+$.addCountryItem = function(){
+	var countries = $.iTunes.countries;
+	for(var c in countries){
+		$('#itunes-country').append(
+			$('<option>').addClass('county-item').text(c).val(countries[c])
+		).find(':last-child').select();
+	}
 }
 
 })(jQuery);
