@@ -1,11 +1,11 @@
-a,b,body,blockquote,code,dd,div,dl,dt,form,h1,h2,h3,h4,h5,h6,input,label,li,ol,p,pre,small,span,strong,table,textarea,tbody,td,th,tr,ul{margin:0;padding:0;}
-a,b,blockquote,code,dd,dl,dt,form,h1,h2,h3,h4,h5,h6,input,label,li,ol,p,pre,small,span,strong,table,textarea,tbody,td,th,tr,ul{line-height:1.5em}
+a,b,body,blockquote,code,dd,div,dl,dt,form,h1,h2,h3,h4,h5,h6,input,label,li,ol,option,p,pre,select,small,span,strong,table,textarea,tbody,td,th,tr,ul{margin:0;padding:0;}
+a,b,blockquote,code,dd,dl,dt,form,h1,h2,h3,h4,h5,h6,input,label,li,ol,option,p,pre,small,span,strong,table,textarea,tbody,td,th,tr,ul{line-height:1.5em}
 body,input,textarea{font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,Verdana,Geneva,Arial,Helvetica,sans-serif}
 h1{font-size:32px}
 h2{font-size:24px}
 h3{font-size:19px}
 body,h4,textarea{font-size:16px}
-h5,input,pre,small{font-size:13px}
+h5,input,pre,small,select,option{font-size:13px}
 h6{font-size:11px}
 ol,ul{text-indent:0;margin:0 0 0 1em;padding:0}
 ol{margin-left:1.6em}
@@ -13,6 +13,7 @@ img{border-width:0}
 a{color:#006699;cursor:pointer;text-decoration:none}
 a:hover{color:#0099ff}
 img,input,label,textarea{vertical-align:middle}
+option{padding-right:.5em}
 textarea{overflow:auto}
 
 
@@ -21,9 +22,9 @@ textarea{overflow:auto}
 body {background-color:#1a1a1a;color:#ccc}
 /* -=-=-=-=-=-=- header -=-=-=-=-=-=-=- */
 #header-wrap,#header-inner,#header,#title{height:80px}
-#header-wrap{background-image: url(../img/hb_head_bg_100x80.png)}
+#header-wrap{background-image: url(img/hb_head_bg_100x80.png)}
 #header-inner{}
-#header{background: url(../img/hb_logo_100x80.png) no-repeat bottom left}
+#header{background: url(img/hb_logo_100x80.png) no-repeat bottom left}
 #title{
 	color:#bbb;
 	font-size:24px;
@@ -37,7 +38,7 @@ body {background-color:#1a1a1a;color:#ccc}
 /* -=-=-=-=- content wrap -=-=-=-=-=- */
 #outer-wrap0{
 	background-color:#1a1a1a;
-	background-image: url(../img/bg_cb_120x120.png);
+	background-image: url(img/bg_cb_120x120.png);
 	width: 100%;
 }
 #header-inner,#outer-wrap1,#footer{
@@ -47,7 +48,7 @@ body {background-color:#1a1a1a;color:#ccc}
 }
 /* -=-=-=-=-=-=- footer -=-=-=-=-=-=- */
 #footer-wrap{
-	background-image: url(../img/hb_footer_bg_100x80.png);
+	background-image: url(img/hb_footer_bg_100x80.png);
 	background-repeat:repeat-x;
 }
 #footer{
@@ -68,7 +69,7 @@ body {background-color:#1a1a1a;color:#ccc}
 }
 .line-inner{
 	background-color:#333;
-	background-image: url('../img/line_gra_40x40.png');
+	background-image: url('img/line_gra_40x40.png');
 	border-bottom: 1px solid #1a1a1a;
 	border-top: 1px solid #4c4c4c;
 	height: 20px;

@@ -1,0 +1,136 @@
+body{
+	font-size:14px;
+}
+a{color:#aba}
+a:hover{color:#dfd}
+
+/* -=-=-=-=-=-=-=- wrap -=-=-=-=-=-=-=- */
+#outer-wrap0{}
+#outer-wrap1{
+	border-right:1px solid #202020;
+	border-left:1px solid #202020;	
+}
+#outer-wrap2{
+	border-right:1px solid #4c4c4c;
+	border-left:1px solid #4c4c4c;
+	background-color:#333;	
+}
+#outer-wrap3{
+	width:960px;
+	margin: 0 auto;
+}
+
+/* -=-=-=-=-=-=- itunes-feed-wrap -=-=-=-=-=- */
+#itunes-wrap{
+	width:460px;
+	float:right;
+}
+/* -=-=-=-=-=-=- itunes-feed-list -=-=-=-=-=-=- */
+#itunes-ranking{
+	float:left;
+	width:280px;
+}
+#itunes-title{
+	color: #cc6699;
+	border-bottom: 1px solid #1a1a1a;
+	padding:0 5px;
+}
+#itunes-ranking div.entry{
+	border-bottom: 1px solid #1a1a1a;
+	padding:5px;
+}
+
+#itunes-list div.entry a.coverart{
+	display:block;
+	float:left;
+}
+
+#itunes-list div.entry table{
+	float:right;
+	font-size:12px;
+	width:210px;
+}
+#itunes-list div.entry th{
+	color: #708090;
+	line-height:1.2em;
+	text-align:right;
+	vertical-align:text-top;
+	width:42px;
+}
+#itunes-list div.entry td{
+	line-height:1.2em;
+	padding-left: 5px;
+	padding-bottom: 3px;
+	width:100%;
+}
+#itunes-list div.entry td a{
+	line-height:1.2em;
+}
+#itunes-list div.entry td.c-rights{
+	color: #808080;
+	font-size:11px;
+	line-height:1.1em;
+	padding:0;
+}
+/* -=-=-=-=-=-=-=- itunes-navi -=-=-=-=-=-=-=- */
+#itunes-navi{
+	float:right;
+}
+#itunes-navi-wrap{
+	background-color:#4c4c4c;
+	border: 1px solid #2a2a2a;
+	font-size:14px;
+	overflow:hidden;
+	padding-top:2px;
+	position: relative;
+	width:160px;
+}
+
+/* -=-=-=-=- itunes content wrapper -=-=-=-=-=- */
+#itunes-navi-wrap div.itunes-navi-category-wrap{
+	padding:0 2px 2px;
+}
+
+/* -=-=-=-=-=-=-=- navi toggle -=-=-=-=-=-=-=- */
+#itunes-navi-wrap a.itunes-navi-tgl{
+	background-color:#333;
+	border: 1px solid #2a2a2a;
+	display:block;
+	font-weight:bold;
+	height:24px;
+	line-height:24px;
+	text-align:center;
+}
+
+#itunes-navi-wrap a.itunes-navi-tgl.current{
+	background-color:#4c4c4c;
+	border: 1px solid #4c4c4c;
+	color:#000;
+	cursor:default;
+}
+#itunes-navi-wrap a.itunes-navi-tgl.current:hover{
+	color:#000;
+}
+/* -=-=-=-=-=-=-=- genre list -=-=-=-=-=-=-=- */
+#itunes-navi-wrap ul.itunes-navi-list{
+	margin:0;
+	list-style:none;
+	padding:0 5px 3px;
+	text-align:center;
+}
+
+#itunes-navi-wrap ul.itunes-navi-list li a{
+	display:block;
+	border-left: 6px solid #4c4c4c;
+	border-right: 6px solid #4c4c4c;
+}
+#itunes-navi-wrap ul.itunes-navi-list li a:hover{
+	background-color:#333333;
+	border-left: 6px solid #2a2a2a;
+	border-right: 6px solid #2a2a2a;
+}
+#itunes-navi-wrap ul.itunes-navi-list li a.current{
+	background-color:#333333;
+	border-left: 6px solid #2a2a2a;
+	border-right: 6px solid #2a2a2a;
+}
