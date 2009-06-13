@@ -1,11 +1,11 @@
-a,b,body,blockquote,code,dd,div,dl,dt,form,h1,h2,h3,h4,h5,h6,input,label,li,ol,p,pre,small,span,strong,table,textarea,tbody,td,th,tr,ul{margin:0;padding:0;}
-a,b,blockquote,code,dd,dl,dt,form,h1,h2,h3,h4,h5,h6,input,label,li,ol,p,pre,small,span,strong,table,textarea,tbody,td,th,tr,ul{line-height:1.5em}
+a,b,body,blockquote,code,dd,div,dl,dt,form,h1,h2,h3,h4,h5,h6,input,label,li,ol,option,p,pre,select,small,span,strong,table,textarea,tbody,td,th,tr,ul{margin:0;padding:0;}
+a,b,blockquote,code,dd,dl,dt,form,h1,h2,h3,h4,h5,h6,input,label,li,ol,option,p,pre,small,span,strong,table,textarea,tbody,td,th,tr,ul{line-height:1.5em}
 body,input,textarea{font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,Verdana,Geneva,Arial,Helvetica,sans-serif}
 h1{font-size:32px}
 h2{font-size:24px}
 h3{font-size:19px}
 body,h4,textarea{font-size:16px}
-h5,input,pre,small{font-size:13px}
+h5,input,pre,small,select,option{font-size:13px}
 h6{font-size:11px}
 ol,ul{text-indent:0;margin:0 0 0 1em;padding:0}
 ol{margin-left:1.6em}
@@ -13,6 +13,7 @@ img{border-width:0}
 a{color:#006699;cursor:pointer;text-decoration:none}
 a:hover{color:#0099ff}
 img,input,label,textarea{vertical-align:middle}
+option{padding-right:.5em}
 textarea{overflow:auto}
 
 
