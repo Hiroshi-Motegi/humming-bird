@@ -1,6 +1,5 @@
 (function($){
 $.my = $.extend($.my,{
-	dateDelimiter: '/',
 	slctr: {
 		title:'#title',
 		footerTitle:'#footer-page-title',
@@ -22,13 +21,17 @@ $.showLastModDate = function(date){
 	$.attachEvent('load', function(){
 		$($.my.slctr.lastmod).text(
 			(function(date){
-				return date.getFullYear() + $.my.dateDelimiter + (date.getMonth() + 1) + $.my.dateDelimiter + date.getDate()
+				if (date.getDate) {
+					return (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
+				}else{
+					return 'no info';
+				}
 			})(new Date(document.lastModified)));
 	});
 }
 
 $.setTitle = function(title, ver){
-	var pagetitle = title + ' ver. ' + ver;
+	var pagetitle = title + (ver ? (' ver. ' + ver) : '');
 	$($.my.slctr.title).text(pagetitle);
 	$($.my.slctr.footerTitle).text(pagetitle);
 }
