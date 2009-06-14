@@ -34,3 +34,11 @@ blockquote{
 	width:960px;
 	margin: 0 auto;
 }
+
+li {
+	vertical-align:middle;
+}
+a.bkm-cnt{
+	margin-left:4px;
+	vertical-align: top;
+}
