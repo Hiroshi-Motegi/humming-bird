@@ -20,10 +20,6 @@ $(function(){
 		$tbody = $('<tbody>').appendTo($table),
 		$tr;
 		
-		// (7) 検索結果件数を取得・表示
-		//var x = parseInt(feed.openSearch$totalResults.$t,10);
-		//alert(x);
-		
 		$.each(entries, function(i, entry){
 			 var mg = entry.media$group;
 			 
@@ -36,7 +32,7 @@ $(function(){
 						}).append($('<img/>').attr('src', mg.media$thumbnail[0].url))));
 		});
 		
-		$('h1').after($table);
+		$('h1').after($table, $('<span>').text('Match:' + feed.openSearch$totalResults.$t));
 	});
 });
 </script>
