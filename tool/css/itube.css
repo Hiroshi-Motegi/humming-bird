@@ -6,93 +6,134 @@ a:hover{color:#dfd}
 
 /* -=-=-=-=-=-=-=- wrap -=-=-=-=-=-=-=- */
 #outer-wrap0{}
-#outer-wrap1{
-	border-right:1px solid #202020;
-	border-left:1px solid #202020;	
-}
-#outer-wrap2{
-	border-right:1px solid #4c4c4c;
-	border-left:1px solid #4c4c4c;
-	background-color:#333;	
-}
-#outer-wrap3{
-	width:960px;
-	margin: 0 auto;
+
+
+#top-content{
+	border-right:1px solid #1a1a1a;
+	border-left:1px solid #1a1a1a;
+	border-bottom:1px solid #1a1a1a;
 }
 
+#top-content-table{
+	border-collapse:collapse;
+	width:100%;
+}
+#top-content-table td{
+	background-color:#333;	
+	border-right:1px solid #4c4c4c;
+	border-left:1px solid #4c4c4c;
+	border-bottom:1px solid #4c4c4c;
+}
+#movie-player-wrap{
+	height:385px;
+	overflow: hidden;
+	width: 640px;
+}
+#movie-summary{
+	overflow: hidden;
+}
+#movie-player-wrap,
+#movie-summary{
+
+}
+
+
+
 /* -=-=-=-=-=-=- itunes-feed-wrap -=-=-=-=-=- */
-#itunes-wrap{
-	width:460px;
+#itunes-container{
+	width:450px;
 	float:right;
 }
-/* -=-=-=-=-=-=- itunes-feed-list -=-=-=-=-=-=- */
+
+/* -=-=-=-=-=-=- itunes-rankign-list -=-=-=-=-=-=- */
 #itunes-ranking{
+	border: 1px solid #1a1a1a;
 	float:left;
 	width:280px;
 }
-#itunes-title{
+/*
+#itunes-ranking-list{
+	background-color:#333;
+	border: 1px solid #4c4c4c;
+}
+*/
+
+#itunes-ranking-title{
+	background-color:#333;
+	border: 1px solid #4c4c4c;
 	color: #cc6699;
-	border-bottom: 1px solid #1a1a1a;
 	padding:0 5px;
 }
+
 #itunes-ranking div.entry{
-	border-bottom: 1px solid #1a1a1a;
+	background-color:#333;
+	border: 1px solid #4c4c4c;
+	border-top-width:0;
 	padding:5px;
 }
 
-#itunes-list div.entry a.coverart{
+#itunes-ranking div.entry a.coverart{
+	border: 2px solid #1a1a1a;
 	display:block;
 	float:left;
 }
 
-#itunes-list div.entry table{
+#itunes-ranking div.entry a.coverart img{
+	border: 1px solid #4c4c4c;
+}
+
+#itunes-ranking div.entry table{
 	float:right;
 	font-size:12px;
-	width:210px;
+	width:200px;
 }
-#itunes-list div.entry th{
+#itunes-ranking div.entry th{
 	color: #708090;
 	line-height:1.2em;
 	text-align:right;
 	vertical-align:text-top;
 	width:42px;
 }
-#itunes-list div.entry td{
+#itunes-ranking div.entry td{
 	line-height:1.2em;
 	padding-left: 5px;
 	padding-bottom: 3px;
 	width:100%;
 }
-#itunes-list div.entry td a{
+#itunes-ranking div.entry td a{
 	line-height:1.2em;
 }
-#itunes-list div.entry td.c-rights{
+#itunes-ranking div.entry td.c-rights{
 	color: #808080;
 	font-size:11px;
 	line-height:1.1em;
 	padding:0;
 }
-/* -=-=-=-=-=-=-=- itunes-navi -=-=-=-=-=-=-=- */
+
+
+/* -=-=-=-=-=-=-=- itunes-navi-list -=-=-=-=-=-=-=- */
 #itunes-navi{
 	float:right;
+	width:150px;
+	border: 1px solid #1a1a1a;
 }
-#itunes-navi-wrap{
-	background-color:#4c4c4c;
-	border: 1px solid #2a2a2a;
+
+#itunes-navi-list{
+	background-color:#333;
+	border: 1px solid #4c4c4c;
 	font-size:14px;
 	overflow:hidden;
 	padding-top:2px;
 	position: relative;
-	width:160px;
 }
 
 /* -=-=-=-=- itunes content wrapper -=-=-=-=-=- */
-#itunes-navi-wrap div.itunes-navi-category-wrap{
+#itunes-navi-list div.itunes-navi-list-category-wrap{
 	padding:0 2px 2px;
 }
 
 /* -=-=-=-=-=-=-=- navi toggle -=-=-=-=-=-=-=- */
-#itunes-navi-wrap a.itunes-navi-tgl{
+#itunes-navi-list a.itunes-navi-list-category-tgl{
 	background-color:#333;
 	border: 1px solid #2a2a2a;
 	display:block;
@@ -102,35 +143,76 @@ a:hover{color:#dfd}
 	text-align:center;
 }
 
-#itunes-navi-wrap a.itunes-navi-tgl.current{
+#itunes-navi-list a.itunes-navi-list-category-tgl.current{
 	background-color:#4c4c4c;
 	border: 1px solid #4c4c4c;
 	color:#000;
 	cursor:default;
 }
-#itunes-navi-wrap a.itunes-navi-tgl.current:hover{
+#itunes-navi-list a.itunes-navi-list-category-tgl.current:hover{
 	color:#000;
 }
 /* -=-=-=-=-=-=-=- genre list -=-=-=-=-=-=-=- */
-#itunes-navi-wrap ul.itunes-navi-list{
+#itunes-navi-list ul.itunes-navi-list-genre-list{
+	background-color:#4c4c4c;
 	margin:0;
 	list-style:none;
-	padding:0 5px 3px;
+	padding:0 0 3px 0;
 	text-align:center;
 }
 
-#itunes-navi-wrap ul.itunes-navi-list li a{
+#itunes-navi-list ul.itunes-navi-list-genre-list li{
+	background-color:#333;
+}
+
+#itunes-navi-list ul.itunes-navi-list-genre-list li a{
 	display:block;
 	border-left: 6px solid #4c4c4c;
 	border-right: 6px solid #4c4c4c;
 }
-#itunes-navi-wrap ul.itunes-navi-list li a:hover{
+#itunes-navi-list ul.itunes-navi-list-genre-list li a:hover{
+	background-color:#2a2a2a;
+	border-left: 6px solid #2a2a2a;
+	border-right: 6px solid #2a2a2a;
+}
+#itunes-navi-list ul.itunes-navi-list-genre-list li a.current{
 	background-color:#333333;
 	border-left: 6px solid #2a2a2a;
 	border-right: 6px solid #2a2a2a;
 }
-#itunes-navi-wrap ul.itunes-navi-list li a.current{
-	background-color:#333333;
-	border-left: 6px solid #2a2a2a;
-	border-right: 6px solid #2a2a2a;
+
+/* -=-=-=-=-=-=-=- itunes-navi-option-=-=-=-=-=-=-=- */
+#itunes-navi-option{
+	background-color:#333;
+	border: 1px solid #4c4c4c;
+	/*border-top-width:0;*/
+	overflow:hidden;
+	padding:5px;
+}
+#itunes-navi-option table{
+	border-collapse:collapse;
+	width:100%;
+}
+#itunes-navi-option #itunes-navi-option-title{
+	text-align: center;
+}
+#itunes-navi-option table th{
+	font-size:12px;
+	text-align:right;
+}
+#itunes-navi-option table td{
+	font-size:12px;
+	padding: 3px;
+	width:100%;
+}
+#itunes-navi-option th{
+	color: #708090;
+}
+
+/* -=-=-=-=-=-=-=- itunes-navi-border-=-=-=-=-=-=-=- */
+#itunes-navi-border{
+	border-width:0;
+	border-top: 1px solid #1a1a1a;
+	width:100%;
+	height:0;
 }
