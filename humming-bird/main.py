@@ -11,14 +11,8 @@ class MainPage(webapp.RequestHandler):
     self.response.out.write(template.render(path, ''))
 
 
-class Sitemap(webapp.RequestHandler):
 
-  def get(self):
-    path = os.path.join(os.path.dirname(__file__), 'sitemap.xml')
-    self.response.out.write(template.render(path, ''))
-
-
-application = webapp.WSGIApplication([('/', MainPage),('/sitemap', Sitemap)], debug=False)
+application = webapp.WSGIApplication([('/', MainPage)], debug=False)
 
 def main():
   run_wsgi_app(application)
