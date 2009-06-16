@@ -12,88 +12,42 @@
 	<link rel='stylesheet' href='css/itube.css' media='screen' type='text/css' charset='utf-8' />
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js" type="text/javascript"></script>
 	<script src='js/common.js' type='text/javascript'></script>
-	<script src='js/itube.js' type='text/javascript'></script>
 	<script src="../jquery/lib/jquery.youtube.js" type="text/javascript"></script>
 	<script src='http://www.google.com/jsapi' type='text/javascript'></script>
 	<script type='text/javascript'>google.load('feeds','1',{'nocss':true})</script>
-<script type='text/javascript'>
+	<script src='js/it.js' type='text/javascript'></script>
+	<script src='js/itube.js' type='text/javascript'></script>
+<!--<script type='text/javascript'>
 //(function($){})(jQuery);
-
-
-jQuery(function($){
-$('#itunes-country').addCountryItem('county-item');
-$('option.county-item:last').attr('selected', true);
-
-
-var
-key = 'itunes',
-elmKey = key + '-navi-list',
-op = {
-	'key': key,
-	'elmKey': elmKey,
-	cWrapClass: elmKey + '-category-wrap',
-	tglClass: elmKey + '-category-tgl',
-	contClass: elmKey + '-genre-list'
-};
-
-$('#itunes-navi-list').appendiTunesNavi(op, function(){
-	$(this).myAccordion(op, function(){
-		//alert($('a.genre:first').length);
-		$('a.genre:first').trigger('click');
-	});
-});
-
-
-
-
-
-
-$('#thumb-next').click(function(e){
-	var si = parseInt($.currentParams['start-index']);
-	var mr = parseInt($.currentParams['max-results']);
-	var tr = parseInt($.currentParams['total-results']);
-
-	$.currentParams['start-index'] = Math.min(si + mr, tr);
-	$('#yt-thumb-table-wrap').empty().appendThumbTable({}, 3);
-	return false;
-});
-
-$('#thumb-prev').click(function(e){
-	var si = parseInt($.currentParams['start-index']);
-	var mr = parseInt($.currentParams['max-results']);
-	var tr = parseInt($.currentParams['total-results']);
-
-	$.currentParams['start-index'] = Math.max(si - mr, 1);
-	$('#yt-thumb-table-wrap').empty().appendThumbTable({}, 3);
-	return false;
-});
-
-
-
-
-$.setTitle('iTube β', '1.0');
-$.showLastModDate();
-});
-</script>
+</script>-->
 
 
 <style type='text/css'>
+th{color:#708090}
 #yt-container{
+	background-color:#333;
 	border: 1px solid #1a1a1a;
 	float:left;
-	overflow:hidden;
-	width:450px;
+	width:530px;
+}
+#yt-container-inner{
+	border:1px solid #4c4c4c;
+	padding:2px;
 }
 
+
+#yt-thumb-table-wrap{}
 #yt-thumb-table{
 	border-collapse:collapse;
 	table-layout:fixed;
+	overflow:hidden;
 	width:100%;
 }
 #yt-thumb-table td.yt-thumb-outer{
 	background-color:#000;
 	border:1px solid #333;
-	padding:4px;
+	padding:1px;
+	overflow:hidden;
 }
 #yt-thumb-table td.yt-thumb-outer a{
 	display:block;
@@ -102,20 +56,63 @@ $.showLastModDate();
 }
 
 
-
-
-
-#yt-thumb-navi-wrap{
+#yt-thumb-top-navi{
+	border-collapse:collapse;
+	margin: 4px 0 6px;
+	width:100%;
+}
+#yt-thumb-bottom-navi{
 	border-collapse:collapse;
 	table-layout:fixed;
 	width:100%;
 }
 
-#yt-thumb-navi-wrap td{
-	background-color:#000;
-	border:1px solid #333;
+#yt-thumb-top-navi td,
+#yt-thumb-bottom-navi td{
 	text-align:center;
 }
+
+
+
+
+#yt-thumb-order{
+	table-layout:fixed;
+	text-align:center;
+	width:100%;
+}
+
+
+
+
+
+
+#yt-search-box{
+	border:1px solid #333;
+	border-bottom-width: 0;
+	padding:5px 0;
+	text-align:center;
+}
+#search-input-wrap{
+	border:1px solid #2a2a2a;
+	display: inline-block;
+}
+
+#search-text{
+	background-color:#999;
+	border:1px solid #bbb;
+	height:20px;
+	line-height:20px;
+	padding-left:.5em;
+}
+#search-btn{
+	background-color:#2a2a2a;
+	border:1px solid #4c4c4c;
+	color:#ccc;
+	height:22px;
+	line-height:18px;
+	padding:0 1em;
+}
+
 
 </style>
 </head>
@@ -129,32 +126,61 @@ $.showLastModDate();
 
 <div id='top-content'>
 <table id='top-content-table'><tbody><tr>
+
 <td id="movie-player-wrap">
-<object>
-<param name="movie" value=""></param>
+<object  width="100%" height="100%">
+<param name="movie" value="http://www.youtube.com/v/E7V7wTbG624&hl=ja&fs=1&color1=0xcc2550&color2=0xe87a9f&border=1"></param>
+<param name="type" value="application/x-shockwave-flash"></param>
 <param name="allowFullScreen" value="true"></param>
 <param name="allowscriptaccess" value="always"></param>
-<embed id="movie_player" src="" bgcolor="#000000" quality="high" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="100%" height="100%"></embed>
+<param name="quality" value="high"></param>
+<embed id="movie_player" src="http://www.youtube.com/v/E7V7wTbG624&hl=ja&fs=1&color1=0xcc2550&color2=0xe87a9f&border=1" bgcolor="#000000" quality="high" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="100%" height="100%"></embed>
 </object>
 </td>
-<td id='movie-summary'>
-	<h3>title</h3>
-	<p>youtube link</p>
-	<p>再生回数</p>
-</td>
+
+<td id='movie-summary'><table><tbody>
+	<tr><td colSpan='2'><h3 id='movie-summary-title'>title</h3></td></tr>
+	<tr style='visibility:hidden;display:none;'><th>contUrl</th><td  id='movie-summary-contentUrl'></td></tr>
+	<tr><th>author</th><td id='movie-summary-author'></td></tr>
+	<tr><th>desc</th><td id='movie-summary-content'></td></tr>
+	<tr><th>url</th><td id='movie-summary-playerUrl'></td></tr>
+	<tr><th>published</th><td id='movie-summary-published'></td></tr>
+	<tr><th>view count</th><td id='movie-summary-viewCount'></td></tr>
+</tbody></table></td>
 </tr></tbody></table>
+
 </div>
+
 <div class="clear dummy"></div>
 
-		<div id='yt-container'>
-			<div id='yt-thumb-table-wrap'></div>
-			<table id='yt-thumb-navi-wrap'><tbody><tr>
-				<td><a id='thumb-prev'>≪ Prev</a></td>
-				<td id='results-count-info'></td>
-				<td><a id='thumb-next'>Next ≫</a></td>
+		<div id='yt-container'><div id='yt-container-inner'>
+			
+			<table id='yt-thumb-top-navi'><tbody><tr>
+				<td><a class='thumb-prev'>≪ Prev</a></td>
+				<td><span id='search-input-wrap'><input id='search-text' type="text"/><input id='search-btn' type="button" value="Search" /></span></td>
+				<td><a class='thumb-next'>Next ≫</a></td>
 			</tr></tbody></table>
+			
+			<table id='yt-thumb-order'><tbody><tr>
+				<td>&nbsp;</td>
+				<th>order</th>
+				<td><a class='thumb-order' rel='relevance'>Relevance</a></td>
+				<td><a class='thumb-order' rel='rating'>Rating</a></td>
+				<td><a class='thumb-order' rel='viewCount'>View Count</a></td>
+				<td><a class='thumb-order' rel='updated'>Updated</a></td>
+				<td>&nbsp;</td>
+			</tr></tbody></table>
+			
+			<div id='yt-thumb-table-wrap'></div>
+			
+			<table id='yt-thumb-bottom-navi'><tbody><tr>
+				<td><a class='thumb-prev'>≪ Prev</a></td>
+				<td id='results-count-info'><span id='thumb-start-index'></span>-<span id='thumb-last-index'></span>/<span id='thumb-total-results'></span></td>
+				<td><a class='thumb-next'>Next ≫</a></td>
+			</tr></tbody></table>
+			
 			<div class="clear"></div>
-		</div>
+		</div></div>
 		
 		<div id='itunes-container'>
 			<div id='itunes-ranking'></div>
@@ -168,7 +194,8 @@ $.showLastModDate();
 							<th class="label">Count:</th>
 							<td><select id="itunes-entry-count" class="op-select" title="ランキング表示数">
 								<option value="5" class="entry-count-item">5</option>
-								<option value="10" class="entry-count-item" selected='true'>10</option>
+								<option value="8" class="entry-count-item" selected='true'>8</option>
+								<option value="10" class="entry-count-item">10</option>
 								<option value="20" class="entry-count-item">20</option>
 								<option value="30" class="entry-count-item">30</option>
 								<option value="50" class="entry-count-item">50</option>
