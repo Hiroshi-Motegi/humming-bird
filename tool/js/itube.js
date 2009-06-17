@@ -77,9 +77,12 @@ yt: {
 	
 	/*
 	// hl:国
+	// &ap=%2526fmt%3D  動画フォーマット
 	// autoplay:自動再生
 	// rel:関連動画
-	// fs:
+	// egm:再生中でもオンマウスで関連動画を表示
+	// loop:ループ再生
+	// fs:全画面ボタンの表示
 	//fmt:quality 6 or 18
 	//color1,color2:色
 	// border:ボーダーの有無
@@ -91,7 +94,8 @@ yt: {
 		return $('<a>').addClass('yt-thumb-link').setData(key, {
 			'author': entry.author[0].name.$t,
 			'title': mg.media$title.$t,
-			'contentUrl': mg.media$content ? mg.media$content[0].url.replace(/f=videos&app=youtube_gdata/, '') + 'hl=ja&fs=1&rel=0&hd=1&autoplay=1' : '',
+			//'contentUrl': mg.media$content ? mg.media$content[0].url.replace(/f=videos&app=youtube_gdata/, '') + 'hl=ja&fs=1&rel=0&hd=1&autoplay=1' : '',
+			'contentUrl': mg.media$content ? mg.media$content[0].url.replace(/\?f=videos&app=youtube_gdata/, '') : '',
 			'content': mg.media$description.$t,  /*entry.content.$t,*/
 			'ratingAvg': entry.gd$rating == null ? 0 : entry.gd$rating.average + '/' + entry.gd$rating.numRaters + ' ratings',
 			'playerUrl': mg.media$player[0].url || '',
@@ -112,8 +116,9 @@ yt: {
 			$.yt.showMovieInfo($.data(this, key));
 			
 			if (c) {
-				$($.yt.movieParams).attr('value', c);
-				$($.yt.moviePlayer).attr('src', c);
+				//$($.yt.movieParams).attr('value', c);
+				//$($.yt.moviePlayer).attr('src', c);
+				$.player.get(c);
 			}
 			else {
 				window.open($.data(this, key).playerUrl + '&fmt=18');
@@ -122,12 +127,10 @@ yt: {
 		});
 	}
 }
-})
-//})(jQuery);
+});
 
 
 
-//(function($){
 $.fn.extend({
 appendiTunesRanking: function(options, callback){
 	$.createiTunesRanking(this, options, callback);
@@ -480,7 +483,30 @@ changeiTunesRanking:function(category, genre){
 			}).eq(0).trigger('click');
 	});
 }
-})
+});
+
+
+$.player = {
+	id:'movie_player',
+	get: function(url){
+		//'http://www.youtube.com/v/c98umix4uiE&enablejsapi=1&playerapiid=ytplayer&autoplay=1&hd=1'
+		swfobject.embedSWF(url + '&enablejsapi=1&playerapiid=ytplayer&hl=ja&fs=1&rel=0&iv_load_policy=3&autoplay=1&hd=1&hq=1&quality=high', $.player.id, '640', '385', '8', null, null, {
+			allowScriptAccess: 'always',
+			allowFullScreen: 'true',
+			quality: 'high',
+			height: '385px',
+			width: '640px'
+		}, {
+			id: $.player.id
+		});
+	},
+	play: function(){
+		var ytplayer = document.getElementById($.player.id);
+		if (ytplayer) {
+			ytplayer.playVideo();
+		}
+	}
+}
 })(jQuery);
 
 

@@ -32,7 +32,12 @@ th{color:#708090}
 #movie-player-wrap{
 	height:385px;
 	overflow: hidden;
-	width: 700px;
+	width: 640px;
+}
+#movie_player{
+	background-color:#000;
+	height:385px;
+	width: 640px;
 }
 
 
