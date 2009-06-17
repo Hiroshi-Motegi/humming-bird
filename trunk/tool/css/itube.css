@@ -1,15 +1,18 @@
 body{
-	font-family: 'Candara','Gisha',
+	font-family: /*'Candara','Gisha',*/
 		Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,Verdana,Geneva,Arial,Helvetica,sans-serif;
-	font-size:14px;
+	font-size:13px;
 }
 a{color:#999966}
 a:hover{color:#ffff99}
 input[type=button]:hover{cursor:pointer}
+th{color:#708090}
 /* -=-=-=-=-=-=-=- wrap -=-=-=-=-=-=-=- */
 #outer-wrap0{}
 
 
+
+/* -=-=-=-=-=-=-=- top-content -=-=-=-=-=-=-=- */
 #top-content{
 	border-right:1px solid #1a1a1a;
 	border-left:1px solid #1a1a1a;
@@ -34,24 +37,27 @@ input[type=button]:hover{cursor:pointer}
 
 
 #movie-summary{
+	font-size:12px;
 	overflow: hidden;
 	padding:3px;
 }
-#movie-summary table{
-	/*width:250px;*/
-}
+#movie-summary table{}
+
 #movie-summary table td,
 #movie-summary table th{
 	border-width:0;
-	line-height:1.1em;
+	line-height:1em;
 	padding:2px 0;
 	vertical-align:text-top;
+}
+#movie-summary table td a{
+	line-height:1em;
 }
 #movie-summary table th{
 	color: #708090;
 	padding-right:3px;
 	text-align: right;
-	width:68px;
+	width:70px;
 }
 #movie-summary table td{
 	word-break:break-all;
@@ -68,6 +74,104 @@ input[type=button]:hover{cursor:pointer}
 
 
 
+/* -=-=-=-=-=- yt-container -=-=-=-=-=-=- */
+#yt-container{
+	background-color:#333;
+	border: 1px solid #1a1a1a;
+	float:left;
+	width:530px;
+}
+#yt-container-inner{
+	border:1px solid #4c4c4c;
+	padding:5px;
+}
+
+
+#yt-thumb-table-wrap{
+	margin-bottom:5px;
+}
+
+#yt-thumb-table{
+	border-collapse:collapse;
+	table-layout:fixed;
+	overflow:hidden;
+	width:100%;
+}
+#yt-thumb-table td.yt-thumb-outer{
+	background-color:#000;
+	border:1px solid #333;
+	overflow:hidden;
+	text-align: center;
+	vertical-align:middle;
+}
+#yt-thumb-table td.yt-thumb-outer a{
+	border:1px solid #000;
+	display:block;
+	text-align: center;
+	vertical-align:middle;
+}
+
+
+#yt-top-navi{
+	margin: 0 0 5px;
+}
+#yt-orders{
+	border-collapse:collapse;
+	margin:0 auto 5px;
+}
+#yt-orders th,
+#yt-orders td{
+	padding:1px;
+}
+#yt-orders th span,
+#yt-orders a.yt-order{
+	margin:0 2px;
+	padding:0 1em;
+}
+#yt-orders a.yt-order{
+	border:1px solid #333;
+}
+#yt-orders a.yt-order.current{
+	background-color:#2A2A2A;
+	border:1px solid #1A1A1A;
+}
+
+#yt-top-navi,
+#yt-bottom-navi{
+	border-collapse:collapse;
+	width:100%;
+}
+
+#yt-top-navi td,
+#yt-orders td,
+#yt-bottom-navi td{
+	text-align:center;
+}
+
+#yt-bottom-navi{
+	table-layout:fixed;
+}
+/* -=-=-=-=-=- search -=-=-=-=-=-=- */
+#search-wrap{
+	border:1px solid #2a2a2a;
+	display: inline-block;
+}
+#search-text{
+	background-color:#999;
+	border:1px solid #bbb;
+	height:20px;
+	line-height:20px;
+	padding-left:.5em;
+}
+#search-btn{
+	background-color:#2a2a2a;
+	border:1px solid #4c4c4c;
+	color:#ccc;
+	height:22px;
+	line-height:18px;
+	padding:0 1em;
+}
+
 /* -=-=-=-=-=-=- itunes-feed-wrap -=-=-=-=-=- */
 #itunes-container{
 	width:450px;
@@ -79,15 +183,19 @@ input[type=button]:hover{cursor:pointer}
 	background-color:#333;
 	border: 1px solid #1a1a1a;
 	float:left;
+	overflow:hidden;
+	position:relative;
 	width:280px;
 }
 
 
 #itunes-ranking-title{
 	color: #cc6699;
-	font-family: 'Candara';
+	/*font-family: 'Candara';*/
 	font-weight: normal;
-	padding:0 5px;
+	line-height:1em;
+	text-align:center;
+	padding:5px;
 }
 
 #itunes-ranking-title,
@@ -165,10 +273,10 @@ input[type=button]:hover{cursor:pointer}
 
 /* -=-=-=-=-=-=-=- navi toggle -=-=-=-=-=-=-=- */
 #itunes-navi-list a.itunes-navi-list-category-tgl{
-	background-color:#2a2a2a;
-	border: 1px solid #1a1a1a;
+	background-color:#2A2A2A;
+	border: 1px solid #4c4c4c;
 	display:block;
-	font-weight:bold;
+	/*font-weight:bold;*/
 	height:24px;
 	line-height:24px;
 	text-align:center;
@@ -177,11 +285,11 @@ input[type=button]:hover{cursor:pointer}
 #itunes-navi-list a.itunes-navi-list-category-tgl.current{
 	background-color:#333;
 	border: 1px solid #333;
-	color:#ccc;
+	color:#CC6699;
 	cursor:default;
 }
 #itunes-navi-list a.itunes-navi-list-category-tgl.current:hover{
-	color:#ccc;
+	color:#CC6699;
 }
 /* -=-=-=-=-=-=-=- genre list -=-=-=-=-=-=-=- */
 #itunes-navi-list ul.itunes-navi-list-genre-list{
@@ -203,11 +311,11 @@ input[type=button]:hover{cursor:pointer}
 }
 #itunes-navi-list ul.itunes-navi-list-genre-list li a:hover{
 	background-color:#2a2a2a;
-	border: 1px solid #4c4c4c;
+	/*border: 1px solid #4c4c4c;*/
 }
 #itunes-navi-list ul.itunes-navi-list-genre-list li a.current{
-	background-color:#4c4c4c;
-	border: 1px solid #2a2a2a;
+	background-color:#2a2a2a;
+	border: 1px solid #1a1a1a;
 }
 
 /* -=-=-=-=-=-=-=- itunes-navi-option-=-=-=-=-=-=-=- */

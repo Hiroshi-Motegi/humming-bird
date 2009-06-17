@@ -4,21 +4,14 @@ appendiTunesRanking: function(options, callback){
 	$.createiTunesRanking(this, options, callback);
 	return this;
 },
-
 myAccordion: function(options, callback){
 	$.myAccordion($.extend(options, {wrap:'#' + $(this).attr('id')}), callback);
 	return this;
 },
-
 appendiTunesNavi:function(options, callback){
 	
 	var
-	op = $.extend({
-		contClass:'',
-		cWrapClass:'',
-		key:'',
-		tglClass:''
-	}, options),
+	op = options,
 	iCategory = $.iTunes.categories,
 	iGenre = $.iTunes.genre,
 	iCex = $.iTunes.cex,
@@ -43,28 +36,8 @@ appendiTunesNavi:function(options, callback){
 				})
 				.click(function(e){
 					$(e.target).currentOn('a.genre');
-					
-					$('#itunes-ranking').slideUp(function(){
-						$(this)
-							.empty()
-							.appendiTunesRanking({
-								'category': $(e.target).getData(op.key).category,
-								'genre': $(e.target).getData(op.key).genre,
-								'sf': $('#itunes-country option:selected').val(),
-								'limit': $('#itunes-entry-count option:selected').val()
-							},function(){
-								$('a.keyword').click(function(e){
-									var kw = $(e.target).text();
-									$.currents.vq = kw;
-									$('#search-text').val(kw);
-									$.currents['start-index'] = 1;
-									$('#yt-thumb-table-wrap').empty().appendThumbTable({}, 4);
-									return false;
-								}).eq(0).trigger('click');
-								
-								$('#itunes-ranking').append($('<div>').addClass('clear')).slideDown();	
-						});
-					});
+					var data = $(e.target).getData(op.key);
+					$.changeiTunesRanking(data.category, data.genre);
 				})).appendTo($gLst);
 		}
 	}
@@ -85,7 +58,7 @@ sameHeight: function(){
 setAbsolute:function(){
 	return this.each(function(){
 		$(this).css({
-			top: $.data(this, 'posTop'),
+			top: $.data(this, 'position').top,
 			position: 'absolute'
 		});
 	});
@@ -116,7 +89,6 @@ currentOn:function(cls){
 addCountryItem: function(clsName){
 	return this.append($.createCountryItem(clsName));
 }
-
 });
 
 
@@ -169,26 +141,6 @@ iTunes: {
 		'Just Added': '新規追加',
 		'Featured Albums': '特集 & 限定'
 	},
-	//genre exchanger
-	/*
-	gex: {
-		0: 'All',
-		6: 'Country',
-		7: 'Electronic',
-		10: 'Folk',
-		11: 'Jazz',
-		13: 'New Age',
-		14: 'Pop',
-		15: 'R&B/Soul',
-		17: 'Dance',
-		18: 'HipHop/Rap',
-		19: 'World',
-		21: 'Rock',
-		23: 'Vocal',
-		24: 'Reggae',
-		27: 'J-Pop'
-	},
-	*/
 	gFeed: function(params, callback){
 	
 		callback = $.isFunction(params) ? params : callback ||function(){};
@@ -251,8 +203,8 @@ myAccordion: function(options, callback){
 	
 	$cWrap
 		.width($cWrap.width())
-		.each(function(index,elm){
-			$.data(elm, 'posTop', $(elm).position().top);
+		.each(function(index, elm){
+			$.data(elm, 'position', { 'top': $(elm).position().top });
 		})
 		.eq(0)
 		.setStatic()
@@ -297,7 +249,8 @@ myAccordion: function(options, callback){
 
 createiTunesRanking: function(elm, options, callback){
 
-	var $t = $(elm);
+	//var $t = $(elm);
+	var $t = $('<div>');
 	
 	$.iTunes.gFeed(options, function(feed){
 	
@@ -312,17 +265,16 @@ createiTunesRanking: function(elm, options, callback){
 		for (var i = 0, j = entries.length; i < j; i++) {
 		
 			var entry = entries[i], eNode = entry.xmlNode, $eWrap = $('<div>').addClass('entry');
-			
 			var caNodes = getNodes(eNode, 'coverArt', 0), alnkNodes = getNodes(eNode, 'albumLink', 0);
 			
-			if (caNodes != null) {
+			if (caNodes && caNodes.firstChild) {
 				$('<a>').addClass('coverart').attr('href', alnkNodes.firstChild.nodeValue).append($('<img>').attr('src', caNodes.firstChild.nodeValue)).appendTo($eWrap);
 			}
 			
 			var td = [], nds, eex;
 			
 			nds = getNodes(eNode, 'album', 0);
-			if (nds) {
+			if (nds && nds.firstChild) {
 				var regx = /\s?-\s(?:EP|Single)|\s?\(Single\)/;
 				eex = nds.firstChild.nodeValue;
 				
@@ -332,13 +284,13 @@ createiTunesRanking: function(elm, options, callback){
 			}
 			
 			nds = getNodes(eNode, 'artist', 0);
-			if (nds) {
+			if (nds && nds.firstChild) {
 				eex = nds.firstChild.nodeValue;
 				td.push('<th class=\'eLabel\'>Artist </th><td>' + (/Various Artist/.test(eex) ? eex : '<a class=\'keyword\'>' + eex + '</a>') + '</td>');
 			}
 			
 			nds = getNodes(eNode, 'rights', 0);
-			if (nds) 
+			if (nds && nds.firstChild) 
 				td.push('<td class=\'c-rights\' colSpan=\'2\'>© ' + nds.firstChild.nodeValue + '</td>');
 			
 			$('<table>').attr({
@@ -349,7 +301,7 @@ createiTunesRanking: function(elm, options, callback){
 		}
 		
 		if ($.isFunction(callback)) 
-			callback.call(this);
+			callback.call(this, $t);
 		
 	});
 },
@@ -360,6 +312,44 @@ createCountryItem: function(cls){
 		lst.push('<option class=\'' + cls + ' value=\'' + cs[c] + '\'>' + c + '</option>');
 	
 	return lst.join('');
+},
+changeiTunesRanking:function(category, genre){
+	var $t = $('#itunes-ranking');
+	$t.appendiTunesRanking({
+			'category': category,
+			'genre': genre,
+			'sf': $('#itunes-country option:selected').val(),
+			'limit': $('#itunes-entry-count option:selected').val()
+		},function(rankingElm){
+			$t.append(rankingElm.css({'float':'left', 'width':$t.width()}));
+			
+			var $hdn = $t.children(':not(:last)');
+			
+			if($hdn.length){
+				$hdn.each(function(){
+					$(this).css({
+						backgroundColor: '#333333',
+						position: 'absolute',
+						top: 0,
+						left: 0
+					}).animate({
+						'top': $t.children(':last').height(),
+						opacity: 0
+					}, function(){
+						$(this).remove();
+					});
+				});
+			}
+			
+			$('a.keyword', rankingElm).click(function(e){
+				var kw = $(e.target).text();
+				$.yt.currents.vq = kw;
+				$('#search-text').val(kw);
+				$.yt.currents['start-index'] = 1;
+				$.yt.changeThumbTable();
+				return false;
+			}).eq(0).trigger('click');
+	});
 }
 })
 })(jQuery);
