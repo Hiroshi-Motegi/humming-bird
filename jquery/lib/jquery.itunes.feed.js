@@ -3,6 +3,7 @@
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  * 
+ * update:2009/06/20
  * demo:
  * http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
  */
