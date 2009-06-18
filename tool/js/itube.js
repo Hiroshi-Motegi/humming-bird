@@ -6,11 +6,27 @@ appendThumbNail: function(entry){
 });
 
 $.extend({
+youTube: function(options, callback){
+	var op = $.extend({
+		'alt': 'json-in-script',
+		'max-results': 10,
+		'format':5,
+		'orderby': 'relevance',
+		'racy': 'exclude',
+		'start-index': 1,
+		'time': 'all_time',
+		'vq': ''
+	}, options);
+	
+	if (op.vq) {
+		$.get('http://gdata.youtube.com/feeds/api/videos', op, function(data){
+			if (data)
+				callback.call(this, data.feed);
+		},'jsonp');
+	}
+},
 yt: {
 	key: 'yt',
-	tableWrap:'#yt-thumb-table-wrap',
-	movieParams:'param[name="movie"]',
-	moviePlayer:'#movie_player',
 	currents: {
 		'vq': '',
 		'start-index': 1,
@@ -21,11 +37,13 @@ yt: {
 		'last-index': 0,
 		'total-results': 0
 	},
-	changeThumbTable:function(){
-		var $t = $($.yt.tableWrap);
+	changeThumbTable:function(callback){
+		var $t = $('#yt-thumb-table-wrap');
 		$.yt.createThumbTable(4, function(thumbTable){
 			$t.append(thumbTable).children(':not(:last)').remove();
 			$.yt.showThumbIndexInfo();
+			if($.isFunction(callback))
+				callback.call();
 		});
 	},
 	showMovieInfo: function(data){
@@ -75,53 +93,36 @@ yt: {
 		});
 	},
 	
-	/*
-	// hl:国
-	// &ap=%2526fmt%3D  動画フォーマット
-	// autoplay:自動再生
-	// rel:関連動画
-	// egm:再生中でもオンマウスで関連動画を表示
-	// loop:ループ再生
-	// fs:全画面ボタンの表示
-	//fmt:quality 6 or 18
-	//color1,color2:色
-	// border:ボーダーの有無
-	//hd:HD再生 1=true
-	*/
 	createThumbNail: function(entry){
 		var mg = entry.media$group, key = $.yt.key;
 		
 		return $('<a>').addClass('yt-thumb-link').setData(key, {
 			'author': entry.author[0].name.$t,
 			'title': mg.media$title.$t,
-			//'contentUrl': mg.media$content ? mg.media$content[0].url.replace(/f=videos&app=youtube_gdata/, '') + 'hl=ja&fs=1&rel=0&hd=1&autoplay=1' : '',
-			'contentUrl': mg.media$content ? mg.media$content[0].url.replace(/\?f=videos&app=youtube_gdata/, '') : '',
-			'content': mg.media$description.$t,  /*entry.content.$t,*/
+			'contentUrl': mg.media$content ? mg.media$content[0].url.replace(/[\&\?]?f=videos&app=youtube_gdata/, '') : '',
+			'content': mg.media$description.$t,
 			'ratingAvg': entry.gd$rating == null ? 0 : entry.gd$rating.average + '/' + entry.gd$rating.numRaters + ' ratings',
 			'playerUrl': mg.media$player[0].url || '',
 			'published': entry.published.$t.replace(/^(\d{4})-(\d{2})-(\d{2}).*/, '$1/$2/$3'),
 			'viewCount': (entry.yt$statistics == null ? 0 : entry.yt$statistics.viewCount) + ' views'
-		}).append($('<img>').attr({
+		}).append($('<img>').addClass('yt-thumb').attr({
 			'src': mg.media$thumbnail[0].url,
 			'title': entry.title.$t,
-			'width': 120, //mg.media$thumbnail[0].width,
-			'height': 90 //mg.media$thumbnail[0].height
+			'width': 120,
+			'height': 90
 		}).hover(function(){
 			$(this).attr({'src': mg.media$thumbnail[1].url});
 		},function(){
 			$(this).attr({'src': mg.media$thumbnail[0].url});
-		})).click(function(e){
-			var c = $.data(this, key).contentUrl;
+		})).click(function(){
+			var data = $.data(this, key);
+			$.yt.showMovieInfo(data);
 			
-			$.yt.showMovieInfo($.data(this, key));
-			
-			if (c) {
-				//$($.yt.movieParams).attr('value', c);
-				//$($.yt.moviePlayer).attr('src', c);
-				$.player.get(c);
+			if (data.contentUrl) {
+				$.ytPlayer.get(data.contentUrl);
 			}
 			else {
-				window.open($.data(this, key).playerUrl + '&fmt=18');
+				window.open(data.playerUrl + '&fmt=18');
 			}
 			return false;
 		});
@@ -131,11 +132,8 @@ yt: {
 
 
 
+/* -=-=-=- itunes -=-=-=-=- */
 $.fn.extend({
-appendiTunesRanking: function(options, callback){
-	$.createiTunesRanking(this, options, callback);
-	return this;
-},
 myAccordion: function(options, callback){
 	$.myAccordion($.extend(options, {wrap:'#' + $(this).attr('id')}), callback);
 	return this;
@@ -167,8 +165,8 @@ appendiTunesNavi:function(options, callback){
 					'genre': iGenre[g]
 				})
 				.click(function(e){
-					$(e.target).currentOn('a.genre');
 					var data = $(e.target).getData(op.key);
+					$(e.target).currentOn('a.genre');
 					$.changeiTunesRanking(data.category, data.genre);
 				})).appendTo($gLst);
 		}
@@ -218,7 +216,7 @@ currentOn:function(cls){
 	$(cls).removeClass('current');
 	return this.addClass('current');
 },
-addCountryItem: function(clsName){
+appendCountryItems: function(clsName){
 	return this.append($.createCountryItem(clsName));
 }
 });
@@ -379,9 +377,8 @@ myAccordion: function(options, callback){
 },
 
 
-createiTunesRanking: function(elm, options, callback){
+createiTunesRanking: function(options, callback){
 
-	//var $t = $(elm);
 	var $t = $('<div>');
 	
 	$.iTunes.gFeed(options, function(feed){
@@ -445,9 +442,10 @@ createCountryItem: function(cls){
 	
 	return lst.join('');
 },
-changeiTunesRanking:function(category, genre){
+changeiTunesRanking:function(category, genre, callback){
 	var $t = $('#itunes-ranking');
-	$t.appendiTunesRanking({
+
+	$.createiTunesRanking({
 			'category': category,
 			'genre': genre,
 			'sf': $('#itunes-country option:selected').val(),
@@ -473,38 +471,75 @@ changeiTunesRanking:function(category, genre){
 				});
 			}
 			
-			$('a.keyword', rankingElm).click(function(e){
-				var kw = $(e.target).text();
-				$.yt.currents.vq = kw;
-				$('#search-text').val(kw);
-				$.yt.currents['start-index'] = 1;
-				$.yt.changeThumbTable();
-				return false;
-			}).eq(0).trigger('click');
+			$('a.keyword', rankingElm).click($.keywordClick);
+			
+			if($.isFunction(callback))
+				callback.call();
 	});
+},
+keywordClick:function(e){
+	var kw = $(e.target).text();
+	$.yt.currents.vq = kw;
+	$('#search-text').val(kw);
+	$.yt.currents['start-index'] = 1;
+	$.yt.changeThumbTable();
+	return false;
 }
 });
 
-
-$.player = {
-	id:'movie_player',
-	get: function(url){
-		//'http://www.youtube.com/v/c98umix4uiE&enablejsapi=1&playerapiid=ytplayer&autoplay=1&hd=1'
-		swfobject.embedSWF(url + '&enablejsapi=1&playerapiid=ytplayer&hl=ja&fs=1&rel=0&iv_load_policy=3&autoplay=1&hd=1&hq=1&quality=high', $.player.id, '640', '385', '8', null, null, {
+/* -=-=-=- swf object -=-=-=-=- */
+$.ytPlayer = {
+	get: function(url, options, params){
+		/*
+		hl:国
+		autoplay:自動再生
+		rel:関連動画
+		egm:再生中でもオンマウスで関連動画を表示
+		loop:ループ再生
+		fs:全画面ボタンの表示
+		fmt:quality 6 , 18, 22, 34, 35
+		color1,color2:色
+		border:ボーダーの有無
+		hd:HD再生 1=true
+		*/
+		
+		var op = $.extend({
 			allowScriptAccess: 'always',
 			allowFullScreen: 'true',
-			quality: 'high',
 			height: '385px',
+			quality: 'high',
 			width: '640px'
-		}, {
-			id: $.player.id
-		});
+		}, options);
+		
+		var prms = $.extend({
+			enablejsapi:1,
+			playerapiid:'ytplayer',
+			hl:'ja',
+			rel:0,
+			iv_load_policy:3,
+			autoplay:1,
+			hd:1//,
+			//quality:'high'
+		}, params);
+		
+		var urlPrms = [];
+		for(var i in prms){
+			if(prms.hasOwnProperty(i))
+				urlPrms.push(i + '=' + prms[i]);
+		}
+		
+		$.swf.get(url + '&' + urlPrms.join('&'), op);
+	}
+}
+
+$.swf = {
+	id:'movie-player',
+	get: function(url, options){
+		swfobject.embedSWF( url, $.swf.id, options.width.match(/\d+/), options.height.match(/\d+/), '8', null, null, options, { id: $.swf.id });
 	},
 	play: function(){
-		var ytplayer = document.getElementById($.player.id);
-		if (ytplayer) {
-			ytplayer.playVideo();
-		}
+		var p = document.getElementById($.swf.id);
+		if (p) p.playVideo();
 	}
 }
 })(jQuery);
@@ -516,7 +551,7 @@ $.player = {
 
 
 jQuery(function($){
-$('#itunes-country').addCountryItem('county-item').children('option:last').attr('selected', true);
+$('#itunes-country').appendCountryItems('county-item').children('option:last').attr('selected', true);
 
 
 var
@@ -530,32 +565,50 @@ op = {
 	contClass: elmKey + '-genre-list'
 };
 
+$('#top-content').slideUp(0);
 $('#itunes-navi-list').appendiTunesNavi(op, function(){
 	$(this).myAccordion(op, function(){
-		$('a.genre:first').trigger('click');
+		var data = $('a.genre:first').currentOn('a.genre').getData(op.key);
+		$.changeiTunesRanking(data.category, data.genre, function(){
+			var kw = $('a.keyword:first').text();
+			$.yt.currents.vq = kw;
+			$('#search-text').val(kw);
+			$.yt.currents['start-index'] = 1;
+			
+			$.yt.changeThumbTable(function(){
+				$('a.yt-thumb-link:first').trigger('click');
+				$('#top-content').slideDown(500);
+			});
+			
+		});
 	});
 });
 
 
 
-
 $('a.yt-prev').click(function(e){
-	if($.yt.currents['start-index'] <= 1) return false;
+	var c = $.yt.currents;
+	if(c['start-index'] <= 1) return false;
 	
-	if ($.yt.currents.vq) {
-		$.yt.currents['start-index'] = Math.max(parseInt($.yt.currents['start-index']) - parseInt($.yt.currents['max-results']), 1);
+	if (c.vq) {
+		$.yt.currents['start-index'] = Math.max(c['start-index'] - c['max-results'], 1);
 		$.yt.changeThumbTable();
 	}
 	return false;
 });
 
 $('a.yt-next').click(function(e){
-	if(parseInt($.yt.params['last-index']) >= $.yt.params['total-results']) return false;
+	var
+	c = $.yt.currents,
+	p = $.yt.params;
 	
-	if ($.yt.currents.vq) {
-		$.yt.currents['start-index'] = Math.min(parseInt($.yt.currents['start-index']) + parseInt($.yt.currents['max-results']),parseInt($.yt.params['total-results']));
+	if(p['last-index'] >= p['total-results']) return false;
+	
+	if (c.vq) {
+		$.yt.currents['start-index'] = Math.min(c['start-index'] + c['max-results'], p['total-results']);
 		$.yt.changeThumbTable();
 	}
+	
 	return false;
 });
 
@@ -589,4 +642,7 @@ $('a.yt-order').click(function(){
 
 $.setTitle('iTube β', '1.0');
 $.showLastModDate();
+
+
+
 });
