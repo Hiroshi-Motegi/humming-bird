@@ -29,14 +29,17 @@ th{color:#708090}
 	border-left:1px solid #4c4c4c;
 	border-bottom:1px solid #4c4c4c;
 }
-#movie-player-wrap{
-	height:385px;
+#top-content-table #movie-player-wrap{
+	background-color:#000;
+	height:386px;
 	overflow: hidden;
+	vertical-align:top;
 	width: 640px;
 }
-#movie_player{
+#top-content-table #movie-player-wrap #movie-player{
 	background-color:#000;
 	height:385px;
+	vertical-align:top;
 	width: 640px;
 }
 
@@ -71,6 +74,7 @@ th{color:#708090}
 
 #movie-summary table #movie-summary-title{
 	color: #CC6699;
+	font-size:14px;
 	font-weight:normal;
 	line-height:1.1em;
 	text-align:center;
@@ -196,7 +200,7 @@ th{color:#708090}
 
 #itunes-ranking-title{
 	color: #cc6699;
-	/*font-family: 'Candara';*/
+	font-size:14px;
 	font-weight: normal;
 	line-height:1em;
 	text-align:center;
@@ -265,7 +269,7 @@ th{color:#708090}
 
 #itunes-navi-list{
 	border: 1px solid #4c4c4c;
-	font-size:14px;
+	/*font-size:14px;*/
 	overflow:hidden;
 	padding-top:2px;
 	position: relative;
