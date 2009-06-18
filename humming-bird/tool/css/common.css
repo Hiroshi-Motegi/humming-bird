@@ -12,7 +12,7 @@ ol{margin-left:1.6em}
 img{border-width:0}
 a{color:#006699;cursor:pointer;text-decoration:none}
 a:hover{color:#0099ff}
-embed,img,input,label,object,textarea{vertical-align:middle}
+embed,img,input,label,object,textarea{vertical-align:top}
 option{padding-right:.5em}
 textarea{overflow:auto}
 
