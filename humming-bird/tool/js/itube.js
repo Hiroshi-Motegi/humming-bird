@@ -551,6 +551,11 @@ $.swf = {
 
 
 jQuery(function($){
+
+if($.browser.mozilla){
+	$('#movie-player-wrap').height($('#movie-player-wrap').height() + 1);
+}
+
 $('#itunes-country').appendCountryItems('county-item').children('option:last').attr('selected', true);
 
 

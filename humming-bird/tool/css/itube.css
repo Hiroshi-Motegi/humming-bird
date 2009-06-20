@@ -7,6 +7,12 @@ a{color:#999966}
 a:hover{color:#ffff99}
 input[type=button]:hover{cursor:pointer}
 th{color:#708090}
+select{
+	background-color:#333;
+	border-style:inset;
+	border-width:1px;
+	color:#ccc;
+}
 /* -=-=-=-=-=-=-=- wrap -=-=-=-=-=-=-=- */
 #outer-wrap0{}
 
@@ -31,7 +37,7 @@ th{color:#708090}
 }
 #top-content-table #movie-player-wrap{
 	background-color:#000;
-	height:386px;
+	height:385px;
 	overflow: hidden;
 	vertical-align:top;
 	width: 640px;
@@ -130,7 +136,7 @@ th{color:#708090}
 }
 #yt-orders th,
 #yt-orders td{
-	padding:1px;
+	padding:2px 0;
 }
 #yt-orders th span,
 #yt-orders a.yt-order{
@@ -162,25 +168,32 @@ th{color:#708090}
 }
 /* -=-=-=-=-=- search -=-=-=-=-=-=- */
 #search-wrap{
+	border-collapse:collapse;
 	background-color:#1a1a1a;
 	border:1px solid #1a1a1a;
 	display: inline-block;
 	margin:0 auto;
 }
+#search-wrap td{
+	line-height:0px;
+	font-size:0px;
+	margin:0;
+	padding:0;
+}
 #search-text{
 	background-color:#999;
 	border:1px solid #bbb;
 	height:20px;
-	line-height:20px;
+	line-height:18px;
 	padding-left:.5em;
 }
 #search-btn{
-	background-color:#2a2a2a;
+	background-color:#333;
 	border:1px solid #4c4c4c;
 	color:#ccc;
 	height:22px;
 	line-height:18px;
-	padding:0 1em;
+	padding:0 5px;
 }
 
 /* -=-=-=-=-=-=- itunes-feed-wrap -=-=-=-=-=- */
@@ -304,7 +317,6 @@ th{color:#708090}
 }
 /* -=-=-=-=-=-=-=- genre list -=-=-=-=-=-=-=- */
 #itunes-navi-list ul.itunes-navi-list-genre-list{
-	/*background-color:#4c4c4c;*/
 	margin:0;
 	list-style:none;
 	padding:0 0 3px 0;
@@ -319,6 +331,7 @@ th{color:#708090}
 #itunes-navi-list ul.itunes-navi-list-genre-list li a{
 	border: 1px solid #333;
 	display:block;
+	font-size:12px;
 }
 #itunes-navi-list ul.itunes-navi-list-genre-list li a:hover{
 	background-color:#2a2a2a;
@@ -342,6 +355,7 @@ th{color:#708090}
 	width:100%;
 }
 #itunes-navi-option #itunes-navi-option-title{
+	color:#cc6699;
 	text-align: center;
 }
 #itunes-navi-option table th{
