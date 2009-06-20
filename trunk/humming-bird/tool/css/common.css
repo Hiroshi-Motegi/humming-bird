@@ -7,13 +7,13 @@ h3{font-size:19px}
 body,h4,textarea{font-size:16px}
 h5,input,pre,small,select,option{font-size:13px}
 h6{font-size:11px}
-ol,ul{text-indent:0;margin:0 0 0 1em;padding:0}
-ol{margin-left:1.6em}
-img{border-width:0}
 a{color:#006699;cursor:pointer;text-decoration:none}
 a:hover{color:#0099ff}
+img{border-width:0}
 embed,img,input,label,object,textarea{vertical-align:top}
-option{padding-right:.5em}
+ol,ul{text-indent:0;margin:0 0 0 1em;padding:0}
+ol{margin-left:1.6em}
+select{/*border-style:inset*/;border-width:1px}
 textarea{overflow:auto}
 
 
@@ -28,16 +28,15 @@ body {background-color:#1a1a1a;color:#ccc}
 #title{
 	color:#bbb;
 	font-size:24px;
-	font-family:'Candara';
 	text-align:center;
 	font-weight:normal;
 	line-height:80px;
 	margin:0;
 	padding:0;
 }
+#title,#footer{font-family:'Candara',Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,Verdana,Geneva,Arial,Helvetica,sans-serif}
 /* -=-=-=-=- content wrap -=-=-=-=-=- */
 #outer-wrap0{
-	/*background-color:#1a1a1a;*/
 	background-image: url(img/bg_cb_120x120.png);
 	width: 100%;
 }
@@ -53,11 +52,9 @@ body {background-color:#1a1a1a;color:#ccc}
 }
 #footer{
 	color:#999;
-	font-family:"Candara";
 	text-align:center;
 }
 #footer small{
-	font-family:"Candara";
 	font-size:14px;
 	font-weight:bold;
 	line-height:20px;
