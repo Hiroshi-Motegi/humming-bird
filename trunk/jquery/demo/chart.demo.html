@@ -6,23 +6,300 @@
 		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 		<title>jQuery plugin - chart demo</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-		<script src="../lib/jquery.chart.js" type="text/javascript"></script>
+		<!--<script src="../lib/jquery.chart.js" type="text/javascript"></script>-->
 <script type="text/javascript">
-$(function(){
-	var cht = $.chart.create();
+function gChart (){
+	this.initialize.apply(this, arguments);
+}
+gChart.prototype = {
+	initialize: function(options){
+		
+		this.params = gChart.merge({
+			chd:'t:50,50',
+			chs: '200x125',
+			cht: 'p3'
+		}, options);
+		
+		function parseSize(chs){
+			var re = /^(\d+)x(\d+)$/.exec(chs) || [];
+			return {
+				w: parseInt(re[1]) || 0,
+				h: parseInt(re[2]) || 0
+			};
+		}
+		
+		this.height = function(h){
+			if (arguments.length == 0) 
+				return parseSize(this.params.chs).h;
+			this.params.chs = (this.params.chs || '').replace(/^(\d+)x\d+$/, '$1x' + h) || '';
+		}
+		
+		this.width = function(w){
+			if (arguments.length == 0) 
+				return parseSize(this.params.chs).w;
+			this.params.chs = (this.params.chs || '').replace(/^\d+x(\d+)$/, w + 'x$1') || '';
+		}
+	},
+	get: function(){
+		return 'http://chart.apis.google.com/chart?' +
+		(function(o){
+			var x = [];
+			for (var i in o) {
+				if (o.hasOwnProperty(i)) 
+					x.push(i + '=' + o[i]);
+			}
+			return x.join('&')
+		})(this.params);
+	},
+	getImage: function(){
+		var img = new Image();
+		img.src = this.get();
+		return img;
+	},
+	size: function(w, h){
+		if (arguments.length == 0) 
+			return this.params.chs;
+		this.params.chs = w + 'x' + h;
+	},
+	chartType: function(cht){
+		if (arguments.length == 0) 
+			return this.params.cht;
+		this.params.cht = cht;
+	},
+	data: function(chd){
+		if (arguments.length == 0) 
+			return this.params.chd;
+		this.params.chd = (function(d){
+			return d.constructor == 'Array' ? 't:' + d.join(',') : typeof d === 'string' ? d : '0,0';
+		})(chd);
+	},
+	color:function(chco){
+		
+	},
+	fill:function(chf){
+		
+	}
+};
+
+
+
+
+(function (o){
+	for (var i in o) {
+		if (o.hasOwnProperty(i))
+			gChart[i] = o[i];
+	}
+})({
+	merge: function(){
+		var ln = arguments.length, re = {}, i;
+		for (var j = 0; j < ln; j++) {
+			var arg = arguments[j];
+			for (i in arg) {
+				if (arg.hasOwnProperty(i)) 
+					re[i] = arg[i];
+			}
+		}
+		return re;
+	},
+	
+	// 簡易エンコード(Simple Encode)
+	simpleEncode: function(v){
+		var chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		return /[A-Za-z\d]/.test(v) ? chr.search(v) : '_';
+	},
+	simpleEncodingFormat: function(data){
+		var d = 's:';
+		for( var i = 0, j = data.length; i < j ; i++ )
+			d += gChart.simpleEncode(data[i]);
+		
+		return d;
+	},
+	
+	// 拡張エンコード(Extended Encode)
+	extendedEncode: function(v){
+		var
+		chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.',
+		re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v);
+		if (re) 
+			return chr.search(re[1] == '.' ? '\\.' : re[1]) * 64 + chr.search(re[2] == '.' ? '\\.' : re[2]);
+		
+		return '__';
+	},
+	extendedEncodingFormat: function(data){
+		var d = 'e:';
+		for( var i = 0, j = data.length; i < j ; i++ )
+			d += gChart.extendedEncode(data[i]);
+		
+		return d;
+	},
+	
+	/*
+	 * テキストエンコードの範囲は 0 (0.0) から 100 (100.0)
+	 * 0 ~ 100の範囲に収まるように数値をエンコードする
+	 * @Param arr:数値の配列
+	 */
+	textEncoding: function(arr){
+		var max = 0, min = 0;
+		for (var i = 0; i < arr.length; i++) {
+			max = Math.max(max, arr[i]);
+			min = Math.min(min, arr[i]);
+		}
+		
+		min = Math.abs(min);
+		var x = (max + min) / 100, nar = [];
+		
+		for (var i = 0; i < arr.length; i++) 
+			nar.push(Math.max(Math.min((arr[i] + min) / x, 100), 0));
+		
+		return nar;
+	},
+	pie3D: function(options){
+		var chrt = new gChart(gChart.merge({
+			cht: gChart.chartType.pie3D,
+			chd: 's:91bTA',
+			chco:'0000ff',
+			//chf:'bg,lg,45,ffffff,0,76A4FB,0.75',
+			chf:'bg,s,ffcc00|a,s,ffffffcc'
+		}, options));
+		return chrt.get();
+	},
+	line: function(options){
+		var chrt = new gChart(gChart.merge({
+			cht: gChart.chartType.line,
+			chd: 's:UVVUVVUUUVVUSSVVVXX',
+			chm: 'b,cccccc,0,0,0',
+			chf:'c,lg,45,ffffff,0,76A4FB,0.75',
+			chf:'bg,s,ffcc00|a,s,ffffffcc',
+			chxt:'x,y',
+			chxl:'0:|Jan|Feb|Mar|Jun|Jul|Aug|1:|0|25|50|75|100'
+		}, options));
+		return chrt.get();
+	},
+	fillTarget:{
+		background:'bg',
+		chartArea:'c',
+		transparency:'a'
+	},
+	fillType:{
+		 solidFill:'s', //単色塗りつぶし
+		 linearGradient:'lg', //線形グラデーション
+		 linearStripes:'ls' //線形ストライプ
+	},
+	chfFormat:function(fillType, bgColor, caColor, opacity){
+		/*
+		 * fill target
+		 * - bg: background fill
+		 * - c: chart area fill
+		 * - a: transparency
+		 *
+		 * fill type
+		 * - s:単色塗りつぶし(Solid fill)
+		 * - lg:線形グラデーション(Linear gradient)
+		 * - ls:線形ストライプ(Linear stripes)
+		*/
+		
+		var chf = '';
+		return chf;
+	},
+	
+	
+	/*
+	 *[cht] - チャート タイプ(chart type)
+	 *example - 『cht=<chart type>』
+	 */
+	chartType: {
+		line: 'lc', //折れ線グラフ
+		lineXY: 'lxy', //折れ線グラフ
+		barHorizontal: 'bhs',
+		barVertical: 'bvs',
+		barHorizontalGroup: 'bhg',
+		barVerticalGroup: 'bvg',
+		pie: 'p',
+		pie3D: 'p3',
+		venn: 'v',
+		scatter: 's',
+		sparkline: 'ls', //スパークライン
+		radar: 'r',
+		radarCurved: 'rs',
+		map: 't',
+		meter: 'gom',
+		qrCode: 'qr'
+	},
+	
+	// chm - 図形マーカー / 範囲マーカー(marker type)
+	markerType: {
+		arrow: 'a', // 矢印
+		circle: 'o', // 円
+		cross: 'c', // 十字
+		diamond: 'd', // ひし形
+		lLine: 'h', // チャートを横断する水平線
+		marker: 'r', // 範囲マーカー r or R
+		square: 's', // 四角
+		vLine: 'v', // x 軸からデータ ポイントまでの垂直線
+		vLineTop: 'V', // チャート上端までの垂直線
+		x: 'x' // 図形
+	},
+	chxlFormat:function(o){
+		var re = '',indx = 0;
+		for(i in o){
+			if(o.hasOwnProperty(i))
+				re.push((indx++) + ':|' + o[i].join('|') + '|');
+		}
+		return re;
+	}
+});
+
+
+
+	
+
+
+
+
+
+jQuery(function($){
+	var cht = gChart.pie3D();
 	$(document.body).append('<a href=\'' + cht + '\'><img src=\'' + cht + '\'\/></a>');
+	
+	cht = gChart.line();
+	$(document.body).append('<a href=\'' + cht + '\'><img src=\'' + cht + '\'\/></a>');
+	
+	
+	
+	
+	var opacity = 255;
+	
+	function op(opacity){
+		opacity = (+opacity == opacity) ? opacity.toString(16) : opacity;
+		alert(opacity);
+	}
+	
+	op(opacity);
+	
+	/*
+	var chart = new gChart();
+	
+	chart.height(300);
+	chart.chartType(gChart.chartType.pie3D);
+	
+	var img =  chart.getImage();
+	
+	alert(img.tagName);
+	
+	$(document.body).append(chart.getImage());
+	
+	*/
 
 });
 
 
 /*
-Required Parameters
+[[ Required Parameters ]]
 	- chart type
 	- chart data
 	- chart size
 
-[cht] - チャート タイプ(chart type)
-	ex:cht=<chart type>
+[cht] - チャート タイプ(chart type) ex:cht=<chart type>
 	lc,lxy:折れ線グラフ
 	ls:スパークライン
 	bhs,bhg,bvs,bvg,chbh:棒グラフ(bar chart type)
@@ -31,18 +308,17 @@ Required Parameters
 	s:散布図
 	r,rs:レーダー チャート
 	t:地図
-		[chtm]
-			africa,asia,europe,middle_east,south_america,usa,world
+		[chtm] africa,asia,europe,middle_east,south_america,usa,world
 	gom:Google-o-meter
 	qr:QRコード
-		[chl]
-			delimiter:%20
-		[choe]
-			Shift_JIS,UTF-8,ISO-8859-1
+		[chl] delimiter:%20
+		[choe] Shift_JIS,UTF-8,ISO-8859-1
+
 
 [chd] - チャート データ(chart data)
-	chd=t:<chart data string>
+	chd=t:<chart data string> or s:<simple encordedchart data string> or e:<extended encordedchart data string>
 	delimiter:|
+
 
 [chs] - チャート サイズ(chart size)
 	chs=<width in pixels>x<height in pixels>
@@ -50,13 +326,37 @@ Required Parameters
 
 -- Option --
 [chco] - チャートの色
+	線、棒、ベン図、Google-o-meter、円グラフ
+
 [chm] - 塗りつぶし領域
-[chf] - 無地塗りつぶし
-[chf] - 線形グラデーション,線形ストライプ
+	b,<color>,<start line index>,<end line index>,<any value>
+	or
+	B,<color>,<start line index>,<end line index>,<any value>
+
+
+[chf] - 塗りつぶし
+	s:単色塗りつぶし
+	lg:線形グラデーション
+	ls:線形ストライプ
+	
+	bg:背景塗りつぶし
+	c:チャート領域塗りつぶし
+	a:チャート全体に透明度を適用
+
+
 [chtt] - チャート タイトル
+
 [chdl] - 凡例
+
 [chl] - 円グラフと Google-o-meter のラベル
-[chxt] - 複数軸ラベル
+
+
+[chxt] - 軸ラベル表示位置指定
+	x = 下部の x 軸
+	t = 上部の x 軸
+	y = 左側の y 軸
+	r = 右側の y 軸
+
 [chxl]] - 軸ラベル
 [chxp] - 軸ラベル位置
 [chxr] - 軸範囲
@@ -71,25 +371,22 @@ Required Parameters
 [chg] - グリッド線
 
 
-[chm] - 図形マーカーと範囲マーカー
-	<marker type>
-		a:矢印を表します。
-		c:十字を表します。
-		d:ひし形を表します。
-		o:円を表します。
-		s:四角を表します。
-		t:テキストを表します。
-		v: x 軸からデータ ポイントまでの垂直線を表します。
-		V:チャート上端までの垂直線を表します。
-		h:チャートを横断する水平線を表します。
-		x:図形 x を表します。
-[chm] - 範囲マーカー
-	<r or R>
-
-
+[chm] - 図形マーカーと範囲マーカー(marker type)
+	a:矢印
+	c:十字
+	d:ひし形
+	o:円
+	s:四角
+	t:テキスト
+	v: x 軸からデータ ポイントまでの垂直線
+	V:チャート上端までの垂直線
+	h:チャートを横断する水平線
+	x:図形
+	r,R:範囲マーカー
 */
 </script>
 <style type="text/css">
+img{border-width:0}
 </style>
 </head>
 <body>

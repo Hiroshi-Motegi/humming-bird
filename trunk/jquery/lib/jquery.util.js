@@ -52,7 +52,7 @@ $.fn.extend({
 			if ($.css(this, 'position') != 'absolute') {
 				for(var i = 0; i < posKeys.length ; i++){
 					if ( !$.data(this, 'old' + posKeys[i]) ) 
-					$.data(this, 'old' + posKeys[i], $.css(this, posKeys[i])));
+						$.data(this, 'old' + posKeys[i], $.css(this, posKeys[i]));
 				}
 				
 				$t.css({
@@ -118,7 +118,7 @@ $.fn.extend({
 
 
 $.fn.setData = function(key, val){
-	return this.each(function(index, elm){
+	return this.each(function(i, elm){
 		$.data(elm, key, val);
 	});
 }
@@ -133,22 +133,26 @@ $.fn.getData = function(key){
 }
 
 
-$.merge = function(o1, o2){
-
-	o1 = o1 || {};
-	o2 = o2 || {};
+(function($){
+$.extend({
+	merge: function(o1, o2){
 	
-	var re = {}, i;
-	
-	for (i in o1) {
-		if (o1.hasOwnProperty(i)) {
-			re[i] = o1[i];
+		o1 = o1 || {};
+		o2 = o2 || {};
+		
+		var re = {}, i;
+		
+		for (i in o1) {
+			if (o1.hasOwnProperty(i))
+				re[i] = o1[i];
 		}
-	}
-	for (i in o2) {
-		if (o2.hasOwnProperty(i)) {
-			re[i] = o2[i];
+		
+		for (i in o2) {
+			if (o2.hasOwnProperty(i))
+				re[i] = o2[i];
 		}
+		
+		return re;
 	}
-	return re;
-}
+})
+})(jQuery);
