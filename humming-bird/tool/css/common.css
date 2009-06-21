@@ -52,13 +52,12 @@ body {background-color:#1a1a1a;color:#ccc}
 }
 #footer{
 	color:#999;
-	text-align:center;
-}
-#footer small{
 	font-size:14px;
 	font-weight:bold;
 	line-height:20px;
+	text-align:center;
 }
+#footer small{}
 /* -=-=-=-=-=-=- line -=-=-=-=-=-=-=- */
 .line-outer{
 	border-bottom: 1px solid #4c4c4c;
