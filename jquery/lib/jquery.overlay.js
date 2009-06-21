@@ -1,139 +1,131 @@
 /**
  * jQuery plugin Overlay
- * Copyright 2009 y@s
- * Version 1.1
+ * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * demo http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
+ * Author: y@s
+ * Version:1.2
+ * Update:2009-06-21
+ * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
  */
 
 (function($) {
-	
-	function clickEvh(e){
-		$.overlay.$ovLayer.trigger($.overlay.evName);
+
+function clickEvh(e){
+	if (e.button == 0) {
+		$.overlay.$layer.trigger(evKey);
 		e.stopPropagation();
-		return false;
 	}
-	
-	function keydownEvh(e){
-		var keycode = (e == null) ? e.keyCode : e.which;
-		if (keycode == 27 || keycode == 13) 
-			$.overlay.$ovLayer.trigger($.overlay.evName);
-		return false;
-	}
-	
-	function resizeEvh(){
-		$.overlay.$ovLayer
-			.hide()
-			.height($(document).height())
-			.width($(document).width())
-			.show();
-	}
-	
+	return false;
+}
+
+function keydownEvh(e){
+	var keycode = (e == null) ? e.keyCode : e.which;
+	if (keycode == 27 || keycode == 13) 
+		$.overlay.$layer.trigger(evKey);
+	return false;
+}
+
+function resizeEvh(){
+	var ls = $.overlay.$layer.get(0).style;
+	ls['display'] = 'none';
+	ls['height'] = $(document).height() + 'px';
+	ls['width'] = $(document).width() + 'px';
+	ls['display'] = 'block';
+}
+
+var
+
+ovCSS = {
+	position: 'absolute',
+	left: 0,
+	top: 0,
+	margin: 0,
+	background:'none',
+	backgroundColor:'#000'
+},
+
+animOpts = {
+	opacity: 0.75,
+	duration: 400,
+	easing:'swing'
+},
+
+ovID = 'overlay',
+
+evKey = 'overlay';
+
 $.overlay = {
-	evName: 'ovrly',
-	$ovLayer: null,
-	options:{
-		id: 'overlay',
-		bgColor: '#000000',
-		bgImgUrl:'none',
-		bgImgOption:'repeat',
-		opacity: 0.75,
-		duration: 400,
-		easing:'swing'
-	},
 	
+	$layer: null,
 	
 	create: function( options, callback ){
 		
-		if($.overlay.$ovLayer) return;
+		if($.overlay.$layer) return;
 		
 		callback = $.isFunction(options) ? options : callback || function(){};
+		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
-		var
-		op = $.extend($.overlay.options, options),
-		tmpID = op.id,
-		cnt = 0;
+		var _n = 0;
 		
-		while(document.getElementById(tmpID)){
-			tmpID = op.id + cnt;
-			cnt++;
-		}
+		while(document.getElementById(ovID))
+			ovID += _n++;
 		
-		if(tmpID != op.id)
-			op.id = tmpID;
-		
-		if(op.bgImgUrl != 'none')
-			op.bgImgUrl = 'url(\'' + op.bgImg + '\') ' + op.bgImgOption;
-		
-		$.overlay.$ovLayer = $('<div>')
-			.attr('id', op.id)
-			.css({
-				position: 'absolute',
-				left: 0,
-				top: 0,
-				margin: 0,
-				backgroundImage:op.bgImg,
-				backgroundColor: op.bgColor
-			});
+		$.overlay.$layer = $('<div>').attr('id', ovID).css($.extend(ovCSS, options.css || {}));
 		
 		callback.call(this);
 	
 	},
 	
-	
 	show:function(options, callback){
-		var op = $.extend($.overlay.options, options);
-		
-		if(!$.overlay.$ovLayer)
-			$.overlay.create();
-		
+
 		callback = $.isFunction(options) ? options : callback || function(){};
+		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
+		
+		var $doc = $(document);
+		
+		if($.overlay.$layer == null)
+			$.overlay.create(options);
 		
 		if( $.browser.msie && $.browser.version<7 )
 			$('embed,object,select').css('visibility', 'hidden');
 		
 		$(window).bind('resize', resizeEvh);
-		$(document).bind('keydown', keydownEvh);
+		$doc.bind('keydown', keydownEvh);
 		
-		$.overlay.$ovLayer
-			.width($(document).width())
-			.height($(document).height())
+		$.overlay.$layer
+			.css({
+				height:$doc.height(),
+				width:$doc.width(),
+				opacity:0
+			})
 			.appendTo(document.body)
-			.fadeTo(0, 0)
 			.bind('click', clickEvh)
-			.animate({opacity: op.opacity},{
-				duration: op.duration,
-				easing: op.easing,
-				complete: callback
-			});
+			.animate($.extend({opacity: 0.75}, options.animateParams || {}),
+				$.extend(animOpts, {complete:callback}, options.animateOptions || {}));
 	},
 	
-	
 	hide:function(options, callback){
-		var op = $.extend($.overlay.options, options);
-		callback = $.isFunction(options) ? options : (callback || function(){});
+
+		callback = $.isFunction(options) ? options : callback || function(){};
+		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
 		$(window).unbind('resize', resizeEvh);
 		
-		$.overlay.$ovLayer
+		$.overlay.$layer
 			.stop(true)
-			.animate({opacity: 0},{
-				duration: op.duration,
-				easing: op.easing,
-				complete: function(){
-					$(this).remove();
-					if ($.browser.msie && $.browser.version < 7) 
-						$('embed, object, select').css('visibility', 'visible');
-						$(document).unbind('keydown', keydownEvh);
-					callback.call(this);
-				}
-			});
+			.animate({opacity: 0}, $.extend(animOpts, {complete:function(){
+				$(this).remove();
+				if ($.browser.msie && $.browser.version < 7) 
+					$('embed,object,select').css('visibility', 'visible');
+				$(document).unbind('keydown', keydownEvh);
+				callback.call(this);
+			}}, options.animateOptions || {}));
 	},
 	
 	bind:function(fn){
-		if ($.overlay.$ovLayer)
-			$.overlay.$ovLayer.bind($.overlay.evName, fn);
+		if ($.overlay.$layer)
+			$.overlay.$layer.bind(evKey, fn);
 	}
 }
 })(jQuery);
