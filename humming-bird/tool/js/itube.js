@@ -542,6 +542,9 @@ $.swf = {
 		if (p) p.playVideo();
 	}
 }
+
+
+
 })(jQuery);
 
 
@@ -642,7 +645,7 @@ $('a.yt-order').click(function(){
 	return false;
 });
 
-
+$('.foo').sameHeight();
 
 
 $.setTitle('iTube β', '1.0');
