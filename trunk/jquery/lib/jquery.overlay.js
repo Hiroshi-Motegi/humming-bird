@@ -46,14 +46,15 @@ ovCSS = {
 },
 
 animOpts = {
-	opacity: 0.75,
-	duration: 400,
+	duration: 350,
 	easing:'swing'
 },
 
 ovID = 'overlay',
 
 evKey = 'overlay';
+
+
 
 $.overlay = {
 	
@@ -71,7 +72,7 @@ $.overlay = {
 		while(document.getElementById(ovID))
 			ovID += _n++;
 		
-		$.overlay.$layer = $('<div>').attr('id', ovID).css($.extend(ovCSS, options.css || {}));
+		$.overlay.$layer = $('<div>').attr('id', ovID).css($.extend({}, ovCSS, options.css || {}));
 		
 		callback.call(this);
 	
@@ -101,8 +102,8 @@ $.overlay = {
 			})
 			.appendTo(document.body)
 			.bind('click', clickEvh)
-			.animate($.extend({opacity: 0.75}, options.animateParams || {}),
-				$.extend(animOpts, {complete:callback}, options.animateOptions || {}));
+			.animate($.extend({}, {opacity: 0.75}, options.animateParams || {}),
+				$.extend({}, animOpts, {complete:callback}, options.animateOptions || {}));
 	},
 	
 	hide:function(options, callback){
@@ -114,7 +115,7 @@ $.overlay = {
 		
 		$.overlay.$layer
 			.stop(true)
-			.animate({opacity: 0}, $.extend(animOpts, {complete:function(){
+			.animate({opacity: 0}, $.extend({}, animOpts, {complete:function(){
 				$(this).remove();
 				if ($.browser.msie && $.browser.version < 7) 
 					$('embed,object,select').css('visibility', 'visible');
