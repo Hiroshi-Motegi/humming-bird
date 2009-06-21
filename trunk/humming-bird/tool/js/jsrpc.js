@@ -224,7 +224,6 @@ jQuery(function($){
 	$.bindPastePattern();
 	
 	$.setTitle('Javascript Regular Expressions Pattern Check β', '1.3');
-	$.showLastModDate();
 	
 	if($.browser.msie){
 		if ($.browser.version > 6) {

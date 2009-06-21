@@ -636,8 +636,6 @@ $('#search-btn').click(searchInputFn);
 $('#search-text').change(searchInputFn);
 
 
-
-
 $('a.yt-order').click(function(){
 	$.yt.currents.orderby = $(this).attr('rel');
 	$(this).currentOn('a.yt-order');
@@ -645,12 +643,6 @@ $('a.yt-order').click(function(){
 	return false;
 });
 
-$('.foo').sameHeight();
-
 
 $.setTitle('iTube β', '1.0');
-$.showLastModDate();
-
-
-
 });

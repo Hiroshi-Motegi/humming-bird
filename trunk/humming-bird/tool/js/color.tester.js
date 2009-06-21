@@ -424,6 +424,5 @@ jQuery(function($){
 	$.bindMakeCssText();
 	
 	$.setTitle('color and font style tester β', '1.1');
-	$.showLastModDate();
 	
 });
