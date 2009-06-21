@@ -284,22 +284,17 @@ iTunes: {
 			explicit: true
 		}, params);
 		
-		var url = 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' +
-		prms.category.toLowerCase() +
-		'/sf=' +
-		prms.sf +
-		'/limit=' +
-		prms.limit +
-		'/genre=' +
-		prms.genre +
-		'/explicit=' +
-		prms.explicit +
-		'/rss.xml';
-		
-		var feed = new google.feeds.Feed(url);
+		var feed = new google.feeds.Feed('http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' +
+			prms.category.toLowerCase() + 
+			'/sf=' + prms.sf +
+			'/limit=' + prms.limit +
+			'/genre=' + prms.genre +
+			'/explicit=' + prms.explicit +
+			'/rss.xml');
 		
 		feed.setNumEntries(-1);
 		feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
+		
 		feed.load(function(result){
 			if (!result.error) {
 				callback.call(this, result.feed);
@@ -497,7 +492,7 @@ $.ytPlayer = {
 		egm:再生中でもオンマウスで関連動画を表示
 		loop:ループ再生
 		fs:全画面ボタンの表示
-		fmt:quality 6 , 18, 22, 34, 35
+		fmt:quality 6 , 18, 22, 34, 35　…(効かないので無意味)
 		color1,color2:色
 		border:ボーダーの有無
 		hd:HD再生 1=true
@@ -542,9 +537,6 @@ $.swf = {
 		if (p) p.playVideo();
 	}
 }
-
-
-
 })(jQuery);
 
 
@@ -554,10 +546,8 @@ $.swf = {
 
 
 jQuery(function($){
-
-if($.browser.mozilla){
+if($.browser.mozilla)
 	$('#movie-player-wrap').height($('#movie-player-wrap').height() + 1);
-}
 
 $('#itunes-country').appendCountryItems('county-item').children('option:last').attr('selected', true);
 
@@ -619,8 +609,6 @@ $('a.yt-next').click(function(e){
 	
 	return false;
 });
-
-
 
 
 function searchInputFn(){
