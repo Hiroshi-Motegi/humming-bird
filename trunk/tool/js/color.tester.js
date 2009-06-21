@@ -347,7 +347,7 @@
 				var $cssDlg = $.getCssDialog();
 				
 				$.overlay.show(function(){
-					$cssDlg.appendTo($.overlay.$ovLayer).positionCenter().find(':first').focus();
+					$cssDlg.appendTo($.overlay.$layer).positionCenter().find(':first').focus();
 				});
 				
 				$.overlay.bind(function(){
