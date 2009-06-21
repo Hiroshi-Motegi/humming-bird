@@ -251,7 +251,6 @@ jQuery(function($){
 	});
 
 	$.setTitle('String Replace β', '1.4');
-	$.showLastModDate();
 	
 	$('#result').focus(function(){
 		$(this).select();

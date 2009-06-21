@@ -17,6 +17,7 @@ $.attachEvent = function(evName, fn){
 	}
 }
 
+/*
 $.showLastModDate = function(date){
 	$.attachEvent('load', function(){
 		$($.my.slctr.lastmod).text(
@@ -29,6 +30,7 @@ $.showLastModDate = function(date){
 			})(new Date(document.lastModified)));
 	});
 }
+*/
 
 $.setTitle = function(title, ver){
 	var pagetitle = title + (ver ? (' ver. ' + ver) : '');
