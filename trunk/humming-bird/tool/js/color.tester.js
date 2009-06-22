@@ -425,4 +425,6 @@ jQuery(function($){
 	
 	$.setTitle('color and font style tester β', '1.1');
 	
+	if($.browser.msie) $('td.tr-border').text('&nbsp;');
+	
 });

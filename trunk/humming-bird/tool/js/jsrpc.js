@@ -232,5 +232,6 @@ jQuery(function($){
 			$('textarea').attr('rows', '10').height('110px');
 		}
 	}
+	/* json.jsは拡張子をjsonにしてMimeTypeをapplication/json にすべきか? */
 });
 

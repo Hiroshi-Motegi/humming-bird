@@ -4,6 +4,7 @@ body,input,label,textarea{
 }
 a{color:#999966;}
 a:hover{color:#ffff99}
+embed, img, input, label, object, textarea {vertical-align:middle}
 .wrap{margin-bottom:10px}
 #btn-exec{
 	text-align: center;
