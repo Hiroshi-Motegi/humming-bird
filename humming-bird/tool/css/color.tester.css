@@ -182,23 +182,11 @@ a:hover{
 /* -=-=-=- current styles -=-=-=- */
 
 #current-styles-table{
-	line-height:1.4em;
 	width:100%;
 }
 
-#current-styles-table table,
-#current-styles-table tr,
-#current-styles-table td{
-	margin:0;
-	padding:0;
-}
-
-#current-styles-table td.tr-border{
-	border-top: 1px solid #202020;
-	border-bottom: 1px solid #4c4c4c;
-	font-size:0;
-	height:0;
-	line-height:0;
+#current-styles-table tr{
+	border-width:0;
 }
 
 #current-styles-table th{
@@ -211,6 +199,19 @@ a:hover{
 	text-align:left;
 }
 
+#current-styles-table th,
+#current-styles-table td{
+	line-height:1.5em;
+	vertical-align: middle;
+}
+
+#current-styles-table td.tr-border{
+	border-top: 1px solid #202020;
+	border-bottom: 1px solid #4c4c4c;
+	font-size:0px;
+	height:0;
+	line-height:0;
+}
 
 /* -=-=-=-=-=- show-css -=-=-=-=-=- */
 #wrap-show-css{
