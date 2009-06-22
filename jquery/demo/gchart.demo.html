@@ -14,11 +14,7 @@ function gChart (){
 gChart.prototype = {
 	initialize: function(options){
 		
-		this.params = gChart.merge({
-			chd:'t:50,50',
-			chs: '200x125',
-			cht: 'p3'
-		}, options);
+		this.params = gChart.merge(gChart.defaults, options);
 		
 		function parseSize(chs){
 			var re = /^(\d+)x(\d+)$/.exec(chs) || [];
@@ -90,12 +86,14 @@ gChart.prototype = {
 
 
 
-(function (o){
-	for (var i in o) {
-		if (o.hasOwnProperty(i))
-			gChart[i] = o[i];
-	}
-})({
+(function (o){ for (var i in o) { if (o.hasOwnProperty(i)) { gChart[i] = o[i] } } })
+({
+	//デフォルト
+	defaults:{
+		chd:'t:50,50',
+		chs: '200x125',
+		cht: 'p3'
+	},
 	merge: function(){
 		var ln = arguments.length, re = {}, i;
 		for (var j = 0; j < ln; j++) {
@@ -141,7 +139,7 @@ gChart.prototype = {
 	
 	/*
 	 * テキストエンコードの範囲は 0 (0.0) から 100 (100.0)
-	 * 0 ~ 100の範囲に収まるように数値をエンコードする
+	 * 0 ~ 100の範囲に収まるように数値を調整する
 	 * @Param arr:数値の配列
 	 */
 	textEncoding: function(arr){
@@ -159,28 +157,6 @@ gChart.prototype = {
 		
 		return nar;
 	},
-	pie3D: function(options){
-		var chrt = new gChart(gChart.merge({
-			cht: gChart.chartType.pie3D,
-			chd: 's:91bTA',
-			chco:'0000ff',
-			//chf:'bg,lg,45,ffffff,0,76A4FB,0.75',
-			chf:'bg,s,ffcc00|a,s,ffffffcc'
-		}, options));
-		return chrt.get();
-	},
-	line: function(options){
-		var chrt = new gChart(gChart.merge({
-			cht: gChart.chartType.line,
-			chd: 's:UVVUVVUUUVVUSSVVVXX',
-			chm: 'b,cccccc,0,0,0',
-			chf:'c,lg,45,ffffff,0,76A4FB,0.75',
-			chf:'bg,s,ffcc00|a,s,ffffffcc',
-			chxt:'x,y',
-			chxl:'0:|Jan|Feb|Mar|Jun|Jul|Aug|1:|0|25|50|75|100'
-		}, options));
-		return chrt.get();
-	},
 	fillTarget:{
 		background:'bg',
 		chartArea:'c',
@@ -191,12 +167,48 @@ gChart.prototype = {
 		 linearGradient:'lg', //線形グラデーション
 		 linearStripes:'ls' //線形ストライプ
 	},
-	chfFormat:function(fillType, bgColor, caColor, opacity){
+	chxlFormat:function(data){
+		
+		var re = [], cnt = 0;
+		
+		function push(d){
+			re.push((cnt++) + ':|' + extract(d));
+		}
+		
+		function extract(d){
+			console.log(d.constructor);
+			switch(d.constructor){
+				case String:
+				case Number:
+					return d;
+					
+				case Date:
+					return d.toString();
 
-		var chf = '';
-		return chf;
+				case Array:
+					var r = [];
+					for (var i = 0; i < d.length; i++) 
+						r.push(extract(d[i]));
+					
+					push(r.join('|'));
+					break;
+				
+				case Object:
+					var r = [];
+					for (var i in d) 
+						r.push(extract(d[i]));
+					
+					push(r.join('|'));
+					break;
+					
+				default:
+					return '';
+			}
+		}
+		
+		push(data);
+		return re.join('|');
 	},
-	
 	
 	/*
 	 *[cht] - チャート タイプ(chart type)
@@ -233,108 +245,56 @@ gChart.prototype = {
 		vLine: 'v', // x 軸からデータ ポイントまでの垂直線
 		vLineTop: 'V', // チャート上端までの垂直線
 		x: 'x' // 図形
-	},
-	chxlFormat:function(o){
-		var re = '',indx = 0;
-		for(i in o){
-			if(o.hasOwnProperty(i))
-				re.push((indx++) + ':|' + o[i].join('|') + '|');
-		}
-		return re;
 	}
 });
 
 
 
-	
 
+gChart.pie3D = function(options){
+	var chrt = new gChart(gChart.merge({
+		cht: gChart.chartType.pie3D,
+		chd: 's:91bTA',
+		chco:'0000ff',
+		//chf:'bg,lg,45,ffffff,0,76A4FB,0.75',
+		chf:'bg,s,ffcc00|a,s,ffffffcc'
+	}, options));
+	return chrt.get();
+}
 
-
+gChart.line = function(options){
+	var chrt = new gChart(gChart.merge({
+		cht: gChart.chartType.line,
+		chd: 's:UVVUVVUUUVVUSSVVVXX',
+		chm: 'b,cccccc,0,0,0',
+		chf:'c,lg,45,ffffff,0,76A4FB,0.75',
+		chf:'bg,s,ffcc00|a,s,ffffffcc',
+		chxt:'x,y',
+		chxl:'0:|Jan|Feb|Mar|Jun|Jul|Aug|1:|0|25|50|75|100'
+	}, options));
+	return chrt.get();
+}
 
 
 jQuery(function($){
+	
+	var data = [['Jan','Feb','Mar','Jun','Jul','Aug'], [0,25,50,75,100]];
+	
+	var img = new Image();
+	img.src = gChart.line({
+		chxl: gChart.chxlFormat(data)
+	});
+	document.body.appendChild(img);
+	
+	
+
+	/*
 	var cht = gChart.pie3D();
 	$(document.body).append('<a href=\'' + cht + '\'><img src=\'' + cht + '\'\/></a>');
 	
 	cht = gChart.line();
 	$(document.body).append('<a href=\'' + cht + '\'><img src=\'' + cht + '\'\/></a>');
-	
-	
-	
-	
-//var opacity = 255;
-
-/*
-function op(opacity){
-	opacity = (+opacity == opacity) ? opacity.toString(16) : opacity;
-	alert(opacity);
-}
-
-	
-	
-function setStyle (elm, styles){
-	for(var s in styles){
-		if(styles.hasOwnProperty(s))
-			elm.style[s] = styles[s];
-	}
-}
-
-function substituteForWith(o, v){
-	for(var s in v){
-		if(v.hasOwnProperty(s))
-			o[s] = v[s];
-	}
-}
-	
-var div = document.createElement('div');
-div.appendChild(document.createTextNode('foo'));
-
-setStyle(div,{
-	backgroundColor:'#eee',
-	border:'1px solid #ccc',
-	color:'#1a1a1a',
-	fontSize:'22px',
-	padding:'5px 10px'
-});
-
-document.body.appendChild(div);
-
-substituteForWith(div.style,{
-	backgroundColor:'#eee',
-	border:'1px solid #ccc',
-	color:'#1a1a1a',
-	fontSize:'22px',
-	padding:'5px 10px'
-});
-*/
-
-/*
-var div = document.createElement('div');
-div.style.backgroundColor = '#eee';
-div.style.border = '1px solid #ccc';
-div.style.color = '#1a1a1a';
-div.style.fontSize = '22px';
-div.style.padding = '5px 10px';
-*/
-	
-
-	
-
-	
-	/*
-	var chart = new gChart();
-	
-	chart.height(300);
-	chart.chartType(gChart.chartType.pie3D);
-	
-	var img =  chart.getImage();
-	
-	alert(img.tagName);
-	
-	$(document.body).append(chart.getImage());
-	
 	*/
-
 });
 
 
@@ -433,6 +393,7 @@ div.style.padding = '5px 10px';
 <style type="text/css">
 img{border-width:0}
 </style>
+
 </head>
 <body>
 	<h1>jQuery plugin - chart demo</h1>

@@ -1,13 +1,6 @@
 (function($){
 $.gChart = {
 	create: function(options){
-	
-		var op = $.extend({
-			cht: 'p3', //type
-			chd: 't:50,50', //data
-			chs: '200x100' //size(pixel)
-		}, options);
-		
 		return 'http://chart.apis.google.com/chart?' +
 		(function(o){
 			var x = [];
@@ -16,46 +9,48 @@ $.gChart = {
 					x.push(i + '=' + o[i]);
 			}
 			return x.join('&')
-		})(op);
+		})($.extend({
+			cht: 'p3', //type
+			chd: 't:50,50', //data
+			chs: '200x100' //size(pixel)
+		}, options));
 	},
 	
-	dataFormat: function(w, data){
-		return 't:' + $.isArray(data) ? data.join(',') : typeof data === 'string' ? data : 'invalid data';
-	},
-	
-	/*
-	 * 簡易エンコード
-	 * Simple Encode
-	 */
+	// 簡易エンコード(Simple Encode)
 	simpleEncode: function(v){
 		var chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-		if (/[A-Za-z\d]/.test(v)) {
-			return chr.search(v);
-		}
-		return '_'
+		return /[A-Za-z\d]/.test(v) ? chr.search(v) : '_';
+	},
+	simpleEncodingFormat: function(data){
+		var d = 's:';
+		for( var i = 0, j = data.length; i < j ; i++ )
+			d += gChart.simpleEncode(data[i]);
+		
+		return d;
 	},
 	
-	
-	/*
-	 * 拡張エンコード
-	 * Extended Encode
-	 */
+	// 拡張エンコード(Extended Encode)
 	extendedEncode: function(v){
 		var
 		chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.',
 		re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v);
-		
 		if (re) 
 			return chr.search(re[1] == '.' ? '\\.' : re[1]) * 64 + chr.search(re[2] == '.' ? '\\.' : re[2]);
 		
 		return '__';
 	},
-	
+	extendedEncodingFormat: function(data){
+		var d = 'e:';
+		for( var i = 0, j = data.length; i < j ; i++ )
+			d += gChart.extendedEncode(data[i]);
+		
+		return d;
+	},
 	
 	/*
 	 * テキストエンコードの範囲は 0 (0.0) から 100 (100.0)
-	 * 0 ~ 100の範囲に収まるように数値をエンコードする
-	 * @Param arr 数値の配列
+	 * 0 ~ 100の範囲に収まるように数値を調整する
+	 * @Param arr:数値の配列
 	 */
 	textEncoding: function(arr){
 		var max = 0, min = 0;
@@ -79,11 +74,9 @@ $.gChart = {
 	chartType: {
 		line: 'lc', //折れ線グラフ
 		lineXY: 'lxy', //折れ線グラフ
-		bar: 'bhs',
 		barHorizontal: 'bhs',
 		barVertical: 'bvs',
 		barHorizontalGroup: 'bhg',
-		barGroup: 'bhg',
 		barVerticalGroup: 'bvg',
 		pie: 'p',
 		pie3D: 'p3',
