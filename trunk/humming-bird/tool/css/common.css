@@ -13,7 +13,7 @@ img{border-width:0}
 embed,img,input,label,object,textarea{vertical-align:top}
 ol,ul{text-indent:0;margin:0 0 0 1em;padding:0}
 ol{margin-left:1.6em}
-select{/*border-style:inset*/;border-width:1px}
+select,textarea{border-width:1px}
 textarea{overflow:auto}
 
 

@@ -66,6 +66,7 @@ $.rpc = {
 };
 
 
+/*
 $.showContent = function(callback){
 	$.ajax({
 		url: 'js/json.js',
@@ -117,6 +118,9 @@ $.showContent = function(callback){
 		}
 	});
 }
+*/
+
+
 
 $.accordion = function( options ) {
 	var opt = jQuery.extend({
@@ -217,7 +221,8 @@ $.extend($.my.slctr,{
 
 
 jQuery(function($){	
-	$.showContent($.accordion);
+	//$.showContent($.accordion);
+	$.accordion();
 	$.setLabelEffect();
 	$($.my.slctr.tgt).val("abc 12.3 de -4あ5 f 6\ng,hi +78あ9\n01\t23 jklmn");
 	$.bindExec();
