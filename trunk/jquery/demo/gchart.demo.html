@@ -6,39 +6,15 @@
 		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 		<title>jQuery plugin - chart demo</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-		<!--<script src="../lib/jquery.chart.js" type="text/javascript"></script>-->
+		<script src="../lib/jquery.gchart.js" type="text/javascript"></script>
 <script type="text/javascript">
+
 function gChart (){
 	this.initialize.apply(this, arguments);
 }
 gChart.prototype = {
 	initialize: function(options){
-		
 		this.params = gChart.merge(gChart.defaults, options);
-		
-		function parseSize(chs){
-			var re = /^(\d+)x(\d+)$/.exec(chs) || [];
-			return {
-				w: parseInt(re[1]) || 0,
-				h: parseInt(re[2]) || 0
-			};
-		}
-		
-		this.height = function(h){
-			if (arguments.length == 0) 
-				return parseSize(this.params.chs).h;
-			
-			this.params.chs = (this.params.chs || '').replace(/^(\d+)x\d+$/, '$1x' + h) || '';
-			return this;
-		}
-		
-		this.width = function(w){
-			if (arguments.length == 0) 
-				return parseSize(this.params.chs).w;
-			
-			this.params.chs = (this.params.chs || '').replace(/^\d+x(\d+)$/, w + 'x$1') || '';
-			return this;
-		}
 	},
 	get: function(){
 		return 'http://chart.apis.google.com/chart?' +
@@ -51,202 +27,32 @@ gChart.prototype = {
 			return x.join('&')
 		})(this.params);
 	},
+	// Maximum 300,000 pixels
 	size: function(w, h){
 		if (arguments.length == 0) 
 			return this.params.chs;
-		
+
 		this.params.chs = w + 'x' + h;
-		return this;
-	},
-	chartType: function(cht){
-		if (arguments.length == 0) 
-			return this.params.cht;
-		
-		this.params.cht = cht;
-		return this;
-	},
-	data: function(chd){
-		if (arguments.length == 0) 
-			return this.params.chd;
-		
-		this.params.chd = (function(d){
-			return d.constructor == 'Array' ? 't:' + d.join(',') : typeof d === 'string' ? d : '0,0';
-		})(chd);
-		
-		return this;
-	},
-	color:function(chco){
-		return this;
-	},
-	fill:function(chf){
-		return this;
 	}
 };
 
-
-
-
-(function (o){ for (var i in o) { if (o.hasOwnProperty(i)) { gChart[i] = o[i] } } })
-({
-	//デフォルト
-	defaults:{
-		chd:'t:50,50',
-		chs: '200x125',
-		cht: 'p3'
-	},
+(function (o){
+	for (var i in o){gChart[i] = o[i]}
+})({
 	merge: function(){
-		var ln = arguments.length, re = {}, i;
+		var ln = arguments.length, re = {}, arg, i;
 		for (var j = 0; j < ln; j++) {
-			var arg = arguments[j];
+			arg = arguments[j];
 			for (i in arg) {
 				if (arg.hasOwnProperty(i)) 
 					re[i] = arg[i];
 			}
 		}
 		return re;
-	},
-	
-	// 簡易エンコード(Simple Encode)
-	simpleEncode: function(v){
-		var chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-		return /[A-Za-z\d]/.test(v) ? chr.search(v) : '_';
-	},
-	simpleEncodingFormat: function(data){
-		var d = 's:';
-		for( var i = 0, j = data.length; i < j ; i++ )
-			d += gChart.simpleEncode(data[i]);
-		
-		return d;
-	},
-	
-	// 拡張エンコード(Extended Encode)
-	extendedEncode: function(v){
-		var
-		chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.',
-		re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v);
-		if (re) 
-			return chr.search(re[1] == '.' ? '\\.' : re[1]) * 64 + chr.search(re[2] == '.' ? '\\.' : re[2]);
-		
-		return '__';
-	},
-	extendedEncodingFormat: function(data){
-		var d = 'e:';
-		for( var i = 0, j = data.length; i < j ; i++ )
-			d += gChart.extendedEncode(data[i]);
-		
-		return d;
-	},
-	
-	/*
-	 * テキストエンコードの範囲は 0 (0.0) から 100 (100.0)
-	 * 0 ~ 100の範囲に収まるように数値を調整する
-	 * @Param arr:数値の配列
-	 */
-	textEncoding: function(arr){
-		var max = 0, min = 0;
-		for (var i = 0; i < arr.length; i++) {
-			max = Math.max(max, arr[i]);
-			min = Math.min(min, arr[i]);
-		}
-		
-		min = Math.abs(min);
-		var x = (max + min) / 100, nar = [];
-		
-		for (var i = 0; i < arr.length; i++) 
-			nar.push(Math.max(Math.min((arr[i] + min) / x, 100), 0));
-		
-		return nar;
-	},
-	fillTarget:{
-		background:'bg',
-		chartArea:'c',
-		transparency:'a'
-	},
-	fillType:{
-		 solidFill:'s', //単色塗りつぶし
-		 linearGradient:'lg', //線形グラデーション
-		 linearStripes:'ls' //線形ストライプ
-	},
-	chxlFormat:function(data){
-		
-		var re = [], cnt = 0;
-		
-		function push(d){
-			re.push((cnt++) + ':|' + extract(d));
-		}
-		
-		function extract(d){
-			console.log(d.constructor);
-			switch(d.constructor){
-				case String:
-				case Number:
-					return d;
-					
-				case Date:
-					return d.toString();
-
-				case Array:
-					var r = [];
-					for (var i = 0; i < d.length; i++) 
-						r.push(extract(d[i]));
-					
-					push(r.join('|'));
-					break;
-				
-				case Object:
-					var r = [];
-					for (var i in d) 
-						r.push(extract(d[i]));
-					
-					push(r.join('|'));
-					break;
-					
-				default:
-					return '';
-			}
-		}
-		
-		push(data);
-		return re.join('|');
-	},
-	
-	/*
-	 *[cht] - チャート タイプ(chart type)
-	 *example - 『cht=<chart type>』
-	 */
-	chartType: {
-		line: 'lc', //折れ線グラフ
-		lineXY: 'lxy', //折れ線グラフ
-		barHorizontal: 'bhs',
-		barVertical: 'bvs',
-		barHorizontalGroup: 'bhg',
-		barVerticalGroup: 'bvg',
-		pie: 'p',
-		pie3D: 'p3',
-		venn: 'v',
-		scatter: 's',
-		sparkline: 'ls', //スパークライン
-		radar: 'r',
-		radarCurved: 'rs',
-		map: 't',
-		meter: 'gom',
-		qrCode: 'qr'
-	},
-	
-	// chm - 図形マーカー / 範囲マーカー(marker type)
-	markerType: {
-		arrow: 'a', // 矢印
-		circle: 'o', // 円
-		cross: 'c', // 十字
-		diamond: 'd', // ひし形
-		lLine: 'h', // チャートを横断する水平線
-		marker: 'r', // 範囲マーカー r or R
-		square: 's', // 四角
-		vLine: 'v', // x 軸からデータ ポイントまでの垂直線
-		vLineTop: 'V', // チャート上端までの垂直線
-		x: 'x' // 図形
 	}
 });
+
+(function (o){for (var i in o){gChart[i] = o[i]}})($.gChart);
 
 
 
@@ -264,37 +70,136 @@ gChart.pie3D = function(options){
 
 gChart.line = function(options){
 	var chrt = new gChart(gChart.merge({
-		cht: gChart.chartType.line,
-		chd: 's:UVVUVVUUUVVUSSVVVXX',
-		chm: 'b,cccccc,0,0,0',
-		chf:'c,lg,45,ffffff,0,76A4FB,0.75',
-		chf:'bg,s,ffcc00|a,s,ffffffcc',
-		chxt:'x,y',
-		chxl:'0:|Jan|Feb|Mar|Jun|Jul|Aug|1:|0|25|50|75|100'
+		cht: gChart.chartType.barVertical,
+		chs: '150x200'
+		//chd: 'e:..|--',
+		//chm: 'b,cccccc,0,0,0',
+		//chxt:'x,y',
+		//chxl:'1:|A|B|C',
+		//chtt:'単位:ms'
 	}, options));
 	return chrt.get();
 }
 
+$.gChart.lineV = function(options){
+	return $('<img>').attr('src', $.gChart.get($.extend({
+		cht: gChart.chartType.barVertical,
+		chs: '200x200',
+		chm: 'b,cccccc,0,0,0'
+	}, options)));
+}
+
+$.gChart.temperature = function(value, params){
+	return $('<img>').attr('src', $.gChart.get($.extend({
+		cht:$.gChart.chartType.barVertical,
+		chd:$.gChart.textEncoding(value, -25, 45),
+		chs: '200x300',
+		chtt:'気温',
+		chco:'99ccff',
+		chxt:'y',
+		chbh:'30,15',
+		chm:'r,333333,0,0.213,0.214|r,ff0000,0,0.357,0.358|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
+		chxr:'0,-25,45'
+	}, params)));
+}
+
+
+
+
 
 jQuery(function($){
-	
-	var data = [['Jan','Feb','Mar','Jun','Jul','Aug'], [0,25,50,75,100]];
-	
-	var img = new Image();
-	img.src = gChart.line({
-		chxl: gChart.chxlFormat(data)
-	});
-	document.body.appendChild(img);
-	
-	
 
-	/*
-	var cht = gChart.pie3D();
-	$(document.body).append('<a href=\'' + cht + '\'><img src=\'' + cht + '\'\/></a>');
+/*
+	var img = new Image();
+	//img.src = gChart.line({chd:'s:ZM'});
+	img.src = gChart.line({
+		chd:gChart.textEncoding([-2, 8, 15], -20, 41),
+		chs: '200x200',
+		chtt:'気温',
+		chxt:'y,x',
+		chbh:'40,10',
+		//chm:'r,000000,0,0.499,0.501|r,000000,0,0.998,1.0|r,000000,0,0.0,0.002',
+		chm:'r,000000,0,0.162,0.163|r,000000,0,0.328,0.329|r,000000,0,0.490,0.491|r,000000,0,0.654,0.655|r,000000,0,0.820,0.821',
+		//chxl:'0:|あ|い|う|え|お|百'
+		//chxp:'0,0,20,40,60,80,100'//,
+		//chxr:'0,0,100'//,
+		chxl:'1:|北海道|東京|沖縄',
+		chxr:'0,-20,41'//,
+		//chxl:'0:|0|20|40|60|80|100'
+	});
+
+	document.body.appendChild(img);
+*/
 	
-	cht = gChart.line();
-	$(document.body).append('<a href=\'' + cht + '\'><img src=\'' + cht + '\'\/></a>');
-	*/
+	var max = 10000, value = [1295, 6546, 7564, 7856, 243, 1833];
+	
+	$(document.body).append($('<img>').attr('src',
+		$.gChart.get({
+			cht:$.gChart.chartType.sparkline,
+			chd:$.gChart.extendedEncoding(
+				$.gChart.adjust(value, 0, max, $.gChart.granularity.extended)),
+			chs: '200x300',
+			chxt:'y',
+			chbh:'40,10',
+			chg:'0,10,1,2',
+			chxr:'0,0,' + max
+	})));
+	
+	
+	var data = [23,18,9];
+	var prm = {
+			chxt: 'y,x',
+			chxl: '1:|沖縄|東京|北海道'
+		};
+	
+	$(document.body).append($.gChart.temperature(data, prm));
+
+/*
+	var x1 = 4078;
+	alert(x1);
+	var x2 = gChart.extendedEncode(x1);
+	alert(x2);
+	var x3 = gChart.extendedDecode(x2);
+	alert(x3);
+*/
+	
+/*
+	var x1 = [4078,1176,432];
+	alert(x1);
+	
+	var x2 = gChart.extendedEncoding(x1);
+	alert(x2);
+	
+	var x3 = gChart.extendedDecoding(x2);
+	alert(x3);
+*/
+
+/*
+	var x1 = 61;
+	alert(x1);
+	var x2 = gChart.simpleEncode(x1);
+	alert(x2);
+	var x3 = gChart.simpleDecode(x2);
+	alert(x3);
+*/
+	
+	
+/*
+	var x1 = [23,5,61];
+	alert(x1);
+	
+	var x2 = gChart.simpleEncoding(x1);
+	alert(x2);
+	
+	var x3 = gChart.simpleDecoding(x2);
+	alert(x3);
+*/
+	
+	
+	
+	//var aa = gChart.textEncoding([254,228,91],00, 300);
+	//alert(aa);
+
 });
 
 
@@ -350,6 +255,7 @@ jQuery(function($){
 
 
 [chtt] - チャート タイトル
+	- [chts] - チャート タイトル スタイル Exsample:chts=<color>,<fontsize>
 
 [chdl] - 凡例
 
@@ -391,9 +297,11 @@ jQuery(function($){
 */
 </script>
 <style type="text/css">
+body{
+
+}
 img{border-width:0}
 </style>
-
 </head>
 <body>
 	<h1>jQuery plugin - chart demo</h1>
