@@ -331,20 +331,15 @@ myAccordion: function(options, callback){
 		.each(function(index, elm){
 			$.data(elm, 'position', { 'top': $(elm).position().top });
 		})
-		.eq(0)
-		.setStatic()
-		.nextAll()
-		.setAbsolute();
+		.eq(0).setStatic()
+		.nextAll().setAbsolute();
 	
 	$tgl
-		.eq(0)
-		.addClass('current')
-		.end()
 		.each(function(index, elm){
 			
 			var
 			$t = $(elm),
-			$c = $conts.eq($tgl.index($t)),
+			$c = $conts.eq(index),
 			$sttcsTgt = $t.parent().prevAll().andSelf(),
 			$notThis = $tgl.not($t),
 			$nxts = $t.parent().nextAll();
@@ -365,7 +360,7 @@ myAccordion: function(options, callback){
 		.click(function(e){
 			$.data(e.target, dataKey).call(e.target);
 			return false;
-		});
+		}).eq(0).addClass('current');
 	
 	if($.isFunction(callback))
 		callback.call(this);
