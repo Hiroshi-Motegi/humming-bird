@@ -5,6 +5,7 @@
  * 
  * Author:y@s
  * Version:1.0
+ * Published:2009-06-28
  * Update:2009-06-28
  * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/myAccordion.html
  */
@@ -21,7 +22,7 @@ myAccordion: function(options, callback){
 	}, options),
 	
 	dataKey = 'accordion',
-	$tgl = $(op.tgl),
+	$tgls = $(op.tgl),
 	$conts = $(op.cont);
 	
 	function isAnimated(){
@@ -29,10 +30,10 @@ myAccordion: function(options, callback){
 	}
 	
 	$conts.sameHeight().hide().filter(':first').show();
-	$(op.wrap).css('position','relative').height(($tgl.outerHeight() * $tgl.length) + $conts.outerHeight());
+	$(op.wrap).css('position','relative').height(($tgls.outerHeight() * $tgls.length) + $conts.outerHeight());
 
-	$tgl
-		.css({left:0,width:$tgl.width()})
+	$tgls
+		.css({left:0,width:$tgls.width()})
 		.each(function(indx, elm){
 			
 			$.data(elm, 'position', {
@@ -42,9 +43,9 @@ myAccordion: function(options, callback){
 			var
 			$t = $(elm),
 			$c = $conts.eq(indx),
-			$sttcsTgt = $tgl.filter(':lt(' + indx + ')').add($t),
-			$notThis = $tgl.not($t),
-			$nxts = $tgl.filter(':gt(' + indx + ')');
+			$sttcsTgt = $tgls.filter(':lt(' + indx + ')').add($t),
+			$notThis = $tgls.not($t),
+			$nxts = $tgls.filter(':gt(' + indx + ')');
 			
 			$.data(elm, dataKey, function(){
 				if ($c.is(':hidden') && !isAnimated()) {
