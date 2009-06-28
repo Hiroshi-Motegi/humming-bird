@@ -7,25 +7,27 @@
         <title>jQuery plugin - Simple Accordion 01</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"  type="text/javascript"></script>
 <script type="text/javascript">
-
-jQuery.simpleAccordion = function( options ) {
-	var opt = jQuery.extend({
-		tglSelector:'#sac .sac-tgl',
-		contSelector:'#sac .sac-cont',
+(function($){
+$.simpleAccordion = function( options ) {
+	var opt = $.extend({
+		tgl:'#sac .sac-tgl',
+		cont:'#sac .sac-cont',
 		duration:250
 	},options);
 	
-	jQuery(opt.contSelector).hide().filter(':first').show();
+	$(opt.cont).hide().filter(':first').show();
 
-	jQuery(opt.tglSelector).click( function(e) {
-		var $c = jQuery(e.target).next();
+	$(opt.tgl).click( function(e) {
+		var $c = $(e.target).next();
 		
 		if($c.is(':hidden')){
-			jQuery(opt.contSelector + ':visible').slideUp(opt.duration);
+			$(opt.cont + ':visible').slideUp(opt.duration);
 			$c.slideDown(opt.duration);
 		}
 	});
-}
+}	
+})(jQuery);
+
 
 $(function(){
 	$.simpleAccordion();
