@@ -18,18 +18,19 @@ jQuery(function($){
 </script>
 
 <style type="text/css">
-#sac{
-	width:220px;
+h3{font-size:14px}
+
+#sac,#sac *{
 	margin:0;
 	padding:0;
 }
 
-#sac *{
-	margin:0;
-	padding:0;
+#sac{
+	width:220px;
 	font-size:14px;
 	font-family:Tahoma, Verdana, Geneva, Helvetica, sans-serif;
 }
+
 
 #sac,
 #sac .sac-tgl,
@@ -65,13 +66,11 @@ jQuery(function($){
 	overflow:hidden;
 }
 
-#sac ul.sac-cont{
-	padding-left:30px;
-	list-style:circle;
-}
-#sac ul.sac-cont li{
-	text-indent:0;
-}
+#sac ul.sac-cont{padding-left:30px;}
+#sac .sac-cont dt{font-weight:bold}
+#sac .sac-cont dd{margin:0 0 1em 1em}
+ li{text-indent:0}
+
 #sac input.text{
 	width:120px;
 }
@@ -88,7 +87,9 @@ jQuery(function($){
 <h3 class='sac-tgl'>toggle - 1</h3>
 <div class='sac-cont'>
 	<dl>
-		<dt>Foo</dt>
+		<dt>Foo-1</dt>
+		<dd>hoge hoge hoge</dd>
+		<dt>Foo-2</dt>
 		<dd>hoge hoge hoge</dd>
 	</dl>
 </div>
