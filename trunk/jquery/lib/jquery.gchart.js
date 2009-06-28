@@ -3,10 +3,10 @@
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * Author: y@s
+ * Author:y@s
  * Version:1.0
  * Update:2009-06-28
- * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
+ * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/gchart.demo.html
  */
 
 (function($){
