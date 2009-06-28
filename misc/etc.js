@@ -2,8 +2,8 @@
 var doc = document;
 eval('var document = doc');
 @*/
-parseInt('ff', 16);
-(255).toString(16);
+var digit = parseInt('ff', 16);
+var hx = (255).toString(16);
 
 String.prototype.hex = function(){
   return parseInt(this, 16);
@@ -37,9 +37,9 @@ I can't convert this in color without some tricks.
 I made a new RGB to HEX script for you:
 */
 
-function RGBToHex(rgb) {
-var char = "0123456789ABCDEF";
-return String(char.charAt(Math.floor(rgb / 16))) + String(char.charAt(rgb - (Math.floor(rgb / 16) * 16)));
+function RGBToHex(rgb){
+	var chr = "0123456789ABCDEF";
+	return String(chr.charAt(Math.floor(rgb / 16))) + String(chr.charAt(rgb - (Math.floor(rgb / 16) * 16)));
 }
 
 
