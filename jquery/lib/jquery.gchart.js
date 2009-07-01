@@ -156,12 +156,11 @@ $.extend($.gChart,{
 			for (var k = 0; k < len ; k++) 
 				ret.push(chrs[i] + chrs[k]);
 		}
-	
 		return ret;
 	})(),
 	
 	
-		
+	
 	// 簡易デコード(Simple Decode)
 	//簡易エンコード文字から数値に変換
 	simpleDecode: function(v){
@@ -199,8 +198,8 @@ $.extend($.gChart,{
 	
 	
 	granularity:{
-		simple:62,
-		extended:4096,
+		simple:61,
+		extended:4095,
 		text:100
 	},
 	

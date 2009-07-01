@@ -54,12 +54,12 @@ $.gChart.temperature = function(value, params){
 	return new $.gChart(this.merge({
 		cht:$.gChart.chartType.barVertical,
 		chd:$.gChart.textEncoding(value, min, max),
-		chs: '170x200',
-		chtt:'気温',
+		chs: '240x200',
+		chtt:'気温(℃)',
 		chf:'bg,s,ffffff|c,s,eeeeff',
 		chco:'99ccff',
 		chxt:'y',
-		chbh:'30,15',
+		chbh:'25,10',
 		chm:'r,333333,0,0.213,0.214|r,ff0000,0,0.356,0.359|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
 		chxr:'0,' + min + ',' + max
 	}, params));
@@ -71,13 +71,19 @@ $.gChart.temperature = function(value, params){
 
 jQuery(function($){
 
-	var max = 10000, value = [1295, 5822, 7564, 4556, 1309, 1833, 5674, 1753, 8764];
+
+	var max = 10000, value = [];
+	
+	for(var i = 0 ; i < 100 ; i++){
+		value.push(2000 + Math.floor(Math.random()*7000));
+	}
 	
 	var chart = new $.gChart({
 		cht:$.gChart.chartType.sparkline,
 		chd:$.gChart.extendedEncoding(
 			$.gChart.adjust(value, 0, max, $.gChart.granularity.extended)),
-		chs: '400x300',
+		chs: '400x200',
+		chtt:'拡張エンコード',
 		chxt:'y',
 		chbh:'40,10',
 		chg:'0,10,1,2',
@@ -86,11 +92,67 @@ jQuery(function($){
 	
 	$(document.body).append($('<img>').attr('src', chart.src()));
 	
-	$(document.body).append('<br>', $.gChart.pie3D({chd:'t:30,50,20'}));
+	
+	
+	var chart = new $.gChart({
+		cht:$.gChart.chartType.sparkline,
+		chd:$.gChart.simpleEncoding(
+			$.gChart.adjust(value, 0, max, $.gChart.granularity.simple)),
+		chs: '400x200',
+		chtt:'簡易エンコード',
+		chxt:'y',
+		chbh:'40,10',
+		chg:'0,10,1,2',
+		chxr:'0,0,' + max
+	});
+	
+	$(document.body).append($('<img>').attr('src', chart.src()));
+	
+	
+	
+	
+	var bs = {
+		IE7:40.83,
+		Firefox3:20.43,
+		IE6:16.94,
+		IE8:6.85,
+		Safari:6.34,
+		Other:8.41
+	};
+	
+	var label = (function(o){
+		var ret = [];
+		
+		for(var i in o)
+			ret.push(i + ' : ' + o[i] + '%');
+		
+		return ret.join('|');
+	})(bs);
+	
+	var bsData = (function(o){
+		var ret = [];
+		
+		for(var i in o)
+			ret.push(o[i]);
+		
+		return 't:' + ret.join(',');
+	})(bs);
+	
+	
+	$(document.body).append('<br><br>', $.gChart.pie3D({
+		chd:bsData,
+		chl:label,
+		chs: '350x125',
+		chtt:'Browser Share:May 2009'
+		}));
 
-	$(document.body).append('<br>', $.gChart.temperature([23,18,9], {
+
+
+
+
+	$(document.body).append('<br><br>', $.gChart.temperature([23,22,19,18,16,11], {
 		chxt: 'y,x',
-		chxl: '1:|沖縄|東京|北海道'
+		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|北海道'
 	}).image());
 
 });
