@@ -86,7 +86,7 @@ table{
 	width: 100%;
 	border: none;
 }
-td{vertical-align: text-top;}
+td{vertical-align: text-top}
 h4{
 	font-size:14px;
 	border: 1px solid #222222;
@@ -156,7 +156,10 @@ label{
 	margin-left: 4px;
 }
 
-#usage-table tr td{ font-size:12px }
+#usage-table tr td{
+	font-size:12px;
+	line-height:1.5em;
+}
 #usage-table .tr-space td{
 	height:6px;
 	line-height:0;

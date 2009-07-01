@@ -61,7 +61,7 @@ yt: {
 	},
 	showThumbIndexInfo: function(){
 		var x = ['start-index', 'last-index', 'total-results'];
-		$('#yt-thumb-' + x[0]).text($.yt.currents[x[0]]);
+		$('#yt-thumb-' + x[0]).text($.yt.params[x[1]] > 0 ? $.yt.currents[x[0]] : 0);
 		$('#yt-thumb-' + x[1]).text($.yt.params[x[1]]);
 		$('#yt-thumb-' + x[2]).text($.yt.params[x[2]]);
 	},

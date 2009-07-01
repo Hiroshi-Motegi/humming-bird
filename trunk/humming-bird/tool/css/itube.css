@@ -325,13 +325,14 @@ select{
 
 #itunes-navi-list ul.itunes-navi-list-genre-list li{
 	border-bottom: 1px solid #333;
-	padding:0 5px;
+	padding:0 10px;
 }
 
 #itunes-navi-list ul.itunes-navi-list-genre-list li a{
 	border: 1px solid #333;
 	display:block;
 	font-size:12px;
+	line-height:1.5em;
 }
 #itunes-navi-list ul.itunes-navi-list-genre-list li a:hover{
 	background-color:#2a2a2a;

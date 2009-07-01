@@ -137,6 +137,17 @@ th.input-label{
 	padding:4px 0;
 	border-width:0;
 }
+#exec-order{
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+#exec-order li{
+	font-size:16px;
+}
+#exec-order label.exec-order-label{
+	cursor:pointer;
+}
 #exec{
 	display: block;
 	background-color: #303030;
@@ -240,6 +251,7 @@ textarea,input.txt{
 #content-right-wrap .cont dl{
 	margin: 10px 0 40px 0;
 }
+
 #content-right-wrap .cont dt{
 	margin :0 0 .5em 1em;
 	padding-left: 5px;
@@ -260,6 +272,11 @@ textarea,input.txt{
 		'ヒラギノ角ゴ Pro W3' ,
 		Tahoma,
 		Verdana;
+	line-height:1.5em;
 	word-break:break-all;
 	word-wrap:break-word;
+}
+
+#content-right-wrap .cont li{
+	line-height:1.5em;
 }

@@ -13,6 +13,7 @@ blockquote{
 	margin:20px;
 	padding:10px;
 }
+blockquote p{line-height:1.5em}
 #outer-wrap1{
 	border-right:1px solid #202020;
 	border-left:1px solid #202020;	
@@ -24,14 +25,14 @@ blockquote{
 }
 #outer-wrap3{
 	margin: 0 auto;
-	width:960px;
+	width: 960px;
 }
 
 
 /* -- wrap-item ------------------------------------ */
 div.wrap-item-outer{
-	border-bottom:1px solid #4c4c4c;
-	margin:20px 0;
+	border-bottom: 1px solid #4c4c4c;
+	margin: 20px 0;
 }
 div.wrap-item-inner{border-bottom:1px solid #1a1a1a}
 /* -- item-img ------------------------------------- */
@@ -69,15 +70,22 @@ div.item-desc{
 	border-bottom:2px dotted #4c4c4c;
 	padding:10px;
 }
+
 div.item-desc p{
 	line-height:1.2em;
 	margin:1em 0;
 }
+
 div.item-desc ul{margin-left:20px}
+div.item-desc ul li{line-height:1.5em}
+
 div.lastmod{
 	color:#999;
-	font-size:12px;
-	line-height:2em;
 	margin-bottom:20px;
 	text-align:right;
+}
+div.lastmod span{
+	font-size:12px;
+	line-height:2em;
+	height:2em;
 }
