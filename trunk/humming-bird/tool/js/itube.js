@@ -61,9 +61,9 @@ yt: {
 	},
 	showThumbIndexInfo: function(){
 		var x = ['start-index', 'last-index', 'total-results'];
-		$('#yt-thumb-' + x[0]).text($.yt.currents[x[0]]);
-		$('#yt-thumb-' + x[1]).text($.yt.params[x[1]]);
-		$('#yt-thumb-' + x[2]).text($.yt.params[x[2]]);
+		$('#yt-thumb-' + x[0]).text(this.params[x[1]] == 0 ? 0 : this.currents[x[0]]);
+		$('#yt-thumb-' + x[1]).text(this.params[x[1]]);
+		$('#yt-thumb-' + x[2]).text(this.params[x[2]]);
 	},
 	createThumbTable: function(colNum, callback){
 		
@@ -398,8 +398,7 @@ createiTunesRanking: function(options, callback){
 				eex = nds.firstChild.nodeValue;
 				
 				td.push('<th class=\'eLabel\'>Album </th><td><a class=\'keyword\'>' +
-				(regx.test(eex) ? eex.replace(regx, '') + '</a>' + eex.match(regx) : eex + '</a>') +
-				'</td>');
+					(regx.test(eex) ? eex.replace(regx, '') + '</a>' + eex.match(regx) : eex + '</a>') + '</td>');
 			}
 			
 			nds = getNodes(eNode, 'artist', 0);
