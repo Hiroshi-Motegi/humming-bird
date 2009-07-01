@@ -1,12 +1,12 @@
-/*
+/**
  * jQuery plugin - twitter : tweets , userInfo , seach
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  * 
-  * Author : y@s
- * Version : 1.0
- * Update : 2009/06/12
- * Demo : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/twitter.html
+ * @Author : y@s
+ * @Version : 1.0
+ * @Update : 2009/06/12
+ * @Demo : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/twitter.html
  */
 
 (function($){

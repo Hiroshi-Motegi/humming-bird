@@ -1,51 +1,17 @@
 /*
  * jQuery plugin iTunesFeed
- * Copyright 2009 y@s
+ * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * update:2009/06/20
- * demo:
- * http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
+ * @Author:y@s
+ * @Version:1.1
+ * @Published:2009/06/00
+ * @Update:2009/06/28
+ * @Demo:http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
  */
 
 (function($){
 $.iTunes = {
-	categories: {
-		'Top Albums': 'topalbums',
-		'Top Songs': 'topsongs',
-		'New Releases': 'newreleases',
-		'Just Added': 'justadded',
-		'Featured Albums': 'featuredalbums'
-	},
-	genre: {
-		'All': 0,
-		'Blues':2,
-		'Country':6,
-		'Electronic': 7,
-		'Folk': 10,
-		'Jazz':11,
-		'New Age': 13,
-		'Pop': 14,
-		'R&B/Soul': 15,
-		'Dance':17,
-		'HipHop/Rap': 18,
-		'World': 19,
-		'Rock': 21,
-		'Vocal':23,
-		'Reggae':24,
-		'J-Pop': 27
-		// etc ...
-	},
-	countries: {
-		usa: 143441,
-		france: 143442,
-		germany: 143443,
-		uk: 143444,
-		italy: 143450,
-		canada:143455,
-		australia: 143460,
-		japan: 143462
-	},
 	feed: function( type, params, callback ){
 		
 		callback = $.isFunction(params) ? params : callback || function(){};
@@ -120,6 +86,42 @@ $.iTunes = {
 					return false;
 				}
 		},'json');
+	},
+	categories: {
+		'Top Albums': 'topalbums',
+		'Top Songs': 'topsongs',
+		'New Releases': 'newreleases',
+		'Just Added': 'justadded',
+		'Featured Albums': 'featuredalbums'
+	},
+	genre: {
+		'All': 0,
+		'Blues':2,
+		'Country':6,
+		'Electronic': 7,
+		'Folk': 10,
+		'Jazz':11,
+		'New Age': 13,
+		'Pop': 14,
+		'R&B/Soul': 15,
+		'Dance':17,
+		'HipHop/Rap': 18,
+		'World': 19,
+		'Rock': 21,
+		'Vocal':23,
+		'Reggae':24,
+		'J-Pop': 27
+		// etc ...
+	},
+	countries: {
+		usa: 143441,
+		france: 143442,
+		germany: 143443,
+		uk: 143444,
+		italy: 143450,
+		canada:143455,
+		australia: 143460,
+		japan: 143462
 	}
 }
 })(jQuery);

@@ -4,11 +4,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-		<title>jQuery plugin - chart demo</title>
+		<title>jQuery plugin - gChart Demo</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 		<script src="../lib/jquery.gchart.js" type="text/javascript"></script>
 <script type="text/javascript">
-
+/*
 function gChart (){
 	this.initialize.apply(this, arguments);
 }
@@ -36,71 +36,33 @@ gChart.prototype = {
 	}
 };
 
-(function (o){
-	for (var i in o){gChart[i] = o[i]}
-})({
-	merge: function(){
-		var ln = arguments.length, re = {}, arg, i;
-		for (var j = 0; j < ln; j++) {
-			arg = arguments[j];
-			for (i in arg) {
-				if (arg.hasOwnProperty(i)) 
-					re[i] = arg[i];
-			}
-		}
-		return re;
-	}
-});
-
 (function (o){for (var i in o){gChart[i] = o[i]}})($.gChart);
+*/
 
 
-
-
-gChart.pie3D = function(options){
-	var chrt = new gChart(gChart.merge({
-		cht: gChart.chartType.pie3D,
-		chd: 's:91bTA',
-		chco:'0000ff',
-		//chf:'bg,lg,45,ffffff,0,76A4FB,0.75',
-		chf:'bg,s,ffcc00|a,s,ffffffcc'
-	}, options));
-	return chrt.get();
-}
-
-gChart.line = function(options){
-	var chrt = new gChart(gChart.merge({
-		cht: gChart.chartType.barVertical,
-		chs: '150x200'
-		//chd: 'e:..|--',
-		//chm: 'b,cccccc,0,0,0',
-		//chxt:'x,y',
-		//chxl:'1:|A|B|C',
-		//chtt:'単位:ms'
-	}, options));
-	return chrt.get();
-}
-
-$.gChart.lineV = function(options){
-	return $('<img>').attr('src', $.gChart.get($.extend({
-		cht: gChart.chartType.barVertical,
+$.gChart.pie3D = function(options){
+	return ( new $.gChart(this.merge({
+		cht: this.chartType.pie3D,
 		chs: '200x200',
-		chm: 'b,cccccc,0,0,0'
-	}, options)));
+		chco: 'ff0000'
+	}, options)) ).image();
 }
+
 
 $.gChart.temperature = function(value, params){
-	return $('<img>').attr('src', $.gChart.get($.extend({
+	var min = -25, max = 45;
+	return new $.gChart(this.merge({
 		cht:$.gChart.chartType.barVertical,
-		chd:$.gChart.textEncoding(value, -25, 45),
-		chs: '200x300',
+		chd:$.gChart.textEncoding(value, min, max),
+		chs: '170x200',
 		chtt:'気温',
+		chf:'bg,s,ffffff|c,s,eeeeff',
 		chco:'99ccff',
 		chxt:'y',
 		chbh:'30,15',
-		chm:'r,333333,0,0.213,0.214|r,ff0000,0,0.357,0.358|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
-		chxr:'0,-25,45'
-	}, params)));
+		chm:'r,333333,0,0.213,0.214|r,ff0000,0,0.356,0.359|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
+		chxr:'0,' + min + ',' + max
+	}, params));
 }
 
 
@@ -109,96 +71,27 @@ $.gChart.temperature = function(value, params){
 
 jQuery(function($){
 
-/*
-	var img = new Image();
-	//img.src = gChart.line({chd:'s:ZM'});
-	img.src = gChart.line({
-		chd:gChart.textEncoding([-2, 8, 15], -20, 41),
-		chs: '200x200',
-		chtt:'気温',
-		chxt:'y,x',
+	var max = 10000, value = [1295, 5822, 7564, 4556, 1309, 1833, 5674, 1753, 8764];
+	
+	var chart = new $.gChart({
+		cht:$.gChart.chartType.sparkline,
+		chd:$.gChart.extendedEncoding(
+			$.gChart.adjust(value, 0, max, $.gChart.granularity.extended)),
+		chs: '400x300',
+		chxt:'y',
 		chbh:'40,10',
-		//chm:'r,000000,0,0.499,0.501|r,000000,0,0.998,1.0|r,000000,0,0.0,0.002',
-		chm:'r,000000,0,0.162,0.163|r,000000,0,0.328,0.329|r,000000,0,0.490,0.491|r,000000,0,0.654,0.655|r,000000,0,0.820,0.821',
-		//chxl:'0:|あ|い|う|え|お|百'
-		//chxp:'0,0,20,40,60,80,100'//,
-		//chxr:'0,0,100'//,
-		chxl:'1:|北海道|東京|沖縄',
-		chxr:'0,-20,41'//,
-		//chxl:'0:|0|20|40|60|80|100'
+		chg:'0,10,1,2',
+		chxr:'0,0,' + max
 	});
+	
+	$(document.body).append($('<img>').attr('src', chart.src()));
+	
+	$(document.body).append('<br>', $.gChart.pie3D({chd:'t:30,50,20'}));
 
-	document.body.appendChild(img);
-*/
-	
-	var max = 10000, value = [1295, 6546, 7564, 7856, 243, 1833];
-	
-	$(document.body).append($('<img>').attr('src',
-		$.gChart.get({
-			cht:$.gChart.chartType.sparkline,
-			chd:$.gChart.extendedEncoding(
-				$.gChart.adjust(value, 0, max, $.gChart.granularity.extended)),
-			chs: '200x300',
-			chxt:'y',
-			chbh:'40,10',
-			chg:'0,10,1,2',
-			chxr:'0,0,' + max
-	})));
-	
-	
-	var data = [23,18,9];
-	var prm = {
-			chxt: 'y,x',
-			chxl: '1:|沖縄|東京|北海道'
-		};
-	
-	$(document.body).append($.gChart.temperature(data, prm));
-
-/*
-	var x1 = 4078;
-	alert(x1);
-	var x2 = gChart.extendedEncode(x1);
-	alert(x2);
-	var x3 = gChart.extendedDecode(x2);
-	alert(x3);
-*/
-	
-/*
-	var x1 = [4078,1176,432];
-	alert(x1);
-	
-	var x2 = gChart.extendedEncoding(x1);
-	alert(x2);
-	
-	var x3 = gChart.extendedDecoding(x2);
-	alert(x3);
-*/
-
-/*
-	var x1 = 61;
-	alert(x1);
-	var x2 = gChart.simpleEncode(x1);
-	alert(x2);
-	var x3 = gChart.simpleDecode(x2);
-	alert(x3);
-*/
-	
-	
-/*
-	var x1 = [23,5,61];
-	alert(x1);
-	
-	var x2 = gChart.simpleEncoding(x1);
-	alert(x2);
-	
-	var x3 = gChart.simpleDecoding(x2);
-	alert(x3);
-*/
-	
-	
-	
-	//var aa = gChart.textEncoding([254,228,91],00, 300);
-	//alert(aa);
+	$(document.body).append('<br>', $.gChart.temperature([23,18,9], {
+		chxt: 'y,x',
+		chxl: '1:|沖縄|東京|北海道'
+	}).image());
 
 });
 
@@ -297,13 +190,12 @@ jQuery(function($){
 */
 </script>
 <style type="text/css">
-body{
-
-}
+body{font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,Verdana,Geneva,Arial,Helvetica,sans-serif}
+h1{font-size:32px}
 img{border-width:0}
 </style>
 </head>
 <body>
-	<h1>jQuery plugin - gChart demo</h1>
+	<h1>jQuery plugin - gChart Demo</h1>
 </body>
 </html>
