@@ -1,0 +1,265 @@
+body {color:#ccc}
+body,textarea,input,label{
+	font-size: 14px;
+	font-family:
+		tahoma,
+		Meiryo,
+		'メイリオ',
+		'Hiragino Kaku Gothic Pro',
+		'ヒラギノ角ゴ Pro W3' ,
+		Verdana;
+}
+h1{margin:0}
+textarea{overflow:auto}
+textarea,input{border-width:0}
+textarea,input.txt{
+	padding:0;
+	width:100%;
+	height:100%;
+	/*vertical-align:bottom;*/
+}
+
+a{
+	font-weight:bold;
+	color:#999966;
+}
+a,a:link, a:visited,label.exec-label{
+	cursor: pointer;
+}
+a,a:link, a:visited,a:active{
+	text-decoration:none;
+}
+a:hover{
+	color:#ffff99;
+	text-decoration: none;
+}
+
+label{
+	padding-left:3px;
+	vertical-align: top;
+}
+
+ol,ul{
+	padding-left:2em;
+	text-indent:0;
+}
+dd ul,
+dd ol{
+	margin-top:.5em;
+	margin-bottom:.5em;
+}
+
+*:first-child+html dd ol,
+*:first-child+html dd ul{
+	margin-left:0;
+	text-indent:0;
+}
+* html dd ol,
+* html dd ul{
+	margin-left:0;
+	text-indent:0;
+}
+
+table{
+	width: 100%;
+	border-spacing: 2px;
+}
+th{
+	color:#708090;
+} 
+td{
+	word-break:break-all;
+	word-wrap:break-word;
+}
+span.attention{
+	color:red;
+}
+
+/* -=-=-=-=-=- outer-wrap -=-=-=-=-=-=- */
+#outer-wrap0{
+	width: 100%;
+	background-color:#1a1a1a;
+	background-image: url('img/bg_cb_120x120.png');
+}
+
+.inner{
+	border-width: 1px;
+	border-style: solid;
+	border-top-color: #4c4c4c;
+	border-bottom-color: #1a1a1a;
+	border-left-color: #4c4c4c;
+	border-right-color: #1a1a1a;
+}
+.outer{
+	border-width: 1px;
+	border-style: solid;
+	border-top-color: #1a1a1a;
+	border-bottom-color: #4c4c4c;
+	border-left-color: #1a1a1a;
+	border-right-color: #4c4c4c;
+}
+/* -=-=-=-=-=-=- top-content-table -=-=-=-=-=-=-=- */
+#top-content{
+	background-color:#333;
+	border: 1px solid #1a1a1a;
+	border-top-width:0;
+}
+#top-inner{
+	border: 1px solid #4c4c4c;
+	border-top-width:0;
+}
+#top-content-table{
+	table-layout:fixed;
+	border-spacing:5px;
+}
+
+#top-content-table td{
+	vertical-align: bottom;
+}
+
+input.exec-order{
+	margin:0 0 0 5px;
+	vertical-align:middle;
+}
+
+.txtr-label-wrap,
+th.input-label{
+	line-height:24px;
+}
+th.input-label{
+	width:36%;
+	text-align:right;	
+	padding-right:4px;
+	vertical-align:middle;
+}
+
+#exec-order-wrap{
+	padding:4px 0;
+	border-width:0;
+}
+#exec{
+	display: block;
+	background-color: #303030;
+	text-align:center;
+	line-height:30px;
+	height:30px;
+}
+
+textarea,input.txt{
+	background-color: transparent;
+	color:#000;
+}
+#input-table td.input-wrap,
+#top-content-table td.txtr-wrap{
+	border-width: 1px;
+	border-style: inset;
+	background-color: #c0c0c0;
+	vertical-align: middle;
+}
+
+/* -=-=-=-=- bottom-content -=-=-=-=-=- */
+#bottom-content{
+	background-color:#333;
+	border: 1px solid #1a1a1a;
+	border-bottom-width:0;
+}
+#bottom-content div.inner{
+	padding:10px;
+	border: 1px solid #4c4c4c;
+	border-bottom-width:0;
+	position:relative;
+	overflow:hidden;
+}
+/* -=- tab-list -=- */
+#tab-list-wrap{
+	position:absolute;
+	z-index:999;
+	width:230px;
+}
+#tab-list{
+	list-style:none;
+	margin:20px 0;
+	padding:0;
+	text-indent:0;
+}
+
+#tab-list li.tab{
+	overflow:hidden;
+	background-color:#2a2a2a;
+	margin-bottom:4px;
+}
+#tab-list li.tab a{
+	padding-left:10px;
+	display:block;
+	height:28px;
+	line-height:28px;
+	background-color:#2a2a2a;
+	border: 1px solid #222;
+}
+#tab-list li.tab a.current{
+	border-right-width: 0;
+}
+/* -=- content-right -=- */
+#content-right-wrap,
+#tab-list li.tab a.current{
+	background-color:#1a1a1a;
+	z-index:998;
+}
+
+#content-right-wrap{
+	position:relative;
+	overflow:hidden;
+	left:229px;
+	margin-right:229px;
+	border: 1px solid #222;
+}
+
+#content-right-wrap .cont{
+	color:#999;
+	margin:20px;
+}
+
+#content-right-wrap .pt-wrap{
+	background-color:#202020;
+	border: 1px solid #333;
+	word-break:break-all;
+	word-wrap:break-word;
+}
+#content-right-wrap .pt-wrap,
+#content-right-wrap .pt-wrap .pattern{
+	font-size:14px;
+	height:28px;
+	line-height:28px;
+}
+#content-right-wrap .pt-wrap .pattern{
+	font-weight: normal;
+	display: block;
+	padding: 0 10px;
+}
+
+#content-right-wrap .cont dl{
+	margin: 10px 0 40px 0;
+}
+#content-right-wrap .cont dt{
+	margin :0 0 .5em 1em;
+	padding-left: 5px;
+	font-weight:bold;
+	border-left: 5px solid #333;
+	border-bottom: 1px solid #333;
+}
+#content-right-wrap .cont dd{
+	margin-left:2em;
+}
+
+#content-right-wrap .cont dt,
+#content-right-wrap .cont dd{
+	font-family:
+		Meiryo,
+		'メイリオ',
+		'Hiragino Kaku Gothic Pro',
+		'ヒラギノ角ゴ Pro W3' ,
+		Tahoma,
+		Verdana;
+	word-break:break-all;
+	word-wrap:break-word;
+}

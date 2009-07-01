@@ -1,0 +1,83 @@
+body{font-size:14px}
+a{
+	color:#999966;
+	cursor:pointer;
+	text-decoration:none;
+}
+a:hover{color:#ffff99}
+ul{margin-left:2em}
+li{vertical-align:middle}
+blockquote{
+	background-color:#2a2a2a;
+	border:1px solid #4c4c4c;
+	margin:20px;
+	padding:10px;
+}
+#outer-wrap1{
+	border-right:1px solid #202020;
+	border-left:1px solid #202020;	
+}
+#outer-wrap2{
+	background-color:#333;
+	border-right:1px solid #4c4c4c;
+	border-left:1px solid #4c4c4c;
+}
+#outer-wrap3{
+	margin: 0 auto;
+	width:960px;
+}
+
+
+/* -- wrap-item ------------------------------------ */
+div.wrap-item-outer{
+	border-bottom:1px solid #4c4c4c;
+	margin:20px 0;
+}
+div.wrap-item-inner{border-bottom:1px solid #1a1a1a}
+/* -- item-img ------------------------------------- */
+div.item-img-wrap{
+	border-top:1px solid #1a1a1a;
+	border-left:1px solid #1a1a1a;
+	border-right:1px solid #4c4c4c;
+	border-bottom:1px solid #4c4c4c;
+	float:left;
+	margin:20px 20px 20px 0;
+}
+div.item-img-wrap a{
+	display:block;
+	border-top:1px solid #4c4c4c;
+	border-left:1px solid #4c4c4c;
+	border-right:1px solid #1a1a1a;
+	border-bottom:1px solid #1a1a1a;
+	padding:5px;
+}
+div.item-img-wrap a img{border:1px solid #666}
+/* -- item-title ------------------------------------- */
+div.item-title-wrap{border-bottom:1px solid #4c4c4c}
+h3.item-title{
+	border-bottom:1px solid #1a1a1a;
+	color:#708090;
+	font-family:Candara,Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,Verdana,Geneva,Arial,Helvetica,sans-serif;
+	font-weight: normal;
+	line-height:1.6em;
+	margin-top:0;
+	padding-left:10px;
+}
+/* -- item-content --------------------------------- */
+div.item-content{margin-left:260px}
+div.item-desc{
+	border-bottom:2px dotted #4c4c4c;
+	padding:10px;
+}
+div.item-desc p{
+	line-height:1.2em;
+	margin:1em 0;
+}
+div.item-desc ul{margin-left:20px}
+div.lastmod{
+	color:#999;
+	font-size:12px;
+	line-height:2em;
+	margin-bottom:20px;
+	text-align:right;
+}

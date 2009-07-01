@@ -1,0 +1,355 @@
+@charset "UTF-8";
+body{
+	margin:0;
+	padding:0;
+	color:#c0c0c0;
+	font-size:16px;
+}
+
+body,textarea,select,option{
+	font-family:tahoma;
+}
+
+a,a:link,a:visited{
+	cursor:pointer;
+	color:#999966;
+	text-decoration:none;
+}
+
+a:hover{
+	color:#ffff99;
+}
+
+.outer{
+	border-bottom:1px solid #4c4c4c;	
+	border-top:1px solid #202020;
+}
+.inner{
+	border-bottom:1px solid #202020;
+	border-top:1px solid #4c4c4c;
+}
+.title{
+	font-size:16px;
+	font-weight:bold;
+	color:#CC6699;
+	height:26px;
+	line-height:26px;
+	margin:0;
+	padding:0;
+	text-align:center;
+}
+/* --wrap ----------------------------------- */
+#outer-wrap0{
+	background-color:#333;
+	background-image:url(img/body_bg_chcl.gif);
+}
+#outer-wrap1{
+	border-right:1px solid #202020;
+	border-left:1px solid #202020;	
+}
+#outer-wrap2{
+	border-right:1px solid #4c4c4c;
+	border-left:1px solid #4c4c4c;
+	background-color:#333;	
+}
+#outer-wrap3{
+	width:960px;
+	margin: 0 auto;
+}
+
+/* -- header -- */
+#title{color:#cc6699}
+
+
+/* -- wrap-preview -------------------------------- */
+#wrap-preview{
+	width:100%;
+}
+
+#preview{
+	height:180px;
+	padding:10px;
+	overflow:auto;
+}
+
+#preview p{
+	line-height:1.2em;
+	margin:0;
+	padding:0;
+}
+
+
+/* -- left-wrap -------------------------------- */
+#left-wrap{
+	float:left;
+	width:720px;
+}
+#content{
+	width:100%;
+}
+
+#content-left,
+#content-center,
+#content-right{
+	vertical-align: top;
+	margin:0;
+	padding:0;
+}
+
+#content-left{
+	width:220px;
+}
+#content-center{
+	padding:0 15px;
+}
+#content-right{
+	width:140px;
+}
+
+
+/* -=-=-=-=-=- content-left -=-=-=-=-=- */
+/* ---------prev-styles--------- */
+#styles-table{
+	border-spacing: 0;
+	padding:0;
+	text-align:center;
+	width:100%;
+}
+
+#styles-table td.space{
+	width:100%;
+	height: 6px;
+}
+
+/* -- textarea -- */
+#styles-textarea{
+	background-color:#c0c0c0;
+	border-width:1px;
+	color:#1a1a1a;
+	font-size:16px;
+	line-height:1em;
+	margin:0 auto;
+	overflow:auto;
+	vertical-align:bottom;
+	width:218px;
+}
+
+/* -- font weight & style -- */
+#tgl-font-weight,
+#tgl-font-style{
+	border-top:1px solid #4c4c4c;
+	border-right:1px solid #1a1a1a;
+	border-bottom:1px solid #1a1a1a;
+	border-left:1px solid #4c4c4c;
+	color: #666;
+	display:block;
+	height:24px;
+	line-height:24px;
+}
+#tgl-font-weight.active,
+#tgl-font-style.active{
+	color: #ccc;
+	background-image: url(img/ws_check.png);
+	background-position: left;
+	background-repeat:no-repeat;
+}
+
+.ws-td{
+	width:50%;
+}
+.wrap-ws{
+	border-top:1px solid #1a1a1a;
+	border-right:1px solid #4c4c4c;
+	border-bottom:1px solid #4c4c4c;
+	border-left:1px solid #1a1a1a;
+}
+.ws-td b,.ws-td i{}
+
+/* ----- font-size -----*/
+#wrap-font-size{
+	height:24px;
+	line-height:24px;
+}
+#font-size-lbl{}
+#font-size-select{
+	color:#c0c0c0;
+	background-color:#333;
+	border:1px solid #666;
+}
+
+
+/* -=-=-=-=-=- content-center -=-=-=-=-=- */
+/* -=-=-=- current styles -=-=-=- */
+
+#current-styles-table{
+	width:100%;
+}
+
+#current-styles-table tr{
+	border-width:0;
+}
+
+#current-styles-table th{
+	color:#708090;
+	text-align:right;
+	width:110px;
+}
+#current-styles-table td{
+	padding-left:10px;
+	text-align:left;
+}
+
+#current-styles-table th,
+#current-styles-table td{
+	line-height:1.5em;
+	vertical-align: middle;
+}
+
+#current-styles-table td.tr-border{
+	border-top: 1px solid #202020;
+	border-bottom: 1px solid #4c4c4c;
+	font-size:0px;
+	height:0;
+	line-height:0;
+}
+
+/* -=-=-=-=-=- show-css -=-=-=-=-=- */
+#wrap-show-css{
+	border-top:1px solid #1a1a1a;
+	border-right:1px solid #4c4c4c;
+	border-bottom:1px solid #4c4c4c;
+	border-left:1px solid #1a1a1a;
+	margin-top:20px;
+	text-align: center;
+}
+
+#show-css{
+	display:block;
+	height:24px;
+	line-height:24px;
+	border-top:1px solid #4c4c4c;
+	border-right:1px solid #1a1a1a;
+	border-bottom:1px solid #1a1a1a;
+	border-left:1px solid #4c4c4c;
+}
+
+
+
+
+
+
+/* -=-=-=-=-=-=-=-=- content-right -=-=-=-=-=-=-=-=- */
+/* -=-=-=-=-=- apply attr -=-=-=-=-=- */
+#apply-attr-outer{
+	overflow:hidden;
+	height:24px;
+}
+
+#apply-attr-outer,
+#apply-attr-inner{
+	line-height:24px;
+	position:relative;
+}
+
+#apply-attr-inner{
+	width:100%;
+}
+#apply-attr-inner a{
+	display:block;
+	text-align:center;
+	width:100%;
+}
+
+/* -=-=-=-=-=- navi list -=-=-=-=-=- */
+#wrap-navi{
+	margin:0 0 20px;
+	width:100%;
+}
+
+#navi-list,
+#navi-list li{
+	margin:0;
+	padding:0;
+}
+
+#navi-list{
+	list-style:none;
+	padding:5px 0;
+	text-indent:0;
+	width:100%;
+}
+
+#navi-list li{
+	text-align:center;
+}
+
+#navi-list a.navi-item{
+	display:block;
+	line-height:28px;
+	vertical-align:bottom;
+	width:100%;
+}
+
+#navi-list a.navi-item.current{
+	background-color:#1a1a1a;
+}
+
+
+
+
+/* -- wrap-items ---------------------------- */
+#wrap-items{
+	float:right;
+	height:500px;
+	overflow:scroll;
+	overflow-x:hidden;
+	position:relative;
+	width:220px;
+}
+
+#wrap-named-color,
+#wrap-web-color,
+#wrap-font-family{
+	left:0;
+	position:absolute;
+	top:0;
+	width:203px;
+}
+
+#named-color-table,
+#web-color-table,
+#font-family-table{
+	border-collapse:collapse;
+	table-layout:fixed;
+	margin:0;
+	padding:0;
+	width:100%;
+}
+
+
+#named-color-table td.named-color-item,
+#web-color-table td.web-color-item,
+#font-family-table td.font-family-item{
+	border: 1px solid #333;
+	color:#1a1a1a;
+	cursor:pointer;
+	font-size:14px;
+	height: 24px;
+	line-height: 24px;
+	text-align:center;
+}
+
+/* -- font-family-item --------------------- */
+#font-family-table td.font-family-item{
+	background-color:#4c4c4c;
+	font-size:12px;
+	color:#eee;
+	line-height: 18px;
+}
+#wrap-items table td.font-family-item:hover{
+	background-color:#333;
+}
+
+
+/* -- etc ----------------------------- */
+#css-txtr{overflow:auto;}
