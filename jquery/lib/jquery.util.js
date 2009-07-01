@@ -1,158 +1,103 @@
-$.fn.backgroundImage = function(src) {
-  var bg = $.browser.msie && $.browser.version == 6 ?
-    { filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+src+'")' } :
-    { backgroundImage: 'url('+src+')' };
- 
-  return this.each(function() {
-    $(this).css(bg);
-  });
-};
-
-// extend browser
 (function($) {
-  $.extend($.browser, {
-    iphone: $.browser.safari && /iphone/.test(userAgent),
-    chrome: $.browser.safari && /chrome/.test(userAgent)
-  });
-})(jQuery);
-
+// extend browser
+$.extend($.browser, {
+	iphone: $.browser.safari && /iphone/.test(userAgent),
+	chrome: $.browser.safari && /chrome/.test(userAgent)
+});
 
 // extend animate speed
-(function($) {
-  $.extend($.fx.speeds, {
-    faster: 100,
+$.extend($.fx.speeds, {
+	faster: 100,
 	normal:450,
-    slower: 1000
-  })
-})(jQuery);
+	slower: 1000
+});
 
 
-// check exist parent node
-(function($) {
 $.extend({
+	// check exist parent node
 	existParent: function(elm){
 		elm = $(elm).get(0);
 		return (!elm.parentNode || !elm.parentNode.tagName);
-	}
-});
-})(jQuery);
-
-
-// position absolute
-(function($){
-
-$.fn.extend({	
-	positionAbsolute:function(){
-		var posKeys = ['position', 'top', 'left',
-			'marginTop', 'marginRight', 'marginBottom', 'marginLeft',
-			'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'];
-		
-		return this.each(function(){
-			var $t = $(this);
-			if ($.css(this, 'position') != 'absolute') {
-				for(var i = 0; i < posKeys.length ; i++){
-					if ( !$.data(this, 'old' + posKeys[i]) ) 
-						$.data(this, 'old' + posKeys[i], $.css(this, posKeys[i]));
-				}
-				
-				$t.css({
-					top: $t.offset().top,
-					left: $t.offset().left,
-					margin: 0,
-					position: 'absolute'
-				});
-			}
-		});
 	},
-	positionOriginal:function(){
-		return this.each(function(){
-			var $t = $(this),
-			posCss = {};
-			if ($.css(this, 'position') == 'absolute') {
-				for(var i = 0; i < posKeys.length;i++){
-					var d = $.data(this, 'old' + posKeys[i]);
-					if ( d ) posCss[posKeys[i]] = d;
-				}
-				$t.css(posCss);
-			}
-		});
-	}
-})
-})(jQuery);
-
-
-
-
-
-// Remove only own.
-(function($) {
-$.extend({	
+	
+	// Remove only own.
 	removeSelf:function(elms) {
 		$.each(elms, function(i, elm) {
 			$(elm).after($(elm).contents()).remove();
 		});
+	},
+	
+	// Merge Objects.
+	merge:function(){
+
+		var
+		args = Array.prototype.slice.call(arguments),
+		len = args.length,
+		ret = {},
+		itm;
+		
+		for( var i = 0; i < len ; i++ ){
+			var arg = args[i];
+			for (itm in arg) {
+				if (arg.hasOwnProperty(itm))
+					ret[itm] = arg[itm];
+			}
+		}
+		
+		return ret;
+
+	},
+	
+	// Query String
+	toQueryString: function(o){
+		var ret = [];
+		for(i in o){
+			if(o.hasOwnProperty( i ))
+				ret.push( i + '=' + encodeURIComponent(o[i]) );
+		}
+		return ret.join('&');
 	}
 });
 
-$.fn.extend({	
-  removeSelf:function() {
-    return $.removeSelf(this);
-  }
-});
 
-})(jQuery);
-
-
-// arrange height
-(function($) {
-$.fn.extend({	
-  arrangeHeight:function() {
-    var h = 0;
-    return this.each(function() {
-        h = Math.max($(this).outerHeight(), h);
-      }).height(h);
-  }
-})
-})(jQuery);
-
-
-
-$.fn.setData = function(key, val){
-	return this.each(function(i, elm){
-		$.data(elm, key, val);
-	});
-}
-
-$.fn.getData = function(key){
-	if($(this).length == 1)
-		return $.data($(this).get(0), key);
+$.fn.extend({
+	backgroundImage: function(src){
+		var bg = $.browser.msie && $.browser.version == 6 ? {
+			filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + src + '")'
+		} : {
+			backgroundImage: 'url(' + src + ')'
+		};
+		
+		return this.each(function(){
+			$(this).css(bg);
+		});
+	},
 	
-	return $.map(this.each(function(index, elm){
-		return $.data(elm, key);
-	}));
-}
-
-
-(function($){
-$.extend({
-	merge: function(o1, o2){
+	removeSelf: function(){
+		return $.removeSelf(this);
+	},
 	
-		o1 = o1 || {};
-		o2 = o2 || {};
+	// arrange to same height
+	arrangeHeight: function(){
+		var h = 0;
+		return this.each(function(){
+			h = Math.max($(this).outerHeight(), h);
+		}).height(h);
+	},
+	
+	
+	setData: function(key, val){
+		return this.each(function(i, elm){
+			$.data(elm, key, val);
+		});
+	},
+	getData: function(key){
+		if ($(this).length == 1) 
+			return $.data($(this).get(0), key);
 		
-		var re = {}, i;
-		
-		for (i in o1) {
-			if (o1.hasOwnProperty(i))
-				re[i] = o1[i];
-		}
-		
-		for (i in o2) {
-			if (o2.hasOwnProperty(i))
-				re[i] = o2[i];
-		}
-		
-		return re;
+		return $.map(this.each(function(index, elm){
+			return $.data(elm, key);
+		}));
 	}
-})
+});
 })(jQuery);

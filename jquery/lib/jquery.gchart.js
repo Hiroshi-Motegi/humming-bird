@@ -5,28 +5,48 @@
  * 
  * Author:y@s
  * Version:1.0
- * Update:2009-06-28
+ * Published:2009-07-02
+ * Update:2009-07-02
  * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/gchart.demo.html
  */
 
 (function($){
-$.gChart = {
-	get: function(options){
-		return 'http://chart.apis.google.com/chart?' +
-		(function(o){
-			var x = [];
-			for (var i in o) {
-				if (o.hasOwnProperty(i)) 
-					x.push(i + '=' + o[i]);
+
+$.gChart = function() {
+	this.initialize.apply(this, arguments);
+}
+
+$.gChart.prototype = {
+	initialize:function(options){
+		this.params = $.gChart.merge(this.defaults, options);
+	},
+	src: function(options){
+		
+		function toQueryString(o){
+			var ret = [];
+			for(var i in o){
+				if(o.hasOwnProperty( i ))
+					ret.push( i + '=' + encodeURIComponent(o[i]) );
 			}
-			return x.join('&')
-		})($.extend({}, $.gChart.defaults, options));
+			return ret.join('&');
+		}
+		
+		return 'http://chart.apis.google.com/chart?' + toQueryString($.gChart.merge(this.params, options));
 	},
-	getImage:function(options){
-		return $('<img>').attr('src', $.gChart.get(options));
-	},
-	
-	
+	image:function(options){
+		var img = new Image();
+		img.src = this.src(options);
+		return img;
+	}
+};
+
+
+var
+simpleChrs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+extendedChrs = simpleChrs + '-.';
+
+$.extend($.gChart,{
+
 	/*
 	 * デフォルト
 	 * Required Parameters
@@ -40,29 +60,49 @@ $.gChart = {
 		cht: 'p3'
 	},
 	
+	merge:function(){
+
+		var
+		args = Array.prototype.slice.call(arguments),
+		len = args.length,
+		ret = {},
+		itm;
+		
+		for( var i = 0; i < len ; i++ ){
+			var arg = args[i];
+			for (itm in arg) {
+				if (arg.hasOwnProperty(itm))
+					ret[itm] = arg[itm];
+			}
+		}
+		
+		return ret;
+
+	},
+	
 	
 	
 	//テキストエンコードの範囲は 0 (0.0) から 100 (100.0)
 	//0 ~ 100の範囲に収まるように数値を調整する
 	//@Param arr - type:Array(int)
 	textEncoding: function(data, min, max){	
-		return  't:' + $.gChart.adjust(data, min, max, 100).join(',');
+		return  't:' + this.adjust(data, min, max, 100).join(',');
 	},
 	
 	
-	//@Param data:adjust target value (Value Type:Array)
-	//@Param min:Minimum value (Type:int)
-	//@Param max:Maximum value (Type:int)
-	//@Param gra:granularity (Type:int)
+	//@Param data:adjust target value (type:Array)
+	//@Param min:Minimum value (type:int)
+	//@Param max:Maximum value (type:int)
+	//@Param gra:granularity (type:int)
 	adjust: function(data, min, max, gra){
 		
-		var x, re = [], j = data.length;
+		var x, ret = [], len = data.length;
 		
 		min = min || 0;
 		max = max || 0;
 		gra = gra || 100;
 		
-		for ( var i = 0; i < j ; i++ ) {
+		for ( var i = 0; i < len ; i++ ) {
 			min = Math.min(min, data[i]);
 			max = Math.max(max, data[i]);
 		}
@@ -71,88 +111,90 @@ $.gChart = {
 		
 		x = (max + min) / gra;
 		
-		for (var i = 0; i < j; i++)
-			re.push(Math.min((data[i] + min)/x, gra));
+		for (var i = 0; i < len; i++)
+			ret.push(Math.min((data[i] + min)/x, gra));
 		
-		return re;
+		return ret;
 	},
 	
 
-	//簡易エンコード(Simple Encode) 数値から簡易エンコード文字に変換
+	//簡易エンコード(Simple Encode)
+	// 数値から簡易エンコード文字に変換
 	simpleEncode: function(data){
-		return data < 0 ? '_' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.substr(data,1) || '_';
+		return data < 0 ? '_' : simpleChrs.substr(data,1) || '_';
 	},
 	//@Param data - type:Array(int:0 - 61)
 	simpleEncoding: function(data){
-		var re = 's:';
+		var ret = 's:';
 		for (var i = 0, j = data.length; i < j; i++)
-			re += $.gChart.simpleEncode(parseInt(data[i]));
+			ret += this.simpleEncode(parseInt(data[i]));
 		
-		return re;
+		return ret;
 	},
 	
 	
-	//拡張エンコード(Extended Encode) 数値から拡張エンコード文字に変換
+	//拡張エンコード(Extended Encode)
+	//数値から拡張エンコード文字に変換
 	extendedEncode: function(data){
-		return data < 0 ? '__' : $.gChart.extendedEncodWords[data] || '__';
+		return data < 0 ? '__' : this.extendedEncodWords[data] || '__';
 	},
 	//@Param data - type:Array(int:0 - 4095)
 	extendedEncoding: function(data){
-		var re = 'e:';
+		var ret = 'e:';
 		for (var i = 0, j = data.length; i < j; i++)
-			re += $.gChart.extendedEncode(parseInt(data[i]));
+			ret += this.extendedEncode(parseInt(data[i]));
 		
-		return re;
+		return ret;
 	},
 	extendedEncodWords: (function(){
 		var
-		chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.'.split(''),
-		j = chr.length,
-		re = [];
+		chrs = extendedChrs.split(''),
+		len = chrs.length,
+		ret = [];
 	
-		for (var i = 0; i < j; i++) {
-			for (var k = 0; k < j; k++) 
-				re.push(chr[i]+chr[k]);
+		for (var i = 0; i < len ; i++) {
+			for (var k = 0; k < len ; k++) 
+				ret.push(chrs[i] + chrs[k]);
 		}
 	
-		return re;
+		return ret;
 	})(),
 	
 	
 		
-	// 簡易デコード(Simple Decode) 簡易エンコード文字から数値に変換
+	// 簡易デコード(Simple Decode)
+	//簡易エンコード文字から数値に変換
 	simpleDecode: function(v){
-		return /[A-Za-z\d]/.test(v) ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.search(v) : null;
+		return /[A-Za-z\d]/.test(v) ? simpleChrs.search(v) : null;
 	},
 	// return type:Array
 	simpleDecoding: function(data){
-		var re = [], d = /^s:.+$/.test(data) ? data.substr(2) : data;
+		var ret = [], d = /^s:.+$/.test(data) ? data.substr(2) : data;
 		for( var i = 0, j = d.length; i < j ; i++ )
-			re.push($.gChart.simpleDecode(d.substr(i,1)));
+			ret.push(this.simpleDecode(d.substr(i,1)));
 		
-		return re;
+		return ret;
 	},
 	
 	
-	//拡張デコード(Extended Decode) 拡張エンコード文字から数値に変換
+	//拡張デコード(Extended Decode)
+	//拡張エンコード文字から数値に変換
 	extendedDecode: function(v){
-		var
-		chr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.',
-		re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v);
+		var re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v);
 
 		if (re)
-			return chr.search(re[1] == '.' ? '\\.' : re[1]) * 64 + chr.search(re[2] == '.' ? '\\.' : re[2]);
+			return extendedChrs.search(re[1] == '.' ? '\\.' : re[1]) * 64 + extendedChrs.search(re[2] == '.' ? '\\.' : re[2]);
 
 		return null;
 	},
 	// return type:Array
 	extendedDecoding: function(data){
-		var re = [], d = /^e:.+$/.test(data) ? data.substr(2) : data;
+		var ret = [], d = /^e:.+$/.test(data) ? data.substr(2) : data;
 		
 		for( var i = 0, j = d.length; i < j ; i += 2 )
-			re.push($.gChart.extendedDecode(d.substr(i, 2)));
+			ret.push(this.extendedDecode(d.substr(i, 2)));
 		
-		return re;
+		return ret;
 	},
 	
 	
@@ -208,5 +250,5 @@ $.gChart = {
 		 linearGradient:'lg', //線形グラデーション
 		 linearStripes:'ls' //線形ストライプ
 	}
-}
-})(jQuery);
+	
+})})(jQuery);
