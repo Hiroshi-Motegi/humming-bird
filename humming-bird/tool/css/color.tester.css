@@ -143,9 +143,14 @@ a:hover{
 	border-left:1px solid #4c4c4c;
 	color: #666;
 	display:block;
+}
+
+#tgl-font-weight b,
+#tgl-font-style i{
 	height:24px;
 	line-height:24px;
 }
+
 #tgl-font-weight.active,
 #tgl-font-style.active{
 	color: #ccc;
@@ -201,6 +206,7 @@ a:hover{
 
 #current-styles-table th,
 #current-styles-table td{
+	height:1.5em;
 	line-height:1.5em;
 	vertical-align: middle;
 }
@@ -225,6 +231,7 @@ a:hover{
 
 #show-css{
 	display:block;
+	font-weight:bold;
 	height:24px;
 	line-height:24px;
 	border-top:1px solid #4c4c4c;
@@ -247,14 +254,15 @@ a:hover{
 
 #apply-attr-outer,
 #apply-attr-inner{
-	line-height:24px;
 	position:relative;
 }
-
 #apply-attr-inner{
 	width:100%;
 }
 #apply-attr-inner a{
+	font-weight:bold;
+	height:24px;
+	line-height:24px;
 	display:block;
 	text-align:center;
 	width:100%;
@@ -284,17 +292,19 @@ a:hover{
 }
 
 #navi-list a.navi-item{
+	border:1px solid #333;
 	display:block;
-	line-height:28px;
+	font-weight:bold;
+	height:24px;
+	line-height:24px;
+	margin: 0 2px;
 	vertical-align:bottom;
-	width:100%;
 }
 
 #navi-list a.navi-item.current{
-	background-color:#1a1a1a;
+	background-color:#2a2a2a;
+	border:1px solid #4c4c4c;
 }
-
-
 
 
 /* -- wrap-items ---------------------------- */

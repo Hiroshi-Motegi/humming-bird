@@ -31,35 +31,36 @@
 	<div id="top-content"><div id="top-inner"><table id="top-content-table" cellspacing='5'><tbody><tr>
 		<td rowSpan="2"><table id="input-table"><tbody>
 			<tr>
-				<th class="input-label"><span>Pattern</span></th>
+				<th class="input-label">Pattern</th>
 				<td class="input-wrap"><input id="txt-pattern" class="txt" name="txt" type="text" value="/\d+/g" alt='Pattern' title='パターン' maxlength="128" /></td>
 			</tr>
 			<tr>
 
-				<th class="input-label"><span>Replace Word</span></th>
+				<th class="input-label">Replace Word</th>
 				<td class="input-wrap"><input id="txt-replace" class="txt" name="txt" type="text" value="[replace word]" alt='Replace Word' title='置換文字列' maxlength="32" /></td>
 			</tr>
 			<tr>
-				<th class="input-label"><span>Exec Order</span></th>
+				<th class="input-label">Exec Order</th>
 				<td id="exec-order-wrap">
-					<input type="radio" name="radio" id="exec-match" class="exec-order" value="match" checked="checked" /><label for="exec-match" class="exec-order-label" title="マッチした文字列を結果に表示します">match</label><br />
-
-					<input type="radio" name="radio" id="exec-replace" class="exec-order" value="replace" /><label for="exec-replace" class="exec-order-label" title="マッチした文字列を指定した文字列に置き換え結果に表示します">replace</label><br />
-					<input type="radio" name="radio" id="exec-test" class="exec-order" value="test" /><label for="exec-test" class="exec-order-label" title="パターンにマッチした場合、trueを返します">test</label><br />
-					<input type="radio" name="radio" id="exec-exec" class="exec-order" value="exec" /><label for="exec-exec" class="exec-order-label" title="exec">exec</label><br />
-					<input type="radio" name="radio" id="exec-search" class="exec-order" value="search" /><label for="exec-search" class="exec-order-label" title="マッチした文字の位置を返します">search</label>
+					<ul id='exec-order'>
+					<li><input type="radio" name="radio" id="exec-match" class="exec-order" value="match" checked="checked" /><label for="exec-match" class="exec-order-label" title="マッチした文字列を結果に表示します">match</label></li>
+					<li><input type="radio" name="radio" id="exec-replace" class="exec-order" value="replace" /><label for="exec-replace" class="exec-order-label" title="マッチした文字列を指定した文字列に置き換え結果に表示します">replace</label></li>
+					<li><input type="radio" name="radio" id="exec-test" class="exec-order" value="test" /><label for="exec-test" class="exec-order-label" title="パターンにマッチした場合、trueを返します">test</label></li>
+					<li><input type="radio" name="radio" id="exec-exec" class="exec-order" value="exec" /><label for="exec-exec" class="exec-order-label" title="exec">exec</label></li>
+					<li><input type="radio" name="radio" id="exec-search" class="exec-order" value="search" /><label for="exec-search" class="exec-order-label" title="マッチした文字の位置を返します">search</label></li>
+					</ul>
 				</td>
 			</tr>
 		</tbody></table></td>
 
 				
 		<td><table><tbody>
-			<tr><th class="txtr-label-wrap"><span>Target Word</span></th></tr>
+			<tr><th class="txtr-label-wrap">Target Word</th></tr>
 			<tr><td class="txtr-wrap"><textarea id="txtr-target" name="txtr-target" class="txtar" rows="5" alt='Target Word' title='対象文字列'></textarea></td></tr>
 		</tbody></table></td>
 		
 		<td><table><tbody>
-			<tr><th class="txtr-label-wrap"><span>Result</span></th></tr>
+			<tr><th class="txtr-label-wrap">Result</th></tr>
 			<tr><td class="txtr-wrap"><textarea id="txtr-result" name="txtr-result" class="txtar" rows="5" alt='' title='結果'></textarea></td></tr>
 
 		</tbody></table></td>
@@ -212,14 +213,14 @@
 	
 	<div class="line-outer"><div class="line-inner"></div></div>
 	<div id="footer-wrap">
+		
 		<div id="footer"><br>
-			<div><span>-| <a href="http://humming-bird.appspot.com/">Home</a> | <a href="http://yas-hummingbird.blogspot.com/">Blog</a> | <a href="http://sites.google.com/site/2k8hummingbird/">Garage</a> | <a href="http://code.google.com/p/humming-bird/">Misc</a> |-</span></div>
-
-			<small id='footer-page-title' title="page title"></small><br>
-			<small>Last Modified:</small><small id="lastmod-date" title="last modified">2009/06/13</small><br>
-			<small>© <a href="http://yas-hummingbird.blogspot.com/2008/10/javascript.html">humming bird</a>.</small>
-			<small title="author">author:y@s</small><br>
+			<p>-| <a href="http://humming-bird.appspot.com/">Home</a> | <a href="http://yas-hummingbird.blogspot.com/">Blog</a> | <a href="http://sites.google.com/site/2k8hummingbird/">Garage</a> | <a href="http://code.google.com/p/humming-bird/">Misc</a> |-</p>
+			<p id='footer-page-title' title="page title"></p>
+			<p><span>Last Modified:</span><span id="lastmod-date" title="last modified">2009/06/13</span></p>
+			<p><span id='copyright'>© </span><a href="http://yas-hummingbird.blogspot.com/2008/10/javascript.html">humming bird</a>. <span title="author">author:y@s</span></p>
 		<br></div>
+
 	</div>
 
 </body></html>
