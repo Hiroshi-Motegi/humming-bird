@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8">
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8">
+	<meta content="y@s" name="author">
+	<meta content="iTunes + YouTube = iTube" name="description">
+	<meta content="iTunes,YouTube" name="keyword">
+	<title>iTube BETA</title>
+	<link rel="stylesheet" href="itube_files/common.css" media="screen" type="text/css" charset="utf-8">
+	<link rel="stylesheet" href="itube_files/itube.css" media="screen" type="text/css" charset="utf-8">
+	<script src="itube_files/jquery.js" type="text/javascript"></script>
+	<script src="itube_files/swfobject.js" type="text/javascript"></script>
+	<script src="itube_files/common.js" type="text/javascript"></script>
+	<script src="itube_files/jsapi" type="text/javascript"></script>
+	<script type="text/javascript">google.load('feeds','1',{'nocss':true})</script><script src="itube_files/a" type="text/javascript"></script><script src="itube_files/defaultja.js" type="text/javascript"></script>
+	<script src="itube_files/itube.js" type="text/javascript"></script>
+
+</head><body>
+<div id="header-wrap"><div id="header-inner"><div id="header">
+	<h1 id="title" title="Page Title">iTube β ver. 1.0</h1>
+</div></div></div>
+<div class="line-outer"><div class="line-inner"></div></div>
+<div id="outer-wrap0"><div id="outer-wrap1">
+
+
+<div style="display: block;" id="top-content"><table id="top-content-table"><tbody><tr>
+
+<td style="height: 386px;" id="movie-player-wrap"><object style="visibility: visible;" data="itube_files/yDqQxXXrT4senablejsapi1playerapiidytplayerhljarel0iv_load_policy" id="movie-player" type="application/x-shockwave-flash" height="385" width="640"><param value="always" name="allowScriptAccess"><param value="true" name="allowFullScreen"><param value="385px" name="height"><param value="high" name="quality"><param value="640px" name="width"></object></td>
+
+<td id="movie-summary"><table><tbody>
+	<tr><td id="movie-summary-title" colspan="2">Advertisement The Essential Michael Jackson</td></tr>
+	<tr style="visibility: hidden; display: none;"><th>contUrl</th><td id="movie-summary-contentUrl">http://www.youtube.com/v/yDqQxXXrT4s</td></tr>
+	<tr><th>author</th><td id="movie-summary-author">99mon12</td></tr>
+	<tr><th>desc</th><td id="movie-summary-content">The advertisement of the new MJ'S cd. French Edition, i'm michel10 in www.mjhideout.com</td></tr>
+	<tr><th>rate</th><td id="movie-summary-ratingAvg">4.9444447/36 ratings</td></tr>
+	<tr><th>url</th><td id="movie-summary-playerUrl"><a target="_blank" rel="external" href="http://www.youtube.com/watch?v=yDqQxXXrT4s&amp;fmt=18">http://www.youtube.com/watch?v=yDqQxXXrT4s</a></td></tr>
+	<tr><th>published</th><td id="movie-summary-published">2006/05/26</td></tr>
+	<tr><th>view count</th><td id="movie-summary-viewCount">10644 views</td></tr>
+</tbody></table></td>
+
+</tr></tbody></table></div>
+
+<div class="clear dummy"></div>
+
+		<div id="yt-container"><div id="yt-container-inner">
+			
+			<table id="yt-top-navi"><tbody><tr>
+				<td><a class="yt-prev">≪ Prev</a></td>
+				<td><table id="search-wrap" cellspacing="0"><tbody><tr>
+					<td><input value="The Essential Michael Jackson" id="search-text" alt="Search Text" title="Search" type="text"></td>
+					<td><input id="search-btn" alt="Search Button" value="Search" type="button"></td>
+				</tr></tbody></table></td>
+				<td><a class="yt-next">Next ≫</a></td>
+			</tr></tbody></table>
+			
+			<table id="yt-orders"><tbody><tr>
+				<td>&nbsp;</td>
+				<th><span>sort order</span></th>
+				<td><a class="yt-order current" rel="relevance">Relevance</a></td>
+				<td><a class="yt-order" rel="rating">Rating</a></td>
+				<td><a class="yt-order" rel="viewCount">View Count</a></td>
+				<td><a class="yt-order" rel="updated">Updated</a></td>
+				<td>&nbsp;</td>
+			</tr></tbody></table>
+			
+			<div id="yt-thumb-table-wrap"><table id="yt-thumb-table" cellspacing="0"><tbody><tr><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Advertisement The Essential Michael Jackson" src="itube_files/2_004.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="The Essential Michael Jackson - part 1" src="itube_files/2_012.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="The Essential Michael Jackson - part 2" src="itube_files/2.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="The Essential Michael Jackson - part 4" src="itube_files/2_015.jpg" class="yt-thumb" height="90" width="120"></a></td></tr><tr><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="The Essential Michael Jackson - part 3" src="itube_files/2_021.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson - Shake Your Body - The Essential Album" src="itube_files/2_020.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="The Essential Michael Jackson - part 5" src="itube_files/2_006.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson &quot;The Essential&quot; Megamix" src="itube_files/2_007.jpg" class="yt-thumb" height="90" width="120"></a></td></tr><tr><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="The Essential Michael Jackson Commercial" src="itube_files/2_010.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson - The Essential Michael Jackson French TV ad" src="itube_files/2_023.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson - You Rock My World (with LYRICS)" src="itube_files/2_017.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson - The Essential Michael Jackson 2006" src="itube_files/2_005.jpg" class="yt-thumb" height="90" width="120"></a></td></tr><tr><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson - This Place Hotel" src="itube_files/2_013.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Pub The Essential Michael Jackson" src="itube_files/2_016.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson - Dirty Diana/Beat It" src="itube_files/2_022.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="download the essential michael jackson collection" src="itube_files/2_002.jpg" class="yt-thumb" height="90" width="120"></a></td></tr><tr><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson and Jackson Five - Can You Feel It - Essential Album" src="itube_files/2_014.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson Secrets ! download free MP3!" src="itube_files/2_009.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson - Shake Your Body Down To The Ground" src="itube_files/2_011.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson Collection (check more info for newly added material)" src="itube_files/2_018.jpg" class="yt-thumb" height="90" width="120"></a></td></tr><tr><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson - Blame It On The Boogie" src="itube_files/2_008.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="michael jackson" src="itube_files/2_003.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson &quot;King of Pop&quot; Death (Gone Too Soon Tribute)" src="itube_files/2_024.jpg" class="yt-thumb" height="90" width="120"></a></td><td class="yt-thumb-outer"><a class="yt-thumb-link"><img title="Michael Jackson - Painting by Hbt Allen with Ms Paint - A morte do Rei do Pop - Homenagem" src="itube_files/2_019.jpg" class="yt-thumb" height="90" width="120"></a></td></tr></tbody></table></div>
+			
+			<table id="yt-bottom-navi"><tbody><tr>
+				<td><a class="yt-prev">≪ Prev</a></td>
+				<td id="results-count-info"><span id="yt-thumb-start-index">1</span>-<span id="yt-thumb-last-index">24</span> of <span id="yt-thumb-total-results">106</span></td>
+				<td><a class="yt-next">Next ≫</a></td>
+			</tr></tbody></table>
+			
+			<div class="clear"></div>
+		</div></div>
+		
+		<div id="itunes-container">
+			<div id="itunes-ranking"><div style="float: left; width: 280px;"><h4 id="itunes-ranking-title">iTunes Top 8 Albums</h4><div class="entry"><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewAlbum?id=159292399&amp;s=143441&amp;uo=1&amp;v0=9991" class="coverart"><img src="itube_files/mzi_005.jpg"></a><table cellspacing="0"><tbody><tr><th class="eLabel">Album </th><td><a class="keyword">The Essential Michael Jackson</a></td></tr><tr><th class="eLabel">Artist </th><td><a class="keyword">Michael Jackson</a></td></tr><tr><td class="c-rights" colspan="2">©
+1972 Motown Records, a Division of UMG Recordings, Inc., 1976, 1978,
+1980 SONY BMG MUSIC ENTERTAINMENT, 1979, 1982, 1987, 1991, 1995, 2001,
+2005 MJJ Productions Inc.</td></tr></tbody></table><div class="clear"></div></div><div class="entry"><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewAlbum?id=320452035&amp;s=143441&amp;uo=1&amp;v0=9991" class="coverart"><img src="itube_files/mzi_006.jpg"></a><table cellspacing="0"><tbody><tr><th class="eLabel">Album </th><td><a class="keyword">American Saturday Night (Bonus Track Version)</a></td></tr><tr><th class="eLabel">Artist </th><td><a class="keyword">Brad Paisley</a></td></tr><tr><td class="c-rights" colspan="2">© 2009 Sony Music Entertainment</td></tr></tbody></table><div class="clear"></div></div><div class="entry"><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewAlbum?id=320265482&amp;s=143441&amp;uo=1&amp;v0=9991" class="coverart"><img src="itube_files/mzi_003.jpg"></a><table cellspacing="0"><tbody><tr><th class="eLabel">Album </th><td><a class="keyword">Cradlesong (Bonus Track Version)</a></td></tr><tr><th class="eLabel">Artist </th><td><a class="keyword">Rob Thomas</a></td></tr><tr><td class="c-rights" colspan="2">©
+2009 Atlantic Recording Corporation for the United States and WEA
+International Inc. for the world outside of the United States.</td></tr></tbody></table><div class="clear"></div></div><div class="entry"><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewAlbum?id=320263901&amp;s=143441&amp;uo=1&amp;v0=9991" class="coverart"><img src="itube_files/mzi_004.jpg"></a><table cellspacing="0"><tbody><tr><th class="eLabel">Album </th><td><a class="keyword">Wilco (The Album)</a></td></tr><tr><th class="eLabel">Artist </th><td><a class="keyword">Wilco</a></td></tr><tr><td class="c-rights" colspan="2">© 2007 Nonesuch Records, Inc.</td></tr></tbody></table><div class="clear"></div></div><div class="entry"><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewAlbum?id=273598907&amp;s=143441&amp;uo=1&amp;v0=9991" class="coverart"><img src="itube_files/mzi_008.jpg"></a><table cellspacing="0"><tbody><tr><th class="eLabel">Album </th><td><a class="keyword">Number Ones</a></td></tr><tr><th class="eLabel">Artist </th><td><a class="keyword">Michael Jackson</a></td></tr><tr><td class="c-rights" colspan="2">© 1979, 1981, 1982, 1987, 1991, 1995, 2001, 2003 MJJ Productions, Inc.</td></tr></tbody></table><div class="clear"></div></div><div class="entry"><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewAlbum?id=269572838&amp;s=143441&amp;uo=1&amp;v0=9991" class="coverart"><img src="itube_files/mzi.jpg"></a><table cellspacing="0"><tbody><tr><th class="eLabel">Album </th><td><a class="keyword">Thriller</a></td></tr><tr><th class="eLabel">Artist </th><td><a class="keyword">Michael Jackson</a></td></tr><tr><td class="c-rights" colspan="2">© 1982 MJJ Productions Inc.</td></tr></tbody></table><div class="clear"></div></div><div class="entry"><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewAlbum?id=319150768&amp;s=143441&amp;uo=1&amp;v0=9991" class="coverart"><img src="itube_files/mzi_007.jpg"></a><table cellspacing="0"><tbody><tr><th class="eLabel">Album </th><td><a class="keyword">Wait for Me</a></td></tr><tr><th class="eLabel">Artist </th><td><a class="keyword">Moby</a></td></tr><tr><td class="c-rights" colspan="2">©
+(C) 2009 Little Idiot. All rights reserved. Unauthorized reproduction
+is a violation of applicable laws. Manufactured by Mute Corporation US,</td></tr></tbody></table><div class="clear"></div></div><div class="entry"><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewAlbum?id=320261838&amp;s=143441&amp;uo=1&amp;v0=9991" class="coverart"><img src="itube_files/mzi_002.jpg"></a><table cellspacing="0"><tbody><tr><th class="eLabel">Album </th><td><a class="keyword">Killswitch Engage (Special Edition)</a></td></tr><tr><th class="eLabel">Artist </th><td><a class="keyword">Killswitch Engage</a></td></tr><tr><td class="c-rights" colspan="2">©
+2009 The All Blacks B.V. Issued under license to Roadrunner Records
+from The All Blacks B.V. Roadrunner Records is a registered trademark
+of The All Blacks B.V.</td></tr></tbody></table><div class="clear"></div></div></div></div>
+			<div id="itunes-navi">
+				<div style="height: 482px;" id="itunes-navi-list"><div style="width: 144px; top: auto; position: static;" class="itunes-navi-list-category-wrap"><a title="トップアルバム" class="itunes-navi-list-category-tgl current">Top Albums</a><ul style="height: 339px; display: block;" class="itunes-navi-list-genre-list"><li><a class="genre current">All</a></li><li><a class="genre">Blues</a></li><li><a class="genre">Country</a></li><li><a class="genre">Electronic</a></li><li><a class="genre">Folk</a></li><li><a class="genre">Jazz</a></li><li><a class="genre">New Age</a></li><li><a class="genre">Pop</a></li><li><a class="genre">R&amp;B/Soul</a></li><li><a class="genre">Dance</a></li><li><a class="genre">HipHop/Rap</a></li><li><a class="genre">World</a></li><li><a class="genre">Rock</a></li><li><a class="genre">Vocal</a></li><li><a class="genre">Reggae</a></li><li><a class="genre">J-Pop</a></li></ul></div><div style="width: 144px; top: 372px; position: absolute;" class="itunes-navi-list-category-wrap"><a title="トップソング" class="itunes-navi-list-category-tgl">Top Songs</a><ul style="height: 339px; display: none;" class="itunes-navi-list-genre-list"><li><a class="genre">All</a></li><li><a class="genre">Blues</a></li><li><a class="genre">Country</a></li><li><a class="genre">Electronic</a></li><li><a class="genre">Folk</a></li><li><a class="genre">Jazz</a></li><li><a class="genre">New Age</a></li><li><a class="genre">Pop</a></li><li><a class="genre">R&amp;B/Soul</a></li><li><a class="genre">Dance</a></li><li><a class="genre">HipHop/Rap</a></li><li><a class="genre">World</a></li><li><a class="genre">Rock</a></li><li><a class="genre">Vocal</a></li><li><a class="genre">Reggae</a></li><li><a class="genre">J-Pop</a></li></ul></div><div style="width: 144px; top: 400px; position: absolute;" class="itunes-navi-list-category-wrap"><a title="最新リリース" class="itunes-navi-list-category-tgl">New Releases</a><ul style="height: 339px; display: none;" class="itunes-navi-list-genre-list"><li><a class="genre">All</a></li><li><a class="genre">Blues</a></li><li><a class="genre">Country</a></li><li><a class="genre">Electronic</a></li><li><a class="genre">Folk</a></li><li><a class="genre">Jazz</a></li><li><a class="genre">New Age</a></li><li><a class="genre">Pop</a></li><li><a class="genre">R&amp;B/Soul</a></li><li><a class="genre">Dance</a></li><li><a class="genre">HipHop/Rap</a></li><li><a class="genre">World</a></li><li><a class="genre">Rock</a></li><li><a class="genre">Vocal</a></li><li><a class="genre">Reggae</a></li><li><a class="genre">J-Pop</a></li></ul></div><div style="width: 144px; top: 428px; position: absolute;" class="itunes-navi-list-category-wrap"><a title="新規追加" class="itunes-navi-list-category-tgl">Just Added</a><ul style="height: 339px; display: none;" class="itunes-navi-list-genre-list"><li><a class="genre">All</a></li><li><a class="genre">Blues</a></li><li><a class="genre">Country</a></li><li><a class="genre">Electronic</a></li><li><a class="genre">Folk</a></li><li><a class="genre">Jazz</a></li><li><a class="genre">New Age</a></li><li><a class="genre">Pop</a></li><li><a class="genre">R&amp;B/Soul</a></li><li><a class="genre">Dance</a></li><li><a class="genre">HipHop/Rap</a></li><li><a class="genre">World</a></li><li><a class="genre">Rock</a></li><li><a class="genre">Vocal</a></li><li><a class="genre">Reggae</a></li><li><a class="genre">J-Pop</a></li></ul></div><div style="width: 144px; top: 456px; position: absolute;" class="itunes-navi-list-category-wrap"><a title="特集 &amp; 限定" class="itunes-navi-list-category-tgl">Featured Albums</a><ul style="height: 339px; display: none;" class="itunes-navi-list-genre-list"><li><a class="genre">All</a></li><li><a class="genre">Blues</a></li><li><a class="genre">Country</a></li><li><a class="genre">Electronic</a></li><li><a class="genre">Folk</a></li><li><a class="genre">Jazz</a></li><li><a class="genre">New Age</a></li><li><a class="genre">Pop</a></li><li><a class="genre">R&amp;B/Soul</a></li><li><a class="genre">Dance</a></li><li><a class="genre">HipHop/Rap</a></li><li><a class="genre">World</a></li><li><a class="genre">Rock</a></li><li><a class="genre">Vocal</a></li><li><a class="genre">Reggae</a></li><li><a class="genre">J-Pop</a></li></ul></div></div>
+				<div id="itunes-navi-border"></div>
+				<div id="itunes-navi-option">
+					<table><tbody>
+						<tr><td id="itunes-navi-option-title" colspan="2">Option</td></tr>
+						<tr>
+							<th class="label">Count:</th>
+							<td><select id="itunes-entry-count" class="op-select" title="ランキング表示数">
+								<option value="5" class="entry-count-item">5</option>
+								<option value="8" class="entry-count-item" selected="selected">8</option>
+								<option value="10" class="entry-count-item">10</option>
+								<option value="20" class="entry-count-item">20</option>
+								<option value="30" class="entry-count-item">30</option>
+								<option value="50" class="entry-count-item">50</option>
+								<option value="100" class="entry-count-item">100</option>
+							</select></td>
+						</tr>
+						<tr>
+							<th class="label">County:</th>
+							<td><select id="itunes-country" class="op-select" title="国の指定"><option class="county-item value=" 143441="">usa</option><option class="county-item value=" 143442="">france</option><option class="county-item value=" 143443="">germany</option><option class="county-item value=" 143444="">uk</option><option class="county-item value=" 143450="">italy</option><option class="county-item value=" 143455="">canada</option><option class="county-item value=" 143460="">australia</option><option selected="selected" class="county-item value=" 143462="">japan</option></select></td>
+						</tr>
+					</tbody></table>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="clear dummy"></div>
+	
+	</div><!-- outer-wrap1 End -->
+	</div><!-- outer-wrap0 End -->
+	
+	<div class="line-outer"><div class="line-inner"></div></div>
+	<div id="footer-wrap">
+		<a href="http://www.youtube.com/" style="margin: 20px; float: right;"><img src="itube_files/badge2.gif" alt="YouTube"></a>
+		<div id="footer"><br>
+			<div><span>-| <a href="http://humming-bird.appspot.com/">Home</a> | <a href="http://yas-hummingbird.blogspot.com/">Blog</a> | <a href="http://sites.google.com/site/2k8hummingbird/">Garage</a> | <a href="http://code.google.com/p/humming-bird/">Misc</a> |-</span></div>
+			<small id="footer-page-title" title="page title">iTube β ver. 1.0</small><br>
+			<small>Last Modified:</small><small id="lastmod-date" title="last modified">2009/06/20</small><br>
+			<small>© <a href="http://yas-hummingbird.blogspot.com/2009/06/itunes-youtubeitube.html">humming bird</a>.</small>
+			<small title="author">author:y@s</small><br><br>
+		</div>
+	</div>
+</body></html>
