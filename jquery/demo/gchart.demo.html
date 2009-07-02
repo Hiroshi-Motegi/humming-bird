@@ -66,6 +66,24 @@ $.gChart.temperature = function(value, params){
 	}, params));
 }
 
+
+$.gChart.temperature2 = function(value, params){
+	var min = -25, max = 45;
+	return new $.gChart(this.merge({
+		cht:$.gChart.chartType.barVertical,
+		chd:$.gChart.textEncoding(value, min, max),
+		chs: '240x200',
+		chf:'c,lg,90,ffffff,1,ccccff,0',
+		chtt:'気温(℃)',
+		chco:'76A4FB',
+		chxt:'y',
+		chbh:'25,10',
+		chp:'0.357',
+		chm:'r,333333,0,0.213,0.214|r,0000ff,0,0.356,0.359|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
+		chxr:'0,' + min + ',' + max
+	}, params));
+}
+
 })(jQuery);
 
 
@@ -159,7 +177,12 @@ jQuery(function($){
 
 	$(document.body).append('<br><br>', $.gChart.temperature([23,22,19,18,16,11], {
 		chxt: 'y,x',
-		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|北海道'
+		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌'
+	}).image());
+	
+	$(document.body).append($.gChart.temperature2([12,11,9,8,-5,-9], {
+		chxt: 'y,x',
+		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌'
 	}).image());
 
 });
