@@ -11,7 +11,6 @@
  */
 
 (function($){
-
 $.gChart = function() {
 	this.initialize.apply(this, arguments);
 }
@@ -90,7 +89,7 @@ $.extend($.gChart,{
 	},
 	
 	
-	//@Param data:adjust target value (type:Array)
+	//@Param data:adjust value (type:Array)
 	//@Param min:Minimum value (type:int)
 	//@Param max:Maximum value (type:int)
 	//@Param gra:granularity (type:int)
@@ -168,9 +167,13 @@ $.extend($.gChart,{
 	},
 	// return type:Array
 	simpleDecoding: function(data){
-		var ret = [], d = /^s:.+$/.test(data) ? data.substr(2) : data;
-		for( var i = 0, j = d.length; i < j ; i++ )
-			ret.push(this.simpleDecode(d.substr(i,1)));
+		var ret = [];
+		
+		if(/^s:.*$/.test(data))
+			data = data.substr(2);
+		
+		for( var i = 0, j = data.length; i < j ; i++ )
+			ret.push(this.simpleDecode(data.substr(i,1)));
 		
 		return ret;
 	},
@@ -180,18 +183,21 @@ $.extend($.gChart,{
 	//拡張エンコード文字から数値に変換
 	extendedDecode: function(v){
 		var re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v);
-
+		
 		if (re)
 			return extendedChrs.search(re[1] == '.' ? '\\.' : re[1]) * 64 + extendedChrs.search(re[2] == '.' ? '\\.' : re[2]);
-
+		
 		return null;
 	},
 	// return type:Array
 	extendedDecoding: function(data){
-		var ret = [], d = /^e:.+$/.test(data) ? data.substr(2) : data;
+		var ret = [];
+
+		if(/^e:.*$/.test(data))
+			data = data.substr(2);
 		
-		for( var i = 0, j = d.length; i < j ; i += 2 )
-			ret.push(this.extendedDecode(d.substr(i, 2)));
+		for( var i = 0, j = data.length; i < j ; i+=2 )
+			ret.push(this.extendedDecode(data.substr(i,2)));
 		
 		return ret;
 	},

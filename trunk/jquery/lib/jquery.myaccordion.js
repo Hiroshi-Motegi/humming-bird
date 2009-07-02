@@ -14,23 +14,19 @@
 $.extend({
 myAccordion: function(options, callback){
 
-	var op = $.extend({
+	var opt = $.extend({
 		duration: 300,
 		wrap: '#acc-wrap', // wrapper selector
 		tgl: '.acc-tgl', // toggle selector
-		cont: '.acc-cont' //content selector
+		cont: '.acc-cont', //content selector
+		dataKey: 'accordion'
 	}, options),
 	
-	dataKey = 'accordion',
-	$tgls = $(op.tgl),
-	$conts = $(op.cont);
-	
-	function isAnimated(){
-		return $conts.is(':animated');
-	}
+	$tgls = $( opt.tgl ),
+	$conts = $( opt.cont );
 	
 	$conts.sameHeight().hide().filter(':first').show();
-	$(op.wrap).css('position','relative').height(($tgls.outerHeight() * $tgls.length) + $conts.outerHeight());
+	$(opt.wrap).css('position','relative').height(($tgls.outerHeight() * $tgls.length) + $conts.outerHeight());
 
 	$tgls
 		.css({left:0,width:$tgls.width()})
@@ -47,12 +43,12 @@ myAccordion: function(options, callback){
 			$notThis = $tgls.not($t),
 			$nxts = $tgls.filter(':gt(' + indx + ')');
 			
-			$.data(elm, dataKey, function(){
-				if ($c.is(':hidden') && !isAnimated()) {
+			$.data(elm, opt.dataKey, function(){
+				if ($c.is(':hidden') && !$conts.is(':animated')) {
 					$t.addClass('current');
 					$sttcsTgt.setStatic();
-					$conts.filter(':visible').slideUp(op.duration);
-					$c.slideDown(op.duration, function(){
+					$conts.filter(':visible').slideUp(opt.duration);
+					$c.slideDown(opt.duration, function(){
 						$notThis.removeClass('current');
 						$nxts.setAbsolute();
 					});
@@ -60,14 +56,15 @@ myAccordion: function(options, callback){
 			});
 			
 		}).click(function(e){
-			$.data(e.target, dataKey).call(e.target);
+			$.data(e.target, opt.dataKey).call(e.target);
 			return false;
 		})
 		.eq(0).setStatic().addClass('current')
 		.end().not(':first').setAbsolute();
 
-	if ($.isFunction(callback)) 
-		callback.call(this);
+	callback = $.isFunction(options) ? options : callback || function(){};
+	callback.call(this);
+
 }});
 
 

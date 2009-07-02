@@ -121,8 +121,7 @@ jQuery(function($){
 	
 	var extendedChart = new $.gChart({
 		cht:$.gChart.chartType.sparkline,
-		chd:$.gChart.extendedEncoding(
-			$.gChart.adjust(value, 0, max, $.gChart.granularity.extended)),
+		chd:$.gChart.extendedEncoding($.gChart.adjust(value, 0, max, $.gChart.granularity.extended)),
 		chs: '400x200',
 		chtt:'拡張エンコード',
 		chxt:'y',
@@ -184,6 +183,9 @@ jQuery(function($){
 		chxt: 'y,x',
 		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌'
 	}).image());
+	
+	
+	var dr = $.gChart.extendedDecode('Ak');
 
 });
 
