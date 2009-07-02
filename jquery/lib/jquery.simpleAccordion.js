@@ -6,7 +6,7 @@
  * Author:y@s
  * Version:1.0
  * Published:2009-06-28
- * Update:2009-06-28
+ * Update:2009-07-02
  * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/simpleAccordion.html
  */
 
@@ -18,15 +18,17 @@ $.simpleAccordion = function( options ) {
 		cont:'.acc-cont',
 		duration:300,
 		dataKey:'acc'
-	},options),
+	}, options),
 	
 	$tgls = $( opt.tgl ),
 	$conts = $( opt.cont );
 	
-	$tgls.eq(0).addClass('current');
-	$conts.hide().filter(':first').show();
+	$conts.each(function(){
+		$(this).height($(this).height());
+	}).hide().eq(0).show();
 	
-	$tgls.each(function(indx, elm){
+	$tgls.eq(0).addClass('current')
+	.end().each(function(indx, elm){
 		
 		var
 		$t = $(elm),
@@ -37,7 +39,7 @@ $.simpleAccordion = function( options ) {
 			if ($c.is(':hidden') && !$conts.is(':animated')) {
 				$t.addClass('current');
 				$conts.filter(':visible').slideUp(opt.duration, function(){
-					$notThis.filter('.current').removeClass('current');
+					$notThis.removeClass('current');
 				});
 				$c.slideDown(opt.duration);
 			}
