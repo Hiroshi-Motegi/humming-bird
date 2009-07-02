@@ -123,7 +123,7 @@ $.showContent = function(callback){
 
 
 $.accordion = function( options ) {
-	var opt = jQuery.extend({
+	var opt = $.extend({
 		tglSelector:$.my.slctr.tabListTgl,
 		contSelector:$.my.slctr.pattrnCont,
 		duration:250
@@ -143,10 +143,14 @@ $.accordion = function( options ) {
 			$conts.filter(':visible').slideUp(opt.duration);
 			$tgls.filter('.current').removeClass('current');
 			$c.slideDown(opt.duration);
-			$t.addClass('current');
-			$t.blur();
+			$t.addClass('current').blur();
 		}
 		return false;
+	});
+	
+	var $tglSpan = $($.my.slctr.tabListTglspan);
+	$tglSpan.click(function(e){
+		$tgls.eq($tglSpan.index(e.target)).trigger('click');
 	});
 	
 	//高さの調整
@@ -155,9 +159,10 @@ $.accordion = function( options ) {
 
 $.arrangeHeight = function(){
 	var h = $($.my.slctr.tabList).height();
-	if ($.browser.msie && $.browser.version <= 6) {
+	
+	if ($.browser.msie && $.browser.version < 7)
 		h += parseInt($($.my.slctr.tabList).css('margin-bottom').match(/\d+/));
-	}
+	
 	$($.my.slctr.pattrnCont).each(function(){
 		if( $(this).height() < h )
 			$(this).height(h);
@@ -205,6 +210,7 @@ $.extend($.my.slctr,{
 	lbl: 'label.exec-order-label',
 	tabList: '#tab-list',
 	tabListTgl: '#tab-list li.tab a',
+	tabListTglspan: '#tab-list li.tab a span.ja',
 	pattrnContWrap: '#content-right-wrap',
 	pattrnCont:'#content-right-wrap .cont',
 	pattern:'a.pattern',
@@ -230,13 +236,11 @@ jQuery(function($){
 	
 	$.setTitle('Javascript Regular Expressions Pattern Check β', '1.3');
 	
-	if($.browser.msie){
-		if ($.browser.version > 6) {
-			$('textarea').attr('rows', '7');
-		}else{
-			$('textarea').attr('rows', '10').height('110px');
-		}
+	if($.browser.msie && $.browser.version < 7){
+		$('textarea').attr('rows', '9').height('90px');
 	}
+	
+	
 	/* json.jsは拡張子をjsonにしてMimeTypeをapplication/json にすべきか? */
 });
 

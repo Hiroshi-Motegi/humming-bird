@@ -168,6 +168,14 @@ textarea,input.txt{
 	vertical-align: middle;
 }
 
+#input-table td.input-wrap,
+#input-table td.input-wrap #txt-replace,
+#input-table td.input-wrap #txt-pattern{
+	height:20px;
+	line-height:20px;
+}
+
+
 /* -=-=-=-=- bottom-content -=-=-=-=-=- */
 #bottom-content{
 	background-color:#333;
@@ -202,11 +210,16 @@ textarea,input.txt{
 #tab-list li.tab a{
 	padding-left:10px;
 	display:block;
-	height:28px;
-	line-height:28px;
 	background-color:#2a2a2a;
 	border: 1px solid #222;
 }
+#tab-list li.tab a,
+#tab-list li.tab a span.ja{
+	height:28px;
+	line-height:28px;
+	overflow:hidden;
+}
+#tab-list li.tab a span.ja{font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' }
 #tab-list li.tab a.current{
 	border-right-width: 0;
 }
@@ -226,7 +239,7 @@ textarea,input.txt{
 }
 
 #content-right-wrap .cont{
-	color:#999;
+	color:#aaa;
 	margin:20px;
 }
 
