@@ -39,6 +39,7 @@ gChart.prototype = {
 (function (o){for (var i in o){gChart[i] = o[i]}})($.gChart);
 */
 
+(function($){
 
 $.gChart.pie3D = function(options){
 	return ( new $.gChart(this.merge({
@@ -55,15 +56,19 @@ $.gChart.temperature = function(value, params){
 		cht:$.gChart.chartType.barVertical,
 		chd:$.gChart.textEncoding(value, min, max),
 		chs: '240x200',
+		chf:'c,lg,90,ffffff,1,ccccff,0',
 		chtt:'気温(℃)',
-		chf:'bg,s,ffffff|c,s,eeeeff',
-		chco:'99ccff',
+		chco:'76A4FB',
 		chxt:'y',
 		chbh:'25,10',
-		chm:'r,333333,0,0.213,0.214|r,ff0000,0,0.356,0.359|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
+		chm:'r,333333,0,0.213,0.214|r,0000ff,0,0.356,0.359|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
 		chxr:'0,' + min + ',' + max
 	}, params));
 }
+
+})(jQuery);
+
+
 
 
 
@@ -78,23 +83,9 @@ jQuery(function($){
 		value.push(2000 + Math.floor(Math.random()*7000));
 	}
 	
-	var chart = new $.gChart({
-		cht:$.gChart.chartType.sparkline,
-		chd:$.gChart.extendedEncoding(
-			$.gChart.adjust(value, 0, max, $.gChart.granularity.extended)),
-		chs: '400x200',
-		chtt:'拡張エンコード',
-		chxt:'y',
-		chbh:'40,10',
-		chg:'0,10,1,2',
-		chxr:'0,0,' + max
-	});
-	
-	$(document.body).append($('<img>').attr('src', chart.src()));
 	
 	
-	
-	var chart = new $.gChart({
+	var simpleChart = new $.gChart({
 		cht:$.gChart.chartType.sparkline,
 		chd:$.gChart.simpleEncoding(
 			$.gChart.adjust(value, 0, max, $.gChart.granularity.simple)),
@@ -106,8 +97,23 @@ jQuery(function($){
 		chxr:'0,0,' + max
 	});
 	
-	$(document.body).append($('<img>').attr('src', chart.src()));
+	$(document.body).append($('<img>').attr('src', simpleChart.src()));
 	
+	
+	
+	var extendedChart = new $.gChart({
+		cht:$.gChart.chartType.sparkline,
+		chd:$.gChart.extendedEncoding(
+			$.gChart.adjust(value, 0, max, $.gChart.granularity.extended)),
+		chs: '400x200',
+		chtt:'拡張エンコード',
+		chxt:'y',
+		chbh:'40,10',
+		chg:'0,10,1,2',
+		chxr:'0,0,' + max
+	});
+	
+	$(document.body).append($('<img>').css('margin-left','20px').attr('src', extendedChart.src()));
 	
 	
 	
@@ -142,6 +148,7 @@ jQuery(function($){
 	$(document.body).append('<br><br>', $.gChart.pie3D({
 		chd:bsData,
 		chl:label,
+		chco: '99cc00|cc6699',
 		chs: '350x125',
 		chtt:'Browser Share:May 2009'
 		}));
