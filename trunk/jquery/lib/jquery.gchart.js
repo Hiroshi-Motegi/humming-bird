@@ -16,26 +16,25 @@ $.gChart = function() {
 }
 
 $.gChart.prototype = {
-	initialize:function(options){
-		this.params = $.gChart.merge(this.defaults, options);
+	initialize: function(options){
+		this.params = $.gChart.merge($.gChart.defaults, options || {});
 	},
 	src: function(options){
-		
+	
 		function toQueryString(o){
 			var ret = [];
-			for(var i in o){
-				if(o.hasOwnProperty( i ))
-					ret.push( i + '=' + encodeURIComponent(o[i]) );
+			for (var i in o) {
+				if (o.hasOwnProperty(i)) 
+					ret.push(i + '=' + encodeURIComponent(o[i]));
 			}
 			return ret.join('&');
 		}
 		
-		return 'http://chart.apis.google.com/chart?' + toQueryString($.gChart.merge(this.params, options));
+		return 'http://chart.apis.google.com/chart?' + toQueryString($.gChart.merge(this.params, options || {}));
+		
 	},
-	image:function(options){
-		var img = new Image();
-		img.src = this.src(options);
-		return img;
+	image: function(options){
+		return $(new Image()).attr('src', this.src(options));
 	}
 };
 
@@ -83,50 +82,57 @@ $.extend($.gChart,{
 	
 	//テキストエンコードの範囲は 0 (0.0) から 100 (100.0)
 	//0 ~ 100の範囲に収まるように数値を調整する
-	//@Param arr - type:Array(int)
-	textEncoding: function(data, min, max){	
-		return  't:' + this.adjust(data, min, max, 100).join(',');
+	//@Param - arr: type Array(int)
+	textEncoding: function(data){
+		var ret = [];
+		for (var i = 0, len = data.length; i < len; i++)
+			ret.push(Math.round(data[i] * 100) / 100);	
+		
+		return  't:' + ret.join(',');
 	},
 	
 	
-	//@Param data:adjust value (type:Array)
-	//@Param min:Minimum value (type:int)
-	//@Param max:Maximum value (type:int)
-	//@Param gra:granularity (type:int)
-	adjust: function(data, min, max, gra){
-		
+	//@Param - data: adjust value (type:Array)
+	//@Param - min: Minimum value (type:int)
+	//@Param - max: Maximum value (type:int)
+	//@Param - gra: granularity (type:int)
+	scaling: function(data, min, max, gra){
+	
 		var x, ret = [], len = data.length;
 		
 		min = min || 0;
 		max = max || 0;
 		gra = gra || 100;
 		
-		for ( var i = 0; i < len ; i++ ) {
+		for (var i = 0; i < len; i++) {
 			min = Math.min(min, data[i]);
 			max = Math.max(max, data[i]);
 		}
 		
-		min = Math.abs(min);
+		min *= -1;
 		
 		x = (max + min) / gra;
 		
 		for (var i = 0; i < len; i++)
-			ret.push(Math.min((data[i] + min)/x, gra));
+			ret.push(Math.round(Math.max(Math.min((data[i] + min) / x, gra), 0) * 100) / 100);
 		
 		return ret;
 	},
 	
 
 	//簡易エンコード(Simple Encode)
-	// 数値から簡易エンコード文字に変換
+	//数値から簡易エンコード文字に変換
+	//@Param - data type:int(0 - 61)
+	//@return - Simple Encoded Value
 	simpleEncode: function(data){
 		return data < 0 ? '_' : simpleChrs.substr(data,1) || '_';
 	},
-	//@Param data - type:Array(int:0 - 61)
+	//@Param - data: type Array(int:0 - 61)
+	//@return - Array of Simple Encoded Value
 	simpleEncoding: function(data){
 		var ret = 's:';
-		for (var i = 0, j = data.length; i < j; i++)
-			ret += this.simpleEncode(parseInt(data[i]));
+		for (var i = 0, j = data.length; i < j; i++) 
+			ret += this.simpleEncode(Math.max(Math.min(Math.round(data[i]), 61), 0));
 		
 		return ret;
 	},
@@ -134,27 +140,29 @@ $.extend($.gChart,{
 	
 	//拡張エンコード(Extended Encode)
 	//数値から拡張エンコード文字に変換
+	//@Param - data: type int(0 - 4095)
+	//@return - Extended Encoded Value
 	extendedEncode: function(data){
 		return data < 0 ? '__' : this.extendedEncodWords[data] || '__';
 	},
-	//@Param data - type:Array(int:0 - 4095)
+	//@Param - data: type Array(int:0 - 4095)
+	//@return - Array of Extended Encoded Value
 	extendedEncoding: function(data){
 		var ret = 'e:';
-		for (var i = 0, j = data.length; i < j; i++)
-			ret += this.extendedEncode(parseInt(data[i]));
+		for (var i = 0, j = data.length; i < j; i++) 
+			ret += this.extendedEncode(Math.max(Math.min(Math.round(data[i]), 4095), 0));
 		
 		return ret;
 	},
+	//@Value - type:Array(AA - ..)
 	extendedEncodWords: (function(){
-		var
-		chrs = extendedChrs.split(''),
-		len = chrs.length,
-		ret = [];
-	
-		for (var i = 0; i < len ; i++) {
-			for (var k = 0; k < len ; k++) 
+		var chrs = extendedChrs.split(''), ret = [];
+		
+		for (var i = 0, len = chrs.length; i < len; i++) {
+			for (var k = 0; k < len; k++) 
 				ret.push(chrs[i] + chrs[k]);
 		}
+		
 		return ret;
 	})(),
 	
@@ -165,7 +173,7 @@ $.extend($.gChart,{
 	simpleDecode: function(v){
 		return /[A-Za-z\d]/.test(v) ? simpleChrs.search(v) : null;
 	},
-	// return type:Array
+	//@return - type:Array
 	simpleDecoding: function(data){
 		var ret = [];
 		
@@ -189,7 +197,7 @@ $.extend($.gChart,{
 		
 		return null;
 	},
-	// return type:Array
+	//@return - type Array
 	extendedDecoding: function(data){
 		var ret = [];
 
@@ -203,6 +211,10 @@ $.extend($.gChart,{
 	},
 	
 	
+	
+	/* Cheat sheet 代わりに */
+	
+	//粒度
 	granularity:{
 		simple:61,
 		extended:4095,
@@ -210,7 +222,7 @@ $.extend($.gChart,{
 	},
 	
 	//cht - チャート タイプ(chart type)
-	//example - 『cht=<chart type>』
+	//ex : cht=<chart type>
 	chartType: {
 		line: 'lc', //折れ線グラフ
 		lineXY: 'lxy', //折れ線グラフ
@@ -231,20 +243,30 @@ $.extend($.gChart,{
 	},
 	
 	//chm - 図形マーカー / 範囲マーカー(marker type)
+	//ex : chm=<marker type>
 	markerType: {
 		arrow: 'a', // 矢印
 		circle: 'o', // 円
 		cross: 'c', // 十字
 		diamond: 'd', // ひし形
 		lLine: 'h', // チャートを横断する水平線
-		marker: 'r', // 範囲マーカー r or R
+		marker: 'r', // 範囲マーカー
+		markerR: 'R', // 範囲マーカー
 		square: 's', // 四角
 		vLine: 'v', // x 軸からデータ ポイントまでの垂直線
 		vLineTop: 'V', // チャート上端までの垂直線
 		x: 'x' // 図形
 	},
 	
+	//[chxt] - 軸ラベル表示指定
+	label:{
+	bottom:'x', // 下部の x 軸
+	left:'y', // 左側の y 軸
+	right:'r', // 右側の y 軸
+	top:'t' // 上部の x 軸
+	},
 	
+	//[chf] - 塗りつぶし(fill)
 	fillTarget:{
 		background:'bg',
 		chartArea:'c',
