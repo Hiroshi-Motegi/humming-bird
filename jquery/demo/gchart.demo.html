@@ -5,82 +5,110 @@
 		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 		<title>jQuery plugin - gChart Demo</title>
+		<link rel="stylesheet" type="text/css" href="../../prettify/prettify.css" media="screen" charset="utf-8"/>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 		<script src="../lib/jquery.gchart.js" type="text/javascript"></script>
+		<script src="../../prettify/prettify.js" type="text/javascript"></script>
 <script type="text/javascript">
-/*
-function gChart (){
-	this.initialize.apply(this, arguments);
-}
-gChart.prototype = {
-	initialize: function(options){
-		this.params = gChart.merge(gChart.defaults, options);
-	},
-	get: function(){
-		return 'http://chart.apis.google.com/chart?' +
-		(function(o){
-			var x = [];
-			for (var i in o) {
-				if (o.hasOwnProperty(i)) 
-					x.push(i + '=' + o[i]);
-			}
-			return x.join('&')
-		})(this.params);
-	},
-	// Maximum 300,000 pixels
-	size: function(w, h){
-		if (arguments.length == 0) 
-			return this.params.chs;
-
-		this.params.chs = w + 'x' + h;
-	}
-};
-
-(function (o){for (var i in o){gChart[i] = o[i]}})($.gChart);
-*/
 
 (function($){
 
 $.gChart.pie3D = function(options){
-	return ( new $.gChart(this.merge({
+	return (new $.gChart(this.merge({
 		cht: this.chartType.pie3D,
-		chs: '200x200',
-		chco: 'ff0000'
-	}, options)) ).image();
+		chs: '300x200',
+		chco: 'ff69b4'
+	}, options))).image();
 }
 
 
 $.gChart.temperature = function(value, params){
-	var min = -25, max = 45;
+	var min = -25, max = 45,_chm = [];
+	
+	for(var i = 0; i < value.length;i++){
+		_chm.push('t' + value[i] +',333333,0,' + i + ',13,1');
+	}
+	
 	return new $.gChart(this.merge({
 		cht:$.gChart.chartType.barVertical,
-		chd:$.gChart.textEncoding(value, min, max),
+		chd:$.gChart.extendedEncoding(
+			$.gChart.scaling(value,min,max,4095)),
 		chs: '240x200',
 		chf:'c,lg,90,ffffff,1,ccccff,0',
 		chtt:'気温(℃)',
 		chco:'76A4FB',
-		chxt:'y',
+		chxt: 'y,x',
 		chbh:'25,10',
-		chm:'r,333333,0,0.213,0.214|r,0000ff,0,0.356,0.359|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
-		chxr:'0,' + min + ',' + max
+		chxr:[0, min, max].join(','),
+		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌',
+		chm:_chm.join('|') + '|r,0000ff,0,0.356,0.359'
 	}, params));
 }
 
 
 $.gChart.temperature2 = function(value, params){
 	var min = -25, max = 45;
+	
 	return new $.gChart(this.merge({
-		cht:$.gChart.chartType.barVertical,
-		chd:$.gChart.textEncoding(value, min, max),
+		cht: $.gChart.chartType.barVertical,
+		chd: $.gChart.textEncoding(value),
 		chs: '240x200',
-		chf:'c,lg,90,ffffff,1,ccccff,0',
-		chtt:'気温(℃)',
-		chco:'76A4FB',
-		chxt:'y',
-		chbh:'25,10',
-		chp:'0.357',
-		chm:'r,333333,0,0.213,0.214|r,0000ff,0,0.356,0.359|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
-		chxr:'0,' + min + ',' + max
+		chf: 'c,lg,90,ffffff,1,ccccff,0',
+		chtt: '気温(℃)',
+		chco: '6495ed',
+		chxt: 'y,x',
+		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌',
+		chxs:'0,8b0000,10',
+		chds: [min, max].join(','),
+		chbh: '25,10',
+		chp: '0.357',
+		chm: 'r,333333,0,0.213,0.214|r,0000ff,0,0.356,0.359|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
+		chxr: [0, min, max].join(',')
+	}, params));
+}
+
+
+
+
+$.gChart.system = function(system , params){
+	
+	var _left = [], _top = [];
+	for(var p in system){
+		_left.push(system[p].left);
+		_top.push(system[p].top);
+	}
+	
+	return new $.gChart(this.merge({
+		cht:'s',
+		chd:'t:' + _left.join(',') + '|' + _top.join(',') + '|100',
+		chtt:'System:4-4-2',
+		chm:'o,000000,0,0,12|h,000000,0,1,0.5|R,000000,0,0.997,0.999',
+		chco:'006400|00bfff|00bfff|00bfff|00bfff|ffd700|ffd700|ffd700|ffd700|c71585|c71585',
+		chf:'c,ls,90,228b22,0.1,2a982a,0.1',
+		chs: '200x200'
+	}, params));
+}
+
+
+
+$.gChart.member = function(members, params){
+	
+	var _left = [], _top = [], _member = ['tdummy,000000,0,0,11'], n = 0;
+	
+	for(var p in members){
+		_left.push(members[p].left);
+		_top.push(members[p].top);
+		_member.push('t' + members[p].name + ',000000,0,' + (n++) + ',11');
+	}
+	
+	return new $.gChart(this.merge({
+		cht:'s',
+		chd:'t:' + _left.join(',') + '|' + _top.join(',') + '|100',
+		chtt:'Real Madrid:Member',
+		chco:'228b22',
+		chf:'c,s,228b22',
+		chm:_member.join('|'),
+		chs: '200x200'
 	}, params));
 }
 
@@ -90,50 +118,47 @@ $.gChart.temperature2 = function(value, params){
 
 
 
-
-
 jQuery(function($){
 
-
-	var max = 10000, value = [];
+	var max = 0, min = 1000000, value = [];
 	
-	for(var i = 0 ; i < 100 ; i++){
-		value.push(2000 + Math.floor(Math.random()*7000));
+	for (var i = 0; i < 50; i++) {
+		value.push((Math.random() * 2000) - 1000);
+		max = Math.max(value[i], max);
+		min = Math.min(value[i], min);
+	}
+	
+	//min = Math.floor(min);
+	//max = Math.ceil(max);
+	min = -1000;
+	max = 1000;
+	
+	var
+	qTitles = ['Text Encode','Simple Encode','Extended Encode'],
+	qData = [
+		$.gChart.textEncoding(value),
+		$.gChart.simpleEncoding($.gChart.scaling(value, min, max, $.gChart.granularity.simple)),
+		$.gChart.extendedEncoding($.gChart.scaling(value, min, max, $.gChart.granularity.extended))
+	];
+	
+	for (var i = 0; i < 3; i++) {
+		$('#accuracy-of-data .chart-img').append((new $.gChart({
+			cht: $.gChart.chartType.sparkline,
+			chs: '400x200',
+			chd: qData[i],
+			chds: [min, max].join(','),
+			chxt: 'y',
+			chxr: [0, min, max].join(','),
+			chg: '0,10,1,2',
+			chtt: qTitles[i]
+		})).image(),'<br>');
 	}
 	
 	
 	
-	var simpleChart = new $.gChart({
-		cht:$.gChart.chartType.sparkline,
-		chd:$.gChart.simpleEncoding(
-			$.gChart.adjust(value, 0, max, $.gChart.granularity.simple)),
-		chs: '400x200',
-		chtt:'簡易エンコード',
-		chxt:'y',
-		chbh:'40,10',
-		chg:'0,10,1,2',
-		chxr:'0,0,' + max
-	});
-	
-	$(document.body).append($('<img>').attr('src', simpleChart.src()));
-	
-	
-	
-	var extendedChart = new $.gChart({
-		cht:$.gChart.chartType.sparkline,
-		chd:$.gChart.extendedEncoding($.gChart.adjust(value, 0, max, $.gChart.granularity.extended)),
-		chs: '400x200',
-		chtt:'拡張エンコード',
-		chxt:'y',
-		chbh:'40,10',
-		chg:'0,10,1,2',
-		chxr:'0,0,' + max
-	});
-	
-	$(document.body).append($('<img>').css('margin-left','20px').attr('src', extendedChart.src()));
-	
-	
-	
+
+
+	/* Browser Share Pie3D chart */
 	var bs = {
 		IE7:40.83,
 		Firefox3:20.43,
@@ -161,32 +186,64 @@ jQuery(function($){
 		return 't:' + ret.join(',');
 	})(bs);
 	
-	
-	$(document.body).append('<br><br>', $.gChart.pie3D({
+$('#browser-share .chart-img')
+	.append($.gChart.pie3D({
 		chd:bsData,
 		chl:label,
 		chco: '99cc00|cc6699',
 		chs: '350x125',
 		chtt:'Browser Share:May 2009'
-		}));
+}));
 
 
 
 
-
-	$(document.body).append('<br><br>', $.gChart.temperature([23,22,19,18,16,11], {
-		chxt: 'y,x',
-		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌'
-	}).image());
+	/* Temperature */
+	$('#temperature-templete .chart-img').append(
+		$.gChart.temperature([23,22,19,18,16,11]).image());
 	
-	$(document.body).append($.gChart.temperature2([12,11,9,8,-5,-9], {
-		chxt: 'y,x',
-		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌'
-	}).image());
+	$('#temperature-templete2 .chart-img').append(
+		$.gChart.temperature2([12,11,9,8,-5,-9]).image());
 	
 	
-	var dr = $.gChart.extendedDecode('Ak');
+	var system = {
+		s442A:{
+			'1':{ left:50, top:10 },
+			'2':{ left:35, top:25 },
+			'3':{ left:65, top:25 },
+			'4':{ left:15, top:35 },
+			'5':{ left:85, top:35 },
+			'6':{ left:35, top:50 },
+			'7':{ left:65, top:50 },
+			'8':{ left:20, top:65 },
+			'9':{ left:80, top:65 },
+			'10':{ left:35, top:90 },
+			'11':{ left:65, top:90 }
+		}
+	};
 
+	
+	$('#another-templete .chart-img').append($.gChart.system(system.s442A).image());
+	
+	
+	var members = {
+		'1':{ position:'GK', left:33, top:0, name:'カシージャス' },
+		'2':{ position:'CB', left:20, top:15, name:'アルビオル' },
+		'3':{ position:'CB', left:60, top:15, name:'ぺぺ' },
+		'4':{ position:'SB', left:0, top:30, name:'ドレンテ' },
+		'5':{ position:'SB', left:75, top:30, name:'S.ラモス' },
+		'6':{ position:'CH', left:18, top:45, name:'スナイデル' },
+		'7':{ position:'CH', left:55, top:45, name:'ディアッラ' },
+		'8':{ position:'SH', left:10, top:60, name:'カカ' },
+		'9':{ position:'SH', left:65, top:60, name:'C.ロナウド' },
+		'10':{ position:'FW', left:22, top:80, name:'ラウール' },
+		'11':{ position:'FW', left:50, top:80, name:'ベンゼマ' }
+	};
+	
+	$('#another-templete .chart-img').append($.gChart.member(members).image().css('margin-left','20px'));
+
+
+	prettyPrint();
 });
 
 
@@ -198,13 +255,13 @@ jQuery(function($){
 
 [cht] - チャート タイプ(chart type) ex:cht=<chart type>
 	lc,lxy:折れ線グラフ
-	ls:スパークライン
-	bhs,bhg,bvs,bvg,chbh:棒グラフ(bar chart type)
-	p,p3:円グラフ(pie chart type)
-	v:ベン図
-	s:散布図
-	r,rs:レーダー チャート
-	t:地図
+	ls:スパークライン(spark)
+	bhs,bhg,bvs,bvg:棒グラフ(bar)
+	p,p3:円グラフ(pie)
+	v:ベン図(venn)
+	s:散布図(scatter)
+	r,rs:レーダー チャート(radar)
+	t:地図(maps)
 		[chtm] africa,asia,europe,middle_east,south_america,usa,world
 	gom:Google-o-meter
 	qr:QRコード
@@ -221,44 +278,34 @@ jQuery(function($){
 	chs=<width in pixels>x<height in pixels>
 
 
+
+
 -- Option --
 [chco] - チャートの色
 	線、棒、ベン図、Google-o-meter、円グラフ
 
+
 [chm] - 塗りつぶし領域
-	b,<color>,<start line index>,<end line index>,<any value>
-	or
-	B,<color>,<start line index>,<end line index>,<any value>
-
-
-[chf] - 塗りつぶし
-	s:単色塗りつぶし
-	lg:線形グラデーション
-	ls:線形ストライプ
-	
-	bg:背景塗りつぶし
-	c:チャート領域塗りつぶし
-	a:チャート全体に透明度を適用
+	b or B,<color>,<start line index>,<end line index>,<any value>
 
 
 [chtt] - チャート タイトル
-	- [chts] - チャート タイトル スタイル Exsample:chts=<color>,<fontsize>
+	- [chts] - チャート タイトル スタイル Example:chts=<color>,<fontsize>
 
 [chdl] - 凡例
 
 [chl] - 円グラフと Google-o-meter のラベル
 
 
-[chxt] - 軸ラベル表示位置指定
-	x = 下部の x 軸
-	t = 上部の x 軸
-	y = 左側の y 軸
-	r = 右側の y 軸
-
 [chxl]] - 軸ラベル
 [chxp] - 軸ラベル位置
 [chxr] - 軸範囲
 [chxs] - 軸スタイル
+
+以下の3つはほぼ同じ指定
+//chxr:'0,0,100',
+//chxl:'0:|0|20|40|60|80|100',
+//chxp:'0,0,20,40,60,80,100',
 
 
 -- Style --
@@ -269,27 +316,206 @@ jQuery(function($){
 [chg] - グリッド線
 
 
-[chm] - 図形マーカーと範囲マーカー(marker type)
-	a:矢印
-	c:十字
-	d:ひし形
-	o:円
-	s:四角
-	t:テキスト
-	v: x 軸からデータ ポイントまでの垂直線
-	V:チャート上端までの垂直線
-	h:チャートを横断する水平線
-	x:図形
-	r,R:範囲マーカー
 */
 </script>
 <style type="text/css">
-body{font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,Verdana,Geneva,Arial,Helvetica,sans-serif}
-h1{font-size:32px}
+body{
+	margin: 0;
+	padding: 0;
+	font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,Verdana,Geneva,Arial,Helvetica,sans-serif;
+}
+h1{font-size:32px;margin-left:20px}
 img{border-width:0}
+p{line-height:1.4em}
+blockquote {	margin: 0;padding: 0}
+pre{margin: 0;padding: 0;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif}
+
+
+.wrap{
+	border-bottom:1px dotted #ccc;
+	margin:0 40px 40px;
+	padding-bottom:20px;
+}
+
+#temperature-templete .desc,
+#temperature-templete2 .desc{width: 400px}
+#temperature-templete .chart-img,
+#temperature-templete2 .chart-img{margin-left:450px}
+
+.desc {
+	float:left;
+	font-size:14px;
+    width: 300px;
+    background: #e3e3e3;
+    padding: 10px;
+    position: relative;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+.desc h4{
+	font-size:16px;
+	line-height:1.4em;
+	margin:0;
+}
+.arrow { 
+    width: 0;
+    height: 0;
+    line-height: 0;
+    border-top: 20px solid #e3e3e3; 
+    border-left: none; 
+    border-right: 20px solid white;
+	right: -20px;
+    position: absolute; 
+    bottom: 70%;
+}
+
+.desc .prettyprint{
+	background-color:transparent;
+	border-width:0px;
+	overflow:auto;
+}
+.chart-img{margin-left:350px}
+.clear{clear:both}
 </style>
 </head>
 <body>
 	<h1>jQuery plugin - gChart Demo</h1>
+
+<div id='accuracy-of-data' class='wrap'>
+<blockquote class="desc">
+<h4>グラフの精度とスケーリング</h4>
+<p>グラフの精度はデータの精度とデータ形式に依存しますが、ここではデータの精度は置いといて、Google Chartのデータ形式は3つあります。</p>
+<p>データスケーリングとは指定した範囲にデータが納まるように修正することです。</p>
+<p>独自にスケーリングする関数を作成し、簡易エンコードと拡張エンコードにもスケーリングを行ったチャートを並べて表示しています。</p>
+<p>正直な感想としては、若干簡易エンコードの精度が気になりますが、これぐらいの大きさであれば、殆ど違いはないように見えます。</p>
+<p>このような図はデータを直感的に把握することが目的なので、もしその程度の差を気にするようであれば、データ(数値)そのものを見て頂ければ良いというだけの話しでしょう。</p>
+<span class="arrow"></span>
+</blockquote>
+<div class='chart-img'></div>
+<div class='clear'></div>	
+</div>
+
+
+
+<div id="browser-share" class='wrap'>
+<blockquote class="desc">
+<h4>汎用的なテンプレート</h4>
+<pre class='prettyprint'>
+$.gChart.pie3D = function(options){
+&nbsp;&nbsp;return (new $.gChart(this.merge({
+&nbsp;&nbsp;&nbsp;&nbsp;cht: this.chartType.pie3D,
+&nbsp;&nbsp;&nbsp;&nbsp;chs: '200x200',
+&nbsp;&nbsp;&nbsp;&nbsp;chco: 'ff0000'
+&nbsp;&nbsp;}, options))).image();
+}</pre>
+<br>
+<h4>Usage</h4>
+<pre class='prettyprint'>
+$(document.body)
+&nbsp;&nbsp;.append($.gChart.pie3D({
+&nbsp;&nbsp;&nbsp;&nbsp;chd:bsData,
+&nbsp;&nbsp;&nbsp;&nbsp;chl:label,
+&nbsp;&nbsp;&nbsp;&nbsp;chco: '99cc00|cc6699',
+&nbsp;&nbsp;&nbsp;&nbsp;chs: '350x125',
+&nbsp;&nbsp;&nbsp;&nbsp;chtt:'Browser Share:May 2009'
+}));</pre>
+<span class="arrow"></span>
+</blockquote>
+<div class='chart-img'></div>
+<div class='clear'></div>
+</div>
+
+
+
+<div id='temperature-templete' class='wrap'>
+<blockquote class="desc">
+<h4>温度を表示する(1)</h4>
+<pre class='prettyprint'>
+$.gChart.temperature = function(value, params){
+&nbsp;&nbsp;var min = -25, max = 45,_chm = [];
+&nbsp;&nbsp;
+&nbsp;&nbsp;for(var i = 0; i &lt; value.length;i++){
+&nbsp;&nbsp;&nbsp;&nbsp;_chm.push('t' + value[i] +',333333,0,' + i + ',13,1');
+&nbsp;&nbsp;}
+&nbsp;&nbsp;
+&nbsp;&nbsp;return new $.gChart(this.merge({
+&nbsp;&nbsp;&nbsp;&nbsp;cht:$.gChart.chartType.barVertical,
+&nbsp;&nbsp;&nbsp;&nbsp;chd:$.gChart.extendedEncoding(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$.gChart.scaling(value,min,max,4095)),
+&nbsp;&nbsp;&nbsp;&nbsp;chs: '240x200',
+&nbsp;&nbsp;&nbsp;&nbsp;chf:'c,lg,90,ffffff,1,ccccff,0',
+&nbsp;&nbsp;&nbsp;&nbsp;chtt:'気温(℃)',
+&nbsp;&nbsp;&nbsp;&nbsp;chco:'76A4FB',
+&nbsp;&nbsp;&nbsp;&nbsp;chxt: 'y,x',
+&nbsp;&nbsp;&nbsp;&nbsp;chxr:[0, min, max].join(','),
+&nbsp;&nbsp;&nbsp;&nbsp;chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌',
+&nbsp;&nbsp;&nbsp;&nbsp;chbh:'25,10',
+&nbsp;&nbsp;&nbsp;&nbsp;chm:_chm.join('|') + '|r,0000ff,0,0.356,0.359'
+&nbsp;&nbsp;}, params));
+}</pre>
+<br>
+<h4>Usage</h4>
+<pre class='prettyprint'>
+var data = [23,22,19,18,16,11];
+$(document.body).append(
+&nbsp;&nbsp;$.gChart.temperature(data).image());
+</pre>
+<span class="arrow"></span>
+</blockquote>
+<div class='chart-img'></div>
+<div class='clear'></div>	
+</div>
+
+
+<div id='temperature-templete2' class='wrap'>
+<blockquote class="desc">
+<h4>温度を表示する(2)</h4>
+<pre class='prettyprint'>
+$.gChart.temperature2 = function(value, params){
+&nbsp;&nbsp;var min = -25, max = 45;
+&nbsp;&nbsp;
+&nbsp;&nbsp;return new $.gChart(this.merge({
+&nbsp;&nbsp;&nbsp;&nbsp;cht: $.gChart.chartType.barVertical,
+&nbsp;&nbsp;&nbsp;&nbsp;chd: $.gChart.textEncoding(value),
+&nbsp;&nbsp;&nbsp;&nbsp;chs: '240x200',
+&nbsp;&nbsp;&nbsp;&nbsp;chf: 'c,lg,90,ffffff,1,ccccff,0',
+&nbsp;&nbsp;&nbsp;&nbsp;chtt: '気温(℃)',
+&nbsp;&nbsp;&nbsp;&nbsp;chco: '76A4FB',
+&nbsp;&nbsp;&nbsp;&nbsp;chxt: 'y,x',
+&nbsp;&nbsp;&nbsp;&nbsp;chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌',
+&nbsp;&nbsp;&nbsp;&nbsp;chds: [min, max].join(','),
+&nbsp;&nbsp;&nbsp;&nbsp;chbh: '25,10',
+&nbsp;&nbsp;&nbsp;&nbsp;chp: '0.357',
+&nbsp;&nbsp;&nbsp;&nbsp;chm: 'r,333333,0,0.213,0.214|r,0000ff,0,0.356,0.359|r,333333,0,0.499,0.500|r,333333,0,0.640,0.641|r,333333,0,0.786,0.787',
+&nbsp;&nbsp;&nbsp;&nbsp;chxr: [0, min, max].join(',')
+&nbsp;&nbsp;}, params));
+}
+</pre>
+<br>
+<h4>Usage</h4>
+<pre class='prettyprint'>
+var data = [12,11,9,8,-5,-9];
+$(document.body).append(
+&nbsp;&nbsp;$.gChart.temperature2(data).image());
+</pre>
+<span class="arrow"></span>
+</blockquote>
+<div class='chart-img'></div>
+<div class='clear'></div>	
+</div>
+
+
+<div id='another-templete' class='wrap'>
+<blockquote class="desc">
+<h4>ちょっと変わった使い方</h4>
+<p>単なるデモンストレーションですが、こんな使い方も可能、といった程度のものです。</p>
+<p>一つはサッカーのシステムを表現してみました。</p>
+<p>もう一つはスターティングメンバーを表示してみたのですが、これはあまりお奨めできませんね。<br />
+単なるテキストで表現するぐらいならこれを利用した方が良いかもしれませんが、その都度微調整が必要なので実用性はないです。</p>
+<span class="arrow"></span>
+</blockquote>
+<div class='chart-img'></div>
+<div class='clear'></div>	
+</div>
 </body>
 </html>

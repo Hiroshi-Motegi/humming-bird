@@ -33,10 +33,10 @@ $.extend({
 		var
 		args = Array.prototype.slice.call(arguments),
 		len = args.length,
-		ret = {},
+		ret = args[0],
 		itm;
 		
-		for( var i = 0; i < len ; i++ ){
+		for( var i = 1; i < len ; i++ ){
 			var arg = args[i];
 			for (itm in arg) {
 				if (arg.hasOwnProperty(itm))
