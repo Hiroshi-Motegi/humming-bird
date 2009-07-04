@@ -36,6 +36,7 @@ $.extend({
 			duration: 250, // animate speed
 			easing: 'swing', // animate easing
 			effect: 'captionDown', // default slide animate
+			
 			//caption element styles
 			color: '#FF6600', // text color
 			fontSize: '14px',
@@ -163,7 +164,7 @@ $.extend({
 	
 	//get my feed. using for recent posts.
 	getMyFeed: function(options, domain, order, callback){
-		var data = $.extend({
+		var opt = $.extend({
 			'max-results': 10,
 			'redirect': false,
 			'alt': 'json-in-script'
@@ -171,7 +172,7 @@ $.extend({
 		
 		$.ajax({
 			dataType: 'jsonp',
-			data: data,
+			data: opt,
 			cache: true,
 			url: 'http://' + encodeURIComponent(domain) + '.blogspot.com/feeds/' + order + '/default',
 			success: callback
@@ -180,27 +181,28 @@ $.extend({
 	
 	
 	hb: {
-		show_post_date: function(){
+		showPostDate: function(){
 		
-			var old_pde_selector = '.date-header', //post date element selector.
- insert_tgt_selector = '.post-title > a', //selector at target insert post date element. 
- arrMonth = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
+			var
+			_oldDateElm = '.date-header', //post date element selector.
+			_iTgt = '.post-title > a', //selector at target insert post date element.
+			_month = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
 			
 			try {
-				$(old_pde_selector).each(function(index, elm){
-					var pDate = new Date($(elm).text());
+				$(_oldDateElm).each(function(index, elm){
+					var _date = new Date($(elm).text());
 					
 					$('<div class="post-date-wrap"><table class="post-date-table"><tbody>' +
 					'<tr><td class="pd-day" rowSpan="2">' +
-					pDate.getDate() +
+					_date.getDate() +
 					'</td>' +
 					'<td class="pd-year">' +
-					pDate.getFullYear() +
+					_date.getFullYear() +
 					'</td></tr>' +
 					'<tr><td class="pd-month">' +
-					arrMonth[pDate.getMonth()] +
+					_month[_date.getMonth()] +
 					'</td></tr>' +
-					'</tbody></table></div>').insertBefore($(insert_tgt_selector)[index]);
+					'</tbody></table></div>').insertBefore($(_iTgt)[index]);
 					
 					$(elm).remove();
 				});
@@ -212,7 +214,7 @@ $.extend({
 		},
 		
 		//using highslide add onclick attr
-		add_hs_attr: function(){
+		addHsAttr: function(){
 		
 			if (document.getElementById('Blog1') == null) 
 				return false;
@@ -231,10 +233,21 @@ $.extend({
 		},
 		
 		
-		archive_int: function(){
-			var slctr = '.archivedate', bgColor = 'transparent', bgColor_hover = '#1a1a1a';
+		archiveInt: function(){
+			//var slctr = '.archivedate', bgColor = 'transparent', bgColor_hover = '#1a1a1a';
 			
-			$(slctr).children('a').css({
+			$('.archivedate').children('a')
+				.css({textDecoration: 'none', paddingLeft: '1em'})
+				.hover(function(){
+					$(this).stop(true).append('<span> ≫</span>')
+						.animate({paddingLeft: '2em'}, 'fast');
+				}, function(){
+					$(this).stop(true).children('span').remove();
+					$(this).animate({paddingLeft: '1em'}, 'normal');
+			});
+			
+			/*
+			$('.archivedate').children('a').css({
 				textDecoration: 'none',
 				paddingLeft: '1em',
 				backgroundColor: bgColor
@@ -252,28 +265,27 @@ $.extend({
 					paddingLeft: '1em'
 				}, 'normal');
 			});
+			*/
 		},
 		
 		
-		siteThumb_init: function(){
-		
-			$('img.mysite-thumb-img').css({
-				'border': '1px solid #c0c0c0'
-			}).fadeTo(0, 0.4).hover(function(){
-				$(this).stop(true).fadeTo(300, 1.0)
-			}, function(){
-				$(this).stop(true).fadeTo(400, 0.4)
+		siteThumbInit: function(){
+			$('img.mysite-thumb-img')
+				.css({border: '1px solid #c0c0c0'})
+				.fadeTo(0, 0.4)
+				.hover(function(){
+					$(this).stop(true).fadeTo(300, 1.0)
+				}, function(){
+					$(this).stop(true).fadeTo(400, 0.4)
 			});
-			
 		},
 		
 		
 		createRecentPosts: function(){
-			$.getMyFeed('yas-hummingbird', 'posts', {}, function(data){
+			$.getMyFeed({}, 'yas-hummingbird', 'posts', function(data){
 			
 				var entries = data.feed.entry, list = [];
 				
-				//$.each(entries, function(i, entry){
 				for (var i = 0; i < entries.length; i++) {
 				
 					var entry = entries[i];
@@ -286,21 +298,19 @@ $.extend({
 							}
 						}
 						return '';
-					})(entry.link || []) +
-					'">' +
-					entry.title.$t +
-					'</a></span>');
+					})(entry.link || []) + '">' + entry.title.$t + '</a></span>');
 					
 				}
 				
 				$('#Feed99_feedItemListDisplay').html('<li>' + list.join('</li><li>') + '</li>');
 				
 			});
-		},
+		}//,
 		
+		/*
 		showDesc: function(){
 			if ($.captionSlide) {
-				$.captionSlide()
+				$.captionSlide();
 			}
 		},
 		
@@ -313,6 +323,7 @@ $.extend({
 					window.attachEvent('onload', evFn);
 				}
 		}
+		*/
 	}
 
 });
@@ -323,22 +334,25 @@ jQuery(function($){
 	$('div.post-body table').attr('cellSpacing','1');
 	
 	// show Blog description Effect.
-	$.hb.windowOnloadattachEvent($.hb.showDesc);
+	$(window).load(function(){
+		$.captionSlide();
+	});
+	//$.hb.windowOnloadattachEvent($.hb.showDesc);
 
 	//Modify and show the post date.
-	$.hb.show_post_date();
+	$.hb.showPostDate();
 	
 	//load prettyPrint.
 	if($('pre.prettyprint').length > 0) prettyPrint();
 	
 	//add attr use to highslide.
-	$.hb.add_hs_attr();
+	$.hb.addHsAttr();
 	
 	//archive initialize and bind hover animate.
-	$.hb.archive_int();
+	$.hb.archiveInt();
 	
 	//bind my site thumb animate.
-	$.hb.siteThumb_init();
+	$.hb.siteThumbInit();
 	
 	//create Recent Posts
 	$.hb.createRecentPosts();
