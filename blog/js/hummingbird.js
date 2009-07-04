@@ -53,9 +53,9 @@ $.extend({
 		
 		var
 		$wrap = $(document.createElement('div')), //container element
-		 $img = $(opt.imgSelector), // first-child element
-		 $caption = $(document.createElement('div')), //second-child element
-		 $title = $(opt.titleSelector), $desc = $(document.createElement('p')),
+		$img = $(opt.imgSelector), // first-child element
+		$caption = $(document.createElement('div')), //second-child element
+		$title = $(opt.titleSelector), $desc = $(document.createElement('p')),
 		ez = {
 			mOver: null,
 			mOut: null
@@ -234,9 +234,7 @@ $.extend({
 		
 		
 		archiveInt: function(){
-			//var slctr = '.archivedate', bgColor = 'transparent', bgColor_hover = '#1a1a1a';
-			
-			$('.archivedate').children('a')
+			$('li.archivedate > a')
 				.css({textDecoration: 'none', paddingLeft: '1em'})
 				.hover(function(){
 					$(this).stop(true).append('<span> ≫</span>')
@@ -245,27 +243,6 @@ $.extend({
 					$(this).stop(true).children('span').remove();
 					$(this).animate({paddingLeft: '1em'}, 'normal');
 			});
-			
-			/*
-			$('.archivedate').children('a').css({
-				textDecoration: 'none',
-				paddingLeft: '1em',
-				backgroundColor: bgColor
-			}).hover(function(){
-				$(this).stop(true).css({
-					backgroundColor: bgColor_hover
-				}).append('<span> ≫</span>').animate({
-					paddingLeft: '2em'
-				}, 'fast');
-			}, function(){
-				$(this).stop(true).children('span').remove();
-				$(this).css({
-					backgroundColor: bgColor
-				}).animate({
-					paddingLeft: '1em'
-				}, 'normal');
-			});
-			*/
 		},
 		
 		
@@ -305,25 +282,7 @@ $.extend({
 				$('#Feed99_feedItemListDisplay').html('<li>' + list.join('</li><li>') + '</li>');
 				
 			});
-		}//,
-		
-		/*
-		showDesc: function(){
-			if ($.captionSlide) {
-				$.captionSlide();
-			}
-		},
-		
-		windowOnloadattachEvent: function(evFn){
-			if (window.addEventListener) {
-				window.addEventListener('load', evFn, false);
-			}
-			else 
-				if (window.attachEvent) {
-					window.attachEvent('onload', evFn);
-				}
 		}
-		*/
 	}
 
 });
@@ -333,12 +292,6 @@ $.extend({
 jQuery(function($){
 	$('div.post-body table').attr('cellSpacing','1');
 	
-	// show Blog description Effect.
-	$(window).load(function(){
-		$.captionSlide();
-	});
-	//$.hb.windowOnloadattachEvent($.hb.showDesc);
-
 	//Modify and show the post date.
 	$.hb.showPostDate();
 	
@@ -356,4 +309,9 @@ jQuery(function($){
 	
 	//create Recent Posts
 	$.hb.createRecentPosts();
+	
+	// show Blog description Effect.
+	$(window).load(function(){
+		$.captionSlide();
+	});
 });
