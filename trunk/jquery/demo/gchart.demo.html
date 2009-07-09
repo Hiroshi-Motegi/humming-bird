@@ -21,6 +21,14 @@ $.gChart.pie3D = function(options){
 	}, options))).image();
 }
 
+$.gChart.scatter = function(options){
+	return (new $.gChart(this.merge({
+		cht:'s',
+		chs: '300x200'
+	}, options))).image();
+}
+
+
 
 $.gChart.temperature = function(value, params){
 	var min = -25, max = 45,_chm = [];
@@ -55,7 +63,7 @@ $.gChart.temperature2 = function(value, params){
 		chs: '240x200',
 		chf: 'c,lg,90,ffffff,1,ccccff,0',
 		chtt: '気温(℃)',
-		chco: '6495ed',
+		chco: '4169e1',
 		chxt: 'y,x',
 		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌',
 		chxs:'0,8b0000,10',
@@ -119,6 +127,13 @@ $.gChart.member = function(members, params){
 
 
 jQuery(function($){
+
+/*
+	$(document.body).append($.gChart.scatter({
+		chd:$.gChart.extendedEncoding([2345,2189],[1609,3709],[4095,2048])
+	}));	
+*/	
+	
 
 	var max = 0, min = 1000000, value = [];
 	
@@ -228,8 +243,8 @@ $('#browser-share .chart-img')
 	
 	var members = {
 		'1':{ position:'GK', left:33, top:0, name:'カシージャス' },
-		'2':{ position:'CB', left:20, top:15, name:'アルビオル' },
-		'3':{ position:'CB', left:60, top:15, name:'ぺぺ' },
+		'2':{ position:'CB', left:25, top:15, name:'ぺぺ' },
+		'3':{ position:'CB', left:50, top:15, name:'アルビオル' },
 		'4':{ position:'SB', left:0, top:30, name:'ドレンテ' },
 		'5':{ position:'SB', left:75, top:30, name:'S.ラモス' },
 		'6':{ position:'CH', left:18, top:45, name:'スナイデル' },
@@ -243,7 +258,9 @@ $('#browser-share .chart-img')
 	$('#another-templete .chart-img').append($.gChart.member(members).image().css('margin-left','20px'));
 
 
+
 	prettyPrint();
+
 });
 
 
@@ -480,7 +497,7 @@ $.gChart.temperature2 = function(value, params){
 &nbsp;&nbsp;&nbsp;&nbsp;chs: '240x200',
 &nbsp;&nbsp;&nbsp;&nbsp;chf: 'c,lg,90,ffffff,1,ccccff,0',
 &nbsp;&nbsp;&nbsp;&nbsp;chtt: '気温(℃)',
-&nbsp;&nbsp;&nbsp;&nbsp;chco: '76A4FB',
+&nbsp;&nbsp;&nbsp;&nbsp;chco: '4169e1',
 &nbsp;&nbsp;&nbsp;&nbsp;chxt: 'y,x',
 &nbsp;&nbsp;&nbsp;&nbsp;chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌',
 &nbsp;&nbsp;&nbsp;&nbsp;chds: [min, max].join(','),

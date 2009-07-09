@@ -3,6 +3,8 @@ var doc = document;
 eval('var document = doc');
 @*/
 
+/* update:2009/07/05 */
+
 (function($){
 $.extend({
 	captionSlideEffects: {
