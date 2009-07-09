@@ -16,7 +16,7 @@ $.extend($.fx.speeds, {
 $.extend({
 	// check exist parent node
 	existParent: function(elm){
-		elm = $(elm).get(0);
+		elm = 'length' in elm ? elm.get(0) : elm;
 		return (!elm.parentNode || !elm.parentNode.tagName);
 	},
 	
@@ -56,18 +56,25 @@ $.extend({
 				ret.push( i + '=' + encodeURIComponent(o[i]) );
 		}
 		return ret.join('&');
+	},
+	
+	backgroundImage: function(src, sizingMethod){
+		sizingMethod = sizingMethod || 'crop';
+		
+		var bg = $.browser.msie && $.browser.version == 6 ? {
+			filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=' + sizingMethod + 'src="' + src + '")'
+		} : {
+			backgroundImage: 'url(' + src + ')'
+		};
+		
+		return bg;
 	}
 });
 
 
 $.fn.extend({
-	backgroundImage: function(src){
-		var bg = $.browser.msie && $.browser.version == 6 ? {
-			filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + src + '")'
-		} : {
-			backgroundImage: 'url(' + src + ')'
-		};
-		
+	setBgImage: function(src, options){
+		var bg = $.backgroundImage(src, options);
 		return this.each(function(){
 			$(this).css(bg);
 		});

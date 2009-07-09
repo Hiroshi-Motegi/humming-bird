@@ -4,9 +4,9 @@
  * Released under the MIT and GPL licenses.
  * 
  * Author:y@s
- * Version:1.0
+ * Version:1.1
  * Published:2009-07-02
- * Update:2009-07-02
+ * Update:2009-07-09
  * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/gchart.demo.html
  */
 
@@ -30,7 +30,8 @@ $.gChart.prototype = {
 			return ret.join('&');
 		}
 		
-		return 'http://chart.apis.google.com/chart?' + toQueryString($.gChart.merge(this.params, options || {}));
+		return 'http://chart.apis.google.com/chart?' + 
+			toQueryString($.gChart.merge(this.params, options || {}));
 		
 	},
 	image: function(options){
@@ -83,16 +84,23 @@ $.extend($.gChart,{
 	//テキストエンコードの範囲は 0 (0.0) から 100 (100.0)
 	//0 ~ 100の範囲に収まるように数値を調整する
 	//@Param - arr: type Array(int)
-	textEncoding: function(data){
-		var ret = [];
-		for (var i = 0, len = data.length; i < len; i++)
-			ret.push(Math.round(data[i] * 100) / 100);	
+	textEncoding: function(){
+		var ret = [], args = Array.prototype.slice.call(arguments);
 		
-		return  't:' + ret.join(',');
+		for (var i = 0, j = args.length; i < j; i++) {
+			var data = [], arg = args[i];
+
+			for (var m = 0, n = arg.length; m < n; m++)
+				data.push(Math.round( parseFloat(arg[m]) * 100) / 100 );
+			
+			ret.push(data.join(','));
+		}
+		
+		return 't:' + ret.join('|');
 	},
 	
 	
-	//@Param - data: adjust value (type:Array)
+	//@Param - data: adjust value (type:Array(in Digit))
 	//@Param - min: Minimum value (type:int)
 	//@Param - max: Maximum value (type:int)
 	//@Param - gra: granularity (type:int)
@@ -110,7 +118,6 @@ $.extend($.gChart,{
 		}
 		
 		min *= -1;
-		
 		x = (max + min) / gra;
 		
 		for (var i = 0; i < len; i++)
@@ -129,12 +136,19 @@ $.extend($.gChart,{
 	},
 	//@Param - data: type Array(int:0 - 61)
 	//@return - Array of Simple Encoded Value
-	simpleEncoding: function(data){
-		var ret = 's:';
-		for (var i = 0, j = data.length; i < j; i++) 
-			ret += this.simpleEncode(Math.max(Math.min(Math.round(data[i]), 61), 0));
+	simpleEncoding: function(){
+		var ret = [], args = Array.prototype.slice.call(arguments);
 		
-		return ret;
+		for (var i = 0, j = args.length; i < j; i++) {
+			var data = '', arg = args[i];
+
+			for (var m = 0, n = arg.length; m < n; m++)
+				data += $.gChart.simpleEncode( parseInt(arg[m]) );
+			
+			ret.push(data);
+		}
+		
+		return 's:' + ret.join(',');
 	},
 	
 	
@@ -147,14 +161,22 @@ $.extend($.gChart,{
 	},
 	//@Param - data: type Array(int:0 - 4095)
 	//@return - Array of Extended Encoded Value
-	extendedEncoding: function(data){
-		var ret = 'e:';
-		for (var i = 0, j = data.length; i < j; i++) 
-			ret += this.extendedEncode(Math.max(Math.min(Math.round(data[i]), 4095), 0));
+	extendedEncoding: function(){
+		var ret = [], args = Array.prototype.slice.call(arguments);
 		
-		return ret;
+		for (var i = 0, j = args.length; i < j; i++) {
+			var data = '', arg = args[i];
+			
+			for (var m = 0, n = arg.length; m < n; m++)
+				data += $.gChart.extendedEncode( parseInt(arg[m]) );
+			
+			ret.push(data);
+		}
+		
+		return 'e:' + ret.join(',');
+
 	},
-	//@Value - type:Array(AA - ..)
+	//@Value - type:Array(string AA - ..)
 	extendedEncodWords: (function(){
 		var chrs = extendedChrs.split(''), ret = [];
 		
@@ -173,7 +195,7 @@ $.extend($.gChart,{
 	simpleDecode: function(v){
 		return /[A-Za-z\d]/.test(v) ? simpleChrs.search(v) : null;
 	},
-	//@return - type:Array
+	//@return - type:Array(int 0 - 61 or null)
 	simpleDecoding: function(data){
 		var ret = [];
 		
