@@ -3,48 +3,101 @@
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * Author:y@s
- * Version:1.1
- * Published:2009-07-02
- * Update:2009-07-09
- * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/gchart.demo.html
+ * @Author:y@s
+ * @Version:1.2
+ * @Published:2009-07-02
+ * @Update:2009-07-10
+ * @Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/gchart.demo.html
  */
 
 (function($){
+
+function toQueryString(o){
+	var ret = [];
+	for (var i in o) {
+		if (o.hasOwnProperty(i)) 
+			ret.push(i + '=' + encodeURIComponent(o[i]));
+	}
+	return ret.join('&');
+}
+
+function merge(){
+	var
+	args = Array.prototype.slice.call(arguments),
+	len = args.length,
+	ret = {},
+	itm;
+	
+	for( var i = 0; i < len ; i++ ){
+		var arg = args[i];
+		for (itm in arg) {
+			if (arg.hasOwnProperty(itm))
+				ret[itm] = arg[itm];
+		}
+	}
+	
+	return ret;
+}
+
+//@Param - data: adjust value (type:Array(in Digit))
+//@Param - min: Minimum value (type:int)
+//@Param - max: Maximum value (type:int)
+//@Param - gra: granularity (type:int)
+function dataScaling (data, min, max, gra){
+
+	var x, ret = [], len = data.length;
+	
+	min = min || 0;
+	max = max || 0;
+	gra = gra || 100;
+	
+	for (var i = 0; i < len; i++) {
+		min = Math.min(min, data[i]);
+		max = Math.max(max, data[i]);
+	}
+	
+	min *= -1;
+	x = (max + min) / gra;
+	
+	for (var i = 0; i < len; i++)
+		ret.push(Math.round(Math.max(Math.min((data[i] + min) / x, gra), 0) * 100) / 100);
+	
+	return ret;
+}
+
+
+
 $.gChart = function() {
 	this.initialize.apply(this, arguments);
 }
 
-$.gChart.prototype = {
+
+var
+gc = $.gChart,
+simpleChrs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+extendedChrs = simpleChrs + '-.';
+
+
+gc.prototype = {
 	initialize: function(options){
-		this.params = $.gChart.merge($.gChart.defaults, options || {});
+		this.params = merge(gc.defaults, options || {});
 	},
 	src: function(options){
-	
-		function toQueryString(o){
-			var ret = [];
-			for (var i in o) {
-				if (o.hasOwnProperty(i)) 
-					ret.push(i + '=' + encodeURIComponent(o[i]));
-			}
-			return ret.join('&');
-		}
-		
 		return 'http://chart.apis.google.com/chart?' + 
-			toQueryString($.gChart.merge(this.params, options || {}));
-		
+			toQueryString(merge(this.params, options || {}));
 	},
 	image: function(options){
-		return $(new Image()).attr('src', this.src(options));
+		//return $(document.createElement('img')).attr('src', this.src(options));
+		var img = document.createElement('img');
+		img.src = this.src(options);
+		return img;
 	}
 };
 
 
-var
-simpleChrs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-extendedChrs = simpleChrs + '-.';
-
-$.extend($.gChart,{
+(function( x, y ){
+	for (var i in y) { x[i] = y[i] }
+})( gc, {
 
 	/*
 	 * デフォルト
@@ -59,27 +112,7 @@ $.extend($.gChart,{
 		cht: 'p3'
 	},
 	
-	merge:function(){
-
-		var
-		args = Array.prototype.slice.call(arguments),
-		len = args.length,
-		ret = {},
-		itm;
-		
-		for( var i = 0; i < len ; i++ ){
-			var arg = args[i];
-			for (itm in arg) {
-				if (arg.hasOwnProperty(itm))
-					ret[itm] = arg[itm];
-			}
-		}
-		
-		return ret;
-
-	},
-	
-	
+	merge:merge,
 	
 	//テキストエンコードの範囲は 0 (0.0) から 100 (100.0)
 	//0 ~ 100の範囲に収まるように数値を調整する
@@ -90,40 +123,13 @@ $.extend($.gChart,{
 		for (var i = 0, j = args.length; i < j; i++) {
 			var data = [], arg = args[i];
 
-			for (var m = 0, n = arg.length; m < n; m++)
-				data.push(Math.round( parseFloat(arg[m]) * 100) / 100 );
+			for (var n = 0, m = arg.length; n < m; n++)
+				data.push(Math.round( parseFloat(arg[n]) * 100) / 100 );
 			
 			ret.push(data.join(','));
 		}
 		
 		return 't:' + ret.join('|');
-	},
-	
-	
-	//@Param - data: adjust value (type:Array(in Digit))
-	//@Param - min: Minimum value (type:int)
-	//@Param - max: Maximum value (type:int)
-	//@Param - gra: granularity (type:int)
-	scaling: function(data, min, max, gra){
-	
-		var x, ret = [], len = data.length;
-		
-		min = min || 0;
-		max = max || 0;
-		gra = gra || 100;
-		
-		for (var i = 0; i < len; i++) {
-			min = Math.min(min, data[i]);
-			max = Math.max(max, data[i]);
-		}
-		
-		min *= -1;
-		x = (max + min) / gra;
-		
-		for (var i = 0; i < len; i++)
-			ret.push(Math.round(Math.max(Math.min((data[i] + min) / x, gra), 0) * 100) / 100);
-		
-		return ret;
 	},
 	
 
@@ -142,8 +148,8 @@ $.extend($.gChart,{
 		for (var i = 0, j = args.length; i < j; i++) {
 			var data = '', arg = args[i];
 
-			for (var m = 0, n = arg.length; m < n; m++)
-				data += $.gChart.simpleEncode( parseInt(arg[m]) );
+			for (var n = 0, m = arg.length; n < m; n++)
+				data += this.simpleEncode( parseInt(arg[n]) );
 			
 			ret.push(data);
 		}
@@ -167,22 +173,21 @@ $.extend($.gChart,{
 		for (var i = 0, j = args.length; i < j; i++) {
 			var data = '', arg = args[i];
 			
-			for (var m = 0, n = arg.length; m < n; m++)
-				data += $.gChart.extendedEncode( parseInt(arg[m]) );
+			for (var n = 0, m = arg.length; n < m; n++)
+				data += this.extendedEncode( parseInt(arg[n]) );
 			
 			ret.push(data);
 		}
 		
 		return 'e:' + ret.join(',');
-
 	},
 	//@Value - type:Array(string AA - ..)
 	extendedEncodWords: (function(){
-		var chrs = extendedChrs.split(''), ret = [];
+		var chrs = extendedChrs.split(''), len = chrs.length, ret = [];
 		
-		for (var i = 0, len = chrs.length; i < len; i++) {
-			for (var k = 0; k < len; k++) 
-				ret.push(chrs[i] + chrs[k]);
+		for (var i = 0; i < len; i++) {
+			for (var n = 0; n < len; n++) 
+				ret.push(chrs[i] + chrs[n]);
 		}
 		
 		return ret;
@@ -199,13 +204,19 @@ $.extend($.gChart,{
 	simpleDecoding: function(data){
 		var ret = [];
 		
-		if(/^s:.*$/.test(data))
-			data = data.substr(2);
+		data = /^s:.*$/.test(data) ? data.substr(2) : data;
 		
-		for( var i = 0, j = data.length; i < j ; i++ )
-			ret.push(this.simpleDecode(data.substr(i,1)));
+		var dts = data.split(',');
 		
-		return ret;
+		for (var i = 0; i < dts.length; i++) {
+			var ar = [], dt = dts[i];
+			for (var n = 0, m = dt.length; n < m; n++) 
+				ar.push(this.simpleDecode(dt.substr(n, 1)));
+			
+			ret.push(ar);
+		}
+		
+		return ret.length == 1 ? ret[0] : ret;
 	},
 	
 	
@@ -222,17 +233,32 @@ $.extend($.gChart,{
 	//@return - type Array
 	extendedDecoding: function(data){
 		var ret = [];
-
-		if(/^e:.*$/.test(data))
-			data = data.substr(2);
 		
-		for( var i = 0, j = data.length; i < j ; i+=2 )
-			ret.push(this.extendedDecode(data.substr(i,2)));
+		data = /^e:.*$/.test(data) ? data.substr(2) : data;
 		
-		return ret;
+		var dts = data.split(',');
+		
+		for (var i = 0; i < dts.length; i++) {
+			var ar = [], dt = dts[i];
+			for (var n = 0, m = dt.length; n < m; n+=2) 
+				ar.push(this.extendedDecode(dt.substr(n, 2)));
+			
+			ret.push(ar);
+		}
+		
+		return ret.length == 1 ? ret[0] : ret;
 	},
 	
 	
+	/* ここから下は削除可能 */
+	
+	simpleDataScaling:function(data, min, max){
+		return dataScaling(data, min, max, 61);
+	},
+	
+	extendedDataScaling:function(data, min, max){
+		return dataScaling(data, min, max, 4095);
+	},
 	
 	/* Cheat sheet 代わりに */
 	
