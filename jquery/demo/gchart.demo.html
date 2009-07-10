@@ -16,8 +16,7 @@
 $.gChart.pie3D = function(options){
 	return (new $.gChart(this.merge({
 		cht: this.chartType.pie3D,
-		chs: '300x200',
-		chco: 'ff69b4'
+		chs: '300x200'
 	}, options))).image();
 }
 
@@ -31,25 +30,24 @@ $.gChart.scatter = function(options){
 
 
 $.gChart.temperature = function(value, params){
-	var min = -25, max = 45,_chm = [];
+	var min = -25, max = 45, _chm = [];
 	
-	for(var i = 0; i < value.length;i++){
-		_chm.push('t' + value[i] +',333333,0,' + i + ',13,1');
+	for (var i = 0; i < value.length; i++) {
+		_chm.push('t' + value[i] + ',333333,0,' + i + ',13,1');
 	}
 	
 	return new $.gChart(this.merge({
-		cht:$.gChart.chartType.barVertical,
-		chd:$.gChart.extendedEncoding(
-			$.gChart.scaling(value,min,max,4095)),
+		cht: $.gChart.chartType.barVertical,
+		chd: $.gChart.extendedEncoding($.gChart.extendedDataScaling(value, min, max)),
 		chs: '240x200',
-		chf:'c,lg,90,ffffff,1,ccccff,0',
-		chtt:'気温(℃)',
-		chco:'76A4FB',
+		chf: 'c,lg,90,ffffff,1,ccccff,0',
+		chtt: '気温(℃)',
+		chco: '76A4FB',
 		chxt: 'y,x',
-		chbh:'25,10',
-		chxr:[0, min, max].join(','),
+		chbh: '25,10',
+		chxr: [0, min, max].join(','),
 		chxl: '1:|沖縄|福岡|名古屋|東京|仙台|札幌',
-		chm:_chm.join('|') + '|r,0000ff,0,0.356,0.359'
+		chm: _chm.join('|') + '|r,0000ff,0,0.356,0.359'
 	}, params));
 }
 
@@ -152,8 +150,8 @@ jQuery(function($){
 	qTitles = ['Text Encode','Simple Encode','Extended Encode'],
 	qData = [
 		$.gChart.textEncoding(value),
-		$.gChart.simpleEncoding($.gChart.scaling(value, min, max, $.gChart.granularity.simple)),
-		$.gChart.extendedEncoding($.gChart.scaling(value, min, max, $.gChart.granularity.extended))
+		$.gChart.simpleEncoding($.gChart.simpleDataScaling(value, min, max)),
+		$.gChart.extendedEncoding($.gChart.extendedDataScaling(value, min, max))
 	];
 	
 	for (var i = 0; i < 3; i++) {
@@ -241,6 +239,7 @@ $('#browser-share .chart-img')
 	$('#another-templete .chart-img').append($.gChart.system(system.s442A).image());
 	
 	
+	
 	var members = {
 		'1':{ position:'GK', left:33, top:0, name:'カシージャス' },
 		'2':{ position:'CB', left:25, top:15, name:'ぺぺ' },
@@ -255,7 +254,7 @@ $('#browser-share .chart-img')
 		'11':{ position:'FW', left:50, top:80, name:'ベンゼマ' }
 	};
 	
-	$('#another-templete .chart-img').append($.gChart.member(members).image().css('margin-left','20px'));
+	$('#another-templete .chart-img').append($($.gChart.member(members).image()).css('margin-left','20px'));
 
 
 
