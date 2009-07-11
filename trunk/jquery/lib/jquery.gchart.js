@@ -34,7 +34,7 @@ function gChart() {
 
 gChart.prototype = {
 	initialize: function(options){
-		this.params = merge(_defaults, options || {});
+		this.params = merge({}, _defaults, options || {});
 	},
 	src: function(options){
 		return 'http://chart.apis.google.com/chart?' +
@@ -45,7 +45,7 @@ gChart.prototype = {
 						ret.push(i + '=' + encodeURIComponent(o[i]));
 				}
 				return ret.join('&');
-			})(merge(this.params, options || {}));
+			})(merge({}, this.params, options || {}));
 	},
 	image: function(options){
 		var img = document.createElement('img');
@@ -201,10 +201,10 @@ function merge(){
 	var
 	args = Array.prototype.slice.call(arguments),
 	len = args.length,
-	ret = {},
+	ret = args[0],
 	itm;
 	
-	for( var i = 0; i < len ; i++ ){
+	for( var i = 1; i < len ; i++ ){
 		var arg = args[i];
 		for (itm in arg) {
 			if (arg.hasOwnProperty(itm))

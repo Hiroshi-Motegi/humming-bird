@@ -135,11 +135,11 @@ function dataScaling (data, min, max, gra){
 
 
 $.gChart.pie3D = function(options){
-	return (new $.gChart(this.merge({
-		cht: this.chartType.pie3D,
-		chs: '300x200'
-	}, options))).image();
+	return new $.gChart(this.merge({
+		cht: this.chartType.pie3D
+	}, options));
 }
+
 
 $.gChart.temperature = function(value, params){
 	var min = -25, max = 45, _chm = [];
@@ -307,10 +307,11 @@ $('#browser-share .chart-img')
 	.append($.gChart.pie3D({
 		chd:bsData,
 		chl:label,
+		chs: '300x200',
 		chco: '99cc00|cc6699',
 		chs: '350x125',
 		chtt:'Browser Share:May 2009'
-}));
+}).image());
 
 
 
