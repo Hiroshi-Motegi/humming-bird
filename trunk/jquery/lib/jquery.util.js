@@ -16,8 +16,9 @@ $.extend($.fx.speeds, {
 $.extend({
 	// check exist parent node
 	existParent: function(elm){
-		elm = 'length' in elm ? elm.get(0) : elm;
-		return (!elm.parentNode || !elm.parentNode.tagName);
+		//elm = 'length' in elm ? elm.get(0) : elm;
+		elm = 'length' in elm ? elm[0] : 'tagName' in elm ? elm : null;
+		return elm ? (!elm.parentNode || !elm.parentNode.tagName) : false;
 	},
 	
 	// Remove only own.
@@ -48,38 +49,34 @@ $.extend({
 
 	},
 	
-	// Query String
+	// make Query String
 	toQueryString: function(o){
 		var ret = [];
 		for(i in o){
-			if(o.hasOwnProperty( i ))
+			if( o.hasOwnProperty(i) )
 				ret.push( i + '=' + encodeURIComponent(o[i]) );
 		}
 		return ret.join('&');
 	},
 	
-	backgroundImage: function(src, sizingMethod){
-		var bg = $.browser.msie && $.browser.version == 6 ? {
-			filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=' + 
-				(sizingMethod || 'image') + ' src="' + src + '")'
-		} : {
-			backgroundImage: 'url(' + src + ')'
-		};
-		return bg;
+	alphaImage: function(src, sizingMethod){
+		//sizingMethod = crop or image or scale
+		return $.browser.msie && $.browser.version == 6 ? {
+				filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=' + 
+					(sizingMethod || 'image') + ' src="' + src + '")'
+			} : {
+				backgroundImage: 'url(' + src + ')'
+			};
 	}
 });
 
-
 $.fn.extend({
-	setBgImage: function(src, options){
-		var bg = $.backgroundImage(src, options);
-		return this.each(function(){
-			$(this).css(bg);
-		});
+	setAlphaImage: function(src, sizingMethod){
+		return $(this).css($.alphaImage(src, sizingMethod));
 	},
 	
 	removeSelf: function(){
-		return $.removeSelf(this);
+		$.removeSelf(this);
 	},
 	
 	// arrange to same height
@@ -103,6 +100,34 @@ $.fn.extend({
 		return $.map(this.each(function(index, elm){
 			return $.data(elm, key);
 		}));
+	},
+	setOpacity:function(alpha){
+		var
+		elms = Array.prototype.slice.call(this),
+		style = elms[0].style,
+		keys = ['opacity', 'MozOpacity', 'KhtmlOpacity', 'filter'],
+		key, val;
+		
+		for (var i = 0; i < keys.length; i++) {
+			if (keys[i] in style) {
+				key = keys[i];
+				val = keys[i] == 'filter' ? 'alpha(opacity=' + parseInt(parseFloat(alpha) * 100) + ')' : alpha;
+				break;
+			}
+		}
+		
+		for (var i = 0; i < elms.length; i++)
+			elms[i].style[key] = val;
+		
+		return this;
+		
+		//return $(this).css({key:val});
+		
+		/*
+		return this.each(function(){
+			this.style[key] = val;
+		});
+		*/
 	}
 });
 })(jQuery);
