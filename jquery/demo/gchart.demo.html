@@ -10,8 +10,129 @@
 		<script src="../lib/jquery.gchart.js" type="text/javascript"></script>
 		<script src="../../prettify/prettify.js" type="text/javascript"></script>
 <script type="text/javascript">
-
 (function($){
+//@Param - data: adjust value (type:Array(in Digit))
+//@Param - min: Minimum value (type:int)
+//@Param - max: Maximum value (type:int)
+//@Param - gra: granularity (type:int)
+function dataScaling (data, min, max, gra){
+
+	var x, ret = [], len = data.length;
+	
+	min = min || 0;
+	max = max || 0;
+	gra = gra || 100;
+	
+	for (var i = 0; i < len; i++) {
+		min = Math.min(min, data[i]);
+		max = Math.max(max, data[i]);
+	}
+	
+	min *= -1;
+	x = (max + min) / gra;
+	
+	for (var i = 0; i < len; i++)
+		ret.push(Math.round(Math.max(Math.min((data[i] + min) / x, gra), 0) * 100) / 100);
+	
+	return ret;
+}
+
+(function( x, y ){
+	for (var i in y) { x[i] = y[i] }
+})($.gChart,{	
+	/* ここから下は削除可能 */
+	
+	simpleDataScaling:function(data, min, max){
+		return dataScaling(data, min, max, 61);
+	},
+	
+	extendedDataScaling:function(data, min, max){
+		return dataScaling(data, min, max, 4095);
+	},
+	
+	/* Cheat sheet 代わりに */
+	
+	//cht - チャート タイプ(chart type)
+	//ex : cht=<chart type>
+	chartType: {
+		line: 'lc', //折れ線グラフ
+		lineXY: 'lxy', //折れ線グラフ
+		barHorizontal: 'bhs', //棒グラフ(横)
+		barVertical: 'bvs', //棒グラフ(縦)
+		barHorizontalGroup: 'bhg', //棒グラフ(横)グループ化
+		barVerticalGroup: 'bvg', //棒グラフ(縦)グループ化
+		pie: 'p', //円グラフ
+		pie3D: 'p3', //円グラフ3D
+		venn: 'v', //ベン図
+		scatter: 's', //散布図
+		sparkline: 'ls', //スパークライン
+		radar: 'r', //レーダー(直線)
+		radarCurved: 'rs', //レーダー(曲線)
+		map: 't', //地図
+		meter: 'gom', //Google-o-meter
+		qrCode: 'qr' //QR コード
+	},
+	
+	//chm - 図形マーカー / 範囲マーカー(marker type)
+	//ex : chm=<marker type>
+	markerType: {
+		arrow: 'a', // 矢印
+		circle: 'o', // 円
+		cross: 'c', // 十字
+		diamond: 'd', // ひし形
+		lLine: 'h', // チャートを横断する水平線
+		marker: 'r', // 範囲マーカー
+		markerR: 'R', // 範囲マーカー
+		square: 's', // 四角
+		vLine: 'v', // x 軸からデータ ポイントまでの垂直線
+		vLineTop: 'V', // チャート上端までの垂直線
+		x: 'x' // 図形
+	},
+	
+	//[chxt] - 軸ラベル表示指定
+	label:{
+	bottom:'x', // 下部の x 軸
+	left:'y', // 左側の y 軸
+	right:'r', // 右側の y 軸
+	top:'t' // 上部の x 軸
+	},
+	
+	//[chf] - 塗りつぶし(fill)
+	fillTarget:{
+		background:'bg',
+		chartArea:'c',
+		transparency:'a'
+	},
+	fillType:{
+		 solidFill:'s', //単色塗りつぶし
+		 linearGradient:'lg', //線形グラデーション
+		 linearStripes:'ls' //線形ストライプ
+	}
+});
+
+(function( x, y ){
+	for (var i in y) { x[i] = y[i] }
+})($.gChart.prototype,{
+	setSize: function(w, h){
+		this.params.chs = parseInt(w) + 'x' + parseInt(h);
+	},
+	setTitle: function(title){
+		this.params.chtt = title;
+	},
+	setTitleStyle: function(color, fontSize){
+		color = /^#?[0-9a-fA-F]{3,6}/.test(color) ? color.match(/[0-9a-fA-F]+/) : '000000';
+		fontSize = /^[0-9]+(px)?$/.test(fontSize) ? String(fontSize).match(/[0-9]+/) : '13';
+		this.params.chts = color + ',' + fontSize;
+	},
+	setColor: function(){
+		var args = Array.prototype.slice.call(arguments);
+		args = args.length == 1 ? args[0] instanceof Array ? args[0].join('|') : args[0] : args.join('|');
+		
+		this.params.chco = args;
+	}
+});
+
+
 
 $.gChart.pie3D = function(options){
 	return (new $.gChart(this.merge({
@@ -19,15 +140,6 @@ $.gChart.pie3D = function(options){
 		chs: '300x200'
 	}, options))).image();
 }
-
-$.gChart.scatter = function(options){
-	return (new $.gChart(this.merge({
-		cht:'s',
-		chs: '300x200'
-	}, options))).image();
-}
-
-
 
 $.gChart.temperature = function(value, params){
 	var min = -25, max = 45, _chm = [];
@@ -126,13 +238,6 @@ $.gChart.member = function(members, params){
 
 jQuery(function($){
 
-/*
-	$(document.body).append($.gChart.scatter({
-		chd:$.gChart.extendedEncoding([2345,2189],[1609,3709],[4095,2048])
-	}));	
-*/	
-	
-
 	var max = 0, min = 1000000, value = [];
 	
 	for (var i = 0; i < 50; i++) {
@@ -166,7 +271,6 @@ jQuery(function($){
 			chtt: qTitles[i]
 		})).image(),'<br>');
 	}
-	
 	
 	
 
@@ -255,8 +359,6 @@ $('#browser-share .chart-img')
 	};
 	
 	$('#another-templete .chart-img').append($($.gChart.member(members).image()).css('margin-left','20px'));
-
-
 
 	prettyPrint();
 
@@ -403,7 +505,7 @@ pre{margin: 0;padding: 0;font-family:Verdana, Geneva, Arial, Helvetica, sans-ser
 <p>グラフの精度はデータの精度とデータ形式に依存しますが、ここではデータの精度は置いといて、Google Chartのデータ形式は3つあります。</p>
 <p>データスケーリングとは指定した範囲にデータが納まるように修正することです。</p>
 <p>独自にスケーリングする関数を作成し、簡易エンコードと拡張エンコードにもスケーリングを行ったチャートを並べて表示しています。</p>
-<p>正直な感想としては、若干簡易エンコードの精度が気になりますが、これぐらいの大きさであれば、殆ど違いはないように見えます。</p>
+<p>正直な感想としては、若干簡易エンコードの精度が気になりますが、この程度なら問題ないレベルではないでしょうか。</p>
 <p>このような図はデータを直感的に把握することが目的なので、もしその程度の差を気にするようであれば、データ(数値)そのものを見て頂ければ良いというだけの話しでしょう。</p>
 <span class="arrow"></span>
 </blockquote>

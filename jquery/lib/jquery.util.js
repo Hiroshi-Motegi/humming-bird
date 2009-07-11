@@ -59,14 +59,12 @@ $.extend({
 	},
 	
 	backgroundImage: function(src, sizingMethod){
-		sizingMethod = sizingMethod || 'crop';
-		
 		var bg = $.browser.msie && $.browser.version == 6 ? {
-			filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=' + sizingMethod + 'src="' + src + '")'
+			filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=' + 
+				(sizingMethod || 'image') + ' src="' + src + '")'
 		} : {
 			backgroundImage: 'url(' + src + ')'
 		};
-		
 		return bg;
 	}
 });
