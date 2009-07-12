@@ -3,9 +3,10 @@
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * Author: y@s
+ * Author:y@s
  * Version:1.2
- * Update:2009-06-21
+ * Published:2009-06-21
+ * Update:2009-07-12
  * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
  */
 
@@ -34,21 +35,26 @@ function resizeEvh(){
 	ls['display'] = 'block';
 }
 
-function eosShow(){
-	$('embed,object,select').each(function(){
-		$(this).css('visibility', $.data(this,'oldVisibility'));
+$.fn.extend({
+eosShow:function(){
+	return this.each(function(){
+		var v = $.data(this, dataKey);
+		if(v)
+			this.style.visibility = v.oldVisibility;
 	});
-}
-
-function eosHide(){
-	$('embed,object,select').each(function(){
-		$.data(this,'oldVisibility',$.css(this,'visibility'));
+},
+eosHide:function(){
+	return this.each(function(){
+		$.data(this, dataKey,{'oldVisibility': $.css(this,'visibility')});
 	}).css('visibility', 'hidden');
 }
+});
+
 
 
 var
 isOldIE = $.browser.msie && $.browser.version < 7,
+
 $win = $(window),
 $doc = $(document),
 
@@ -67,9 +73,7 @@ animOpts = {
 	easing:'swing'
 },
 
-evKey = ovID = 'overlay';
-//evKey = 'overlay';
-
+dataKey = evKey = ovID = 'overlay';
 
 
 $.overlay = {
@@ -102,7 +106,7 @@ $.overlay = {
 			this.create(options);
 		
 		if(isOldIE)
-			eosHide();
+			$('embed,object,select').eosHide();
 		
 		$win.bind('resize', resizeEvh);
 		$doc.bind('keydown', keydownEvh);
@@ -131,7 +135,8 @@ $.overlay = {
 			.animate({opacity: 0}, $.extend({}, animOpts, {complete:function(){
 				$(this).remove();
 				if (isOldIE)
-					eosShow();
+					$('embed,object,select').eosShow();
+				
 				$(document).unbind('keydown', keydownEvh);
 				callback.call(this);
 			}}, options.animateOptions || {}));
