@@ -41,7 +41,7 @@ gChart.prototype = {
 			(function(o){
 				var ret = [];
 				for (var i in o) {
-					if (o.hasOwnProperty(i)) 
+					if (o.hasOwnProperty(i))
 						ret.push(i + '=' + encodeURIComponent(o[i]));
 				}
 				return ret.join('&');
@@ -73,6 +73,7 @@ gChart.merge = function(){
 	return ret;
 }
 
+
 //テキストエンコード(Text Encoding)
 //@Param - type:Array in Digit
 //@return - type:String
@@ -90,7 +91,7 @@ gChart.textEncoding = function(){
 	
 	return 't:' + ret.join('|');
 }
-	
+
 
 //簡易エンコード(Simple Encode)
 //数値から簡易エンコード文字に変換
@@ -99,7 +100,8 @@ gChart.textEncoding = function(){
 gChart.simpleEncode = function(data){
 	return data < 0 ? '_' : simpleChrs.substr(data,1) || '_';
 }
-	
+
+
 //@Param - type:Array(int:0 - 61)
 //@return - type:Array - Simple Encoded Value
 gChart.simpleEncoding = function(){
@@ -117,6 +119,7 @@ gChart.simpleEncoding = function(){
 	return 's:' + ret.join(',');
 }
 
+
 //拡張エンコード(Extended Encode)
 //数値から拡張エンコード文字に変換
 //@Param - type:int(0 - 4095)
@@ -124,6 +127,7 @@ gChart.simpleEncoding = function(){
 gChart.extendedEncode = function(data){
 	return data < 0 ? '__' : this.extendedEncodWords[data] || '__';
 }
+
 
 //@Param - data: type Array(int:0 - 4095)
 //@return - Array of Extended Encoded Value
@@ -141,6 +145,7 @@ gChart.extendedEncoding = function(){
 	
 	return 'e:' + ret.join(',');
 }
+
 
 //@Value - type:Array(string AA - ..)
 gChart.extendedEncodWords = (function(){
@@ -201,7 +206,7 @@ gChart.extendedDecoding = function(data){
 	
 	for (var i = 0; i < dts.length; i++) {
 		var ar = [], dt = dts[i];
-		for (var n = 0, m = dt.length; n < m; n+=2) 
+		for (var n = 0, m = dt.length; n < m; n += 2) 
 			ar.push(this.extendedDecode(dt.substr(n, 2)));
 		
 		ret.push(ar);
