@@ -49,6 +49,10 @@ prettyPrint();
 });
 </script>
 <style>
+body{
+	margin:0;
+	padding:0;
+}
 body,input,textarea{font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,Verdana,Geneva,Arial,Helvetica,sans-serif}
 #pdesc{
 	color:#fff;
@@ -61,6 +65,7 @@ span.lbl-select{
 </style>
 	</head>
 	<body>
+		<div style='padding:0 20px'>
 		<h1>jQuery plugin - overlay demo</h1>
 		<div>
 			<span class="lbl-select">IE6 対応確認用</span>
@@ -106,5 +111,6 @@ $(document).click(function(e){
 &nbsp;&nbsp;return false;
 &nbsp;&nbsp;
 });</pre>
+</div>
 </body>
 </html>
