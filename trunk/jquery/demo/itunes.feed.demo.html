@@ -62,7 +62,7 @@ prettyPrint();
 </script>
 <style type='text/css'>
 body{font-size:100%}
-h2{font-size:18px;margin:0 0 20px;}
+h2{font-size:18px;margin:20px 0;}
 #itunes-feed-result,
 #json-feed,
 #xml-feed{width:600px}
@@ -73,10 +73,21 @@ h2{font-size:18px;margin:0 0 20px;}
 pre.prettyprint{
 	overflow: auto;
 }
+#code-link{
+	background-color:#eee;
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	padding-left:20px;
+	line-height:2em;
+}
 </style>
 </head>
  <body>
 <h1>jQuery plugin - iTunes.feed demo</h1>
+<div id='code-link'>
+<span>Source:<a href="http://code.google.com/p/humming-bird/source/browse/trunk/jquery/lib/jquery.itunes.feed.js" title="jquery.itunes.feed.js - humming-bird - Google Code">jquery.itunes.feed.js - humming-bird - Google Code</a></span>
+</div>
+<div style='clear:both;'></div>
 <div id='json-feed'>
 <h2>Usage:json feed</h2>
 <pre class='prettyprint'>
@@ -88,13 +99,17 @@ $.iTunes.feed('json',{
 &nbsp;&nbsp;}, function(result){
 &nbsp;&nbsp;&nbsp;&nbsp;var
 &nbsp;&nbsp;&nbsp;&nbsp;feed = result.json,
-&nbsp;&nbsp;&nbsp;&nbsp;$div = $('&lt;div&gt;').append('&lt;h3&gt;' + feed.description + '(json feed)' + '&lt;/h3&gt;'),
+&nbsp;&nbsp;&nbsp;&nbsp;$div = $('&lt;div&gt;'),
 &nbsp;&nbsp;&nbsp;&nbsp;entries = feed.entries;
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;$div
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.addClass('feed-result')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append('&lt;h3&gt;' + feed.description + '(json feed)' + '&lt;/h3&gt;');
 &nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;for ( var i =0, j = entries.length ; i &lt; j ; i++ )
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.append(entries[i].content);
 
-&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#itunes-feed-result');
+&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#json-feed');
 });
 </pre>
 </div>
