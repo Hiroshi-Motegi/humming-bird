@@ -38,16 +38,18 @@ function createOptions (prms){
 function parseXMLfromString(xmlString){
 	if (window.DOMParser) {
 		var parser = new DOMParser();
-		parser.async = false;
+		if('async' in parser)
+			parser.async = false;
+		
 		var dom = parser.parseFromString(xmlString, 'text/xml');
 		return dom.documentElement.firstChild;
 	}
 	else 
-		if (window.ActiveXObject) {
+		if (window.ActiveXObject) { //IE
 			var xobj = new ActiveXObject('Microsoft.XMLDOM');
 			xobj.async = false;
 			xobj.loadXML(xmlString);
-			return xobj.documentElement;
+			return xobj.documentElement.firstChild;
 		}
 	return false;
 }
