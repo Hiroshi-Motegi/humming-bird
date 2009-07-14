@@ -49,7 +49,7 @@ $.iTunes.feed('xml',{
 		
 		$div
 			.addClass('feed-result')
-			.append('<h3>' + $(xml.childNodes).filter('description').text() + '(XML feed)' + '</h3>');
+			.append('<h3>' + $(xml.childNodes).filter('description:eq(0)').text() + '(XML feed)' + '</h3>');
 		
 		for (var i = 0, j = items.length; i < j; i++)
 			$div.append($(items[i].getElementsByTagName('content:encoded')).text());
@@ -62,12 +62,12 @@ prettyPrint();
 </script>
 <style type='text/css'>
 body{font-size:100%}
-
+h2{font-size:18px;margin:0 0 20px;}
 #itunes-feed-result,
 #json-feed,
-#xml-feed{
-	width:600px;
-}
+#xml-feed{width:600px}
+#json-feed{float:left}
+#xml-feed{margin-left:700px}
 .feed-result * {font-size:11px}
 .feed-result h3 {font-size:14px}
 pre.prettyprint{
@@ -78,7 +78,7 @@ pre.prettyprint{
  <body>
 <h1>jQuery plugin - iTunes.feed demo</h1>
 <div id='json-feed'>
-<h3>Usage:json feed</h3>
+<h2>Usage:json feed</h2>
 <pre class='prettyprint'>
 $.iTunes.feed('json',{
 &nbsp;&nbsp;&nbsp;&nbsp;category:$.iTunes.categories['New Releases'],
@@ -98,8 +98,9 @@ $.iTunes.feed('json',{
 });
 </pre>
 </div>
+
 <div id='xml-feed'>
-<h3>Usage:XML feed</h3>
+<h2>Usage:XML feed</h2>
 <pre class='prettyprint'>
 $.iTunes.feed('xml',{
 &nbsp;&nbsp;&nbsp;&nbsp;category:'topalbums',
@@ -112,12 +113,14 @@ $.iTunes.feed('xml',{
 &nbsp;&nbsp;&nbsp;&nbsp;$div = $('&lt;div&gt;'),
 &nbsp;&nbsp;&nbsp;&nbsp;items = xml.getElementsByTagName('item');
 &nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;$div.append('&lt;h3&gt;' + $(xml.childNodes).filter('description').text() + '(XML feed)' + '&lt;/h3&gt;');
+&nbsp;&nbsp;&nbsp;&nbsp;$div
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.addClass('feed-result')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append('&lt;h3&gt;' + $(xml.childNodes).filter('description:eq(0)').text() + '(XML feed)' + '&lt;/h3&gt;');
 &nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;for (var i = 0, j = items.length; i &lt; j; i++)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.append($(items[i].getElementsByTagName('content:encoded')).text());
 
-&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#itunes-feed-result');
+&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#xml-feed');
 });
 </pre>
 </div>
