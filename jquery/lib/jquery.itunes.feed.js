@@ -4,83 +4,74 @@
  * Released under the MIT and GPL licenses.
  * 
  * @Author:y@s
- * @Version:1.1
+ * @Version:1.2
  * @Published:2009/06/00
- * @Update:2009/06/28
+ * @Update:2009/07/14
  * @Demo:http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
  */
 
 (function($){
+
+var _defaultParams = {
+	category:'topalbums',
+	sf:143462,
+	limit:10,
+	genre:0,
+	explicit:true
+};
+
+
+function createOptions (prms){
+	return {
+		v: '1.0',
+		num: prms.limit || '-1',
+		output: 'json', //json, json_xml, xml
+		q: 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
+			prms.category.toLowerCase() +
+			'/sf=' + prms.sf +
+			'/limit=' + prms.limit +
+			'/genre=' + prms.genre +
+			'/explicit=' + prms.explicit + '/rss.xml'
+	}
+}
+
+function parseXMLfromString(xmlString){
+	if (window.DOMParser) {
+		var parser = new DOMParser();
+		parser.async = false;
+		var dom = parser.parseFromString(xmlString, 'text/xml');
+		return dom.documentElement.firstChild;
+	}
+	else 
+		if (window.ActiveXObject) {
+			var xobj = new ActiveXObject('Microsoft.XMLDOM');
+			xobj.async = false;
+			xobj.loadXML(xmlString);
+			return xobj.documentElement;
+		}
+	return false;
+}
+
+
 $.iTunes = {
 	feed: function( type, params, callback ){
 		
 		callback = $.isFunction(params) ? params : callback || function(){};
-		params = typeof type == 'object' ? type : params || {};
-		type = typeof type == 'string' ? type : 'json'; 
+		params = typeof type == 'object' ? type : typeof params == 'object' && !$.isFunction(params) ? params : {};
+		type = typeof type == 'string' ? type : 'json';
 		
-		var prms = $.extend({
-			category:'topalbums',
-			sf:143462,
-			limit:10,
-			genre:0,
-			explicit:true
-		}, params);
-		
-		var op = $.extend({
-			v: '1.0',
-			num: '-1',
-			output: 'json', //json, json_xml, xml
-			q: 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
-				prms.category.toLowerCase() +
-				'/sf=' + prms.sf +
-				'/limit=' + prms.limit +
-				'/genre=' + prms.genre +
-				'/explicit=' + prms.explicit + '/rss.xml'
-		},{output:type});
-		
-		function parseXMLfromString(xmlString){
-			if (window.DOMParser) {
-				var parser = new DOMParser();
-				parser.async = false;
-				var dom = parser.parseFromString(xmlString, 'text/xml');
-				return dom.documentElement.firstChild;
-			}
-			else 
-				if (window.ActiveXObject) {
-					var xobj = new ActiveXObject('Microsoft.XMLDOM');
-					xobj.async = false;
-					xobj.loadXML( xmlString );
-					return xobj.documentElement;
-				}
-			return;
-		}
+		var
+		prms = $.extend({}, _defaultParams, params),
+		op = $.extend(createOptions(prms),{output:type});
 		
 		$.get('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', op,
 			function(data){
-				
 				if (data && data.responseStatus == 200){
 					
-					var feed;
-					
-					switch (op.output) {
-						case 'json':
-							feed = data.responseData.feed;
-							break;
-							
-						case 'xml':
-							feed = parseXMLfromString(data.responseData.xmlString);
-							break;
-						case 'json_xml':
-							feed = {
-								'feed': data.responseData.feed,
-								'xml': parseXMLfromString(data.responseData.xmlString)
-							};
-							break;
-						default:
-							return false;
-					}
-					
-					callback.call(this, feed);
+					callback.call(this, {
+						'json' : /json/.test(op.output) ? data.responseData.feed : null,
+						'xml' : /xml/.test(op.output) ? parseXMLfromString(data.responseData.xmlString) : null
+					});
 					
 				}else{
 					return false;

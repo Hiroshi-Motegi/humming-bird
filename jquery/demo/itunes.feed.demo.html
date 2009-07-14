@@ -12,38 +12,64 @@
 <script type="text/javascript">
 $(function(){
 // Usage
+
 $.iTunes.feed('json',{
 		category:$.iTunes.categories['New Releases'],
 		sf:$.iTunes.countries.japan,
 		limit:5,
 		genre:$.iTunes.genre['Rock']
-	},
-	function(result){
+	}, function(result){
 		var
-		$div = $('<div>')
-			.append('<h3>' + result.description + '</h3>'),
-		entries = result.entries;
+		feed = result.json,
+		$div = $('<div>'),
+		entries = feed.entries;
+		
+		$div
+			.addClass('feed-result')
+			.append('<h3>' + feed.description + '(json feed)' + '</h3>');
 		
 		for ( var i =0, j = entries.length ; i < j ; i++ )
 			$div.append(entries[i].content);
 
-		$div.appendTo('#itunes-feed-wrap');
+		$div.appendTo('#json-feed');
+});
+
+
+
+$.iTunes.feed('xml',{
+		category:'topalbums',
+		sf:$.iTunes.countries.japan,
+		limit:5,
+		genre:$.iTunes.genre['All']
+	}, function(result){
+		var
+		xml = result.xml,
+		$div = $('<div>'),
+		items = xml.getElementsByTagName('item');
+		
+		$div
+			.addClass('feed-result')
+			.append('<h3>' + $(xml.childNodes).filter('description').text() + '(XML feed)' + '</h3>');
+		
+		for (var i = 0, j = items.length; i < j; i++)
+			$div.append($(items[i].getElementsByTagName('content:encoded')).text());
+
+		$div.appendTo('#xml-feed');
 });
 
 prettyPrint();
 });
 </script>
 <style type='text/css'>
-body{
-	font-size:16px;
+body{font-size:100%}
+
+#itunes-feed-result,
+#json-feed,
+#xml-feed{
+	width:600px;
 }
-#itunes-feed-wrap{
-	margin-left:540px;
-}
-#usage{
-	float:left;
-	width:500px;
-}
+.feed-result * {font-size:11px}
+.feed-result h3 {font-size:14px}
 pre.prettyprint{
 	overflow: auto;
 }
@@ -51,28 +77,49 @@ pre.prettyprint{
 </head>
  <body>
 <h1>jQuery plugin - iTunes.feed demo</h1>
-<div id='usage'>
-<h3>Usage</h3>
+<div id='json-feed'>
+<h3>Usage:json feed</h3>
 <pre class='prettyprint'>
 $.iTunes.feed('json',{
 &nbsp;&nbsp;&nbsp;&nbsp;category:$.iTunes.categories['New Releases'],
 &nbsp;&nbsp;&nbsp;&nbsp;sf:$.iTunes.countries.japan,
 &nbsp;&nbsp;&nbsp;&nbsp;limit:5,
 &nbsp;&nbsp;&nbsp;&nbsp;genre:$.iTunes.genre['Rock']
-&nbsp;&nbsp;},
-&nbsp;&nbsp;function(result){
+&nbsp;&nbsp;}, function(result){
 &nbsp;&nbsp;&nbsp;&nbsp;var
-&nbsp;&nbsp;&nbsp;&nbsp;$div = $('&lt;div&gt;')
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append('&lt;h3&gt;' + result.description + '&lt;/h3&gt;'),
-&nbsp;&nbsp;&nbsp;&nbsp;entries = result.entries;
+&nbsp;&nbsp;&nbsp;&nbsp;feed = result.json,
+&nbsp;&nbsp;&nbsp;&nbsp;$div = $('&lt;div&gt;').append('&lt;h3&gt;' + feed.description + '(json feed)' + '&lt;/h3&gt;'),
+&nbsp;&nbsp;&nbsp;&nbsp;entries = feed.entries;
 &nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;for ( var i =0, j = entries.length ; i &lt; j ; i++ )
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.append(entries[i].content);
 
-&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#itunes-feed-wrap');
+&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#itunes-feed-result');
 });
 </pre>
 </div>
-<div id='itunes-feed-wrap'></div>
+<div id='xml-feed'>
+<h3>Usage:XML feed</h3>
+<pre class='prettyprint'>
+$.iTunes.feed('xml',{
+&nbsp;&nbsp;&nbsp;&nbsp;category:'topalbums',
+&nbsp;&nbsp;&nbsp;&nbsp;sf:$.iTunes.countries.japan,
+&nbsp;&nbsp;&nbsp;&nbsp;limit:5,
+&nbsp;&nbsp;&nbsp;&nbsp;genre:$.iTunes.genre['All']
+&nbsp;&nbsp;}, function(result){
+&nbsp;&nbsp;&nbsp;&nbsp;var
+&nbsp;&nbsp;&nbsp;&nbsp;xml = result.xml,
+&nbsp;&nbsp;&nbsp;&nbsp;$div = $('&lt;div&gt;'),
+&nbsp;&nbsp;&nbsp;&nbsp;items = xml.getElementsByTagName('item');
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;$div.append('&lt;h3&gt;' + $(xml.childNodes).filter('description').text() + '(XML feed)' + '&lt;/h3&gt;');
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;for (var i = 0, j = items.length; i &lt; j; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.append($(items[i].getElementsByTagName('content:encoded')).text());
+
+&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#itunes-feed-result');
+});
+</pre>
+</div>
 </body>
 </html>
