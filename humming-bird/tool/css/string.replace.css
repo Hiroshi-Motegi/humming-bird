@@ -88,14 +88,18 @@ table{
 }
 td{vertical-align: text-top}
 h4{
-	font-size:14px;
 	border: 1px solid #222222;
+	display: block;
+	margin-bottom: 10px;
+}
+h4 span{
+	font-size:14px;
+	border: 1px solid #303030;
 	background-color: #2a2a2a;
 	line-height: 1.8em;
 	display: block;
 	text-align: center;
 	color:#708090;
-	margin-bottom: 10px;
 }
 
 .txtarea-wrap{
