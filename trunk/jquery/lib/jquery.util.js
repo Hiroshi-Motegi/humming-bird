@@ -1,4 +1,7 @@
 (function($) {
+	
+var _isOldIE = $.browser.msie && $.browser.version == 6;
+
 // extend browser
 $.extend($.browser, {
 	iphone: $.browser.safari && /iphone/.test(userAgent),
@@ -61,7 +64,7 @@ $.extend({
 	
 	alphaImage: function(src, sizingMethod){
 		//sizingMethod = crop or image or scale
-		return $.browser.msie && $.browser.version == 6 ? {
+		return _isOldIE ? {
 				filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=' + 
 					(sizingMethod || 'image') + ' src="' + src + '")'
 			} : {
@@ -69,6 +72,31 @@ $.extend({
 			};
 	}
 });
+
+
+
+var _opacity = (function(){
+	var
+	style = document.createElement('div').style,
+	keys = ['opacity', 'MozOpacity', 'KhtmlOpacity', 'filter'];
+	
+	for (var i = 0; i < keys.length; i++) {
+		if (keys[i] in style) {
+			return {
+				'key': keys[i],
+				'val': (function(){
+					return keys[i] == 'filter' ? function(alpha){
+						return 'alpha(opacity=' + parseInt(parseFloat(alpha) * 100) + ')';
+					} : function(alpha){
+						return alpha;
+					}
+				})()
+			};
+			break;
+		}
+	}
+})();
+
 
 $.fn.extend({
 	setAlphaImage: function(src, sizingMethod){
@@ -102,32 +130,10 @@ $.fn.extend({
 		}));
 	},
 	setOpacity:function(alpha){
-		var
-		elms = Array.prototype.slice.call(this),
-		style = elms[0].style,
-		keys = ['opacity', 'MozOpacity', 'KhtmlOpacity', 'filter'],
-		key, val;
-		
-		for (var i = 0; i < keys.length; i++) {
-			if (keys[i] in style) {
-				key = keys[i];
-				val = keys[i] == 'filter' ? 'alpha(opacity=' + parseInt(parseFloat(alpha) * 100) + ')' : alpha;
-				break;
-			}
-		}
-		
-		for (var i = 0; i < elms.length; i++)
-			elms[i].style[key] = val;
+		for (var i = 0; i < this.length; i++)
+			this[i].style[_opacity.key] = _opacity.val(alpha);
 		
 		return this;
-		
-		//return $(this).css({key:val});
-		
-		/*
-		return this.each(function(){
-			this.style[key] = val;
-		});
-		*/
 	}
 });
 })(jQuery);
