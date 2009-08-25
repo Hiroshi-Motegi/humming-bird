@@ -19,7 +19,6 @@ $.extend($.fx.speeds, {
 $.extend({
 	// check exist parent node
 	existParent: function(elm){
-		//elm = 'length' in elm ? elm.get(0) : elm;
 		elm = 'length' in elm ? elm[0] : 'tagName' in elm ? elm : null;
 		return elm ? (!elm.parentNode || !elm.parentNode.tagName) : false;
 	},
@@ -37,7 +36,7 @@ $.extend({
 		var
 		args = Array.prototype.slice.call(arguments),
 		len = args.length,
-		ret = args[0],
+		ret = args[0]||{},
 		itm;
 		
 		for( var i = 1; i < len ; i++ ){

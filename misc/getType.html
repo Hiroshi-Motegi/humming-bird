@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>New Web Project</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+jQuery(function($){
+$.extend({
+	getType: function(val){
+	
+		//処理速度 4:14:115:380
+		//『===』<『typeof』<『instanceof』<『constructor』
+		
+		// typeof null => object
+		if (val === null) 
+			return 'null';
+		
+		//val === undefined => undefinedに代入可能なため×
+		//val == undefined　=> true = null, undefined
+		if (typeof val == 'undefined') 
+			return 'undefined';
+		
+		if (typeof val == 'boolean') 
+			return 'boolean';
+		
+		if (typeof val == 'string') 
+			return 'string';
+		
+		if (typeof val == 'number') 
+			return 'number'
+		
+		// typeof array => object
+		if (val instanceof Array) 
+			return 'array'
+		
+		// typeof regexp => object
+		// instanceof Object => true
+		if (val instanceof RegExp) 
+			return 'regexp'
+		
+		// typeof date => object
+		if (val instanceof Date) 
+			return 'date'
+		
+		if (typeof val == 'function') 
+			return 'function';
+		
+		if (typeof val == 'object') 
+			return 'object'
+		
+		return 'unknown';
+	}
+})
+});
+</script>
+</head>
+<body>
+</body>
+</html>
