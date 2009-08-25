@@ -36,10 +36,14 @@ paddingString.prototype = {
 }
 */
 
+/*
+String.prototype.times = function(len){
+	var ret = len < 1 ? '' : new Array(++len).join(this.substr(0, 1));
+	return ret.length > len ? ret.substr(ret.length - len) : ret;
+}*/
 
 String.prototype.times = function(len){
-	var ret = len < 1 ? '' : new Array(len + 1).join(this);
-	return ret.length > len ? ret.substr(ret.length - len) : ret;
+	return len < 1 ? '' : new Array(++len).join(this.substr(0, 1) || '');
 }
 
 String.prototype.padLeft = function(totalWidth, paddingChar){
@@ -51,8 +55,21 @@ String.prototype.padRight = function(totalWidth, paddingChar){
 }
 
 
-var s = "PPPP";
-//alert(s.padLeft(3, 'KKK'));
+
+Number.prototype.paddingZero = function(totalWidth, radix) {
+	var str = this.toString(radix || 10);
+	return '0'.times(totalWidth - str.length) + str;
+}
+
+String.prototype.paddingZero = function(totalWidth){
+	return '0'.times(totalWidth - this.length) + this;
+}
+
+
+var s = "P";
+alert(s.padLeft(5, '0'));
+
+alert(s.paddingZero(5));
 
 
 
@@ -93,8 +110,7 @@ String.prototype.hexToBinary = function(){
 	return sep + ret.join(".");
 }
 
-
-//alert("-0xF.12".hexToBinary());
+alert("-0xF.A7".hexToBinary()); //-1111.10100111
 
 
 
@@ -141,41 +157,47 @@ String.prototype.binaryToHex = function(){
 	return sep + ret.join(".");
 }
 
+/*
 console.time("A");
 for (var i = 0; i < 10000; i++) {
 	"-11000.0010".binaryToHex();
 }
 console.timeEnd("A");
+*/
 
 
-	
-	//16進数→2進数
-	//alert(parseInt("-a", 16).toString(2));//1010
-	
-	//16進数→10進数
-	//alert(parseInt("a", 16));//10
-	
+var foo;
 
-	//10進数→2進数
-	//alert((0xFF).toString(2));//1010
-	
-	//10進数→16進数
-	//alert((10).toString(16));//a
-	
+//16進数→2進数
+foo = parseInt("a", 16).toString(2); //1010
 
-	//2進数→10進数
-	//alert(parseInt("1010",2));//10
-	
-	//2進数→16進数
-	//alert(parseInt("11010",2).toString(16));//a
+//16進数→10進数
+foo = parseInt("a", 16); //10
 
 
+//10進数→2進数
+foo = (10).toString(2); //1010
+foo = 0xA.toString(2); //1010
 
+//10進数→16進数
+foo = (10).toString(16); //a
+
+
+//2進数→10進数
+foo = parseInt("1010",2); //10
+
+//2進数→16進数
+foo = parseInt("1010",2).toString(16); //a
+
+alert(0xA);
+
+/*
 console.time("B");
 for (var i = 0; i < 10000; i++) {
 	parseInt("-11000.0010", 2).toString(16);
 }
 console.timeEnd("B");
+*/
 
 });
 </script>
