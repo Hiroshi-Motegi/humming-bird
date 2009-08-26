@@ -3,9 +3,10 @@
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * Author: y@s
+ * Author:y@s
  * Version:1.2
- * Update:2009-06-21
+ * Published:2009-06-21
+ * Update:2009-07-12
  * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
  */
 
@@ -27,22 +28,44 @@ function keydownEvh(e){
 }
 
 function resizeEvh(){
-	var ls = $.overlay.$layer.get(0).style;
+	var ls = $.overlay.$layer[0].style;
 	ls['display'] = 'none';
-	ls['height'] = $(document).height() + 'px';
-	ls['width'] = $(document).width() + 'px';
+	ls['height'] = $doc.height() + 'px';
+	ls['width'] = $doc.width() + 'px';
 	ls['display'] = 'block';
 }
 
+$.fn.extend({
+eosShow:function(){
+	return this.each(function(){
+		var v = $.data(this, dataKey);
+		if(v)
+			this.style.visibility = v.oldVisibility;
+	});
+},
+eosHide:function(){
+	return this.each(function(){
+		$.data(this, dataKey,{'oldVisibility': $.css(this,'visibility')});
+	}).css('visibility', 'hidden');
+}
+});
+
+
+
 var
+isOldIE = $.browser.msie && $.browser.version < 7,
+
+$win = $(window),
+$doc = $(document),
 
 ovCSS = {
-	position: 'absolute',
-	left: 0,
-	top: 0,
-	margin: 0,
 	background:'none',
-	backgroundColor:'#000'
+	backgroundColor:'#000',
+	left: 0,
+	margin: 0,
+	padding: 0,
+	position: 'absolute',
+	top: 0
 },
 
 animOpts = {
@@ -50,10 +73,7 @@ animOpts = {
 	easing:'swing'
 },
 
-ovID = 'overlay',
-
-evKey = 'overlay';
-
+dataKey = evKey = ovID = 'overlay';
 
 
 $.overlay = {
@@ -62,20 +82,19 @@ $.overlay = {
 	
 	create: function( options, callback ){
 		
-		if($.overlay.$layer) return;
-		
 		callback = $.isFunction(options) ? options : callback || function(){};
 		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
-		var _n = 0;
-		
-		while(document.getElementById(ovID))
-			ovID += _n++;
-		
-		$.overlay.$layer = $('<div>').attr('id', ovID).css($.extend({}, ovCSS, options.css || {}));
+		if (!this.$layer) {
+			var n = 0, tmpID = ovID;
+			
+			while (document.getElementById(ovID)) 
+				ovID = tmpID + n++;
+			
+			this.$layer = $(document.createElement('div')).attr('id', ovID).css($.extend({}, ovCSS, options.css || {}));
+		}
 		
 		callback.call(this);
-	
 	},
 	
 	show:function(options, callback){
@@ -83,18 +102,16 @@ $.overlay = {
 		callback = $.isFunction(options) ? options : callback || function(){};
 		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
-		var $doc = $(document);
+		if(!this.$layer)
+			this.create(options);
 		
-		if($.overlay.$layer == null)
-			$.overlay.create(options);
+		if(isOldIE)
+			$('embed,object,select').eosHide();
 		
-		if( $.browser.msie && $.browser.version<7 )
-			$('embed,object,select').css('visibility', 'hidden');
-		
-		$(window).bind('resize', resizeEvh);
+		$win.bind('resize', resizeEvh);
 		$doc.bind('keydown', keydownEvh);
 		
-		$.overlay.$layer
+		this.$layer
 			.css({
 				height:$doc.height(),
 				width:$doc.width(),
@@ -102,7 +119,7 @@ $.overlay = {
 			})
 			.appendTo(document.body)
 			.bind('click', clickEvh)
-			.animate($.extend({}, {opacity: 0.75}, options.animateParams || {}),
+			.animate($.extend({opacity: 0.75}, options.animateParams || {}),
 				$.extend({}, animOpts, {complete:callback}, options.animateOptions || {}));
 	},
 	
@@ -111,22 +128,23 @@ $.overlay = {
 		callback = $.isFunction(options) ? options : callback || function(){};
 		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
-		$(window).unbind('resize', resizeEvh);
+		$win.unbind('resize', resizeEvh);
 		
-		$.overlay.$layer
+		this.$layer
 			.stop(true)
 			.animate({opacity: 0}, $.extend({}, animOpts, {complete:function(){
 				$(this).remove();
-				if ($.browser.msie && $.browser.version < 7) 
-					$('embed,object,select').css('visibility', 'visible');
+				if (isOldIE)
+					$('embed,object,select').eosShow();
+				
 				$(document).unbind('keydown', keydownEvh);
 				callback.call(this);
 			}}, options.animateOptions || {}));
 	},
 	
 	bind:function(fn){
-		if ($.overlay.$layer)
-			$.overlay.$layer.bind(evKey, fn);
+		if (this.$layer)
+			this.$layer.bind(evKey, fn);
 	}
 }
 })(jQuery);
