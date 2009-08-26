@@ -8,77 +8,90 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 jQuery(function($){
-
 /*
-String.prototype.PadRight = function(totalWidth, paddingChar){
-	return totalWidth ?  this + (new paddingString(totalWidth - this.length, paddingChar)).value : this;
-}
-
-String.prototype.PadLeft = function(totalWidth, paddingChar){
-	return totalWidth ? (new paddingString(totalWidth - this.length, paddingChar)).value + this : this;
-}
-
-function paddingString(){
+function Times(){
 	this.initialize.apply(this, arguments);
 }
 
-paddingString.prototype = {
-	initialize:function(totalWidth, paddingChar){
+Times.prototype = {
+	initialize:function(len, chr){
 		var ret = '';
-		paddingChar = paddingChar || '0';
-		totalWidth = totalWidth || 0;
+		chr = chr.substr(0, 1) || '0';
 
-		while (ret.length < totalWidth) 
-			ret = paddingChar + ret;
+		while (ret.length < len) 
+			ret += chr;
 
-		this.value = ret.length > totalWidth ? ret.substr(ret.length - totalWidth) : ret;
+		this.value = ret;
 	}
 }
+
+String.prototype.padLeft = function(totalWidth, paddingChar){
+	return (new Times(totalWidth - this.length, paddingChar)).value + this;
+}
+
+String.prototype.padRight = function(totalWidth, paddingChar){
+	return  this + (new Times(totalWidth - this.length, paddingChar)).value;
+}
+
+//alert("1".padLeft(4, "0"));
+
+var x = "";
+console.time("test");
+for (var i = 0; i < 100000; i++) {
+	x = "1".padLeft(4, "0");
+}
+console.timeEnd("test");
 */
 
-/*
-String.prototype.times = function(len){
-	var ret = len < 1 ? '' : new Array(++len).join(this.substr(0, 1));
-	return ret.length > len ? ret.substr(ret.length - len) : ret;
-}*/
 
+/*
 String.prototype.times = function(len){
 	return len < 1 ? '' : new Array(++len).join(this.substr(0, 1) || '');
 }
 
-String.prototype.padLeft = function(totalWidth, paddingChar){
-	return paddingChar.times(totalWidth - this.length) + this;
+String.prototype.padRight = function(len, chr){
+	return this + chr.times(len - this.length);
 }
 
-String.prototype.padRight = function(totalWidth, paddingChar){
-	return this + paddingChar.times(totalWidth - this.length);
-}
-
-
-
-Number.prototype.paddingZero = function(totalWidth, radix) {
-	var str = this.toString(radix || 10);
-	return '0'.times(totalWidth - str.length) + str;
-}
-
-String.prototype.paddingZero = function(totalWidth){
-	return '0'.times(totalWidth - this.length) + this;
+String.prototype.padLeft = function(len, chr){
+	return chr.times(len - this.length) + this;
 }
 
 
-var s = "P";
-alert(s.padLeft(5, '0'));
-
-alert(s.paddingZero(5));
-
+String.prototype.padLeft = function(len, chr){
+	return len < 1 ? this : new Array((++len - this.length)).join(chr.substr(0, 1) || '') + this;
+}
 
 
-String.prototype.hexToBinary = function(){
-	var
-	sep = this.match(/^-/) ? "-" : "",
-	hxs = this.replace(/(-|0x)/g,"").split("."),
-	ret = [],
-	binaries = {
+
+String.prototype.padLeft = function(len, chr){
+	return len < 1 ? this : (function(c){
+		var ret = '';
+		while (ret.length < len) 
+			ret += c;
+		return ret;
+	})(chr.substr(0, 1) || '0') + this;
+}
+*/
+
+
+/*
+var x = "";
+console.time("test");
+for (var i = 0; i < 100000; i++) {
+	x = "1".padLeft(4, "0");
+}
+console.timeEnd("test");
+*/
+
+
+//alert("1".padLeft(4, "0"));
+
+
+
+/*
+String.prototype.hexToBin = function(){
+	return {
 		"0": "0000",
 		"1": "0001",
 		"2": "0010",
@@ -95,14 +108,26 @@ String.prototype.hexToBinary = function(){
 		"D": "1101",
 		"E": "1110",
 		"F": "1111"
-	}, tmp, hx;
+	}[this.toUpperCase()] || "";
+}
+
+alert("F".hexToBin()); //1111
+*/
+
+
+/*
+String.prototype.hexToBinary = function(){
+	var
+	sep = this.match(/^-/) ? "-" : "",
+	hxs = this.replace(/(-|0x)/g,"").split("."),
+	ret = [], tmp, hx;
 
 	for (var i = 0; i < hxs.length; i++) {
 		tmp = "";
 		hx = hxs[i];
 
 		for (var k = 0; k < hx.length; k++) 
-			tmp += binaries[hx.charAt(k).toUpperCase()] || "";
+			tmp += hx.charAt(k).hexToBin();
 
 		ret.push(tmp);
 	}
@@ -110,19 +135,15 @@ String.prototype.hexToBinary = function(){
 	return sep + ret.join(".");
 }
 
-alert("-0xF.A7".hexToBinary()); //-1111.10100111
+//alert("-0xF.A7".hexToBinary()); //-1111.10100111
+*/
+
+alert("a".toString(2));
 
 
-
-
-
-
-String.prototype.binaryToHex = function(){
-	var
-	sep = this.match(/^-/) ? "-" : "",
-	bins = this.replace(/^-/,"").split("."),
-	ret = [],
-	hexs = {
+/*
+String.prototype.binToHex = function(){
+	return {
 		"0000": "0",
 		"0001": "1",
 		"0010": "2",
@@ -139,7 +160,18 @@ String.prototype.binaryToHex = function(){
 		"1101": "D",
 		"1110": "E",
 		"1111": "F"
-	}, tmp, bin;
+	}['0'.times(4 - this.length) + this] || "";
+}
+
+alert("1010".binToHex()); //A
+*/
+
+/*
+String.prototype.binaryToHex = function(){
+	var
+	sep = this.match(/^-/) ? "-" : "",
+	bins = this.replace(/^-/,"").split("."),
+	ret = [], tmp, bin;
 	
 	for (var i = 0; i < bins.length; i++) {
 		tmp = "";
@@ -149,7 +181,7 @@ String.prototype.binaryToHex = function(){
 			bin = bin.padLeft(bin.length + 4 - bin.length % 4, "0");
 		
 		for (var k = 0; k < bin.length; k += 4)
-			tmp += hexs[bin.substr(k, 4)] || "";
+			tmp += bin.substr(k, 4).binToHex() || "";
 
 		ret.push(tmp);
 	}
@@ -157,15 +189,21 @@ String.prototype.binaryToHex = function(){
 	return sep + ret.join(".");
 }
 
+
+alert("-1111.10100111".binaryToHex()); //-F.A7
+*/
+
 /*
-console.time("A");
-for (var i = 0; i < 10000; i++) {
-	"-11000.0010".binaryToHex();
+console.time("test");
+for (var i = 0; i < 100000; i++) {
+	"-1111.10100111".binaryToHex();
 }
-console.timeEnd("A");
+console.timeEnd("test");
 */
 
 
+
+/*
 var foo;
 
 //16進数→2進数
@@ -189,7 +227,9 @@ foo = parseInt("1010",2); //10
 //2進数→16進数
 foo = parseInt("1010",2).toString(16); //a
 
-alert(0xA);
+//alert(0xA);
+*/
+
 
 /*
 console.time("B");
