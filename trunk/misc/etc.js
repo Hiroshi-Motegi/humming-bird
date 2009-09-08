@@ -23,10 +23,8 @@ Object.extend(Number.prototype, {
 
 
 
-function RGB2HTML(red, green, blue)
-{
-    var decColor = red + 256 * green + 65536 * blue;
-    return decColor.toString(16);
+function RGB2HTML(red, green, blue){
+    return (red + 256 * green + 65536 * blue).toString(16);
 }
 
 
@@ -48,9 +46,8 @@ function changeToColorCode(r, g, b){
 	return ((((1 << 8) + r << 8) + g << 8) + b).toString(16).replace(/^1/, '#');
 };
 
-var c= changeToColorCode(126, 255, 32);
-
 $(function(){
+	var c= changeToColorCode(126, 255, 32);
 	$(".date-header").css({backgroundColor:c});
 })	;
 
