@@ -75,7 +75,7 @@ gChart.merge = function(){
 
 
 //テキストエンコード(Text Encoding)
-//@Param - type:Array in Digit
+//@param - type:Array in Digit
 //@return - type:String
 gChart.textEncoding = function(){
 	var ret = [], args = Array.prototype.slice.call(arguments);
@@ -95,14 +95,14 @@ gChart.textEncoding = function(){
 
 //簡易エンコード(Simple Encode)
 //数値から簡易エンコード文字に変換
-//@Param - type:int(0 - 61)
+//@param - type:int(0 - 61)
 //@return - type:String - Simple Encoded Value
 gChart.simpleEncode = function(data){
 	return data < 0 ? '_' : simpleChrs.substr(data,1) || '_';
 }
 
 
-//@Param - type:Array(int:0 - 61)
+//@param - type:Array(int:0 - 61)
 //@return - type:Array - Simple Encoded Value
 gChart.simpleEncoding = function(){
 	var ret = [], args = Array.prototype.slice.call(arguments);
@@ -122,14 +122,14 @@ gChart.simpleEncoding = function(){
 
 //拡張エンコード(Extended Encode)
 //数値から拡張エンコード文字に変換
-//@Param - type:int(0 - 4095)
+//@param - type:int(0 - 4095)
 //@return - type:String - Extended Encoded Value
 gChart.extendedEncode = function(data){
 	return data < 0 ? '__' : this.extendedEncodWords[data] || '__';
 }
 
 
-//@Param - data: type Array(int:0 - 4095)
+//@param - data: type Array(int:0 - 4095)
 //@return - Array of Extended Encoded Value
 gChart.extendedEncoding = function(){
 	var ret = [], args = Array.prototype.slice.call(arguments);
@@ -166,7 +166,7 @@ gChart.simpleDecode = function(v){
 	return /[A-Za-z\d]/.test(v) ? simpleChrs.search(v) : v == '_' ? -1 : null;
 }
 
-//@Param - type:String
+//@param - type:String
 //@return - type:Array(int 0 - 61 or null)
 gChart.simpleDecoding = function(data){
 	data = /^s:.*$/.test(data) ? data.substr(2) : data;
@@ -187,7 +187,7 @@ gChart.simpleDecoding = function(data){
 
 //拡張デコード(Extended Decode)
 //拡張エンコード文字から数値に変換
-//@Param - type:String - Extended Charactor
+//@param - type:String - Extended Charactor
 //@return - type:int or null
 gChart.extendedDecode = function(v){
 	var re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v);
@@ -197,7 +197,7 @@ gChart.extendedDecode = function(v){
 }
 
 
-//@Param - type:String
+//@param - type:String
 //@return - type:Array
 gChart.extendedDecoding = function(data){
 	data = /^e:.*$/.test(data) ? data.substr(2) : data;
