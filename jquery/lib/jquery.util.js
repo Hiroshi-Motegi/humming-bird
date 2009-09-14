@@ -94,6 +94,8 @@ var _opacity = (function(){
 			break;
 		}
 	}
+	
+	return {};
 })();
 
 

@@ -7,6 +7,11 @@
 		<meta content="y@s" name="author"/>
 		<title>jQuery Tips</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+	<!--[if IE]>
+	<style type="text/css">
+	body {width:expression( documentElement.clientWidth < 900 ? (documentElement.clientWidth == 0 ? (body.clientWidth < 900 ? "900" : "auto") : "900px") : "auto" )}
+	</style>
+	<![endif]-->
 <script type="text/javascript">
 $(function(){
 /*
@@ -58,6 +63,17 @@ var list = '<ul><li>' + arr.join('</li><li>') + '</li></ul>';
 }
 #toggle-target{
 	background-color:#fff;
+}
+
+* html selector {
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=crop, src='images/img.png');
+}
+
+selector{
+	filter: alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity:0.5;
+	opacity:0.5;
 }
 </style>
 </head>
