@@ -1,9 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
-		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 		<meta content="y@s" name="author"/>
 		<title>jQuery Tips</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
@@ -73,6 +73,41 @@ var addListener = (function() {
         }
     }
 })();
+
+
+
+//--------------------------------------------------------------------------
+function $$(id){
+	return document.getElementById(id);
+}
+
+function isExist(id){
+	return $$(id) != null;
+}
+
+//要素が取得できれば、子要素が0の場合、ちゃんと0を返してくれる。
+function hasChild(elm){
+	if($(elm) == null)
+		return false;
+	else
+		return $(elm).children().length > 0;
+}
+
+function lastChildIndex(elm){
+	if(hasChild(elm))
+		return $(elm).children().index($(elm).children(":last"));
+}
+
+//クロスブラウザなfirstChild
+function firstChild(elm){
+	var nd = elm.firstChild;
+	while (nd.nodeType != 1 && nd) {
+		nd = nd.nextSibling;
+	}
+	return nd;
+}
+//--------------------------------------------------------------------------
+
 
 
 });
