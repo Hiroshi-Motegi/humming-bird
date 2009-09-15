@@ -235,7 +235,7 @@ $.extend({
 		},
 		
 		
-		archiveInt: function(){
+		archiveInit: function(){
 			$('li.archivedate > a')
 				.css({textDecoration: 'none', paddingLeft: '1em'})
 				.hover(function(){
@@ -304,7 +304,7 @@ jQuery(function($){
 	$.hb.addHsAttr();
 	
 	//archive initialize and bind hover animate.
-	$.hb.archiveInt();
+	$.hb.archiveInit();
 	
 	//bind my site thumb animate.
 	$.hb.siteThumbInit();

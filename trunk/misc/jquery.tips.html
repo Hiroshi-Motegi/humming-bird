@@ -20,6 +20,8 @@ text 文字列だけを取得
 appendは","区切って追加
 その要素だけを削除する
 wrap bug
+each:falseを返すと処理を中断できる
+clone:引数にtrueを指定するとイベントもコピーされる。
 */
 
 $('#opacity').text($('#toggle-target').css('opacity'));
@@ -37,8 +39,41 @@ $('#toggle-btn').toggle(function(){
 	});
 });
 
-var arr = ['item 1', 'item 2', 'item 3'];
-var list = '<ul><li>' + arr.join('</li><li>') + '</li></ul>';
+
+var list = '<ul><li>' + ['item 1', 'item 2', 'item 3'].join('</li><li>') + '</li></ul>';
+/*list
+<ul>
+	<li>item1</li>
+	<li>item2</li>
+	<li>item3</li>
+</ul>
+*/
+
+
+//イベントの発生源を取得する
+//var target = event.target || event.srcElement;
+
+
+//Add Event
+var addListener = (function() {
+    if ( window.addEventListener ) {
+        return function(el, type, fn) {
+            el.addEventListener(type, fn, false);
+        };
+    } else if ( window.attachEvent ) {
+        return function(el, type, fn) {
+            var f = function() {
+                fn.call(el, window.event);
+            };
+            el.attachEvent('on'+type, f);
+        };
+    } else {
+        return function(el, type, fn) {
+            el['on'+type] = fn;
+        }
+    }
+})();
+
 
 });
 
