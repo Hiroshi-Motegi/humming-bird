@@ -15,13 +15,13 @@
 <script type="text/javascript">
 $(function(){
 /*
-toggle 
-text 文字列だけを取得
-appendは","区切って追加
-その要素だけを削除する
+text() は文字列だけを取得することができる
+appendは","で区切って複数追加可能
 wrap bug
 each:falseを返すと処理を中断できる
 clone:引数にtrueを指定するとイベントもコピーされる。
+animationで指定するopacityはtoggleを指定できる
+mapは配列が線形化される
 */
 
 $('#opacity').text($('#toggle-target').css('opacity'));
