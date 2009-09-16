@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>New Web Project</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+function Human(){
+	this.initialize.apply(this, arguments);
+}
+
+Human.prototype = {
+	bloodType:"",
+	sex:"",
+	initialize:function(){
+		var arg = arguments[0] || {};
+		this.bloodType = arg.bloodType || "";
+		this.sex = arg.sex || "";
+	},
+	toString:function(){
+		return "bloodType:" + person.bloodType +
+			"\nsex:" + person.sex
+	}
+};
+
+
+function Person(){
+	this.initialize.apply(this, arguments);
+}
+
+
+Person.prototype = merge(new Human(),{
+	name: "",
+	initialize: function(){
+		Human.prototype.initialize.apply(this, arguments);
+		var arg = arguments[0] || {};
+		this.name = arg.name || "";
+	},
+	toString: function(){
+		return "name:" + person.name +
+			"\nbloodType:" + person.bloodType +
+			"\nsex:" + person.sex
+	}
+});
+
+
+function merge(){
+	var
+	args = Array.prototype.slice.call(arguments),
+	len = args.length,
+	ret = args[0] ||{},
+	itm;
+	
+	for (var i = 1; i < len; i++) {
+		var arg = args[i];
+		for (itm in arg) {
+			if (arg.hasOwnProperty(itm)) 
+				ret[itm] = arg[itm];
+		}
+	}
+	
+	return ret;
+}
+
+
+
+var person = new Person({
+	bloodType:"A",
+	sex:"male",
+	name:"James"
+});
+
+alert(person);
+
+</script>
+
+<style type="text/css">
+
+</style>
+
+</head>
+<body>
+<p id='coments'></p>
+</body>
+</html>

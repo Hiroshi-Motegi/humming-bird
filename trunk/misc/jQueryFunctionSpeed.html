@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>New Web Project</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+jQuery(function($){
+
+
+/*
+//388ms
+Array.prototype.forEach = function(callback){
+	for (var i = 0, len = this.length; i < len; ) 
+		callback(this[i++]);
+	
+	return this;
+}
+*/
+
+/*
+//412ms
+$.forEach = function(args, callback){
+	if (args instanceof Array) {
+		for (var i = 0, len = args.length; i < len;) {
+			callback( args[i++] );
+		}
+	}
+	else {
+		for (var i in args) {
+			if ( args.hasOwnProperty(i) )
+				callback( args[i] );
+		}
+	}
+}
+*/
+
+/*
+//748ms
+$.forEach2 = function(args, callback){
+	(args instanceof Array ? function(fn){
+		for (var i = 0, len = args.length; i < len; i++) 
+			fn(i);
+	}
+ : function(fn){
+		for (var i in args) {
+			if (args.hasOwnProperty(i)) 
+				fn(i);
+		}
+	})(function(i){
+		callback(args[i]);
+	});
+}
+*/
+
+
+/*468ms
+$.forEach2 = function(args, callback){
+	(args instanceof Array ? function(fn){
+		for (var i = 0, len = args.length; i < len;) 
+			callback(args[i++]);
+	}
+ : function(fn){
+		for (var i in args) {
+			if (args.hasOwnProperty(i)) 
+				callback(args[i]);
+		}
+	})();
+}
+*/
+
+
+
+/*1538ms
+$.each(arr, function(arg){
+	x += arg;
+});
+*/
+
+var arr = [];
+for (var i = 0, k = 1000 * 1000; i < k; i++) {
+	arr[i] = i;
+}
+
+var x = 0;
+
+console.time("test");
+$.forEach2(arr, function(arg){
+	x += arg;
+});
+console.timeEnd("test");
+console.log(x);
+
+
+/*
+
+//14ms
+for (var i = 0, k = arr.length; i < k;)
+	x += arr[i++];
+
+console.timeEnd("test");
+console.log(x);
+*/
+
+
+
+
+
+
+/*14ms
+for (var i = 0, len = arr.length; i < len; i++)
+	x = arr[i];
+*/
+
+
+
+
+});
+</script>
+
+<style type="text/css">
+
+</style>
+
+</head>
+<body>
+<p id='coments'></p>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>New Web Project</title>
+	<!--[if IE]>
+	<style type="text/css">
+	body {width:expression( documentElement.clientWidth < 900 ? (documentElement.clientWidth == 0 ? (body.clientWidth < 900 ? "900" : "auto") : "900px") : "auto" )}
+	</style>
+	<![endif]-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+jQuery(function($){
+/*
+String.prototype.PadRight = function(totalWidth, paddingChar){
+	return totalWidth ?  this + (new paddingString(totalWidth - this.length, paddingChar)).value : this;
+}
+
+String.prototype.PadLeft = function(totalWidth, paddingChar){
+	return totalWidth ? (new paddingString(totalWidth - this.length, paddingChar)).value + this : this;
+}
+
+function paddingString(){
+	this.initialize.apply(this, arguments);
+}
+
+paddingString.prototype = {
+	initialize:function(totalWidth, paddingChar){
+		var ret = '';
+		paddingChar = paddingChar || '0';
+		totalWidth = totalWidth || 0;
+
+		while (ret.length < totalWidth) 
+			ret = paddingChar + ret;
+
+		this.value = ret.length > totalWidth ? ret.substr(ret.length - totalWidth) : ret;
+	}
+}
+
+String.prototype.times = function(len) {
+	len = len || 0;
+	var ret = len < 1 ? '' : new Array(len + 1).join(this);
+	return ret.length > len ? ret.substr(ret.length - len) : ret;
+}
+
+String.prototype.PadLeft = function(totalWidth, paddingChar){
+	return totalWidth ? paddingChar.times(ret.length - totalWidth) : this;
+}
+*/
+
+String.prototype.times = function(len){
+	var ret = len < 1 ? '' : new Array(len + 1).join(this);
+	return ret.length > len ? ret.substr(ret.length - len) : ret;
+}
+
+String.prototype.padLeft = function(totalWidth, paddingChar){
+	return paddingChar.times(totalWidth - this.length) + this;
+}
+
+String.prototype.padRight = function(totalWidth, paddingChar){
+	return this + paddingChar.times(totalWidth - this.length);
+}
+
+
+var s = "PPPP";
+//alert(s.padLeft(3, 'KKK'));
+
+});
+</script>
+
+<style type="text/css">
+body { min-width: 900px; }
+
+* html .selector {
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=crop, src='images/img.png');
+}
+
+selector{
+	filter: alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity:0.5;
+	opacity:0.5;
+}
+</style>
+
+
+</head>
+<body>
+<p id='coments'></p>
+</body>
+</html>
