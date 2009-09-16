@@ -7,16 +7,10 @@
 		<meta content="y@s" name="author"/>
 		<title>jQuery Tips</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-	<!--[if IE]>
-	<style type="text/css">
-	body {width:expression( documentElement.clientWidth < 900 ? (documentElement.clientWidth == 0 ? (body.clientWidth < 900 ? "900" : "auto") : "900px") : "auto" )}
-	</style>
-	<![endif]-->
 <script type="text/javascript">
 $(function(){
 /*
-text() は文字列だけを取得することができる
-appendは","で区切って複数追加可能
+clearfixを後で適用する
 wrap bug
 each:falseを返すと処理を中断できる
 clone:引数にtrueを指定するとイベントもコピーされる。
@@ -24,133 +18,37 @@ animationで指定するopacityはtoggleを指定できる
 mapは配列が線形化される
 */
 
-$('#opacity').text($('#toggle-target').css('opacity'));
-$('#toggle-btn').toggle(function(){
-	$('#toggle-target').animate({opacity:'toggle'},{
-		complete: function(){
-			$('#opacity').text($('#toggle-target').css('opacity'));
-		}
-	});
-},function(){
-	$('#toggle-target').animate({opacity:'toggle'},{
-		complete: function(){
-			$('#opacity').text($('#toggle-target').css('opacity'));
-		}
-	});
-});
 
+//textメソッドは文字列だけを取得するメソッドですが、
+//指定した要素以下のテキストをすべて取得することになるので、場合によってブラウザによって結果が異なります。
+//具体的にはFirefoxの場合、HTML内の"\r\n"やtabまで取得していしまいます。
+//このブラウザ間の違いをなくすためには『contents』を利用します。
+//#target直下の要素が特定できない場合などに有効です。
+//alert($("#target").text());
+//alert($("#target p").text());
 
-var list = '<ul><li>' + ['item 1', 'item 2', 'item 3'].join('</li><li>') + '</li></ul>';
-/*list
-<ul>
-	<li>item1</li>
-	<li>item2</li>
-	<li>item3</li>
-</ul>
-*/
-
-
-//イベントの発生源を取得する
-//var target = event.target || event.srcElement;
-
-
-//Add Event
-var addListener = (function() {
-    if ( window.addEventListener ) {
-        return function(el, type, fn) {
-            el.addEventListener(type, fn, false);
-        };
-    } else if ( window.attachEvent ) {
-        return function(el, type, fn) {
-            var f = function() {
-                fn.call(el, window.event);
-            };
-            el.attachEvent('on'+type, f);
-        };
-    } else {
-        return function(el, type, fn) {
-            el['on'+type] = fn;
-        }
-    }
-})();
+//alert($("#target > *").text());
+//alert($("#target").contents().text());
 
 
 
-//--------------------------------------------------------------------------
-function $$(id){
-	return document.getElementById(id);
-}
 
-function isExist(id){
-	return $$(id) != null;
-}
+//appendは要素に引数で指定したコンテンツを追加するメソッドですが、
+//","で区切って複数要素を追加することができる。
+$(document.body).append(
+	$("<span>").text("added span element"),
+	"<p>added p element</p>");
 
-//要素が取得できれば、子要素が0の場合、ちゃんと0を返してくれる。
-function hasChild(elm){
-	if($(elm) == null)
-		return false;
-	else
-		return $(elm).children().length > 0;
-}
 
-function lastChildIndex(elm){
-	if(hasChild(elm))
-		return $(elm).children().index($(elm).children(":last"));
-}
 
-//クロスブラウザなfirstChild
-function firstChild(elm){
-	var nd = elm.firstChild;
-	while (nd.nodeType != 1 && nd) {
-		nd = nd.nextSibling;
-	}
-	return nd;
-}
-//--------------------------------------------------------------------------
-function makeClojure(){
-	var i = 0;
-	return function(){
-		return i++;
-	}
-}
+$("#target").append(
+	"<div>" + $("#target").contents() + "</div>"
+);
 
 
 });
-
-
 </script>
-<style type="text/css">
-
-#toggle,
-#toggle-btn,
-#toggle-target{
-	border: 1px solid #ccc;
-	margin:5px;
-}
-#toggle{
-	width:200px;
-	text-align:center;
-	background-color:#eee;
-}
-#toggle-btn{
-	background-color:#ddd;
-	cursor:pointer;
-}
-#toggle-target{
-	background-color:#fff;
-}
-
-* html selector {
-	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=crop, src='images/img.png');
-}
-
-selector{
-	filter: alpha(opacity=50);
-	-moz-opacity:0.5;
-	-khtml-opacity:0.5;
-	opacity:0.5;
-}
-</style>
+<style type="text/css"></style>
 </head>
 <body>
 	<h1>jQuery Tips</h1>
@@ -158,12 +56,10 @@ selector{
 		<li><a href="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" title="">http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js</a></li>
 		<li><a href="http://code.jquery.com/jquery-latest.min.js" title="">http://code.jquery.com/jquery-latest.min.js</a></li>
 	</ul>
-	<div id='toggle'>
-		<p id='toggle-btn'><b>Click Here.</b></p>
-		<p><span>elemnt opacity : </span><span id='opacity'>0</span></p>
-		<div id='toggle-target'>
-			<p>toggle-target</p>
-		</div>
-	</div>
+
+<div id="target">
+	<p><span style="color:red"><b>hoge</b>hoge</span>な気分 <i>de</i> <b>fuga</b>.</p>
+	<p>foo foo foo</p>
+</div>
 </body>
 </html>
