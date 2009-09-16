@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>New Web Project</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+jQuery(function($){
+
+/*
+var digit = 255;
+alert(digit.toString(16)); //FF
+alert(digit.toString(2)); //11111111
+
+
+
+var digit = 255 << 8;
+alert(digit); //65280
+alert(digit.toString(16)); //FF00
+alert(digit.toString(2)); //1111111100000000
+
+
+
+var digit = 65280 << 8;
+alert(digit); //16711680
+alert(digit.toString(16)); //FF0000
+alert(digit.toString(2)); //111111110000000000000000
+*/
+
+
+//713ms
+function toColorCode_1a(r,g,b){
+	return (((256 + r << 8) + g << 8) + b).toString(16).replace(/^1/,'#');
+}
+
+//720ms
+function toColorCode_1b(r,g,b){
+	return ((256 + r << 16) + (g << 8) + b).toString(16).replace(/^1/,'#');
+}
+
+//718ms
+function toColorCode_1c(r,g,b){
+	return ((((1 << 8) + r << 8) + g << 8) + b).toString(16).replace(/^1/,'#');
+}
+
+//478ms
+function toColorCode_1d(r,g,b){
+	return "#" + ((((1 << 8) + r << 8) + g << 8) + b).toString(16).substr(1, 6);
+}
+
+
+
+//713ms
+function toColorCode_1a(r,g,b){
+	return (((256 + r << 8) + g << 8) + b).toString(16).replace(/^1/,'#');
+}
+
+//463ms
+function toColorCode_1e(r,g,b){
+	return '#' + (((256 + r << 8) + g << 8) + b).toString(16).substr(1, 6);
+}
+
+/*
+var x = 255;
+alert(x.toString(16)); //FF
+alert((x).toString(2)); //11111111
+alert((x << 8).toString(2)); //1111111100000000
+alert((x << 16).toString(2)); //111111110000000000000000
+
+alert((16777216).toString(16)); //1000000
+*/
+
+
+/*bad
+//318ms
+function toColorCode_2a(r, g, b){
+    return '#' + ((r * 256 + g) * 256 + b).toString(16);
+}
+*/
+
+function toColorCode(r, g, b){
+    return '#' + (((r << 8) + g << 8) + b).toString(16);
+}
+
+alert(toColorCode(0,0,128));//#80
+
+
+
+
+
+//713ms
+function toColorCode_2b(r, g, b){
+	return (((256 + r) * 256 + g) * 256 + b).toString(16).replace(/^1/, '#');
+}
+
+//714ms
+function toColorCode_2c(r, g, b){
+	return (r * 65536 + g * 256 + b + 16777216).toString(16).replace(/^1/, '#');
+}
+
+//488ms
+function toColorCode_2d(r, g, b){
+	return '#' + (r * 65536 + g * 256 + b + 16777216).toString(16).substr(1, 6);
+}
+
+
+//713ms
+function toColorCode_2b(r, g, b){
+	return (((256 + r) * 256 + g) * 256 + b).toString(16).replace(/^1/, '#');
+}
+
+//478ms
+function toColorCode_2a(r, g, b){
+	return '#' + (((256 + r) * 256 + g) * 256 + b).toString(16).substr(1, 6);
+}
+
+
+
+
+//firefox3.5
+//14443ms
+function toColorCode_3a(r, g, b){
+	return '#' + [r, g, b].map(function(cp){
+		return (cp > 16 ? '' : '0') + cp.toString(16);
+	}).join('');
+}
+
+//use jQuery
+//5380ms
+function toColorCode_3b(r, g, b){
+	return '#' + $.map([r, g, b], function(cp){
+		return (cp > 16 ? '' : '0') + cp.toString(16);
+	}).join('');
+}
+
+//2250ms
+function toColorCode_3c(r, g, b){
+	return (function(rgb){
+		var ret = '#';
+		for (var i = 0, len = rgb.length; i < len; i++)
+			ret += (rgb[i] > 16 ? '' : '0') + rgb[i].toString(16);
+
+		return ret;
+	})([r, g, b]);
+}
+
+//623ms
+function toColorCode_3e(r, g, b){
+	return '#' +
+		(r > 16 ? '' : '0') + r.toString(16) +
+		(g > 16 ? '' : '0') + g.toString(16) +
+		(b > 16 ? '' : '0') + b.toString(16);
+}
+
+
+//1860ms
+function toColorCode_3d(r, g, b){
+	var ret = '#', rgb = [r, g, b], i = 0, len = rgb.length, cp;
+	
+	for (; i < len;) {
+		cp = rgb[i++];
+		ret += (cp > 16 ? '' : '0') + cp.toString(16);
+	}
+	
+	return ret;
+}
+
+
+
+
+/*
+var x = '';
+console.time('test');
+for (var i = 0; i < 1000 * 1000; i++) {
+	x = toColorCode_3e(255, 255, 255);
+}
+console.timeEnd('test');
+console.log(x);
+*/
+
+});
+
+
+</script>
+
+<style type="text/css"></style>
+</head>
+<body>
+<p id='coments'>&gt;</p>
+</body>
+</html>
