@@ -3,7 +3,7 @@ var doc = document;
 eval('var document = doc');
 @*/
 
-/* update:2009/07/05 */
+/* update:2009/10/26 */
 
 (function($){
 $.extend({
@@ -211,7 +211,7 @@ $.extend({
 				
 			} 
 			catch (e) {
-				return false
+				return false;
 			}
 		},
 		
@@ -294,9 +294,6 @@ $.extend({
 jQuery(function($){
 	$('div.post-body table').attr('cellSpacing','1');
 	
-	//Modify and show the post date.
-	$.hb.showPostDate();
-	
 	//load prettyPrint.
 	if($('pre.prettyprint').length > 0) prettyPrint();
 	
@@ -312,8 +309,10 @@ jQuery(function($){
 	//create Recent Posts
 	$.hb.createRecentPosts();
 	
-	// show Blog description Effect.
 	$(window).load(function(){
+		//Modify and show the post date.
+		$.hb.showPostDate();
+		// show Blog description Effect.
 		$.captionSlide();
 	});
 });
