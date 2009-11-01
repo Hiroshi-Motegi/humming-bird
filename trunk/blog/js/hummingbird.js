@@ -3,7 +3,7 @@ var doc = document;
 eval('var document = doc');
 @*/
 
-/* update:2009/10/26 */
+/* Last Update:2009/11/02 */
 
 (function($){
 $.extend({
@@ -166,16 +166,14 @@ $.extend({
 	
 	//get my feed. using for recent posts.
 	getMyFeed: function(options, domain, order, callback){
-		var opt = $.extend({
-			'max-results': 10,
-			'redirect': false,
-			'alt': 'json-in-script'
-		}, options);
-		
 		$.ajax({
 			dataType: 'jsonp',
-			data: opt,
-			cache: true,
+			data: $.extend({
+					'max-results': 10,
+					'redirect': false,
+					'alt': 'json-in-script'
+				}, options),
+			cache: false,
 			url: 'http://' + encodeURIComponent(domain) + '.blogspot.com/feeds/' + order + '/default',
 			success: callback
 		});
