@@ -7,7 +7,7 @@ appendThumbNail: function(entry){
 
 $.extend({
 youTube: function(options, callback){
-	var op = $.extend({
+	var opt = $.extend({
 		'alt': 'json-in-script',
 		'max-results': 10,
 		'format':5,
@@ -18,8 +18,8 @@ youTube: function(options, callback){
 		'vq': ''
 	}, options);
 	
-	if (op.vq) {
-		$.get('http://gdata.youtube.com/feeds/api/videos', op, function(data){
+	if (opt.vq) {
+		$.get('http://gdata.youtube.com/feeds/api/videos', opt, function(data){
 			if (data)
 				callback.call(this, data.feed);
 		},'jsonp');
@@ -50,20 +50,22 @@ yt: {
 		for (var itm in data) 
 			$('#movie-summary-' + itm).text(data[itm]);
 		
+		var pu = data.playerUrl.replace(/&feature=youtube_gdata/, '');
+		
 		$('#movie-summary-playerUrl')
 			.empty()
 			.append($('<a>')
 				.attr({
-					'href':data.playerUrl + '&fmt=18',
+					'href':pu + '&fmt=18',
 					'rel':'external',
 					'target':'_blank'
-				}).text(data.playerUrl));
+				}).text(pu));
 	},
 	showThumbIndexInfo: function(){
-		var x = ['start-index', 'last-index', 'total-results'];
-		$('#yt-thumb-' + x[0]).text($.yt.params[x[1]] > 0 ? $.yt.currents[x[0]] : 0);
-		$('#yt-thumb-' + x[1]).text($.yt.params[x[1]]);
-		$('#yt-thumb-' + x[2]).text($.yt.params[x[2]]);
+		var x = ['start-index', 'last-index', 'total-results'], sh = '#yt-thumb-';
+		$(sh + x[0]).text($.yt.params[x[1]] > 0 ? $.yt.currents[x[0]] : 0);
+		$(sh + x[1]).text($.yt.params[x[1]]);
+		$(sh + x[2]).text($.yt.params[x[2]]);
 	},
 	createThumbTable: function(colNum, callback){
 		
@@ -95,7 +97,7 @@ yt: {
 	
 	createThumbNail: function(entry){
 		var mg = entry.media$group, key = $.yt.key;
-		
+
 		return $('<a>').addClass('yt-thumb-link').setData(key, {
 			'author': entry.author[0].name.$t,
 			'title': mg.media$title.$t,
