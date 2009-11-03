@@ -11,9 +11,7 @@
 var ret = null;
 $(function(){
 /*
-
-clearfixを後で適用する
-wrap bug
+ajaxのcache:falseにするとキャッシュされないようにできる。
 each:falseを返すと処理を中断できる
 clone:引数にtrueを指定するとイベントもコピーされる。
 animationで指定するopacityはtoggleを指定できる
@@ -24,7 +22,7 @@ stopの引数にtrueを渡すとqu
 
 $.merge( [0,1,2], [2,3,4] );
 Result:
-[0,1,2,3,4]
+[0,1,2,3,2,3,4]
 */
 
 
