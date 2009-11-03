@@ -628,6 +628,5 @@ $('a.yt-order').click(function(){
 	return false;
 });
 
-
 $.setTitle('iTube β', '1.0');
 });
