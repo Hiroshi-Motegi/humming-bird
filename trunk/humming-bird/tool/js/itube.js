@@ -47,19 +47,17 @@ yt: {
 		});
 	},
 	showMovieInfo: function(data){
-		for (var itm in data) 
+		for (var itm in data)
 			$('#movie-summary-' + itm).text(data[itm]);
 		
-		var pu = data.playerUrl.replace(/&feature=youtube_gdata/, '');
+		var pUrl = data.playerUrl.replace(/&feature=youtube_gdata/, '');
 		
-		$('#movie-summary-playerUrl')
-			.empty()
-			.append($('<a>')
-				.attr({
-					'href':pu + '&fmt=18',
+		$('#movie-summary-playerUrl').empty()
+			.append($('<a>').attr({
+					'href':pUrl + '&fmt=18',
 					'rel':'external',
 					'target':'_blank'
-				}).text(pu));
+				}).text(pUrl));
 	},
 	showThumbIndexInfo: function(){
 		var x = ['start-index', 'last-index', 'total-results'], sh = '#yt-thumb-';
