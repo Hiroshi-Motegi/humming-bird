@@ -9,10 +9,9 @@ class MainPage(webapp.RequestHandler):
     self.response.out.write(template.render(path, ''))
 
 
-application = webapp.WSGIApplication([('/', MainPage)], debug=False)
-
 def main():
-    run_wsgi_app(application)
+  application = webapp.WSGIApplication([('/', MainPage)], debug=False)
+  run_wsgi_app(application)
 
 if __name__ == "__main__":
     main()
