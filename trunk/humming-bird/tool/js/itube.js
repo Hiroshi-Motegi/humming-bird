@@ -12,7 +12,7 @@ youTube: function(options, callback){
 		'max-results': 10,
 		'format':5,
 		'orderby': 'relevance',
-		'racy': 'exclude',
+		'racy': 'include',
 		'start-index': 1,
 		'time': 'all_time',
 		'vq': ''
@@ -281,7 +281,7 @@ iTunes: {
 			sf: 143462,
 			limit: 10,
 			genre: 0,
-			explicit: true
+			explicit: true //性描写や卑語などの歌詞が含まれる曲を含む
 		}, params);
 		
 		var feed = new google.feeds.Feed('http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' +
@@ -592,14 +592,15 @@ $('a.yt-prev').click(function(e){
 
 $('a.yt-next').click(function(e){
 	var
-	c = $.yt.currents,
-	p = $.yt.params;
+	yt = $.yt,
+	c = yt.currents,
+	p = yt.params;
 	
 	if(p['last-index'] >= p['total-results']) return false;
 	
 	if (c.vq) {
-		$.yt.currents['start-index'] = Math.min(c['start-index'] + c['max-results'], p['total-results']);
-		$.yt.changeThumbTable();
+		yt.currents['start-index'] = Math.min(c['start-index'] + c['max-results'], p['total-results']);
+		yt.changeThumbTable();
 	}
 	
 	return false;

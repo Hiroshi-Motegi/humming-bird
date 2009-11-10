@@ -11,11 +11,17 @@ handlers:
 - url: /tool
   static_dir: tool
 
-- url: /youtube_search
-  script: /youtube_search.py
+- url: /yts1
+  script: yts1.py
 
-- url: /youtube_results
-  script: youtube_results.py
+- url: /yts2
+  script: yts2.py
+
+- url: /yts3
+  script: yts3.py
+
+- url: /test_json
+  script: test_json.py
 
 - url: /.*
   script: main.py
