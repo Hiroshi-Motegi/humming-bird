@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 		<meta content="y@s" name="author"/>
-		<title>jQuery Tips</title>
+		<title>memo</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 	<!--[if IE]>
 	<style type="text/css">
@@ -46,10 +46,9 @@ var addListener = (function() {
         };
     } else if ( window.attachEvent ) {
         return function(el, type, fn) {
-            var f = function() {
+            el.attachEvent('on'+type, function() {
                 fn.call(el, window.event);
-            };
-            el.attachEvent('on'+type, f);
+            });
         };
     } else {
         return function(el, type, fn) {
@@ -59,6 +58,29 @@ var addListener = (function() {
 })();
 
 
+function prettify(source) {
+	var fun;
+	try {
+		fun = new Function(source);
+	} catch (error if error instanceof SyntaxError) {
+		return null;
+	}
+	return fun.toSource(0).split('\n').slice(1, -1).join('\n').replace(/^\s{4}/gm, '');
+}
+
+document.addEventListener("DOMContentLoaded", function (e) {
+	var
+	source = document.getElementsByTagName('textarea').item(0),
+	button = document.getElementsByTagName('input').item(0),
+	pre = document.getElementsByTagName('pre').item(0);
+	
+	button.addEventListener('click',function () {
+		pre.textContent = prettify(source.value) || 'syntax error';
+	},false);
+}, false);
+
+
+alert(prettify.toSource());
 
 //--------------------------------------------------------------------------
 function $$(id){
@@ -99,6 +121,23 @@ function makeClojure(){
 }
 
 
+
+//--------------------------------------------------------------------------
+function searchItunes(keyword) {
+	var lang = 9;
+	var country = 'JP';
+	var media = 'music';
+	var entity = 'album';
+	var limit = 20;
+	var term = encodeURI(keyword);
+	var output = 'json';
+	var url = 'http://phobos.apple.com/WebObjects/MZSearch.woa/wa/itmsSearch';
+	var params = 'lang=' + lang + '&country=' + country + '&media=' +
+		media + '&entity=' + entity + '&limit=' + limit + '&term=' +
+		term +'&output=' + output;
+	window.open(url + '?' + params, "_blank");
+}
+
 });
 
 
@@ -137,7 +176,7 @@ selector{
 </style>
 </head>
 <body>
-	<h1>jQuery Tips</h1>
+	<h1>memo</h1>
 	<ul>
 		<li><a href="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" title="">http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js</a></li>
 		<li><a href="http://code.jquery.com/jquery-latest.min.js" title="">http://code.jquery.com/jquery-latest.min.js</a></li>

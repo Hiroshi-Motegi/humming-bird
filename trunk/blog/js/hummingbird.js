@@ -3,7 +3,7 @@ var doc = document;
 eval('var document = doc');
 @*/
 
-/* Last Update:2009/11/02 */
+/* Last Update:2009/11/11 */
 
 (function($){
 $.extend({
@@ -94,37 +94,23 @@ $.extend({
 		});
 		
 		//set caption element height
-		if (opt.height.toLowerCase() != 'original') {
-			$caption.css({
-				height: opt.height
-			});
-		}
+		if (opt.height.toLowerCase() != 'original')
+			$caption.css({height: opt.height});
 		
 		//set caption element width
-		if (opt.width.toLowerCase() != 'original') {
-			$caption.css({
-				width: opt.width
-			});
-		}
+		if (opt.width.toLowerCase() != 'original')
+			$caption.css({width: opt.width});
 		
 		//set caption element background-image
-		if (opt.bgImage.match(/^.+\.(?:jpg|png|gif)$/)) {
-			$caption.css({
-				backgroundImage: 'url("' + opt.bgImage + '")'
-			});
-		}
+		if (opt.bgImage.match(/^.+\.(?:jpg|png|gif)$/))
+			$caption.css({backgroundImage: 'url("' + opt.bgImage + '")'});
 		
 		
-		if (opt.color != 'original') {
-			$desc.css({
-				color: opt.color
-			})
-		}
-		if (opt.fontSize != 'original') {
-			$desc.css({
-				fontSize: opt.fontSize
-			})
-		}
+		if (opt.color != 'original')
+			$desc.css({color: opt.color});
+
+		if (opt.fontSize != 'original')
+			$desc.css({fontSize: opt.fontSize});
 		
 		$desc.css({
 			padding: 0,
@@ -208,20 +194,6 @@ $.extend({
 							.append($tbody))
 						.insertBefore($iTgt[index]);
 					
-					/*
-					$('<div class="post-date-wrap"><table class="post-date-table"><tbody>' +
-					'<tr><td class="pd-day" rowSpan="2">' +
-					_date.getDate() +
-					'</td>' +
-					'<td class="pd-year">' +
-					_date.getFullYear() +
-					'</td></tr>' +
-					'<tr><td class="pd-month">' +
-					_month[_date.getMonth()] +
-					'</td></tr>' +
-					'</tbody></table></div>').insertBefore($iTgt[index]);
-					*/
-					
 					$(elm).remove();
 				});
 				
@@ -233,7 +205,6 @@ $.extend({
 		
 		//using highslide add onclick attr
 		addHsAttr: function(){
-		
 			if (document.getElementById('Blog1') == null) 
 				return false;
 			var isIE = (document.documentElement.getAttribute('style') == document.documentElement.style);
@@ -251,7 +222,7 @@ $.extend({
 		},
 		
 		
-		archiveInit: function(){
+		archiveHoverEffect: function(){
 			$('li.archivedate > a')
 				.css({textDecoration: 'none', paddingLeft: '1em'})
 				.hover(function(){
@@ -264,7 +235,7 @@ $.extend({
 		},
 		
 		
-		siteThumbInit: function(){
+		thumbLinkEffect: function(){
 			$('img.mysite-thumb-img')
 				.css({border: '1px solid #c0c0c0'})
 				.fadeTo(0, 0.4)
@@ -278,27 +249,22 @@ $.extend({
 		
 		createRecentPosts: function(){
 			$.getMyFeed({}, 'yas-hummingbird', 'posts', function(data){
-			
 				var entries = data.feed.entry, list = [];
 				
 				for (var i = 0; i < entries.length; i++) {
-				
 					var entry = entries[i];
 					
 					list.push('<span class="item-title"><a href="' +
 					(function(links){
-						for (var k = 0; k < links.length; k++) {
-							if (links[k].rel == 'alternate') {
+						for (var k = 0, ll = links.length; k < ll; k++) {
+							if (links[k].rel == 'alternate')
 								return links[k].href;
-							}
 						}
 						return '';
 					})(entry.link || []) + '">' + entry.title.$t + '</a></span>');
-					
 				}
 				
 				$('#Feed99_feedItemListDisplay').html('<li>' + list.join('</li><li>') + '</li>');
-				
 			});
 		}
 	}
@@ -317,10 +283,10 @@ jQuery(function($){
 	$.hb.addHsAttr();
 	
 	//archive initialize and bind hover animate.
-	$.hb.archiveInit();
+	$.hb.archiveHoverEffect();
 	
 	//bind my site thumb animate.
-	$.hb.siteThumbInit();
+	$.hb.thumbLinkEffect();
 	
 	//create Recent Posts
 	$.hb.createRecentPosts();
