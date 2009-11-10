@@ -185,13 +185,30 @@ $.extend({
 		
 			var
 			_oldDateElm = '.date-header', //post date element selector.
-			_iTgt = '.post-title > a', //selector at target insert post date element.
+			$iTgt = $('.post-title > a'), //insert to post date.
+			_classHead = 'post-date-',
 			_month = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
 			
 			try {
 				$(_oldDateElm).each(function(index, elm){
-					var _date = new Date($(elm).text());
+					var
+					_date = new Date($(elm).text()),
+					$tbody = $('<tbody>').append(
+						$("<tr>").append(
+							$('<td>').addClass(_classHead + "day").text(_date.getDate()).attr("rowSpan","2"),
+							$('<td>').addClass(_classHead + "year").text(_date.getFullYear())
+						),$("<tr>").append(
+							$('<td>').addClass(_classHead + "month").text(_month[_date.getMonth()]))
+					);
+
+					 $('<div>')
+					 	.addClass(_classHead + "wrap")
+						.append($('<table>')
+							.addClass(_classHead + "table")
+							.append($tbody))
+						.insertBefore($iTgt[index]);
 					
+					/*
 					$('<div class="post-date-wrap"><table class="post-date-table"><tbody>' +
 					'<tr><td class="pd-day" rowSpan="2">' +
 					_date.getDate() +
@@ -202,7 +219,8 @@ $.extend({
 					'<tr><td class="pd-month">' +
 					_month[_date.getMonth()] +
 					'</td></tr>' +
-					'</tbody></table></div>').insertBefore($(_iTgt)[index]);
+					'</tbody></table></div>').insertBefore($iTgt[index]);
+					*/
 					
 					$(elm).remove();
 				});
