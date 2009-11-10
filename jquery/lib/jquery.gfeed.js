@@ -7,7 +7,7 @@
  * Version:1.0.1
  * Published:2009-05-30
  * Update:2009-07-13
- * Reference:http://code.google.com/intl/ja/apis/ajaxfeeds/documentation/reference.html#_intro_fonje
+ * Reference:http://code.google.com/intl/ja/apis/ajaxfeeds/documentation/reference.html
  * Demo:http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/gfeed.demo.html
  */
 
@@ -21,9 +21,10 @@ $.gFeed = function(options, callback){
 	}, options);
 	
 	if (opt.q) {
-		$.get('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', opt, function(data){
-			if (data) 
-				callback.call(this, data.responseData.feed);
+		$.get('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', opt,
+			function(data){
+				if (data) 
+					callback.call(this, data.responseData.feed);
 		}, 'json');
 	}
 }
