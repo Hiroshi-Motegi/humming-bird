@@ -171,7 +171,7 @@ $.extend({
 		
 			var
 			_oldDateElm = '.date-header', //post date element selector.
-			$iTgt = $('.post-title > a'), //insert to post date.
+			_$iTgt = $('.post-title > a'), //insert to post date.
 			_classHead = 'post-date-',
 			_month = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
 			
@@ -192,7 +192,7 @@ $.extend({
 						.append($('<table>')
 							.addClass(_classHead + "table")
 							.append($tbody))
-						.insertBefore($iTgt[index]);
+						.insertBefore(_$iTgt[index]);
 					
 					$(elm).remove();
 				});
