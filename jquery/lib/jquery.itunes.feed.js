@@ -4,15 +4,15 @@
  * Released under the MIT and GPL licenses.
  * 
  * @Author:y@s
- * @Version:1.2
+ * @Version:1.3
  * @Published:2009/06/00
- * @Update:2009/07/14
+ * @Update:2009/11/11
  * @Demo:http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
  */
 
 (function($){
 
-var _defaultParams = {
+var DEF_PARAMS = {
 	category:'topalbums',
 	sf:143462,
 	limit:10,
@@ -21,11 +21,11 @@ var _defaultParams = {
 };
 
 
-function createOptions (prms){
+function makeQuery (prms){
 	return {
 		v: '1.0',
 		num: prms.limit || '-1',
-		output: 'json', //json, json_xml, xml
+		output: prms.output || 'json', //json, xml or json_xml
 		q: 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' + 
 			prms.category.toLowerCase() +
 			'/sf=' + prms.sf +
@@ -38,7 +38,7 @@ function createOptions (prms){
 function parseXMLfromString(xmlString){
 	if (window.DOMParser) {
 		var parser = new DOMParser();
-		if('async' in parser)
+		if ('async' in parser) 
 			parser.async = false;
 		
 		var dom = parser.parseFromString(xmlString, 'text/xml');
@@ -51,34 +51,35 @@ function parseXMLfromString(xmlString){
 			xobj.loadXML(xmlString);
 			return xobj.documentElement.firstChild;
 		}
-	return false;
+		else {
+			return false;
+		}
 }
 
 
 $.iTunes = {
-	feed: function( type, params, callback ){
-		
-		callback = $.isFunction(params) ? params : callback || function(){};
-		params = typeof type == 'object' ? type : typeof params == 'object' && !$.isFunction(params) ? params : {};
-		type = typeof type == 'string' ? type : 'json';
-		
+	/**
+	 * @param {Object} params --- query params
+	 * @param {Function} callback --- callback function
+	 */
+	feed: function( params, callback ){
 		var
-		prms = $.extend({}, _defaultParams, params),
-		op = $.extend(createOptions(prms),{output:type});
+		outputType = params.output = params.output.toLowerCase(),
+		prms = $.extend({}, DEF_PARAMS, params),
+		op = makeQuery(prms);
 		
 		$.get('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', op,
-			function(data){
-				if (data && data.responseStatus == 200){
-					
+			function(result){
+				if (result && result.responseStatus == 200){
+					var res = result.responseData;
 					callback.call(this, {
-						'json' : /json/.test(op.output) ? data.responseData.feed : null,
-						'xml' : /xml/.test(op.output) ? parseXMLfromString(data.responseData.xmlString) : null
+						'json' : outputType.match(/json/) ? res.feed : null,
+						'xml' : outputType.match(/xml/) ? parseXMLfromString(res.xmlString) : null
 					});
-					
 				}else{
 					return false;
 				}
-		},'json');
+			},'json');
 	},
 	categories: {
 		'Top Albums': 'topalbums',
