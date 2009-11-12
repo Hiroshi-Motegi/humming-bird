@@ -20,7 +20,7 @@ $.youTube = function(options, callback){
 		'max-results': 10,
 		'format':5,
 		'orderby': 'relevance',
-		'racy': 'exclude',
+		'racy': 'include',
 		'start-index': 1,
 		'time': 'all_time',
 		'vq': ''
