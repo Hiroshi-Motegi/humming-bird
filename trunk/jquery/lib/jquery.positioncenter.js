@@ -33,14 +33,16 @@ $.fn.extend({
 			if(ps != 'absolute' && ps != 'fixed')
 				ps = ts['position'] = 'absolute';
 			
-			$te = (!this.parentNode || !this.parentNode.tagName) ? $t.clone().hide().appendTo(document.body) : $t;
+			$te = (!this.parentNode || !this.parentNode.tagName) ?
+				$t.clone().hide().appendTo(document.body) : $t;
 			
 			var ts = this.style;
 			ts['top'] = ( win.h - $te.outerHeight() + (ps == 'absolute' ? win.st : 0) ) / 2 + 'px';
-			ts['left'] = (win.w - $te.outerWidth() + (ps == 'absolute' ? win.sl : 0) ) / 2 + 'px';
-			ts['margin'] = '0px';
+			ts['left'] = ( win.w - $te.outerWidth() + (ps == 'absolute' ? win.sl : 0) ) / 2 + 'px';
+			ts['margin'] = '0';
 			
-			if($te != $t) $te.remove();
+			if($te != $t)
+				$te.remove();
 
 		});
 	}
