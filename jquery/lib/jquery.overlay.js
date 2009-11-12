@@ -12,27 +12,43 @@
 
 (function($) {
 
+var cancelBubbling= (function(){
+	return $.browser.msie ? function(e){
+		e.returnValue = false;
+		e.cancelBubble = true;
+	} : function(e){
+		e.preventDefault();
+		e.stopPropagation();
+	};
+}());
+
 function clickEvh(e){
 	if (e.button == 0) {
 		$.overlay.$layer.trigger(evKey);
-		e.stopPropagation();
+		cancelBubbling(e);
 	}
 	return false;
 }
 
-function keydownEvh(e){
-	var keycode = (e == null) ? e.keyCode : e.which;
-	if (keycode == 27 || keycode == 13) 
+function keydownEvh(e){	
+	var keycode = e.keyCode;
+	if (keycode == 27 || keycode == 13) {
 		$.overlay.$layer.trigger(evKey);
+		cancelBubbling(e);
+	}
 	return false;
 }
 
+
 function resizeEvh(){
-	var ls = $.overlay.$layer[0].style;
-	ls['display'] = 'none';
-	ls['height'] = $doc.height() + 'px';
-	ls['width'] = $doc.width() + 'px';
-	ls['display'] = 'block';
+	var
+	ls = $.overlay.$layer[0].style,
+	kys = ['display', 'height', 'width', 'display'],
+	vls = ['none', $doc.height() + 'px', $doc.width() + 'px', 'block'],
+	i = 0;
+	
+	for (; i < 4; i++)
+		ls[kys[i]] = vls[i];
 }
 
 $.fn.extend({

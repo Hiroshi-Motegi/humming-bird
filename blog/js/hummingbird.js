@@ -5,6 +5,7 @@ eval('var document = doc');
 
 /* Last Update:2009/11/11 */
 
+
 (function($){
 $.extend({
 	captionSlideEffects: {
