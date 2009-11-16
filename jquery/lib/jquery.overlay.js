@@ -12,43 +12,38 @@
 
 (function($) {
 
-var cancelBubbling= (function(){
-	return $.browser.msie ? function(e){
-		e.returnValue = false;
-		e.cancelBubble = true;
-	} : function(e){
-		e.preventDefault();
-		e.stopPropagation();
-	};
-}());
 
-function clickEvh(e){
+function clickEventHandler(e){
 	if (e.button == 0) {
 		$.overlay.$layer.trigger(evKey);
-		cancelBubbling(e);
+		e.stopPropagation();
 	}
 	return false;
 }
 
-function keydownEvh(e){	
+function keydownEventHandler(e){	
 	var keycode = e.keyCode;
 	if (keycode == 27 || keycode == 13) {
 		$.overlay.$layer.trigger(evKey);
-		cancelBubbling(e);
+		e.stopPropagation();
 	}
 	return false;
 }
 
 
-function resizeEvh(){
+function windowResizeEventHandler(){
 	var
 	ls = $.overlay.$layer[0].style,
-	kys = ['display', 'height', 'width', 'display'],
-	vls = ['none', $doc.height() + 'px', $doc.width() + 'px', 'block'],
-	i = 0;
+	styles = {
+		'display': 'none',
+		'height': $doc.height() + 'px',
+		'width': $doc.width() + 'px',
+		'display': 'block'
+	};
 	
-	for (; i < 4; i++)
-		ls[kys[i]] = vls[i];
+	for(var s in styles){
+		ls[s] = styles[s];
+	}
 }
 
 $.fn.extend({
@@ -124,8 +119,8 @@ $.overlay = {
 		if(isOldIE)
 			$('embed,object,select').eosHide();
 		
-		$win.bind('resize', resizeEvh);
-		$doc.bind('keydown', keydownEvh);
+		$win.bind('resize', windowResizeEventHandler);
+		$doc.bind('keydown', keydownEventHandler);
 		
 		this.$layer
 			.css({
@@ -134,7 +129,7 @@ $.overlay = {
 				opacity:0
 			})
 			.appendTo(document.body)
-			.bind('click', clickEvh)
+			.bind('click', clickEventHandler)
 			.animate($.extend({opacity: 0.75}, options.animateParams || {}),
 				$.extend({}, animOpts, {complete:callback}, options.animateOptions || {}));
 	},
@@ -144,7 +139,7 @@ $.overlay = {
 		callback = $.isFunction(options) ? options : callback || function(){};
 		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
-		$win.unbind('resize', resizeEvh);
+		$win.unbind('resize', windowResizeEventHandler);
 		
 		this.$layer
 			.stop(true)
@@ -153,7 +148,7 @@ $.overlay = {
 				if (isOldIE)
 					$('embed,object,select').eosShow();
 				
-				$(document).unbind('keydown', keydownEvh);
+				$(document).unbind('keydown', keydownEventHandler);
 				callback.call(this);
 			}}, options.animateOptions || {}));
 	},

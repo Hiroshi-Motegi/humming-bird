@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>New Web Project</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+jQuery(function($){
+/*
+'' == '0' //false
+0 == '' // true
+0 == '0' //true
+false == 'false' // false
+false == '0' //true
+false == undefind //false
+false == null // false
+null == undefind //true
+" \t\r\n " == 0 //true
+
+
+
+
+0 == '' // true
+0 == '0' //true
+'' == '0' //false
+
+
+[] == '' //true
+[] == 0 //true
+0 == '' // true
+
+'' == false //true
+0 == false //true
+[] == false //true
+*/
+
+alert(typeof +'0');
+
+function createTable(){
+	var
+	_undefind,
+	values = [
+		{'empty_str':{ name: '""', value: '' }},
+		{'num_zero': { name: '0', value: 0 }},
+		{'str_zero': { name: '"0"', value: '0' }},
+		{'empty_array':{ name: '[]', value: [] }},
+		{'empty_obj':{ name: '{}', value: {} }},
+		{'undefind': { name: 'undefind', value: _undefind }},
+		{'str_undefind': { name: '"undefind"', value: 'undefind' }},
+		{'bool_true': {name: 'true', value: true }},
+		{'bool_false': {name: 'false', value: false }},
+		{'str_false': {name: '"false"', value: 'false' }},
+		{'null': {name: 'null', value: null }},
+		{'str_null': {name: '"null"',value: 'null' }},
+		{'NaN': {name: 'NaN',value: NaN }},
+		{' \\t\\r\\n ': {name: '" \\t\\r\\n "', value: ' \t\r\n ' }},
+		{'date': {name: 'date',value: new Date() }},
+		{'regexp_retetal': {name: '/(?:)/', value: /(?:)/ }},
+		{'regexp': {name: 'new_RegExp()',value: new RegExp() }},
+		{'function': {name: 'function', value: function(){} }}
+	];
+	
+	//===============================================
+	var
+	ret = [],
+	kys = [''];
+	
+	for (var i = 0, ln = values.length; i < ln; i++) {
+		for (var ky in values[i])
+			kys.push(values[i][ky].name);
+	}
+	
+	ret.push('<th>' + kys.join('</th><th>') + '</th>');
+	//===============================================
+	
+	
+	var v1, v2, tmp, n1;
+	for (var ii = 0, ln = values.length; ii < ln; ii++) {
+		
+		v1 = values[ii];
+		
+		for (var ky1 in v1) {
+			
+			n1 = v1[ky1];
+			tmp = [];
+			
+			for (var k = 0, ln2 = values.length; k < ln2; k++) {
+				v2 = values[k];
+				for (var ky2 in v2) {
+					tmp.push(k < ii ? '' : n1.value == v2[ky2].value);
+				}
+			}
+			
+			ret.push('<th>' + n1.name + '</th><td>' + tmp.join('</td><td>') + '</td>');
+
+		}
+
+	}
+	
+	return '<table cellSpacing="0"><tbody><tr>' + ret.join('</tr><tr>') + '</tr></tbody></table>';
+}
+
+
+$('#target').html(createTable()).children('td');
+
+$('#target td').filter(function(){
+	return $(this).text() == 'true';
+}).css({
+	backgroundColor: '#caa'
+}).end().filter(function(){
+	return $(this).text() == '';
+}).css({
+	backgroundColor: '#666'
+});
+
+});
+</script>
+<style>
+body{
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+table{
+	border:1px solid #666;
+	border-collapse:collapse;
+	border-spacing:0;
+	background-color:#eee;
+	empty-cells:show;
+	table-layout:fixed;
+	text-align:center;
+	width:100%;
+}
+tr{}
+th{
+	font-size:small;
+	background-color:#ccc;
+}
+th, td {
+	border:1px solid #666;
+	font-size:12px;
+	line-height: 2em;
+	overflow:hidden;
+}
+</style>
+</head>
+<body>
+	<p>A == B</p>
+	<div id='target'></div>
+</body>
+</html>
