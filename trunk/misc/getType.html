@@ -20,7 +20,7 @@ $.extend({
 			return 'null';
 		
 		//val === undefined => undefinedに代入可能なため×
-		//val == undefined　=> true = null, undefined
+		//val == undefined　=> null == undefind はtrueなので×
 		if (typeof val == 'undefined') 
 			return 'undefined';
 		
@@ -54,10 +54,45 @@ $.extend({
 		
 		return 'unknown';
 	}
-})
+});
+
+function foo(){
+	return arguments;
+}
+
+alert(foo().callee ? true : false);
+
 });
 </script>
+<style>
+body{
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+table{
+	border:1px solid #666;
+	border-collapse:collapse;
+	border-spacing:0;
+	background-color:#eee;
+	empty-cells:show;
+	table-layout:fixed;
+	text-align:center;
+	width:100%;
+}
+tr{}
+th{
+	font-size:small;
+	background-color:#ccc;
+}
+th, td {
+	border:1px solid #666;
+	font-size:12px;
+	line-height: 2em;
+	overflow:hidden;
+}
+</style>
 </head>
 <body>
+	<p>A == B</p>
+	<div id='target'></div>
 </body>
 </html>
