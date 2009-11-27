@@ -9,58 +9,163 @@
 
 <script type="text/javascript">
 jQuery(function($){
-$.extend({
-	getType: function(val){
-	
-		//処理速度 4:14:115:380
-		//『===』<『typeof』<『instanceof』<『constructor』
-		
-		// typeof null => object
-		if (val === null) 
-			return 'null';
-		
-		//val === undefined => undefinedに代入可能なため×
-		//val == undefined　=> null == undefind はtrueなので×
-		if (typeof val == 'undefined') 
-			return 'undefined';
-		
-		if (typeof val == 'boolean') 
-			return 'boolean';
-		
-		if (typeof val == 'string') 
-			return 'string';
-		
-		if (typeof val == 'number') 
-			return 'number'
-		
-		// typeof array => object
-		if (val instanceof Array) 
-			return 'array'
-		
-		// typeof regexp => object
-		// instanceof Object => true
-		if (val instanceof RegExp) 
-			return 'regexp'
-		
-		// typeof date => object
-		if (val instanceof Date) 
-			return 'date'
-		
-		if (typeof val == 'function') 
-			return 'function';
-		
-		if (typeof val == 'object') 
-			return 'object'
-		
-		return 'unknown';
-	}
-});
 
-function foo(){
-	return arguments;
+function getType(val){
+
+	//処理速度 4:14:115:380
+	//『===』<『typeof』<『instanceof』<『constructor』
+	
+	// typeof null => object
+	if (val === null) 
+		return 'null';
+	
+	//val === undefined => undefinedに代入可能なため×
+	//val == undefined　=> null == undefind はtrueなので×
+	if (typeof val == 'undefined') 
+		return 'undefined';
+	
+	if (typeof val == 'boolean') 
+		return 'boolean';
+	
+	if (typeof val == 'string') 
+		return 'string';
+	
+	// typeof NaN => number
+	// isNaN( 'foo' ) => true なので注意
+	if (typeof val == 'number')
+		return isNaN(val) ? 'NaN' : 'number';
+	
+	// typeof array => object
+	if (val instanceof Array) 
+		return 'array';
+	
+	// typeof regexp => object
+	// instanceof Object => true
+	if (val instanceof RegExp) 
+		return 'regexp';
+	
+	// typeof date => object
+	if (val instanceof Date) 
+		return 'date';
+	
+	if (typeof val == 'function') 
+		return 'function';
+	
+	//Function.callee は非推奨
+	// arguments.callee 出来るならarguments
+	if (typeof val == 'object')
+		return val.callee ? 'arguments' : 'object';
+	
+	return 'unknown';
 }
 
-alert(foo().callee ? true : false);
+
+
+function checkType(){
+	
+	var fn = function(){};
+	
+	//var toString = Object.prototype.toString,
+	//Object.prototype.toString.call(v) === '[object Array]'
+	
+	fn.prototype = {
+		isNull: function(v){
+			return v === null;
+		},
+		isUndefind: function(v){
+			return typeof v === 'undefined';
+		},
+		isBoolean: function(v){
+			return typeof v === 'boolean';
+		},
+		isString: function(v){
+			return typeof v === 'string';
+		},
+		isNumber: function(v){
+			return typeof v === 'number' && !isNaN(v);
+		},
+		isArray: function(v){
+			//return toString.call(v) === '[object Array]';
+			return v instanceof Array;
+		},
+		isRegExp: function(v){
+			return v instanceof RegExp;
+		},
+		isDate: function(v){
+			return v instanceof Date;
+		},
+		isFunction: function(v){
+			//return toString.call(v) === '[object Function]';
+			return typeof v === 'function';
+		},
+		isArguments: function(v){
+			return typeof v === 'object' && v.callee;
+		},
+		isObject: function(v){
+			return typeof v === 'object';
+		},
+		getType: function(v){
+			if (this.isNull(v)) 
+				return 'null';
+			
+			if (this.isUndefind(v)) 
+				return 'undefind';
+			
+			if (this.isBoolean(v)) 
+				return 'boolean';
+			
+			if (this.isString(v)) 
+				return 'string';
+			
+			if (this.isNumber(v)) 
+				return 'number';
+			
+			if (this.isArray(v)) 
+				return 'array';
+			
+			if (this.isRegExp(v)) 
+				return 'regexp';
+			
+			if (this.isDate(v)) 
+				return 'date';
+			
+			if (this.isFunction(v)) 
+				return 'function';
+			
+			if (this.isArguments(v)) 
+				return 'arguments';
+			
+			if (this.isObject(v)) 
+				return 'object';
+			
+			return 'unknown';
+		},
+		likeNumber: function(v){
+			return +v == v;
+		}
+	};
+	
+	return new fn();
+}
+
+
+
+function timeLog(callback, loop){
+	
+	var i = 0, ret;
+	
+	console.time('test');
+	
+	for ( ; i < loop; i++ ) {
+		ret = callback();
+	}
+	
+	console.timeEnd('test');
+
+	console.log(ret);
+
+}
+
 
 });
 </script>
@@ -90,9 +195,9 @@ th, td {
 	overflow:hidden;
 }
 </style>
+
 </head>
 <body>
-	<p>A == B</p>
 	<div id='target'></div>
 </body>
 </html>

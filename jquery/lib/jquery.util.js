@@ -1,6 +1,4 @@
 (function($) {
-	
-var _isOldIE = $.browser.msie && $.browser.version == 6;
 
 // extend browser
 $.extend($.browser, {
@@ -78,15 +76,21 @@ $.extend({
 		return ret.join('&');
 	},
 	
-	alphaImage: function(src, sizingMethod){
+	alphaImage: (function(){
 		//sizingMethod = crop or image or scale
-		return _isOldIE ? {
-				filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=' + 
-					(sizingMethod || 'image') + ' src="' + src + '")'
+		var _isOldIE = $.browser.msie && $.browser.version == 6;
+		return function(src, sizingMethod){
+			_isOldIE ? {
+				filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=' +
+				(sizingMethod || 'image') +
+				' src="' +
+				src +
+				'")'
 			} : {
 				backgroundImage: 'url(' + src + ')'
 			};
-	}
+		};
+	})()
 });
 
 

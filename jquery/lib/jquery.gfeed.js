@@ -12,8 +12,10 @@
  */
 
 (function($){
-//@param options{object} - q, v, hl, key, context, num, scoring, output 
-//@param callback{function} - callback function
+/**
+ * @param {Object} options - q, v, hl, key, context, num, scoring, output 
+ * @param {Object} callback - callback function
+ */
 $.gFeed = function(options, callback){
 	var opt = $.extend({
 		v: '1.0',

@@ -8,26 +8,133 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-var Fuga = {
-	timeOut: null,
-	control: null,	
-	value: 0,
-	initialize: function(){
-		this.control = document.createElement("div");
-	},
-	func: function(){
-		 $(this.control).text(Fuga.value++);
-		 clearTimeout(Fuga.timeOut);
-		Fuga.timeOut = setTimeout("Fuga.func()", 1000);
-	}
+
+Function.prototype.applyTimeout = function (ms, self, args) {
+  var f = this;
+  return setTimeout(
+    function () {
+      f.apply(self, args);
+    },
+    ms);
 };
+
+Function.prototype.callTimeout = function (ms, self) {
+  return this.applyTimeout(
+      ms,
+      self,
+      Array.prototype.slice.call(arguments, 2));
+};
+
+Function.prototype.applyInterval = function (ms, self, args) {
+  var f = this;
+  return setInterval(
+    function () {
+      f.apply(self, args);
+    },
+    ms);
+};
+
+Function.prototype.callInterval = function (ms, self) {
+  return this.applyInterval(
+      ms,
+      self,
+      Array.prototype.slice.call(arguments, 2));
+};
+
+//foo.bar.callTimeout(1000, foo, hoge);
+
+
+/*
+var timeoutID;
+
+function timer() {    
+document.getElementById("target").value += "hoge¥n";  
+clearTimeout(timeoutID);  
+timeoutID = setTimeout(timer, 1000);
+}
+timeoutID = setTimeout(timer, 2000);
+
+*/
+
+
+var alarm = function(){
+	var x = {
+		remind: function(msg){
+			alert(msg);
+			delete x.timeoutID;
+		},
+		
+		setup: function(){
+			var self = x;
+			x.cancel();
+			x.timeoutID = setTimeout(function(msg){
+				self.remind(msg);
+			}, 1000, "Wake up!");
+		},
+		
+		cancel: function(){
+			if (typeof x.timeoutID === 'number') {
+				clearTimeout(x.timeoutID);
+				delete x.timeoutID;
+			}
+		},
+		timeoutID: ''
+	};
+	return x;
+}
+
+/*
+window.onclick = function(){
+	var ar = alarm();
+	ar.setup();
+};
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var Fuga = function(){
+	function f (){
+		this.initialize.apply(this, arguments);
+	}
+	
+	f.prototype = {
+		timeOut: null,
+		control: null,
+		value: 0,
+		initialize: function(){
+			this.control = document.createElement("div");
+		},
+		func: function(){
+			$(this.control).text(this.value++);
+			clearTimeout(this.timeOut);
+			Fuga.timeOut = setTimeout("this.func()", 1000);
+		}
+	};
+	
+	return new f();
+}
 
 
 $(function(){
-	Fuga.initialize();
-	$('body').append(Fuga.control);
+	var fuga = Fuga();
 	
-	Fuga.timeOut = setTimeout("Fuga.func()", 1000);	
+	$('body').append(fuga.control);
+	
+	fuga.timeOut = setTimeout("fuga.func()", 1000);	
 });
 </script>
 <style type="text/css"></style>
