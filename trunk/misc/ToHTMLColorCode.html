@@ -63,6 +63,16 @@ function toColorCode_1e(r,g,b){
 	return '#' + (((256 + r << 8) + g << 8) + b).toString(16).substr(1, 6);
 }
 
+//425ms
+function toColorCode_1ea(r,g,b){
+	return '#' + (((256 + r << 8) + g << 8) + b).toString(16).substr(1);
+}
+
+//385ms
+function toColorCode_1f(r,g,b){
+	return '#' + (((256 + r << 8) + g << 8) + b).toString(16).slice(1);
+}
+
 /*
 var x = 255;
 alert(x.toString(16)); //FF
@@ -79,14 +89,14 @@ alert((16777216).toString(16)); //1000000
 function toColorCode_2a(r, g, b){
     return '#' + ((r * 256 + g) * 256 + b).toString(16);
 }
-*/
+
 
 function toColorCode(r, g, b){
     return '#' + (((r << 8) + g << 8) + b).toString(16);
 }
 
 alert(toColorCode(0,0,128));//#80
-
+*/
 
 
 
@@ -175,13 +185,14 @@ function toColorCode_3d(r, g, b){
 var x = '';
 console.time('test');
 for (var i = 0; i < 1000 * 1000; i++) {
-	x = toColorCode_3e(255, 255, 255);
+	x = toColorCode_1ea(2, 10, 104);
 }
 console.timeEnd('test');
 console.log(x);
 */
 
 });
+
 
 
 </script>

@@ -37,74 +37,181 @@ null == undefind //true
 [] == false //true
 */
 
-alert(typeof +'0');
+/*
+var x = 0;
 
-function createTable(){
+if (x){
+	alert('true');
+}else{
+	alert('false');
+}
+*/
+
+
+
+var
+_undefind = (function(){
+	return;
+})(),
+
+values = [
+	{ name: 'null',              value: null },            //null
+	{ name: 'undefind',          value: (function(){return;})()},//undefind
+	{ name: '""',                value: '' },              //String Empty
+	{ name: '"false"',           value: 'false' },         //String false
+	{ name: '"0"',               value: '0' },             //String Zero
+	{ name: '"undefind"',        value: 'undefind' },      //String undefind
+	{ name: '" \\t\\r\\n "',     value: ' \t\r\n ' },      //control character \t, \f, \r, \n ,\b
+	{ name: '"null"',            value: 'null' },          //String null
+	{ name: 'new String("0")',   value: new String('0') }, //String Object
+	{ name: '0',                 value: 0 },               //Number Zero
+	{ name: 'new Number("0")',   value: new Number(0) },   //Number Object
+	{ name: 'NaN',               value: NaN },             //NaN
+	{ name: '[]',                value: [] },              //Array Reteral
+	{ name: 'new Array([])',     value: new Array([]) },   //Array Object
+	{ name: '{}',                value: {} },              //Object Reteral
+	{ name: 'new Object()',      value: new Object() },    //Object
+	{ name: 'true',              value: true },            //Boolean Reteral true
+	{ name: 'false',             value: false },           //Boolean Reteral false
+	{ name: 'new Boolean()',     value: new Boolean() },   //Boolean Object
+	{ name: 'new Date()',        value: new Date() },      //Date Object
+	{ name: '/(?:)/',            value: /(?:)/ },          //RegExp Reteral
+	{ name: 'new RegExp()',      value: new RegExp() },    //RegExp Object
+	{ name: 'function',          value: function(){} },    //Function Reteral
+	{ name: 'new Error()',       value: new Error()},      //Error
+	{ name: 'new SyntaxError()', value: new SyntaxError()},//SyntaxError
+	{ name: 'Object',            value: Object }           //Object
+],
+
+
+instanceOfValues = [
+	{
+		'instance': String,
+		'type': [{
+			name: '"foo"',
+			value: 'foo'
+		}, {
+			name: 'new String("foo")',
+			value: new String('foo')
+		}]
+	},	{
+		'instance': Number,
+		'type': [{
+			name: '0',
+			value: 0
+		}, {
+			name: 'new Number(0)',
+			value: new Number(0)
+		}]
+	},	{
+		'instance': Boolean,
+		'type': [{
+			name: 'true',
+			value: true
+		}, {
+			name: 'new Boolean(true)',
+			value: new Boolean(true)
+		}]
+	},	{
+		'instance': Array,
+		'type': [{
+			name: '[]',
+			value: []
+		}, {
+			name: 'new Array([])',
+			value: new Array([])
+		}]
+	},	{
+		'instance': RegExp,
+		'type': [{
+			name: '/(?:)/',
+			value: /(?:)/
+		}, {
+			name: 'new RegExp()',
+			value: new RegExp()
+		}]
+	},	{
+		'instance': Object,
+		'type': [{
+			name: '{}',
+			value: {}
+		}, {
+			name: 'new Object()',
+			value: new Object()
+		}]
+	}
+];
+
+function createInstanceOfTable(){
 	var
-	_undefind,
-	values = [
-		{'empty_str':{ name: '""', value: '' }},
-		{'num_zero': { name: '0', value: 0 }},
-		{'str_zero': { name: '"0"', value: '0' }},
-		{'empty_array':{ name: '[]', value: [] }},
-		{'empty_obj':{ name: '{}', value: {} }},
-		{'undefind': { name: 'undefind', value: _undefind }},
-		{'str_undefind': { name: '"undefind"', value: 'undefind' }},
-		{'bool_true': {name: 'true', value: true }},
-		{'bool_false': {name: 'false', value: false }},
-		{'str_false': {name: '"false"', value: 'false' }},
-		{'null': {name: 'null', value: null }},
-		{'str_null': {name: '"null"',value: 'null' }},
-		{'NaN': {name: 'NaN',value: NaN }},
-		{' \\t\\r\\n ': {name: '" \\t\\r\\n "', value: ' \t\r\n ' }},
-		{'date': {name: 'date',value: new Date() }},
-		{'regexp_retetal': {name: '/(?:)/', value: /(?:)/ }},
-		{'regexp': {name: 'new_RegExp()',value: new RegExp() }},
-		{'function': {name: 'function', value: function(){} }}
-	];
+	ret = ['<th></th><th>Value</th><th>Return</th>'],
+	instArry = instanceOfValues,
+	ln = instArry.length,
+	inst, typ;
 	
-	//===============================================
-	var
-	ret = [],
-	kys = [''];
-	
-	for (var i = 0, ln = values.length; i < ln; i++) {
-		for (var ky in values[i])
-			kys.push(values[i][ky].name);
+	for (var i = 0; i < ln; i++) {
+		inst = instArry[i].instance;
+		typ = instArry[i].type;
+		
+		ret.push('<tr><th rowSpan="2">' + inst.toString().match(/(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g) + '</th>' +
+			'<td>' + typ[0].name  + '</td><td>' + (typ[0].value instanceof inst)  + '</td></tr>' +
+			'<tr><td>' + typ[1].name  + '</td><td>' + (typ[1].value instanceof inst)  + '</td></tr>');
 	}
 	
-	ret.push('<th>' + kys.join('</th><th>') + '</th>');
-	//===============================================
-	
-	
-	var v1, v2, tmp, n1;
-	for (var ii = 0, ln = values.length; ii < ln; ii++) {
-		
-		v1 = values[ii];
-		
-		for (var ky1 in v1) {
-			
-			n1 = v1[ky1];
-			tmp = [];
-			
-			for (var k = 0, ln2 = values.length; k < ln2; k++) {
-				v2 = values[k];
-				for (var ky2 in v2) {
-					tmp.push(k < ii ? '' : n1.value == v2[ky2].value);
-				}
-			}
-			
-			ret.push('<th>' + n1.name + '</th><td>' + tmp.join('</td><td>') + '</td>');
-
-		}
-
-	}
-	
-	return '<table cellSpacing="0"><tbody><tr>' + ret.join('</tr><tr>') + '</tr></tbody></table>';
+	return $('<table>').attr({
+		'cellSpacing':0,
+		'id':'inst'
+	}).append('<caption>Value <b>instanceof</b> ObjectType</caption><tbody>' + ret.join('') + '</tbody>');
 }
 
 
-$('#target').html(createTable()).children('td');
+
+function createEqualTable(caption, equal){
+	
+	var ret = [], ln = values.length;
+	
+	//===============================================
+	var thName = [''];
+	
+	for (var i = 0; i < ln; i++) {
+			thName.push(values[i].name);
+	}
+	
+	ret.push('<th>' + thName.join('</th><th>') + '</th>');
+	//===============================================
+	
+	
+	var tmp, v;
+	for (var ii = 0; ii < ln; ii++) {
+		tmp = [];
+		v = values[ii].value;
+		for (var k = 0; k < ln; k++) {
+			tmp.push(k < ii ? '' : equal(v, values[k].value));
+		}
+		
+		ret.push('<th>' + values[ii].name + '</th><td>' + tmp.join('</td><td>') + '</td>');
+	}
+	
+	return '<table cellSpacing="0">' +
+		'<caption>' + caption + '</caption><tbody>' +
+		'<tr>' + ret.join('</tr><tr>') + '</tr>' + 
+		'</tbody></table>';
+}
+
+
+
+
+$('#target').append(
+	createEqualTable('A <b>==</b> B',
+		function (a, b){
+			return a == b;
+		}),
+	createEqualTable('A <b>===</b> B',
+		function (a, b){
+			return a === b;
+		})
+);
+
 
 $('#target td').filter(function(){
 	return $(this).text() == 'true';
@@ -115,6 +222,71 @@ $('#target td').filter(function(){
 }).css({
 	backgroundColor: '#666'
 });
+
+
+
+
+
+
+
+
+
+function createSingleTables(caption, id, fn){
+	
+	var ret = ['<th></th><th>Return Value</th>'], ln = values.length;
+	
+	for (var i = 0; i < ln; i++) {
+			ret.push('<th>' + values[i].name + '</th><td>' + fn(values[i].value) + '</td>');
+	}
+	
+	return $('<table>').attr({
+		'cellSpacing':0,
+		'id':id
+	}).append('<caption>' + caption + '</caption><tbody>' +
+		'<tr>' + ret.join('</tr><tr>') + 
+		'</tr></tbody>');
+
+}
+
+
+$('#target').append(createSingleTables('<b>typeof</b> Value', 'typeof',
+function (v){
+	return typeof v;
+}));
+
+$('#target').append(createSingleTables('<b>Value.constructor</b>', 'construt',
+function(v){
+	if( typeof v == 'undefined' || v === null ){
+		return '[' + v + '] is not found constructor';
+	}
+	else{
+		return v.constructor.toString().match(/(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g);
+	}
+}));
+
+
+
+
+
+
+
+
+$('#target').append(createInstanceOfTable(),
+'<p>Example: "foo" instanceof String // false</p>');
+
+
+$('#inst td').filter(function(){
+	return $(this).text() == 'false';
+}).css({
+	backgroundColor: '#caa'
+}).end().filter(function(){
+	return $(this).text() == '';
+}).css({
+	backgroundColor: '#666'
+});
+
+
+
 
 });
 </script>
@@ -128,25 +300,41 @@ table{
 	border-spacing:0;
 	background-color:#eee;
 	empty-cells:show;
+	margin-bottom:100px;
 	table-layout:fixed;
 	text-align:center;
 	width:100%;
+}
+caption{
+	line-height:2em;
 }
 tr{}
 th{
 	font-size:small;
 	background-color:#ccc;
+	padding:5px 0;
 }
 th, td {
 	border:1px solid #666;
 	font-size:12px;
-	line-height: 2em;
+	line-height: 1.2em;
 	overflow:hidden;
 }
+
+#typeof, #construt{
+	width:300px;
+}
+#inst{
+	width:400px;
+	margin-bottom:10px;
+}
+#inst td{
+	line-height:2em;
+}
 </style>
+
 </head>
 <body>
-	<p>A == B</p>
 	<div id='target'></div>
 </body>
 </html>
