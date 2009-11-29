@@ -50,37 +50,33 @@ if (x){
 
 
 var
-_undefind = (function(){
-	return;
-})(),
-
 values = [
-	{ name: 'null',              value: null },            //null
+	{ name: 'null',              value: null },                  //null
 	{ name: 'undefind',          value: (function(){return;})()},//undefind
-	{ name: '""',                value: '' },              //String Empty
-	{ name: '"false"',           value: 'false' },         //String false
-	{ name: '"0"',               value: '0' },             //String Zero
-	{ name: '"undefind"',        value: 'undefind' },      //String undefind
-	{ name: '" \\t\\r\\n "',     value: ' \t\r\n ' },      //control character \t, \f, \r, \n ,\b
-	{ name: '"null"',            value: 'null' },          //String null
-	{ name: 'new String("0")',   value: new String('0') }, //String Object
-	{ name: '0',                 value: 0 },               //Number Zero
-	{ name: 'new Number("0")',   value: new Number(0) },   //Number Object
-	{ name: 'NaN',               value: NaN },             //NaN
-	{ name: '[]',                value: [] },              //Array Reteral
-	{ name: 'new Array([])',     value: new Array([]) },   //Array Object
-	{ name: '{}',                value: {} },              //Object Reteral
-	{ name: 'new Object()',      value: new Object() },    //Object
-	{ name: 'true',              value: true },            //Boolean Reteral true
-	{ name: 'false',             value: false },           //Boolean Reteral false
-	{ name: 'new Boolean()',     value: new Boolean() },   //Boolean Object
-	{ name: 'new Date()',        value: new Date() },      //Date Object
-	{ name: '/(?:)/',            value: /(?:)/ },          //RegExp Reteral
-	{ name: 'new RegExp()',      value: new RegExp() },    //RegExp Object
-	{ name: 'function',          value: function(){} },    //Function Reteral
-	{ name: 'new Error()',       value: new Error()},      //Error
-	{ name: 'new SyntaxError()', value: new SyntaxError()},//SyntaxError
-	{ name: 'Object',            value: Object }           //Object
+	{ name: '""',                value: '' },                    //String Empty
+	{ name: '"false"',           value: 'false' },               //String false
+	{ name: '"0"',               value: '0' },                   //String Zero
+	{ name: '"undefind"',        value: 'undefind' },            //String undefind
+	{ name: '" \\t\\r\\n "',     value: ' \t\r\n ' },            //control character \t, \f, \r, \n ,\b
+	{ name: '"null"',            value: 'null' },                //String null
+	{ name: 'new String("0")',   value: new String('0') },       //String Object
+	{ name: '0',                 value: 0 },                     //Number Zero
+	{ name: 'new Number("0")',   value: new Number(0) },         //Number Object
+	{ name: 'NaN',               value: NaN },                   //NaN
+	{ name: '[]',                value: [] },                    //Array Reteral
+	{ name: 'new Array([])',     value: new Array([]) },         //Array Object
+	{ name: '{}',                value: {} },                    //Object Reteral
+	{ name: 'new Object()',      value: new Object() },          //Object
+	{ name: 'true',              value: true },                  //Boolean Reteral true
+	{ name: 'false',             value: false },                 //Boolean Reteral false
+	{ name: 'new Boolean()',     value: new Boolean() },         //Boolean Object
+	{ name: 'new Date()',        value: new Date() },            //Date Object
+	{ name: '/(?:)/',            value: /(?:)/ },                //RegExp Reteral
+	{ name: 'new RegExp()',      value: new RegExp() },          //RegExp Object
+	{ name: 'function',          value: function(){} },          //Function Reteral
+	{ name: 'new Error()',       value: new Error()},            //Error
+	{ name: 'new SyntaxError()', value: new SyntaxError()},      //SyntaxError
+	{ name: 'Object',            value: Object }                 //Object
 ],
 
 
@@ -142,27 +138,6 @@ instanceOfValues = [
 	}
 ];
 
-function createInstanceOfTable(){
-	var
-	ret = ['<th></th><th>Value</th><th>Return</th>'],
-	instArry = instanceOfValues,
-	ln = instArry.length,
-	inst, typ;
-	
-	for (var i = 0; i < ln; i++) {
-		inst = instArry[i].instance;
-		typ = instArry[i].type;
-		
-		ret.push('<tr><th rowSpan="2">' + inst.toString().match(/(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g) + '</th>' +
-			'<td>' + typ[0].name  + '</td><td>' + (typ[0].value instanceof inst)  + '</td></tr>' +
-			'<tr><td>' + typ[1].name  + '</td><td>' + (typ[1].value instanceof inst)  + '</td></tr>');
-	}
-	
-	return $('<table>').attr({
-		'cellSpacing':0,
-		'id':'inst'
-	}).append('<caption>Value <b>instanceof</b> ObjectType</caption><tbody>' + ret.join('') + '</tbody>');
-}
 
 
 
@@ -170,14 +145,19 @@ function createEqualTable(caption, equal){
 	
 	var ret = [], ln = values.length;
 	
-	//===============================================
-	var thName = [''];
-	
-	for (var i = 0; i < ln; i++) {
-			thName.push(values[i].name);
+	function arrJoin(tag, arr){
+		return "<" + tag + ">" +
+			arr.join("</" + tag + "><" + tag + ">") +
+			"</" + tag + ">";
 	}
 	
-	ret.push('<th>' + thName.join('</th><th>') + '</th>');
+	//===============================================
+	ret.push(arrJoin("th", (function(arr){
+		for (var i = 0; i < ln; i++) {
+			arr.push(values[i].name);
+		}
+		return arr;
+	})([''])));
 	//===============================================
 	
 	
@@ -200,17 +180,14 @@ function createEqualTable(caption, equal){
 
 
 
+$('#target').append(createEqualTable('A <b>==</b> B', function (a, b){
+	return (a == b);
+}));
 
-$('#target').append(
-	createEqualTable('A <b>==</b> B',
-		function (a, b){
-			return a == b;
-		}),
-	createEqualTable('A <b>===</b> B',
-		function (a, b){
-			return a === b;
-		})
-);
+
+$('#target').append(createEqualTable('A <b>===</b> B', function (a, b){
+	return (a === b);
+}));
 
 
 $('#target td').filter(function(){
@@ -225,15 +202,10 @@ $('#target td').filter(function(){
 
 
 
-
-
-
-
-
-
+//===============================================================================
 function createSingleTables(caption, id, fn){
 	
-	var ret = ['<th></th><th>Return Value</th>'], ln = values.length;
+	var ret = ['<th>Value</th><th>Result</th>'], ln = values.length;
 	
 	for (var i = 0; i < ln; i++) {
 			ret.push('<th>' + values[i].name + '</th><td>' + fn(values[i].value) + '</td>');
@@ -257,7 +229,7 @@ function (v){
 $('#target').append(createSingleTables('<b>Value.constructor</b>', 'construt',
 function(v){
 	if( typeof v == 'undefined' || v === null ){
-		return '[' + v + '] is not found constructor';
+		return //"not found";
 	}
 	else{
 		return v.constructor.toString().match(/(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g);
@@ -269,6 +241,59 @@ function(v){
 
 
 
+//===============================================================================
+function createInstanceOfTable(){
+	var
+	table = document.createElement("table"),
+	regInstType = /(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g,
+	instArry = instanceOfValues,
+	ln = instArry.length,
+	i = 0,
+	th = "th",
+	td = "td",
+	inst, typ;
+	
+	function createNode(tag, text){
+		var elm = document.createElement(tag);
+		elm.appendChild(document.createTextNode(text));
+		return elm;
+	}
+	
+	function appendChild(row, children){
+		var ln = children.length, i = 0;
+		for(;i < ln;){
+			row.appendChild(children[i++]);	
+		}
+	}
+	
+	var row = table.insertRow(-1);
+	appendChild(row,[
+		createNode(th,"Object Type"),
+		createNode(th,"Value"),
+		createNode(th,"Result")
+	]);
+	
+	table.id = "inst";
+	table.setAttribute("cellSpacing","0");
+	table.appendChild(createNode("caption","Value instanceof ObjectType"));
+	
+	
+	for (; i < ln; i++) {
+		inst = instArry[i].instance;
+		typ = instArry[i].type;
+		
+		var thTyp = createNode(th, inst.toString().match(regInstType));
+		thTyp.setAttribute("rowSpan", "2");
+		
+		var row = table.insertRow(-1);
+		appendChild(row, [thTyp, createNode(td, typ[0].name), createNode(td, (typ[0].value instanceof inst))]);
+		
+		var row = table.insertRow(-1);
+		appendChild(row, [createNode(td, typ[1].name), createNode(td, (typ[1].value instanceof inst))]);
+	}
+	
+	return table;
+}
 
 
 $('#target').append(createInstanceOfTable(),

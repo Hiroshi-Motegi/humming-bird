@@ -77,15 +77,14 @@ $.extend({
 	},
 	
 	alphaImage: (function(){
-		//sizingMethod = crop or image or scale
 		var _isOldIE = $.browser.msie && $.browser.version == 6;
+		
+		//sizingMethod = crop or image or scale
 		return function(src, sizingMethod){
 			_isOldIE ? {
-				filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=' +
-				(sizingMethod || 'image') +
-				' src="' +
-				src +
-				'")'
+				filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(' +
+					'sizingMethod=' + (sizingMethod || 'image') +
+					' src="' + src + '")'
 			} : {
 				backgroundImage: 'url(' + src + ')'
 			};
@@ -95,29 +94,7 @@ $.extend({
 
 
 
-var _opacity = (function(){
-	var
-	style = document.createElement('div').style,
-	keys = ['opacity', 'MozOpacity', 'KhtmlOpacity', 'filter'];
-	
-	for (var i = 0; i < keys.length; i++) {
-		if (keys[i] in style) {
-			return {
-				'key': keys[i],
-				'val': (function(){
-					return keys[i] == 'filter' ? function(alpha){
-						return 'alpha(opacity=' + parseInt(parseFloat(alpha) * 100) + ')';
-					} : function(alpha){
-						return alpha;
-					}
-				})()
-			};
-			break;
-		}
-	}
-	
-	return {};
-})();
+
 
 
 $.fn.extend({
@@ -151,11 +128,40 @@ $.fn.extend({
 			return $.data(elm, key);
 		}));
 	},
-	setOpacity:function(alpha){
-		for (var i = 0; i < this.length; i++)
-			this[i].style[_opacity.key] = _opacity.val(alpha);
+	setOpacity:(function(){
+	
+		var _opacity = (function(){
+			var style = document.createElement('div').style,
+			    keys = ['opacity', 'MozOpacity', 'KhtmlOpacity', 'filter'];
+			
+			for (var i = 0; i < keys.length; i++) {
+				if (keys[i] in style) {
+					return {
+						'key': keys[i],
+						'val': (function(){
+							return keys[i] == 'filter' ? function(alpha){
+								return 'alpha(opacity=' + parseInt(parseFloat(alpha) * 100) + ')';
+							}:function(alpha){
+								return alpha;
+							}
+						})()
+					};
+					break;
+				}
+			}
+			
+			return {};
+		})();
 		
-		return this;
-	}
+		return function(alpha){
+			for (var i = 0; i < this.length; i++) 
+				this[i].style[_opacity.key] = _opacity.val(alpha);
+			
+			return this;
+		};
+	})()
+
+
+
 });
 })(jQuery);
