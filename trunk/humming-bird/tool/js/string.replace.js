@@ -36,9 +36,22 @@ var cs = {
 		$('#result').val(s);
 	},
 	
-	//置換を行う
-	//Return: 置換後の文字列
+	
+	
+	
+	
+	//
+	/**
+	 * 置換を行う
+	 * @param {string} s
+	 * @return {string} s
+	 */
 	replaceString: function(s){
+		
+		//& → &amp;
+		if ($('#chk-amp').is(':checked')) {
+			s = s.replace(/&/g, '&amp;');
+		}
 
 		//Tab → &nbsp; × space count
 		if($('#chk-tab').is(':checked')){
@@ -47,37 +60,41 @@ var cs = {
 			s = s.replace( /\t/g, this.strConcat( '&nbsp;' , sc ) );
 		}
 		
-		//& → &amp;
-		if($('#chk-amp').is(':checked'))
-			s = s.replace(/&/g, '&amp;');
 		
 		//<> → &lt; &gt;
-		if($('#chk-ltgt').is(':checked'))
+		if ($('#chk-ltgt').is(':checked')) {
 			s = s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		}
 		
 		//" → &quot;
-		if($('#chk-quot').is(':checked'))
+		if ($('#chk-quot').is(':checked')) {
 			s = s.replace(/"/g, '&quot;');
+		}
 		
 		//' → &#39;
-		if($('#chk-singlequot').is(':checked'))
+		if ($('#chk-singlequot').is(':checked')) {
 			s = s.replace(/'/g, '&#39;');
+		}
 		
 		//\ → \\;
-		if($('#chk-bs').is(':checked'))
+		if ($('#chk-bs').is(':checked')) {
 			s = s.replace(/\\/g, '\\\\');
+		}
 		
 		//\n → &lt;br/&gt;
-		if($('#chk-return').is(':checked'))
+		if ($('#chk-return').is(':checked')) {
 			s = s.replace(/\n/gm, '&lt;br/&gt;\n');
+		}
 		
 		//空行の空白 → 削除
-		if($('#chk-nullcol').is(':checked'))
-			s = s.replace(/^\s+$/gm,'');
+		if ($('#chk-nullcol').is(':checked')) {
+			s = s.replace(/^\s+$/gm, '');
+		}
 		
 		//各行頭空白 → &nbsp;
-		if($('#chk-blank').is(':checked'))
+		if ($('#chk-blank').is(':checked')) {
 			s = cs.replaceBlank(s);
+		}
 		
 		return s;
 	},
@@ -94,7 +111,7 @@ var cs = {
 	//各行頭にある空白(space)を'&nbsp;'に変換する
 	replaceBlank: function(s){
 		
-		if(s == '') return s;
+		if(s === '') return s;
 		
 		var str = s.split('\n'), tmp = [], regex = /^(?:[ 　])+/;
 		
@@ -119,35 +136,17 @@ var cs = {
 	
 	//対象文字列を囲むタグ文字列を生成し、返します。
 	createTagString: function(op){	
-		var tg = [,];
-		
 		switch (op) {
-			case 'none':
-				tg[0] = '';
-				tg[1] = '';
-				break;
 			case 'blockquote':
-				tg[0] = '<blockquote>\n';
-				tg[1] = '\n</blockquote>';
-				break;
 			case 'pre':
-				tg[0] = '<pre>\n';
-				tg[1] = '\n</pre>';
-				break;
+				return ["<" + op + ">\n","\n</" + op + ">"];
 			case 'prettify':
-				tg[0] = '<pre class=\'prettyprint' + cs.getPrettifyLang() + '\'>\n';
-				tg[1] = '\n</pre>';
-				break;
+				return ['<pre class=\'prettyprint' + cs.getPrettifyLang() + '\'>\n','\n</pre>'];
 			case 'SyntaxHighlighter':
-				tg[0] = '<pre class=\'' + cs.getCodeName() + cs.getSHOptions() + '\' name=\'code\'>\n';
-				tg[1] = '\n</pre>';
-				break;
+				return ['<pre class=\'' + cs.getCodeName() + cs.getSHOptions() + '\' name=\'code\'>\n','\n</pre>'];
 			default:
-				tg[0] = '';
-				tg[1] = '';
-				break;
+				return ["",""];
 		}
-		return tg;
 	},
 	
 	//prettifyタグのclass属性にlang指定を行う
@@ -224,7 +223,8 @@ $.bindSlideOption = function(){
 			$wprty.slideUp(duration);
 		}
 	});
-}
+};
+
 })(jQuery);
 
 
@@ -239,11 +239,23 @@ jQuery(function($){
 	});
 	
 	$('#chk-tab').click(function(){
-		$('#space-count').attr('disabled', !$(this).is(':checked'));
+		var $spc = $('#space-count'), dis = "disabled";
+		$spc.attr(dis, !$(this).is(':checked'));
+		if($spc.attr(dis)){
+			$spc.addClass(dis);
+		}else{
+			$spc.removeClass(dis);
+		}
 	});
 	
 	$('#sh-chk-firstline').click(function(){
-		$('#firstline-num').attr('disabled', !$(this).is(':checked'));
+		var $firstline = $('#firstline-num'), dis = "disabled";
+		$firstline.attr(dis, !$(this).is(':checked'));
+		if($firstline.attr(dis)){
+			$firstline.addClass(dis);
+		}else{
+			$firstline.removeClass(dis);
+		}
 	});
 	
 	$('textarea').attr({
