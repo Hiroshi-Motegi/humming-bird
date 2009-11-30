@@ -9,45 +9,6 @@
 
 <script type="text/javascript">
 jQuery(function($){
-/*
-'' == '0' //false
-0 == '' // true
-0 == '0' //true
-false == 'false' // false
-false == '0' //true
-false == undefind //false
-false == null // false
-null == undefind //true
-" \t\r\n " == 0 //true
-
-
-
-
-0 == '' // true
-0 == '0' //true
-'' == '0' //false
-
-
-[] == '' //true
-[] == 0 //true
-0 == '' // true
-
-'' == false //true
-0 == false //true
-[] == false //true
-*/
-
-/*
-var x = 0;
-
-if (x){
-	alert('true');
-}else{
-	alert('false');
-}
-*/
-
-
 
 var
 values = [
@@ -74,8 +35,8 @@ values = [
 	{ name: '/(?:)/',            value: /(?:)/ },                //RegExp Reteral
 	{ name: 'new RegExp()',      value: new RegExp() },          //RegExp Object
 	{ name: 'function',          value: function(){} },          //Function Reteral
+	{ name: 'new Function()',    value: new Function() },        //Function Object
 	{ name: 'new Error()',       value: new Error()},            //Error
-	{ name: 'new SyntaxError()', value: new SyntaxError()},      //SyntaxError
 	{ name: 'Object',            value: Object }                 //Object
 ],
 
@@ -166,17 +127,21 @@ function createEqualTable(caption, equal){
 		tmp = [];
 		v = values[ii].value;
 		for (var k = 0; k < ln; k++) {
-			tmp.push(k < ii ? '' : equal(v, values[k].value));
+			tmp.push(k < ii ? '-' : equal(v, values[k].value));
 		}
 		
-		ret.push('<th>' + values[ii].name + '</th><td>' + tmp.join('</td><td>') + '</td>');
+		ret.push(
+			"<th>" + values[ii].name + "</th>" +
+			"<td>" + tmp.join("</td><td>") + "</td>");
 	}
 	
-	return '<table cellSpacing="0">' +
-		'<caption>' + caption + '</caption><tbody>' +
-		'<tr>' + ret.join('</tr><tr>') + '</tr>' + 
-		'</tbody></table>';
+	return $("<table>")
+		.attr("cellSpacing","0")
+		.append(
+			$("<caption>").html(caption),
+			$("<tbody>").append("<tr>" + ret.join("</tr><tr>") + "</tr>"));
 }
+
 
 
 
@@ -195,9 +160,9 @@ $('#target td').filter(function(){
 }).css({
 	backgroundColor: '#caa'
 }).end().filter(function(){
-	return $(this).text() == '';
+	return $(this).text() == '-';
 }).css({
-	backgroundColor: '#666'
+	backgroundColor: "#999"
 });
 
 
@@ -205,34 +170,35 @@ $('#target td').filter(function(){
 //===============================================================================
 function createSingleTables(caption, id, fn){
 	
-	var ret = ['<th>Value</th><th>Result</th>'], ln = values.length;
+	var ret = ["<th>Value</th><th>Result</th>"], ln = values.length;
 	
+	//make Row
 	for (var i = 0; i < ln; i++) {
-			ret.push('<th>' + values[i].name + '</th><td>' + fn(values[i].value) + '</td>');
+			ret.push(
+				"<th>" + values[i].name + "</th>" +
+				"<td>" + fn(values[i].value) + "</td>");
 	}
 	
-	return $('<table>').attr({
-		'cellSpacing':0,
-		'id':id
-	}).append('<caption>' + caption + '</caption><tbody>' +
-		'<tr>' + ret.join('</tr><tr>') + 
-		'</tr></tbody>');
-
+	return $("<table>").attr({
+		"cellSpacing":"0",
+		"id":id
+	}).append(
+		$("<caption>").html(caption),
+		"<tbody><tr>" + ret.join("</tr><tr>") + "</tr></tbody>");;
 }
 
 
-$('#target').append(createSingleTables('<b>typeof</b> Value', 'typeof',
+$("#target").append(createSingleTables("<b>typeof</b> Value", "typeof",
 function (v){
 	return typeof v;
 }));
 
-$('#target').append(createSingleTables('<b>Value.constructor</b>', 'construt',
-function(v){
-	if( typeof v == 'undefined' || v === null ){
-		return //"not found";
-	}
-	else{
-		return v.constructor.toString().match(/(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g);
+$("#target").append(createSingleTables("Value.<b>constructor</b>", "construct",
+function(value){
+	try{
+		return value.constructor.toString().match(/(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g);
+	}catch(e){
+		return e.toString();
 	}
 }));
 
@@ -253,44 +219,54 @@ function createInstanceOfTable(){
 	td = "td",
 	inst, typ;
 	
-	function createNode(tag, text){
-		var elm = document.createElement(tag);
-		elm.appendChild(document.createTextNode(text));
-		return elm;
-	}
 	
-	function appendChild(row, children){
-		var ln = children.length, i = 0;
-		for(;i < ln;){
-			row.appendChild(children[i++]);	
+	/**
+	 * append to tr(row) elemnt
+	 * @param {tr Elemnt} row
+	 * @param {Array} children
+	 */
+	function append(elmnt, children){
+		var ln = children.length, i = 0, child;
+		
+		function createNode(tag, text){
+			var elm = document.createElement(tag);
+			elm.appendChild(document.createTextNode(text));
+			return elm;
+		}
+		
+		for (; i < ln;) {
+			child = children[i++];
+			elmnt.appendChild(createNode(child.tag, child.text));
 		}
 	}
 	
-	var row = table.insertRow(-1);
-	appendChild(row,[
-		createNode(th,"Object Type"),
-		createNode(th,"Value"),
-		createNode(th,"Result")
+	append(table.insertRow(-1),[
+		{tag:th,text:"Object Type"},
+		{tag:th,text:"Value"},
+		{tag:th,text:"Result"}
 	]);
 	
 	table.id = "inst";
 	table.setAttribute("cellSpacing","0");
-	table.appendChild(createNode("caption","Value instanceof ObjectType"));
-	
+	append(table,[{tag:"caption",text:"Value instanceof ObjectType"}]);
 	
 	for (; i < ln; i++) {
 		inst = instArry[i].instance;
 		typ = instArry[i].type;
 		
-		var thTyp = createNode(th, inst.toString().match(regInstType));
-		thTyp.setAttribute("rowSpan", "2");
+		append(table.insertRow(-1),[
+			{ tag: th, text: inst.toString().match(regInstType) },
+			{ tag: td, text: typ[0].name },
+			{ tag: td, text: typ[0].value instanceof inst}
+		]);
 		
-		var row = table.insertRow(-1);
-		appendChild(row, [thTyp, createNode(td, typ[0].name), createNode(td, (typ[0].value instanceof inst))]);
-		
-		var row = table.insertRow(-1);
-		appendChild(row, [createNode(td, typ[1].name), createNode(td, (typ[1].value instanceof inst))]);
+		append(table.insertRow(-1),[
+			{ tag: td, text: typ[1].name },
+			{ tag: td, text: typ[1].value instanceof inst}
+		]);
 	}
+	
+	$("tr",table).children(":first-child:odd").attr("rowSpan", "2");
 	
 	return table;
 }
@@ -317,13 +293,13 @@ $('#inst td').filter(function(){
 </script>
 <style>
 body{
-	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size:16px;
 }
 table{
+	background-color:#eee;
 	border:1px solid #666;
 	border-collapse:collapse;
 	border-spacing:0;
-	background-color:#eee;
 	empty-cells:show;
 	margin-bottom:100px;
 	table-layout:fixed;
@@ -335,18 +311,19 @@ caption{
 }
 tr{}
 th{
-	font-size:small;
 	background-color:#ccc;
+	font-weight:bold;
 	padding:5px 0;
 }
 th, td {
 	border:1px solid #666;
+	font-family:monospace;
 	font-size:12px;
 	line-height: 1.2em;
 	overflow:hidden;
 }
 
-#typeof, #construt{
+#typeof, #construct{
 	width:300px;
 }
 #inst{
