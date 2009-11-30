@@ -36,16 +36,17 @@
 				<h4 title="Choice the Replace String"><span>変換する文字列の指定</span></h4>
 				<ul>
 
-					<li><input type="checkbox" class="chk" id="chk-tab" /><label for="chk-tab" class="lbl-chk">Tab → &amp;nbsp;×</label><input id="space-count" class='txtbox' type="text" value="2" maxlength="2" disabled="true"/></li>
+					<li><input type="checkbox" class="chk" id="chk-tab" checked /><label for="chk-tab" class="lbl-chk">Tab → &amp;nbsp;×</label><input id="space-count" class='txtbox' type="text" value="4" maxlength="2" disabled="true"/></li>
+					<li><input type="checkbox" class="chk" id="chk-ltgt" checked/><label for="chk-ltgt" class="lbl-chk">&lt;&gt; → &amp;lt; &amp;gt;</label></li>
+					<li><input type="checkbox" class="chk" id="chk-nullcol" checked/><label for="chk-nullcol" class="lbl-chk">空行の空白を削除</label></li>
+					<li><input type="checkbox" class="chk" id="chk-blank" checked/><label for="chk-blank" class="lbl-chk">各行頭空白 → &amp;nbsp;</label></li>
+					
 					<li><input type="checkbox" class="chk" id="chk-amp" /><label for="chk-amp" class="lbl-chk">&amp; → &amp;amp;</label></li>
-					<li><input type="checkbox" class="chk" id="chk-ltgt" /><label for="chk-ltgt" class="lbl-chk">&lt;&gt; → &amp;lt; &amp;gt;</label></li>
 					<li><input type="checkbox" class="chk" id="chk-quot" /><label for="chk-quot" class="lbl-chk">&quot; → &amp;quot;</label></li>
-
 					<li><input type="checkbox" class="chk" id="chk-singlequot" /><label for="chk-singlequot" class="lbl-chk">&#39; → &amp;#39;</label></li>
 					<li><input type="checkbox" class="chk" id="chk-bs" /><label for="chk-bs" class="lbl-chk">\ → \\</label></li>
 					<li><input type="checkbox" class="chk" id="chk-return" /><label for="chk-return" class="lbl-chk">\n → &amp;lt;br/&amp;gt;</label></li>
-					<li><input type="checkbox" class="chk" id="chk-nullcol" /><label for="chk-nullcol" class="lbl-chk">空行の空白 → 削除</label></li>
-					<li><input type="checkbox" class="chk" id="chk-blank" /><label for="chk-blank" class="lbl-chk">各行頭空白 → &amp;nbsp;</label></li>
+					
 
 				</ul>
 			</div>
@@ -80,7 +81,7 @@
 
 							<li><input type="checkbox" class="sh-chk" id="sh-chk-nocontrols" /><label for="sh-chk-nocontrols" class="lbl-chk" title="Will display no controls at the top. ">nocontrols</label></li>
 							<li><input type="checkbox" class="sh-chk" id="sh-chk-collapse" /><label for="sh-chk-collapse" class="lbl-chk" title="Will collapse the block by default. ">collapse</label></li>
-							<li><input type="checkbox" class="sh-chk" id="sh-chk-firstline" /><label for="sh-chk-firstline" class="lbl-chk" title="Will begin line count at value. Default value is 1.">firstline</label><input id="firstline-num" class='txtbox' type="text" maxlength="5" value="1" disabled="true"/></li>
+							<li><input type="checkbox" class="sh-chk" id="sh-chk-firstline" /><label for="sh-chk-firstline" class="lbl-chk" title="Will begin line count at value. Default value is 1.">firstline</label><input id="firstline-num" class='txtbox disabled' type="text" maxlength="5" value="1" disabled="true"/></li>
 							<li><input type="checkbox" class="sh-chk" id="sh-chk-showcolumns" /><label for="sh-chk-showcolumns" class="lbl-chk" title="Will show row columns in the first line.">showcolumns</label></li>
 							
 							<li><input type="radio" class="rdo-code" name="rdo-code" id="cdcsharp" value="csharp" checked="checked" /><label for="cdcsharp" class="lbl-code" title="class='csharp' name='code'">C#</label></li>

@@ -10,19 +10,21 @@ $.rpc = {
 			return false;
 		}
 		
-		var pattern = $($.my.slctr.ptTxt).val();
+		var pattern = $($.my.slctr.ptTxt).val().replace(/(^\s+|\s+$)/g,"");
 		
 		//valid pattern.
 		if ($.rpc.isRegexPattern(pattern)) {
 			pattern = $.rpc.convertRegex(pattern);
 		}
 		else {
-			$.rpc.showResult("正規表現パターンに間違いがあるようです。");
+			$.rpc.showResult("適性な正規表現パターンではありません。");
 			return false;
 		}
 		
-		//Exec Replace or Match function.
+		//Exec function.
 		$.rpc.exec[$.rpc.getExecOrder()].call(this, pattern, word);
+		
+		$($.my.slctr.ptTxt).val(pattern);
 		return false;
 	},
 	
