@@ -6,16 +6,16 @@
  * @Author:y@s
  * @Version:1.2
  * @Published:2009-07-02
- * @Update:2009-07-11
+ * @Update:2009-12-03
  * @Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/gchart.demo.html
  */
 
 (function($){
+$.gChart = (function(){
 var
 simpleChrs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
 extendedChrs = simpleChrs + '-.',
-
-/*
+/**
  * デフォルト
  * Required Parameters
  * - chart data
@@ -27,6 +27,7 @@ _defaults = {
 	chs: '200x125',
 	cht: 'p3'
 };
+
 
 function gChart() {
 	this.initialize.apply(this, arguments);
@@ -111,7 +112,7 @@ gChart.simpleEncoding = function(){
 		var data = '', arg = args[i];
 
 		for (var n = 0, m = arg.length; n < m; n++)
-			data += this.simpleEncode( parseInt(arg[n]) );
+			data += gChart.simpleEncode( parseInt(arg[n]) );
 		
 		ret.push(data);
 	}
@@ -123,9 +124,14 @@ gChart.simpleEncoding = function(){
 //拡張エンコード(Extended Encode)
 //数値から拡張エンコード文字に変換
 //@param - type:int(0 - 4095)
-//@return - type:String - Extended Encoded Value
+//
+/**
+ * 
+ * @param  {Object} data
+ * @return {String} Extended Encoded Value
+ */
 gChart.extendedEncode = function(data){
-	return data < 0 ? '__' : this.extendedEncodWords[data] || '__';
+	return data < 0 ? '__' : gChart.extendedEncodWords[data] || '__';
 }
 
 
@@ -138,7 +144,7 @@ gChart.extendedEncoding = function(){
 		var data = '', arg = args[i];
 		
 		for (var n = 0, m = arg.length; n < m; n++)
-			data += this.extendedEncode( parseInt(arg[n]) );
+			data += gChart.extendedEncode( parseInt(arg[n]) );
 		
 		ret.push(data);
 	}
@@ -176,7 +182,7 @@ gChart.simpleDecoding = function(data){
 	for (var i = 0; i < dts.length; i++) {
 		var ar = [], dt = dts[i];
 		for (var n = 0, m = dt.length; n < m; n++) 
-			ar.push(this.simpleDecode(dt.substr(n, 1)));
+			ar.push(gChart.simpleDecode(dt.substr(n, 1)));
 		
 		ret.push(ar);
 	}
@@ -184,21 +190,25 @@ gChart.simpleDecoding = function(data){
 	return ret.length == 1 ? ret[0] : ret;
 }
 
-
-//拡張デコード(Extended Decode)
-//拡張エンコード文字から数値に変換
-//@param - type:String - Extended Charactor
-//@return - type:int or null
+/**
+ * 拡張デコード(Extended Decode)
+ * 拡張エンコード文字から数値に変換
+ * @param  {String} v Extended Charactor
+ * @return {int or null} Decoded Extended Charactor
+ */
 gChart.extendedDecode = function(v){
 	var re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v);
 	
-	return re ? extendedChrs.search(re[1] == '.' ? '\\.' : re[1]) * 64 + extendedChrs.search(re[2] == '.' ? '\\.' : re[2]) :
-		v == '__' ? -1 : null;
+	return re ? extendedChrs.search(re[1] == '.' ? '\\.' :
+		re[1]) * 64 + extendedChrs.search(re[2] == '.' ? '\\.' :
+		re[2]) : v == '__' ? -1 : null;
 }
 
-
-//@param - type:String
-//@return - type:Array
+/**
+ * 拡張デコード
+ * @param {String} data
+ * @return {Array} extended Decoded data
+ */
 gChart.extendedDecoding = function(data){
 	data = /^e:.*$/.test(data) ? data.substr(2) : data;
 	
@@ -207,7 +217,7 @@ gChart.extendedDecoding = function(data){
 	for (var i = 0; i < dts.length; i++) {
 		var ar = [], dt = dts[i];
 		for (var n = 0, m = dt.length; n < m; n += 2) 
-			ar.push(this.extendedDecode(dt.substr(n, 2)));
+			ar.push(gChart.extendedDecode(dt.substr(n, 2)));
 		
 		ret.push(ar);
 	}
@@ -215,5 +225,6 @@ gChart.extendedDecoding = function(data){
 	return ret.length == 1 ? ret[0] : ret;
 }
 
-$.gChart = gChart;
+return gChart;
+})();
 })(jQuery);
