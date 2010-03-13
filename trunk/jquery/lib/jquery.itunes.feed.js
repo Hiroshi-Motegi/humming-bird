@@ -30,26 +30,26 @@
 					}
 					return ret.join('/');
 				}({
-					sf: prms.sf,
-					limit: prms.limit,
-					genre: prms.genre,
-					explicit: prms.explicit
+					sf       : prms.sf,
+					limit    : prms.limit,
+					genre    : prms.genre,
+					explicit : prms.explicit
 				}));
 				
 				return {
-					v: '1.0',
-					num: prms.limit || '-1', //-1 = all
-					output: prms.output || 'json', //json, xml or json_xml
-					q: 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' +
+					v      : '1.0',
+					num    : prms.limit || '-1', //-1 = all
+					output : prms.output || 'json', //json, xml or json_xml
+					q      : 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' +
 						prms.category.toLowerCase() + '/' + query + '/rss.xml'
 				};
 			}($.extend({
 				//default query params
-				category: 'topalbums',
-				sf: 143462,
-				limit: 10,
-				genre: 0,
-				explicit: true
+				category : 'topalbums',
+				sf       : 143462,
+				limit    : 10,
+				genre    : 0,
+				explicit : true
 			}, params)));
 			
 			
