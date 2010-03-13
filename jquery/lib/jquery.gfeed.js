@@ -3,18 +3,18 @@
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * Author:y@s
- * Version:1.0.1
- * Published:2009-05-30
- * Update:2009-07-13
- * Reference:http://code.google.com/intl/ja/apis/ajaxfeeds/documentation/reference.html
- * Demo:http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/gfeed.demo.html
+ * Author    : y@s
+ * Version   : 1.0.1
+ * Published : 2009-05-30
+ * Update    : 2009-07-13
+ * Reference : http://code.google.com/intl/ja/apis/ajaxfeeds/documentation/reference.html
+ * Demo      : http ://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/gfeed.demo.html
  */
 
 (function($){
 /**
- * @param {Object} options - q, v, hl, key, context, num, scoring, output 
- * @param {Object} callback - callback function
+ * @param {Object}   options  - q, v, hl, key, context, num, scoring, output 
+ * @param {function} callback - callback function
  */
 $.gFeed = function(options, callback){
 	var opt = $.extend({
