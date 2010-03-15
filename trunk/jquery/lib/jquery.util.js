@@ -8,34 +8,37 @@ $.extend($.browser, {
 
 // extend animate speed
 $.extend($.fx.speeds, {
-	faster: 100,
-	normal:450,
-	slower: 1000
+	faster :  100,
+	normal :  450,
+	slower : 1000
 });
 
 
 $.extend({
 	dom: {
 		NodeType: {
-			ELEMENT: 1,
-			ATTRIBUTE: 2,
-			TEXT: 3,
-			CDATA_SECTION: 4,
-			ENTITY_REFERENCE: 5,
-			ENTITY: 6,
-			PROCESSING_INSTRUCTION: 7,
-			COMMENT: 8,
-			DOCUMENT: 9,
-			DOCUMENT_TYPE: 10,
-			DOCUMENT_FRAGMENT: 11,
-			NOTATION: 12
+			ELEMENT                :  1,
+			ATTRIBUTE              :  2,
+			TEXT                   :  3,
+			CDATA_SECTION          :  4,
+			ENTITY_REFERENCE       :  5,
+			ENTITY                 :  6,
+			PROCESSING_INSTRUCTION :  7,
+			COMMENT                :  8,
+			DOCUMENT               :  9,
+			DOCUMENT_TYPE          : 10,
+			DOCUMENT_FRAGMENT      : 11,
+			NOTATION               : 12
 		}
 	},
+	
+	
 	// check exist parent node
 	existParent: function(elm){
 		elm = 'length' in elm ? elm[0] : 'tagName' in elm ? elm : null;
 		return elm ? (!elm.parentNode || !elm.parentNode.tagName) : false;
 	},
+	
 	
 	// Remove only own.
 	removeSelf:function(elms) {
@@ -44,9 +47,9 @@ $.extend({
 		});
 	},
 	
+	
 	// Merge Objects.
 	merge:function(){
-
 		var
 		args = Array.prototype.slice.call(arguments),
 		len = args.length,
@@ -63,7 +66,6 @@ $.extend({
 		}
 		
 		return ret;
-
 	},
 	
 	// make Query String
@@ -129,7 +131,6 @@ $.fn.extend({
 		}));
 	},
 	setOpacity:(function(){
-	
 		var _opacity = (function(){
 			var style = document.createElement('div').style,
 			    keys = ['opacity', 'MozOpacity', 'KhtmlOpacity', 'filter'];

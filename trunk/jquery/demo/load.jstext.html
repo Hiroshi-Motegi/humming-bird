@@ -13,20 +13,6 @@
 
 (function($){
 $.fn.getJsSource = function(jsUrl){
-	var $t = $(this);
-	
-	function getJsText (url, data, callback){
-		var dt = $.extend({}, data);
-		callback = $.isFunction(data) ? data : callback || function(){};
-		
-		$.ajax({
-		    dataType: 'script',
-			data: dt,
-		    cache: false,
-		    url: url,
-		    success: callback
-		});
-	}
 	
 	var prettify = {
 		loadCss: function(){
@@ -37,14 +23,31 @@ $.fn.getJsSource = function(jsUrl){
 			document.getElementsByTagName('head')[0].appendChild(css);
 		},
 		loadJs: function(callback){
-			var script = document.createElement("script");
+			var script = document.createElement('script');
 			script.src = '../../prettify/prettify.js';
 			script.setAttribute('type', 'text/javascript');
 			document.documentElement.firstChild.appendChild(script);
 			$(script).load(function(){callback.call(this)});
 		}
+	};
+	
+	
+	
+	function getJsText (url, data, callback){
+		//var dt = $.extend({}, data);
+		callback = $.isFunction(data) ? data : callback || function(){};
+		
+		$.ajax({
+		    'dataType' : 'script',
+			'data'     : data,
+		    'cache'    : false,
+		    'url'      : url,
+		    'success'  : callback
+		});
 	}
 	
+	
+	var $t = $(this);
 	
 	getJsText(jsUrl, function(source){
 		$t.append('<pre class=\'prettyprint\'>' + source + '</pre>');
@@ -67,6 +70,11 @@ jQuery(function($){
 });
 </script>
 </head>
+<style>
+	#code pre.prettyprint{
+		font-family:monospace;
+	}
+</style>
 <body>
 	<h1>jQuery Load Js Source</h1>
 	<div id='code'></div>

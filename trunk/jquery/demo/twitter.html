@@ -28,8 +28,9 @@ $(function(){
 		for (var item in data)
 			list.push(item + ' : ' + data[item]);
 			
-		$(document.body).append('<h3>Twitter User Info - ' +
-			user + '</h3><ul><li>' + list.join('</li><li>') + '</li></ul>');
+		$(document.body).append(
+			'<h3>Twitter User Info - ' + user + '</h3>',
+			'<ul><li>' + list.join('</li><li>') + '</li></ul>');
 	});
 	
 	
@@ -47,8 +48,9 @@ $(function(){
 						list.push(dt[i].text);
 		});
 		
-		$(document.body).append('<h3>Twitter Seach - keyword : ' +
-			keyword + '</h3><ul><li>' + list.join('</li><li>') + '</li></ul>');
+		$(document.body).append(
+			'<h3>Twitter Search - keyword : ' + keyword + '</h3>',
+			'<ul><li>' + list.join('</li><li>') + '</li></ul>');
 		
 	});
 

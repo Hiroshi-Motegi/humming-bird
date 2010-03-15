@@ -1,12 +1,12 @@
-/*
+/**
  * jQuery plugin jsonToString
  * Copyright 2009
- * Author y@s
- * Updated 2009-06-06
- * Version 1.0
  * Released under the MIT and GPL licenses.
  * 
- * demo http://humming-bird.googlecode.com/svn/trunk/jquery/demo/jsonToString.html
+ * Author  : y@s
+ * Updated : 2009-06-06
+ * Version : 1.0
+ * demo    : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/jsonToString.html
  */
 
 function escapeAndModify(s){
@@ -129,15 +129,15 @@ var g = {
 		}
 	},
 	gd$rating: {
-		average: 4.9555554,
-		max: 5,
-		min: 1,
-		numRaters: 90,
-		rel: 'http://schemas.google.com/g/2005#overall'
+		average   : 4.9555554,
+		max       : 5,
+		min       : 1,
+		numRaters : 90,
+		rel       : 'http://schemas.google.com/g/2005#overall'
 	},
 	yt$statistics: {
-		favoriteCount: '192',
-		viewCount: '7223'
+		favoriteCount : '192',
+		viewCount     : '7223'
 	}
 }
 

@@ -11,16 +11,18 @@
 <script type="text/javascript">
 $(function(){
 //気まぐれでjQueryを使わずに書いてみた。
-$.gReaderFeed('http://googleblog.blogspot.com/feeds/posts/default',
+$.gReaderFeed(
+	'http://googleblog.blogspot.com/feeds/posts/default',
 	{'alt':'json'}, 
 	function ( data ){		
 		var list = document.createElement('ul');
 		
-		for (i in data.items) {
-			var item = data.items[i];
-			var post = document.createElement('li');
+		for ( i in data.items ) {
+			var
+			item = data.items[i],
+			post = document.createElement('li'),
+			link = document.createElement('a');
 			
-			var link = document.createElement('a');
 			link.appendChild(document.createTextNode(item.title));
 			link.href = item.alternate.href;
 			post.appendChild(link);

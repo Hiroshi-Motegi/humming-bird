@@ -1,7 +1,10 @@
-/*
+/**
  * jQuery plugin Color Animations Custom
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
+ * 
+ * 
+ * LastUpdale:2010-03-15
  */
 
 // jQuery Color Animations
@@ -10,7 +13,8 @@
 (function($){
 $.extend({
 	parseColorCode:function(rgb){
-		return ((((1 << 8) + rgb[0] << 8) + rgb[1] << 8) + rgb[2]).toString(16).replace(/^1/, '#');
+		return '#' + (((256 + rgb[0] << 8) + rgb[1] << 8) + rgb[2]).toString(16).slice(1);
+		//return ((((1 << 8) + rgb[0] << 8) + rgb[1] << 8) + rgb[2]).toString(16).replace(/^1/, '#');
 	},
 
 	// Color Conversion functions from highlightFade
@@ -22,16 +26,21 @@ $.extend({
 		var result;
 
 		// Check if we're already dealing with an array of colors
-		if ( color && color.constructor == Array && color.length == 3 )
+		if ( color &&
+			 Object.prototype.toString.call(obj) === "[object Array]" &&
+			 color.length == 3 )
 			return color;
 
 		// rgb(num,num,num)
 		if (result = /rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(color))
-			return [parseInt(result[1]), parseInt(result[2]), parseInt(result[3])];
+			return [+result[1], +result[2], +result[3]];
 
+		
 		// rgb(num%,num%,num%)
 		if (result = /rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(color))
-			return [parseFloat(result[1])*2.55, parseFloat(result[2])*2.55, parseFloat(result[3])*2.55];
+			return [+result[1]*255/100, +result[2]*255/100, +result[3]*255/100];
+			// ↓ 100% = 254.99999999999997
+			//return [+result[1]*2.55, +result[2]*2.55, +result[3]*2.55];
 
 		// #a0b1c2
 		if (result = /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/.exec(color))
@@ -42,7 +51,7 @@ $.extend({
 			return [parseInt(result[1]+result[1],16), parseInt(result[2]+result[2],16), parseInt(result[3]+result[3],16)];
 
 		// Otherwise, we're most likely dealing with a named color
-		return $.namedColors[$.trim(color).toLowerCase()];
+		return $.namedColors[ $.trim(color).toLowerCase() ];
 	},
 	
 	getColor:function(elem, attr) {
