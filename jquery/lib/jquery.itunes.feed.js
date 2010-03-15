@@ -3,11 +3,11 @@
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * @Author    : y@s
- * @Version   : 1.4.1
- * @Published : 2009/06/00
- * @Update    : 2010/03/14
- * @Demo      : http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
+ * @Author     : y@s
+ * @Version    : 1.4.1
+ * @Published  : 2009/06/00
+ * @LastUpdate : 2010/03/14
+ * @Demo       : http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
  */
 
 (function($){
@@ -75,18 +75,19 @@
 			}
 			
 			
-			$.get('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', op, function(result){
-				if (result && result.responseStatus == 200) {
-					var res = result.responseData;
-					callback.call(this, {
-						'json': outputType.match(/json/) ? res.feed : null,
-						'xml': outputType.match(/xml/) ? parseXMLfromString(res.xmlString) : null
-					});
-				}
-				else {
-					return false;
-				}
-			}, 'json');
+			$.get('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', op,
+				function(result){
+					if (result && result.responseStatus == 200) {
+						var res = result.responseData;
+						callback.call(this, {
+							'json': outputType.match(/json/) ? res.feed : null,
+							'xml' : outputType.match(/xml/) ? parseXMLfromString(res.xmlString) : null
+						});
+					}
+					else {
+						return false;
+					}
+				}, 'json');
 		},
 		
 		

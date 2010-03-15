@@ -5,10 +5,11 @@
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 		<meta content="y@s" name="author"/>
-		<title>jQuery animation opacity toggle demo</title>
+		<title>jQuery animation opacity value "toggle" demo</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
+
 $('#opacity').text($('#toggle-target').css('opacity'));
 $('#opacity2').text($('#toggle-target2').css('opacity'));
 
@@ -53,8 +54,9 @@ p{
 	padding:0;	
 }
 
-body,pre{
-	font-family: Arial,Verdana, Geneva, Helvetica, sans-serif;
+pre{
+	font-family: monospace;
+	font-size:14px;
 }
 
 #toggle-wrap,
@@ -108,7 +110,7 @@ body,pre{
 </style>
 </head>
 <body>
-	<h1>jQuery animation opacity toggle demo</h1>
+	<h1>jQuery animation opacity value "toggle" demo</h1>
 <div id="left">
 	<h2>Not use "toggle"</h2>
 	<div id='toggle-wrap'>

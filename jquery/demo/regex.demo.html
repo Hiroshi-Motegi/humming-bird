@@ -8,16 +8,20 @@
 		<title>humming bird - jQuery regex demo</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"  type="text/javascript"></script>
 		<script src='http://view.jquery.com/trunk/plugins/color/jquery.color.js' type="text/javascript"></script>
-		<!--<script src='http://plugins.jquery.com/files/jquery.color.js.txt' type="text/javascript"></script>-->
+		<!--<script src='http://plugins.jquery.com/files/jquery.color.js' type="text/javascript"></script>-->
 
 <script type="text/javascript">
 jQuery.extend(jQuery.expr[":"], {
-	regex: function(elem, index, match){
-	
-		var matchParams = match[3].split(','), validLabels = /^(data|css):/, attr = {
-			method: matchParams[0].match(validLabels) ? matchParams[0].split(':')[0] : 'attr',
-			property: matchParams.shift().replace(validLabels, '')
-		}, regexFlags = 'ig', regex = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g, ''), regexFlags);
+	regex: function(elem, index, match){	
+		var
+		matchParams = match[3].split(','),
+		validLabels = /^(data|css):/,
+		attr        = {
+			method   : matchParams[0].match(validLabels) ? matchParams[0].split(':')[0] : 'attr',
+			property : matchParams.shift().replace(validLabels, '')
+		},
+		regexFlags  = 'ig',
+		regex       = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g, ''), regexFlags);
 		
 		return regex.test(jQuery(elem)[attr.method](attr.property));
 	}
@@ -69,9 +73,9 @@ html,body{
 }
 
 ul{
-	padding-left:0;/*ffで必要*/
-	text-indent:0;
-	margin-left:0;/*IEで必要*/
+	padding-left : 0;/*ffで必要*/
+	text-indent  : 0;
+	margin-left  : 0;/*IEで必要*/
 }
 
 /*IEで隙間が出来る*/
@@ -87,11 +91,11 @@ h3,h4{
 	color:#333;
 }
 h4{
-	margin-top:40px;
-	padding-left:10px;
-	line-height:1.6em;
-	border-left:10px solid #ccc;
-	border-bottom:2px solid #ccc;
+	margin-top    : 40px;
+	padding-left  : 10px;
+	line-height   : 1.6em;
+	border-left   : 10px solid #ccc;
+	border-bottom : 2px solid #ccc;
 }
 
 #wrap{

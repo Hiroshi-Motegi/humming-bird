@@ -52,8 +52,11 @@ String.prototype.PadLeft = function(totalWidth, paddingChar){
 */
 
 String.prototype.times = function(len){
+	//thisの文字列の長さが1であることが保証されるならretをそのまま返せばよい。
 	var ret = len < 1 ? '' : new Array(len + 1).join(this);
-	return ret.length > len ? ret.substr(ret.length - len) : ret;
+	//戻り値の文字列の長さをlnに合わせる。	
+	return ret.length > len ? ret.substr(0, len) : ret;
+	//return ret.length > len ? ret.substr(ret.length - len) : ret;
 }
 
 String.prototype.padLeft = function(totalWidth, paddingChar){
@@ -65,8 +68,10 @@ String.prototype.padRight = function(totalWidth, paddingChar){
 }
 
 
-var s = "PPPP";
-//alert(s.padLeft(3, 'KKK'));
+var s = "PPP";
+alert(s.padLeft(7, 'KN0'));
+
+
 
 });
 </script>
@@ -79,10 +84,10 @@ body { min-width: 900px; }
 }
 
 selector{
-	filter: alpha(opacity=50);
-	-moz-opacity:0.5;
-	-khtml-opacity:0.5;
-	opacity:0.5;
+	filter         : alpha(opacity=50);
+	-moz-opacity   : 0.5;
+	-khtml-opacity : 0.5;
+	opacity        : 0.5;
 }
 </style>
 

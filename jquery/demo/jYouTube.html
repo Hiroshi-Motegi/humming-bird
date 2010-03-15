@@ -10,22 +10,22 @@
 (function($){$.extend({
 jYouTube: function(data, callback){
 	var dt = $.extend({
-		'vq': '',
-		'orderby': 'relevance', // updated, viewCount, rating, relevance_lang_jpn
-		'start-index': 1,
-		'racy': 'exclude', // include or exclude
-		'max-results': 10,
-		'time': 'all_time', // today, this_week, this_month
-		'alt': 'json-in-script'
+		'vq'          : '',
+		'orderby'     : 'relevance', // updated, viewCount, rating, relevance_lang_jpn
+		'start-index' : 1,
+		'racy'        : 'exclude',   // include or exclude
+		'max-results' : 10,
+		'time'        : 'all_time',  // today, this_week, this_month
+		'alt'         : 'json-in-script'
 	}, data);
 	
 	if (dt.vq) {
 		$.ajax({
-			dataType: 'jsonp',
-			data: dt,
-			cache: false,
-			url: 'http://gdata.youtube.com/feeds/api/videos',
-			success: callback
+			dataType : 'jsonp',
+			data     : dt,
+			cache    : false,
+			url      : 'http://gdata.youtube.com/feeds/api/videos',
+			success  : callback
 		});
 	}
 }
@@ -35,37 +35,38 @@ jYouTube: function(data, callback){
 $(function(){
 	
 	var keyword = 'metallica';
+	
 	// Usage
 	$.jYouTube({
-		vq: keyword,
-		'max-results': 20
+		'vq'          : keyword,
+		'max-results' : 20
 	}, function (data){
 		var
 		entries = data.feed.entry,
-		$table = $('<table>'),
-		$tbody = $('<tbody>').appendTo($table),
-		$tr = null;
+		$table  = $('<table/>'),
+		$tbody  = $('<tbody/>').appendTo($table),
+		$tr     = null;
 		
 		$.each(entries, function(i, entry){
 			 var mg = entry.media$group;
 			 if (i % 4 == 0) { 
-			 	$tr = $('<tr>');
-				$tr.appendTo($tbody);
+			 	$tr = $('<tr/>').appendTo($tbody);
 			 }
 			 
 			$tr.append(
-				$('<td>').append(
-					$('<a>')
+				$('<td/>').append(
+					$('<a/>')
 						.attr({
-							'href': mg.media$player[0].url,
-							'title': entry.title.$t
+							'href'  : mg.media$player[0].url,
+							'title' : entry.title.$t
 						})
-						.append($('<img/>').attr('src', mg.media$thumbnail[0].url))
+						.append($('<img/>')
+							.attr('src', mg.media$thumbnail[0].url))
 				)
 			);
 		});
 		
-		$('h1').after($('<h3>').text('Keyword : ' + keyword), $table);
+		$('h1').after($('<h3/>').text('Keyword : ' + keyword), $table);
 	});
 });
 </script>
@@ -84,6 +85,8 @@ table a{
 table a img{
 	vertical-align:middle;
 	border:1px solid #ccc;
+	height:90px;
+	width:120px;
 }
 #footer{
 	width:550px;

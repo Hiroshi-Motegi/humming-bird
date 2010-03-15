@@ -3,11 +3,11 @@
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * @Author:y@s
- * @Version:1.2
- * @Published:2009-07-02
- * @Update:2009-12-03
- * @Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/gchart.demo.html
+ * @Author     : y@s
+ * @Version    : 1.2
+ * @Published  : 2009-07-02
+ * @LastUpdate : 2009-12-03
+ * @Demo       : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/gchart.demo.html
  */
 
 (function($){
@@ -23,9 +23,9 @@ extendedChrs = simpleChrs + '-.',
  * - chart type
  */
 _defaults = {
-	chd: 't:50,50',
-	chs: '200x125',
-	cht: 'p3'
+	chd : 't:50,50',
+	chs : '200x125',
+	cht : 'p3'
 };
 
 
@@ -37,6 +37,7 @@ gChart.prototype = {
 	initialize: function(options){
 		this.params = gChart.merge({}, _defaults, options || {});
 	},
+	
 	src: function(options){
 		return 'http://chart.apis.google.com/chart?' +
 			(function(o){
@@ -48,6 +49,7 @@ gChart.prototype = {
 				return ret.join('&');
 			})(gChart.merge({}, this.params, options || {}));
 	},
+	
 	image: function(options){
 		var img = document.createElement('img');
 		img.src = this.src(options);
@@ -59,8 +61,8 @@ gChart.prototype = {
 gChart.merge = function(){
 	var
 	args = Array.prototype.slice.call(arguments),
-	len = args.length,
-	ret = args[0],
+	len  = args.length,
+	ret  = args[0],
 	itm;
 	
 	for (var i = 1; i < len; i++) {
@@ -103,8 +105,11 @@ gChart.simpleEncode = function(data){
 }
 
 
-//@param - type:Array(int:0 - 61)
-//@return - type:Array - Simple Encoded Value
+
+/**
+ * @param  {Array} - {int} 0 ~ 61
+ * @return {Array} - Simple Encoded Value
+ */
 gChart.simpleEncoding = function(){
 	var ret = [], args = Array.prototype.slice.call(arguments);
 	
@@ -121,14 +126,11 @@ gChart.simpleEncoding = function(){
 }
 
 
-//拡張エンコード(Extended Encode)
-//数値から拡張エンコード文字に変換
-//@param - type:int(0 - 4095)
-//
+
 /**
- * 
- * @param  {Object} data
- * @return {String} Extended Encoded Value
+ * 拡張エンコード(Extended Encode)
+ * @param  {int}    data - 0 ~ 4095
+ * @return {String}      - Extended Encoded Value
  */
 gChart.extendedEncode = function(data){
 	return data < 0 ? '__' : gChart.extendedEncodWords[data] || '__';
@@ -153,7 +155,9 @@ gChart.extendedEncoding = function(){
 }
 
 
-//@Value - type:Array(string AA - ..)
+/**
+ * @Value {Array} - {string} AA ~ ..
+ */
 gChart.extendedEncodWords = (function(){
 	var chrs = extendedChrs.split(''), len = chrs.length, ret = [];
 	
@@ -190,11 +194,12 @@ gChart.simpleDecoding = function(data){
 	return ret.length == 1 ? ret[0] : ret;
 }
 
+
 /**
- * 拡張デコード(Extended Decode)
- * 拡張エンコード文字から数値に変換
- * @param  {String} v Extended Charactor
- * @return {int or null} Decoded Extended Charactor
+ * 拡張デコード - Extended Decode
+ * 拡張エンコード文字から数値に変換します。
+ * @param  {String}      v - Extended Charactor
+ * @return {int or null}   - Decoded Extended Charactor
  */
 gChart.extendedDecode = function(v){
 	var re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v);

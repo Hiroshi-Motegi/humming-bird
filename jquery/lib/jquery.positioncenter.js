@@ -15,11 +15,11 @@ $.fn.extend({
 	positionCenter: function() {
 		var 
 		$win = $(window),
-		win = {
-			h:$win.height(),
-			w:$win.width(),
-			st:$win.scrollTop(),
-			sl:$win.scrollLeft()
+		win  = {
+			h  : $win.height(),
+			w  : $win.width(),
+			st : $win.scrollTop(),
+			sl : $win.scrollLeft()
 		};
 		
 		return this.each(function(){
@@ -37,8 +37,8 @@ $.fn.extend({
 				$t.clone().hide().appendTo(document.body) : $t;
 			
 			var ts = this.style;
-			ts['top'] = ( win.h - $te.outerHeight() + (ps == 'absolute' ? win.st : 0) ) / 2 + 'px';
-			ts['left'] = ( win.w - $te.outerWidth() + (ps == 'absolute' ? win.sl : 0) ) / 2 + 'px';
+			ts['top']    = ( win.h - $te.outerHeight() + (ps == 'absolute' ? win.st : 0) ) / 2 + 'px';
+			ts['left']   = ( win.w - $te.outerWidth() + (ps == 'absolute' ? win.sl : 0) ) / 2 + 'px';
 			ts['margin'] = '0';
 			
 			if($te != $t)

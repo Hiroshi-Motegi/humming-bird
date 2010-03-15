@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>New Web Project</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+//数値文字列をnumber型に変換する
+var
+numString = "-5.5",
+
+nAdd      = +numString,
+numSub    = numString - 0,
+nDiv      = numString / 1,
+nMult     = numString * 1,
+nNumber   = Number(numString),
+nParseF   = parseFloat(numString), 
+
+
+nBitshift = numString >> 0,      //整数のみ
+nOR       = numString | 0,       //整数のみ
+nParseI   = parseInt(numString); //整数のみ
+
+
+
+var
+value = nBitshift,
+type  = typeof value === "number",
+
+result =
+	"value : " + value +
+  "\ntype  : " + type;
+
+//alert(result);
+
+
+
+
+//端数切り捨て
+var num = -1.6108339;
+var nCeil = ~~num;			//-1
+var xCeil = Math.ceil(num); //-1
+
+//alert( xCeil === nCeil ); //true
+
+
+
+
+//abs
+//alert(+num < 0 ? -num : +num);
+
+
+
+
+
+
+var
+n  = "100",
+n1 = +n*2.55,
+n2 = +n*255/100;
+
+
+alert(
+	"n1   :" + n1 +
+  "\nn2   :" + n2 +
+  "\nequal:" + (n1 == n2));
+
+
+
+
+//ランダムな文字列
+//alert(Math.random().toString(36).slice(-10));
+</script>
+<style type="text/css"></style>
+</head>
+<body>
+</body>
+</html>

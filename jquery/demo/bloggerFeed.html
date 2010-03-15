@@ -14,8 +14,7 @@ $(function(){
 	$.bloggerFeed('googleblog', {'max-results': 15},
 		function(feed){
 			$('#recentPosts').append(
-				'<li>' + 
-				$.map(feed.entry, function(entry, i){
+				'<li>' + $.map(feed.entry, function(entry, i){
 					return '<span class="item-title"><a href=\'' + 
 						(function(links){
 							for (var k = 0; k < links.length; k++) {
@@ -26,8 +25,7 @@ $(function(){
 							return '';
 						})(entry.link) + 
 						'\'>' + entry.title.$t + '</a></span>';
-				}).join('</li><li>') +
-				'</li>');
+				}).join('</li><li>') + '</li>');
 	});
 });
 </script>

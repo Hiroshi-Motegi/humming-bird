@@ -4,22 +4,26 @@ $.extend($.gChart,{
 	area: {
 		// chtm
 		areas: {
-			africa: 'Africa',
-			asia: 'Asia',
-			europe: 'Europe',
-			middleEast: 'Middle Eeast',
-			southAmerica: 'South America',
-			usa: 'USA',
-			world: 'World'
+			africa       : 'Africa',
+			asia         : 'Asia',
+			europe       : 'Europe',
+			middleEast   : 'Middle Eeast',
+			southAmerica : 'South America',
+			usa          : 'USA',
+			world        : 'World'
 		},
+		
+		
 		areasCountries: {
-			africa: 'AF,DZ,AO,AR,BD,BJ,BO,BW,BR,BF,BI,CM,CF,TD,CN,CG,CD,CI,DJ,EG,ER,ET,GA,GH,GR,GN,GW,GY,IN,ID,IR,IQ,IL,IT,JO,KE,LA,LB,LR,LY,MG,MW,MY,ML,MR,MA,MZ,MM,NA,NE,NG,OM,PK,PY,PT,RW,SA,SN,SL,SO,ZA,ES,LK,SD,SR,SY,TJ,TZ,TH,TG,TN,TR,TM,UG,AE,UY,UZ,VE,EH,YE,ZM,ZW'.split(','),
-			asia: 'AF,AM,AU,AZ,BD,BY,BT,BG,BF,BI,KH,CN,EG,ER,ET,GE,IN,ID,IR,IQ,JP,JO,KZ,KE,KP,KR,KW,KG,LA,MW,MY,MD,MN,MZ,MM,NP,OM,PK,PG,PH,RO,RU,RW,SA,SO,LK,SD,SY,TW,TJ,TZ,TH,TR,TM,UG,UA,AE,UZ,VN,YE,ZM'.split(','),
-			europe: 'AL,AM,AT,AZ,BY,BE,BA,HR,CZ,DK,EE,FI,FR,GE,DE,GR,GL,GD,HU,IR,IQ,IE,IT,KZ,LV,LB,LT,LU,MK,MD,MA,NL,NO,PL,PT,RO,RU,SK,SI,SB,ES,SE,CH,SY,TN,TR,TM,UA,GB,UZ'.split(','),
-			middleEast: 'AF,AL,DZ,AM,BJ,BA,BG,BF,CM,TD,CN,HR,DJ,EG,ER,ET,FR,GE,GR,HU,IN,IR,IQ,IL,IT,JO,KZ,KW,KG,LB,LY,MK,ML,NP,NE,NG,OM,PK,QA,RO,RU,SA,SN,SO,ES,SD,CH,SY,TJ,TO,TN,TR,TM,UAAE,UZ,YE'.split(','),
-			southAmerica: 'AO,AR,BJ,BO,BW,BV,BR,BF,CM,CF,TD,CL,CO,CG,CD,CR,CI,EC,GQ,FK,GF,GA,GH,GN,GW,GY,LR,ML,NA,NI,NE,NG,PA,PY,PE,SN,SL,ZA,SR,TG,UY,VE'.split(','),
-			usa: 'AL,AK,AZ,AR,CA,CO,CT,DE,FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK,OR,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY'.split(',')
+			africa       : 'AF,DZ,AO,AR,BD,BJ,BO,BW,BR,BF,BI,CM,CF,TD,CN,CG,CD,CI,DJ,EG,ER,ET,GA,GH,GR,GN,GW,GY,IN,ID,IR,IQ,IL,IT,JO,KE,LA,LB,LR,LY,MG,MW,MY,ML,MR,MA,MZ,MM,NA,NE,NG,OM,PK,PY,PT,RW,SA,SN,SL,SO,ZA,ES,LK,SD,SR,SY,TJ,TZ,TH,TG,TN,TR,TM,UG,AE,UY,UZ,VE,EH,YE,ZM,ZW'.split(','),
+			asia         : 'AF,AM,AU,AZ,BD,BY,BT,BG,BF,BI,KH,CN,EG,ER,ET,GE,IN,ID,IR,IQ,JP,JO,KZ,KE,KP,KR,KW,KG,LA,MW,MY,MD,MN,MZ,MM,NP,OM,PK,PG,PH,RO,RU,RW,SA,SO,LK,SD,SY,TW,TJ,TZ,TH,TR,TM,UG,UA,AE,UZ,VN,YE,ZM'.split(','),
+			europe       : 'AL,AM,AT,AZ,BY,BE,BA,HR,CZ,DK,EE,FI,FR,GE,DE,GR,GL,GD,HU,IR,IQ,IE,IT,KZ,LV,LB,LT,LU,MK,MD,MA,NL,NO,PL,PT,RO,RU,SK,SI,SB,ES,SE,CH,SY,TN,TR,TM,UA,GB,UZ'.split(','),
+			middleEast   : 'AF,AL,DZ,AM,BJ,BA,BG,BF,CM,TD,CN,HR,DJ,EG,ER,ET,FR,GE,GR,HU,IN,IR,IQ,IL,IT,JO,KZ,KW,KG,LB,LY,MK,ML,NP,NE,NG,OM,PK,QA,RO,RU,SA,SN,SO,ES,SD,CH,SY,TJ,TO,TN,TR,TM,UAAE,UZ,YE'.split(','),
+			southAmerica : 'AO,AR,BJ,BO,BW,BV,BR,BF,CM,CF,TD,CL,CO,CG,CD,CR,CI,EC,GQ,FK,GF,GA,GH,GN,GW,GY,LR,ML,NA,NI,NE,NG,PA,PY,PE,SN,SL,ZA,SR,TG,UY,VE'.split(','),
+			usa          : 'AL,AK,AZ,AR,CA,CO,CT,DE,FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK,OR,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY'.split(',')
 		},
+		
+		
 		countries: {
 			'AF': 'Afghanistan',
 			'AX': 'Aland islands',
@@ -268,6 +272,8 @@ $.extend($.gChart,{
 			'ZM': 'Zambia',
 			'ZW': 'Zimbabwe'
 		},
+		
+		
 		usStates: {
 			'AL': 'Alabama',
 			'AK': 'Alaska',

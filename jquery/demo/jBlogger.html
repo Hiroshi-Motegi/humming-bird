@@ -9,23 +9,27 @@
 
 <script type="text/javascript">
 (function($){$.extend({
-	// order : posts or comments
-	// domain : blog domain
+	/**
+	 * @param {string}   domain   : blog domain
+	 * @param {string}   order    : posts or comments
+	 * @param {Object}   options  : Query terms
+	 * @param {function} callback :
+	 */
 	jBloggerFeed: function(domain, order, options, callback){
 		var data = $.extend({
-			'max-results': 10,
-			'redirect': false,
-			'alt': 'json-in-script'
+			'max-results' : 10,
+			'redirect'    : false,
+			'alt'         : 'json-in-script'
 		}, options);
 		
 		callback = $.isFunction(options) ? options : callback || function(){};
 		
 		$.ajax({
-		    dataType: 'jsonp',
-			data: data,
-		    cache: false,
-		    url: 'http://' + domain + '.blogspot.com/feeds/' + order + '/default',
-		    success: callback
+		    dataType : 'jsonp',
+			data     : data,
+		    cache    : false,
+		    url      : 'http://' + domain + '.blogspot.com/feeds/' + order + '/default',
+		    success  : callback
 		});
 	}
 })})(jQuery);
@@ -33,24 +37,25 @@
 
 // Usage
 $(function(){
-	$.jBloggerFeed('googleblog', 'posts', {'max-results': 15}, function(data){
-		
-		$(document.body).append(
-			$('<h3>').text('Google Official Blog Feed'),
-			'<ul><li>' + 
-			$.map(data.feed.entry, function(entry, i){
-				return '<span class="item-title"><a href=\'' + 
-					(function(links){
-						for (var k = 0; k < links.length; k++) {
-							if (links[k].rel == 'alternate') {
-								return links[k].href;
+	$.jBloggerFeed(
+		'googleblog',
+		'posts',
+		{'max-results': 15},
+		function(data){	
+			$(document.body).append(
+				$('<h3/>').text(data.feed.title.$t + ' Feed'),
+				'<ul><li>' + 
+				$.map(data.feed.entry, function(entry, i){
+					return '<span class="item-title">' +
+					'<a href=\'' + (function(links){
+							for (var k = 0; k < links.length; k++) {
+								if (links[k].rel == 'alternate') {
+									return links[k].href;
+								}
 							}
-						}
-						return '';
-					})(entry.link) + 
-					'\'>' + entry.title.$t + '</a></span>';
-			}).join('</li><li>') +
-			'</li></ul>');
+							return '';
+						})(entry.link) + '\'>' + entry.title.$t + '</a></span>';
+				}).join('</li><li>') + '</li></ul>');
 	});
 });
 </script>

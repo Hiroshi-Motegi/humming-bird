@@ -18,9 +18,10 @@ $(function(){
 	$('#foo').click(function(){
 		$('<p/>')
 			.css({
-				border:'10px solid #333',
-				padding:'20px',
-				backgroundColor:'#ccc'})
+				border          : '10px solid #333',
+				padding         : '20px',
+				backgroundColor : '#ccc'
+			})
 			.text('foo')
 			.positionCenter() //←まだDOMツリーに挿入されていない状態
 			.appendTo(document.body);
