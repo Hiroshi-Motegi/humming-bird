@@ -19,7 +19,6 @@ nMult     = numString * 1,
 nNumber   = Number(numString),
 nParseF   = parseFloat(numString), 
 
-
 nBitshift = numString >> 0,      //整数のみ
 nOR       = numString | 0,       //整数のみ
 nParseI   = parseInt(numString); //整数のみ
@@ -56,7 +55,7 @@ var xCeil = Math.ceil(num); //-1
 
 
 
-
+//結果が異なる。
 var
 n  = "100",
 n1 = +n*2.55,
@@ -69,7 +68,7 @@ alert(
   "\nequal:" + (n1 == n2));
 
 
-
+alert(+"FF");
 
 //ランダムな文字列
 //alert(Math.random().toString(36).slice(-10));

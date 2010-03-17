@@ -14,18 +14,24 @@ function Human(){
 }
 
 Human.prototype = {
-	bloodType:"",
-	sex:"",
-	initialize:function(){
-		var arg = arguments[0] || {};
+	
+	bloodType  :"",
+	
+	sex        :"",
+	
+	initialize :function(){
+		var arg        = arguments[0] || {};
 		this.bloodType = arg.bloodType || "";
-		this.sex = arg.sex || "";
+		this.sex       = arg.sex || "";
 	},
-	toString:function(){
-		return "bloodType:" + person.bloodType +
-			"\nsex:" + person.sex
+	
+	toString   :function(){
+		return "bloodType : " + this.bloodType +
+			 "\nsex       : " + this.sex;
 	}
 };
+
+
 
 
 function Person(){
@@ -34,16 +40,18 @@ function Person(){
 
 
 Person.prototype = merge(new Human(),{
-	name: "",
-	initialize: function(){
+	
+	name       : "",
+	
+	initialize : function(){
 		Human.prototype.initialize.apply(this, arguments);
-		var arg = arguments[0] || {};
-		this.name = arg.name || "";
+		this.name = arguments[0].name || "";
 	},
-	toString: function(){
-		return "name:" + person.name +
-			"\nbloodType:" + person.bloodType +
-			"\nsex:" + person.sex
+	
+	toString   : function(){		
+		return "name      : " + this.name +
+			 "\nbloodType : " + this.bloodType +
+			 "\nsex       : " + this.sex;
 	}
 });
 
@@ -51,12 +59,13 @@ Person.prototype = merge(new Human(),{
 function merge(){
 	var
 	args = Array.prototype.slice.call(arguments),
-	len = args.length,
-	ret = args[0] ||{},
-	itm;
+	len  = args.length,
+	ret  = args[0] || {},
+	i    = 1,
+	itm, arg;
 	
-	for (var i = 1; i < len; i++) {
-		var arg = args[i];
+	for (; i < len; i++) {
+		arg = args[i];
 		for (itm in arg) {
 			if (arg.hasOwnProperty(itm)) 
 				ret[itm] = arg[itm];
@@ -68,13 +77,16 @@ function merge(){
 
 
 
-var person = new Person({
-	bloodType:"A",
-	sex:"male",
-	name:"James"
+
+
+
+var p = new Person({
+	bloodType :"A",
+	sex       :"male",
+	name      :"James"
 });
 
-alert(person);
+alert(p);
 
 </script>
 

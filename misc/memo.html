@@ -4,9 +4,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-		<meta content="y@s" name="author"/>
-		<title>memo</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+	<meta content="y@s" name="author"/>
+	<title>memo</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 <!--[if IE]>
 <style type="text/css">
 body {width:expression( documentElement.clientWidth < 900 ? (documentElement.clientWidth == 0 ? (body.clientWidth < 900 ? "900" : "auto") : "900px") : "auto" )}
@@ -15,15 +15,21 @@ body {width:expression( documentElement.clientWidth < 900 ? (documentElement.cli
 
 <script type="text/javascript">
 $(function(){
-/*
-text() は文字列だけを取得することができる
+/*jQuery:
+
+text() は子要素があっても文字列だけを取得することができる
+
 appendは","で区切って複数追加可能
-wrap bug
+
 each:falseを返すと処理を中断できる
+
 clone:引数にtrueを指定するとイベントもコピーされる。
+
 animationで指定するopacityはtoggleを指定できる
+
 mapは配列が線形化される
 */
+
 
 var list = '<ul><li>' + ['item 1', 'item 2', 'item 3'].join('</li><li>') + '</li></ul>';
 /*list
@@ -61,7 +67,6 @@ var addListener = (function() {
 
 //--------------------------------------------------------------------------
 function prettify(source) {
-	alert('prettify');
 	var fun;
 	try {
 		fun = new Function(source);
@@ -74,13 +79,11 @@ function prettify(source) {
 
 
 document.addEventListener("DOMContentLoaded", function (e){
-	
 	alert('addEventListener');
-
 	var
 	source = document.getElementById('txtr'),//textarea
 	button = document.getElementsByName('button'),
-	pre = document.getElementById('preCode'); //pre
+	pre    = document.getElementById('preCode'); //pre
 	
 	button.addEventListener('click',function () {
 		pre.textContent = prettify(source.value) || 'syntax error';
@@ -136,19 +139,62 @@ function makeClojure(){
 
 //--------------------------------------------------------------------------
 function searchItunes(keyword) {
-	var lang = 9,
+	var lang    = 9,
 		country = 'JP',
-		media = 'music',
-		entity = 'album',
-		limit = 20,
-		term = encodeURI(keyword),
-		output = 'json',
-		url = 'http://phobos.apple.com/WebObjects/MZSearch.woa/wa/itmsSearch',
-		params = 'lang=' + lang + '&country=' + country + '&media=' +
-			media + '&entity=' + entity + '&limit=' + limit + '&term=' +
-			term +'&output=' + output;
+		media   = 'music',
+		entity  = 'album',
+		limit   = 20,
+		term    = encodeURI(keyword),
+		output  = 'json',
+		url     = 'http://phobos.apple.com/WebObjects/MZSearch.woa/wa/itmsSearch',
+		params  = 'lang='    + lang +
+				 '&country=' + country +
+				 '&media='   + media +
+				 '&entity='  + entity +
+				 '&limit='   + limit +
+				 '&term='    + term +
+				 '&output='  + output;
 
 	window.open(url + '?' + params, "_blank");
+}
+
+
+
+
+function xBrowserXhr(){
+	if (typeof(DOMParser) == 'undefined') {
+		DOMParser = function(){};
+		
+		DOMParser.prototype.parseFromString = function(str, contentType){
+		
+			if (typeof(ActiveXObject) != 'undefined') {
+				var xmldata = new ActiveXObject('MSXML.DomDocument');
+				xmldata.async = false;
+				xmldata.loadXML(str);
+				return xmldata;
+			}
+			else 
+				if (typeof(XMLHttpRequest) != 'undefined') {
+				
+					var xmldata = new XMLHttpRequest;
+					
+					if (!contentType) {
+						contentType = 'application/xml';
+					}
+					
+					xmldata.open('GET','data:'
+						+ contentType
+						+ ';charset=utf-8,'
+						+ encodeURIComponent(str), false);
+					
+					if (xmldata.overrideMimeType) {
+						xmldata.overrideMimeType(contentType);
+					}
+					xmldata.send(null);
+					return xmldata.responseXML;
+				}
+		}
+	}
 }
 
 });
@@ -161,10 +207,10 @@ function searchItunes(keyword) {
 }
 
 selector{
-	filter: alpha(opacity=50);
-	-moz-opacity:0.5;
-	-khtml-opacity:0.5;
-	opacity:0.5;
+	filter         :alpha(opacity=50);
+	-moz-opacity   :0.5;
+	-khtml-opacity :0.5;
+	opacity        :0.5;
 }
 </style>
 </head>
@@ -178,9 +224,9 @@ selector{
 <div id='tt'>
 	<pre id='preCode'>foo</pre>
 	<textarea id='txtr' rows='12' cols='80' name='textarea'>
-	function foo(){
-		alert('foo');
-	}
+function foo(){
+	alert('foo');
+}
 	</textarea>
 	<input type='button' name='button' value='do'/>
 </div>

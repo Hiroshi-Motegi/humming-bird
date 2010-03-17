@@ -1,10 +1,9 @@
 /**
- * jQuery plugin Color Animations Custom
+ * jQuery plugin Color Animations Ver. 2
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  * 
- * 
- * LastUpdale:2010-03-15
+ * LastUpdale:2010-03-18
  */
 
 // jQuery Color Animations
@@ -26,21 +25,20 @@ $.extend({
 		var result;
 
 		// Check if we're already dealing with an array of colors
-		if ( color &&
-			 Object.prototype.toString.call(obj) === "[object Array]" &&
-			 color.length == 3 )
+		if ( color && Object.prototype.toString.call(color) === "[object Array]" && color.length == 3 )
 			return color;
 
-		// rgb(num,num,num)
-		if (result = /rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(color))
+		//old - rgb(num,num,num) => new - rgb(num,num,num) or rgba(num,num,num,num)
+		//if (result = /rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(color))
+		if (result = /rgba?\(\s*(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d(?![0-9])|\d{1}(?![0-9]))\s*,\s*(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d(?![0-9])|\d{1}(?![0-9]))\s*,\s*(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d(?![0-9])|\d{1}(?![0-9]))\s*(?:,\s*(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d(?![0-9])|\d{1}(?![0-9]))\s*)?\)/.exec(color))
 			return [+result[1], +result[2], +result[3]];
-
 		
-		// rgb(num%,num%,num%)
-		if (result = /rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(color))
+		// rgb(num%,num%,num%) num = 100 ~ 0
+		//if (result = /rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(color))
+		if (result = /rgb\(\s*((?:100|(?:[1-9]\d|\d)(?:\.[0-9]+)?))\%\s*,\s*((?:100|(?:[1-9]\d|\d)(?:\.[0-9]+)?))\%\s*,\s*((?:100|(?:[1-9]\d|\d)(?:\.[0-9]+)?))\%\s*\)/.exec(color))
 			return [+result[1]*255/100, +result[2]*255/100, +result[3]*255/100];
-			// ↓ 100% = 254.99999999999997
-			//return [+result[1]*2.55, +result[2]*2.55, +result[3]*2.55];
+			//old ↓ 100% = 254.99999999999997
+			//return [parseFloat(result[1])*2.55, parseFloat(result[2])*2.55, parseFloat(result[3])*2.55];
 
 		// #a0b1c2
 		if (result = /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/.exec(color))
@@ -59,8 +57,8 @@ $.extend({
 		do {
 			color = $.curCSS(elem, attr);
 			// Keep going until we find an element that has color, or we hit the body
-			if ( color != '' && color != 'transparent' || $.nodeName(elem, 'body') )
-				break; 
+			if ( color != '' && color != 'transparent' && !color.match(/rgba\s*\(.*,\s*0\s*\)/) || $.nodeName(elem, 'body') )
+				break;
 
 			attr = 'backgroundColor';
 		} while ( elem = elem.parentNode );
@@ -217,12 +215,14 @@ $.extend({
 	}
 });
 
+
 // We override the animation for all of these color styles
 $.each(['backgroundColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor', 'borderTopColor', 'color', 'outlineColor'], function(i,attr){
 	$.fx.step[attr] = function(fx){
-		if ( fx.state == 0 ) {
+		//if ( fx.state == 0 ) {
+		if ( !fx.start ) {
 			fx.start = $.getRGB( $.getColor( fx.elem, attr ) );
-			fx.end = $.getRGB( fx.end );
+			fx.end   = $.getRGB( fx.end );
 		}
 
 		fx.elem.style[attr] = 'rgb(' + [
@@ -230,6 +230,8 @@ $.each(['backgroundColor', 'borderBottomColor', 'borderLeftColor', 'borderRightC
 			Math.max(Math.min( parseInt((fx.pos * (fx.end[1] - fx.start[1])) + fx.start[1]), 255), 0),
 			Math.max(Math.min( parseInt((fx.pos * (fx.end[2] - fx.start[2])) + fx.start[2]), 255), 0)
 		].join(',') + ')';
-	}
+	};
 });
+
+
 })(jQuery);

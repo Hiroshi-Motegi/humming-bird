@@ -8,6 +8,8 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
+//途中
+
 
 Function.prototype.applyTimeout = function (ms, self, args) {
   var f = this;
@@ -112,13 +114,13 @@ var Fuga = function(){
 	}
 	
 	f.prototype = {
-		timeOut: null,
-		control: null,
-		value: 0,
+		timeOut   : null,
+		control   : null,
+		value     : 0,
 		initialize: function(){
 			this.control = document.createElement("div");
 		},
-		func: function(){
+		func      : function(){
 			$(this.control).text(this.value++);
 			clearTimeout(this.timeOut);
 			Fuga.timeOut = setTimeout("this.func()", 1000);
