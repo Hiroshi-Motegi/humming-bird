@@ -1,20 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
-		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
-		<title>Untitled Document</title>
-		<script src="http://www.google.com/jsapi"  type="text/javascript"></script>
-		<script type="text/javascript">google.load("jquery", "1");</script>
-		<script type="text/javascript" src='../lib/jquery.easing.1.3.js'></script>
-		<script type="text/javascript" src='../lib/jquery.color.js'></script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+<title>Untitled Document</title>
+<script src="http://www.google.com/jsapi"  type="text/javascript"></script>
+<script type="text/javascript">google.load("jquery", "1");</script>
+<script type="text/javascript" src='../../jquery/lib/jquery.easing.1.3.js'></script>
+<script type="text/javascript" src='../../jquery/lib/jquery.color.ver2.js'></script>
+
 
 <script type="text/javascript">
 function CharSelecter(){
 	this.initialize.apply(this, arguments);
 };
 CharSelecter.prototype = {
+
 	control: null,
 	controlWidth: 900,
 	itemType: "div",
@@ -42,7 +44,8 @@ CharSelecter.prototype = {
 	hoverBorderBottomColor: "#333333",
 	hoverBorderRightColor: "#333333",
 	selectedChar:"",
-	
+
+
 	initialize: function(){
 		
 		var cid = this.id;
