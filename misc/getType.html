@@ -10,6 +10,7 @@
 <script type="text/javascript">
 jQuery(function($){
 
+/*
 function getType(val){
 
 	//処理速度 4:14:115:380
@@ -37,16 +38,16 @@ function getType(val){
 	
 	// typeof array => object
 	if (val instanceof Array) 
-		return 'array';
+		return 'array'
 	
 	// typeof regexp => object
 	// instanceof Object => true
 	if (val instanceof RegExp) 
-		return 'regexp';
+		return 'regexp'
 	
 	// typeof date => object
 	if (val instanceof Date) 
-		return 'date';
+		return 'date'
 	
 	if (typeof val == 'function') 
 		return 'function';
@@ -58,53 +59,17 @@ function getType(val){
 	
 	return 'unknown';
 }
+*/
 
 
 
-function checkType(){
+function CheckType(){
 	
 	var fn = function(){};
+	var toString = Object.prototype.toString;
 	
-	//var toString = Object.prototype.toString,
-	//Object.prototype.toString.call(v) === '[object Array]'
-	
-	fn.prototype = {
-		isNull: function(v){
-			return v === null;
-		},
-		isUndefind: function(v){
-			return typeof v === 'undefined';
-		},
-		isBoolean: function(v){
-			return typeof v === 'boolean';
-		},
-		isString: function(v){
-			return typeof v === 'string';
-		},
-		isNumber: function(v){
-			return typeof v === 'number' && !isNaN(v);
-		},
-		isArray: function(v){
-			//return toString.call(v) === '[object Array]';
-			return v instanceof Array;
-		},
-		isRegExp: function(v){
-			return v instanceof RegExp;
-		},
-		isDate: function(v){
-			return v instanceof Date;
-		},
-		isFunction: function(v){
-			//return toString.call(v) === '[object Function]';
-			return typeof v === 'function';
-		},
-		isArguments: function(v){
-			return typeof v === 'object' && v.callee;
-		},
-		isObject: function(v){
-			return typeof v === 'object';
-		},
-		getType: function(v){
+	/*
+	 getType: function(v){
 			if (this.isNull(v)) 
 				return 'null';
 			
@@ -139,6 +104,80 @@ function checkType(){
 				return 'object';
 			
 			return 'unknown';
+		}
+	 */
+	
+	
+	fn.prototype = {
+		isNull: function(v){
+			return v === null;
+		},
+		isUndefind: function(v){
+			return typeof v == 'undefined';
+		},
+		isBoolean: function(v){
+			return typeof v == 'boolean';
+		},
+		isString: function(v){
+			return typeof v == 'string';
+		},
+		isNumber: function(v){
+			return typeof v == 'number' && !isNaN(v);
+		},
+		isArray: function(v){
+			return v instanceof Array;
+		},
+		isRegExp: function(v){
+			return v instanceof RegExp;
+		},
+		isDate: function(v){
+			return v instanceof Date;
+		},
+		isFunction: function(v){
+			return typeof v == 'function';
+		},
+		isArguments: function(v){
+			return typeof v == 'object' && v.callee;
+		},
+		isObject: function(v){
+			return typeof v == 'object';
+		},
+		getType: function(v){
+			
+			var
+			_typeof = typeof v,
+			_toStrCall = toString.call(v);
+			
+			if ( v === null ) {
+				return 'null';
+			}
+			
+			if(_typeof == 'undefind' ||
+				_typeof == 'boolean' ||
+				_typeof == 'string' ||
+				(_typeof == 'number' && !isNaN(v)) ){
+				return _typeof;
+			}
+			
+			
+			switch(_toStrCall){
+				case '[object Array]':
+				case '[object RegExp]':
+				case '[object Date]':
+				case '[object Function]':
+				 return _toStrCall;
+			}
+			
+
+			
+			if ( _typeof == 'object'){
+				if(v.callee){
+					return 'arguments';
+				}
+				return 'object';
+			}
+			
+			return 'unknown';
 		},
 		likeNumber: function(v){
 			return +v == v;
@@ -150,20 +189,49 @@ function checkType(){
 
 
 
-function timeLog(callback, loop){
+
+function timeLog(callback, loopCount){
 	
-	var i = 0, ret;
+	var ret;
 	
 	console.time('test');
 	
-	for ( ; i < loop; i++ ) {
-		ret = callback();
+	while(loopCount--) {
+		ret = callback(ret);
 	}
 	
 	console.timeEnd('test');
 
 	console.log(ret);
 
+}
+
+
+var
+check = CheckType();
+x = /(?:)/;
+
+alert( [1,2,3] instanceof Array );
+
+
+/*
+timeLog(function(){
+	//return x instanceof RegExp;
+	//return x instanceof Object;
+	//return typeof x;
+	//return Object.prototype.toString.call(x);
+}, 1000 * 100);
+*/
+
+
+var toStringCall = Object.prototype.toString.call;
+function getClass(object) {
+  return toStringCall(object).match(/^\[object\s(.*)\]$/)[1]; 
+};
+
+
+function isDate(o) {
+  return toStringCall(o).indexOf('Date') != -1;
 }
 
 
