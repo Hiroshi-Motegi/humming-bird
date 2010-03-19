@@ -13,23 +13,47 @@
 
 (function($){
 $.fn.getJsSource = function(jsUrl){
-	
-	var prettify = {
-		loadCss: function(){
-			var css = document.createElement('link');
-			css.rel = 'stylesheet';
-			css.href = '../../prettify/prettify.css';
-			css.type = 'text/css';
-			document.getElementsByTagName('head')[0].appendChild(css);
-		},
-		loadJs: function(callback){
-			var script = document.createElement('script');
-			script.src = '../../prettify/prettify.js';
-			script.setAttribute('type', 'text/javascript');
-			document.documentElement.firstChild.appendChild(script);
-			$(script).load(function(){callback.call(this)});
-		}
-	};
+
+	var prettify = (function(){
+		
+		var
+		cssUrl = "../../prettify/prettify.css",
+		jsUrl  = "../../prettify/prettify.js";
+		
+		return {
+			
+			loadCss: function(callback){
+				var css = document.createElement('link');
+				css.rel  = 'stylesheet';
+				css.href = cssUrl;
+				css.type = 'text/css';
+				
+				document.getElementsByTagName('head')[0].appendChild(css);
+				
+				if ($.isFunction(callback)) {
+					$(css).load(function(){
+						callback.call(this)
+					});
+				}
+			},
+			
+			loadJs: function(callback){
+				var script = document.createElement('script');
+				script.setAttribute("src", jsUrl);
+				script.setAttribute("type", 'text/javascript');
+				
+				document.documentElement.firstChild.appendChild(script);
+				
+				if ($.isFunction(callback)) {
+					$(script).load(function(){
+						callback.call(this)
+					});
+				}
+			}
+		};
+		
+	}());
+	 
 	
 	
 	
@@ -61,13 +85,15 @@ $.fn.getJsSource = function(jsUrl){
 })(jQuery);
 
 
-jQuery(function($){
+
+jQuery(function(){
 	$('#code').getJsSource('../lib/jquery.gchart.js');
 	
 	$('h1').click(function(){
 		prettyPrint();
 	});
 });
+
 </script>
 </head>
 <style>

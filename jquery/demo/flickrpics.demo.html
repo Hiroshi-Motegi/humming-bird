@@ -16,7 +16,7 @@ $.flickrPics({tags:tag}, function(data){
 		'<h3>Tag : ' + tag + '</h3>',
 		$.map(data.items, function(item, index){
 			return '<img src=\'' + item.media.m + '\'/>';
-		}).join(','));
+		}).join('<br>'));
 });
 
 
@@ -36,6 +36,11 @@ $.flickrPics({tags:tag}, function(data){
 </script>
 
 <style type="text/css">
+	img{
+		float:left;
+		margin:10px;
+	}
+
 </style>
     </head>
     <body>

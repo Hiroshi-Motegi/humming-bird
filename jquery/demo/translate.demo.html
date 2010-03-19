@@ -11,13 +11,24 @@
 <script type="text/javascript" id='usage'>
 jQuery(function($){
 	
+	/*
 	$.gTranslate({
 		q    : "Hello world.",
 		from : $.gTranslate.Languages.ENGLISH,
 		to   : $.gTranslate.Languages.JAPANESE
 	}, function(ret){
 		$('#translation').text(ret);
+	});*/
+	
+	
+	
+	$.gTranslate({
+		q        : "Hello world.",
+		langpair : "en|ja"
+	}, function(ret){
+		$('#translation').text(ret);
 	});
+	
 	
 }(jQuery));
 </script>
