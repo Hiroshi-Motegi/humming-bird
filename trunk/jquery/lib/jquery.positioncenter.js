@@ -3,11 +3,11 @@
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  * 
- * @Author : y@s
- * @Version : 1.1
- * @Published : 2009/06/06
- * @Update : 2009/07/01
- * @Demo : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/twitter.html
+ * @Author     : y@s
+ * @Version    : 1.1
+ * @Published  : 2009/06/06
+ * @LastUpdate : 2009/07/01
+ * @Demo       : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/positionCenter.demo.html
  */
 
 (function($){
@@ -51,7 +51,7 @@ $.fn.extend({
 
 
 
-/*
+/* past
 (function($){
 $.fn.extend({
 	positionCenter: function() {

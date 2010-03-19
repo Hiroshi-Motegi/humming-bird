@@ -3,43 +3,47 @@
  * Copyright 2010
  * Released under the MIT and GPL licenses.
  * 
- * Author    : y@s
- * Version   : 1.0
- * Published : 2010-03-14
- * Update    : -
- * Reference : http://code.google.com/intl/ja/apis/ajaxlanguage/documentation/reference.html
- * Demo      : -
+ * Author     : y@s
+ * Version    : 1.0
+ * Published  : 2010-03-14
+ * LastUpdate : 2010-03-19
+ * Reference  : http://code.google.com/intl/ja/apis/ajaxlanguage/documentation/reference.html
+ * Demo       : http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/translate.demo.html
  */
 
 (function($){
 /**
  * @param {Object}   params
- * 			- {string} q        : Query term
- * 			- {string} v        : Google API Version
- * 			- {string} hl       : Host Language 
- * 			- {string} key      : API Key
- * 			- {string} context  : Related to the context argument
- * 			- {string} langpair : language pair to translate
- *  		- {string} from     : Original language
- *			- {string} to       : Translated language
+ *          - {string} q        : Query term
+ *          - {string} v        : Google API Version
+ *          - {string} hl       : Host Language 
+ *          - {string} key      : API Key
+ *          - {string} context  : Related to the context argument
+ *          - {string} langpair : language pair to translate
+ *          - {string} from     : Original language
+ *          - {string} to       : Translated language
  *
  * @param {function} callback - callback function
  */
+
 $.gTranslate = function(params, callback){
 	var prm = $.extend({
-		v: '1.0'
+		v    : "1.0",
+		from : "en",
+		to   : "ja"
 	}, params);
 	
-	if (!prm.langpair) {
+	if (!prm.langpair || !(/^[a-z]{2}\|[a-z]{2}$/.test(prm.langpair)) )
 		prm.langpair = prm.from + '|' + prm.to;
-		delete prm.from;
-		delete prm.to;
-	}
+	
+	delete prm.from;
+	delete prm.to;
 	
 	$.get('http://ajax.googleapis.com/ajax/services/language/translate?', prm,
 		function(ret){
 			callback.call(this, !ret.responseDetails ?
-				ret.responseData.translatedText : 'Error:' + ret.responseDetails);
+				ret.responseData.translatedText :
+				'Error:' + ret.responseDetails);
 		}, 'jsonp');
 };
 

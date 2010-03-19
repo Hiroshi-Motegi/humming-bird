@@ -14,12 +14,10 @@ function escapeAndModify(s){
 }
 
 (function($){
-$.jsonToString = function(json){
-
-	function oFn(o){
+$.jsonObjectTojsonString = function(json){
+	return (function oFn(o){
 		
-		if (o === null) return 'null';
-		if (o === undefined) return 'undefined';
+		if (o === null || o === undefined) return '';
 		
 		switch (o.constructor) {
 			case Boolean:
@@ -28,7 +26,7 @@ $.jsonToString = function(json){
 			case String:
 				return '\'' + o + '\'';
 			case Date:
-				return '\'' + o.toString() + '\'';
+				return '\'' + (+o) + '\'';
 			case Array:
 				var arr = [];
 				for (var i = 0, k = o.length; i < k; i++)
@@ -45,20 +43,21 @@ $.jsonToString = function(json){
 			default:
 				return null;
 		}
-	}
-	
-	return oFn(json);
+	})(json);
 }
 
+
+//test
 $.showJsonString = function(json){
 	$('<textarea>').val($.jsonToString(json)).appendTo(document.body);
-}
+};
+
 })(jQuery);
 
 
 
 
-
+//sample json object
 var g = {
 	media$group: {
 		media$category: [{
@@ -139,5 +138,4 @@ var g = {
 		favoriteCount : '192',
 		viewCount     : '7223'
 	}
-}
-
+};
