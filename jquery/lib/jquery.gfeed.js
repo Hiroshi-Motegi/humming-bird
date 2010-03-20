@@ -8,7 +8,7 @@
  * Published : 2009-05-30
  * Update    : 2009-07-13
  * Reference : http://code.google.com/intl/ja/apis/ajaxfeeds/documentation/reference.html
- * Demo      : http ://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/gfeed.demo.html
+ * Demo      : http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/gfeed.demo.html
  */
 
 (function($){
@@ -18,8 +18,8 @@
  */
 $.gFeed = function(options, callback){
 	var opt = $.extend({
-		v: '1.0',
-		num: 10
+		v   : '1.0',
+		num : 10
 	}, options);
 	
 	if (opt.q) {
