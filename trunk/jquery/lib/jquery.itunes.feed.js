@@ -46,7 +46,7 @@
 			}($.extend({
 				//default query params
 				category : 'topalbums',
-				sf       : 143462,
+				sf       : 143462,//japan
 				limit    : 10,
 				genre    : 0,
 				explicit : true
@@ -75,7 +75,7 @@
 			}
 			
 			
-			$.get('http://ajax.googleapis.com/ajax/services/feed/load?callback=?', op,
+			$.get('http://ajax.googleapis.com/ajax/services/feed/load?', op,
 				function(result){
 					if (result && result.responseStatus == 200) {
 						var res = result.responseData;
@@ -87,7 +87,8 @@
 					else {
 						return false;
 					}
-				}, 'json');
+				}, 'jsonp');
+				//json => add url "callback=?"
 		},
 		
 		

@@ -14,22 +14,24 @@ $(function(){
 // Usage
 
 $.iTunes.feed({
-		output:'json',
-		category:$.iTunes.categories['New Releases'],
-		sf:$.iTunes.countries.japan,
-		limit:5,
-		genre:$.iTunes.genre['Rock']
+		output   : 'json',
+		category : $.iTunes.categories['New Releases'],
+		sf       : $.iTunes.countries.japan,
+		limit    : 5,
+		genre    : $.iTunes.genre['Rock']
 	}, function(result){
 		var
-		feed = result.json,
-		$div = $('<div>'),
-		entries = feed.entries;
+		feed    = result.json,
+		$div    = $('<div>'),
+		entries = feed.entries,
+		i       = 0,
+		j       = entries.length;
 		
 		$div
 			.addClass('feed-result')
 			.append('<h3>' + feed.description + ' - json feed' + '</h3>');
 		
-		for ( var i =0, j = entries.length ; i < j ; i++ )
+		for (; i < j ; i++ )
 			$div.append(entries[i].content);
 
 		$div.appendTo('#json-feed');
@@ -38,20 +40,22 @@ $.iTunes.feed({
 
 
 $.iTunes.feed({
-		output:'xml',
-		category:'topalbums',
-		sf:$.iTunes.countries.japan,
-		limit:5,
-		genre:$.iTunes.genre['All']
+		output   : 'xml',
+		category : 'topalbums',
+		sf       : $.iTunes.countries.japan,
+		limit    : 5,
+		genre    : $.iTunes.genre['All']
 	}, function(result){
 		var
-		xml = result.xml,
-		$div = $('<div>'),
+		xml   = result.xml,
+		$div  = $('<div>'),
 		items = xml.getElementsByTagName('item');
 		
 		$div
 			.addClass('feed-result')
-			.append('<h3>' + $(xml.childNodes).filter('description:eq(0)').text() + ' - XML feed' + '</h3>');
+			.append('<h3>'
+				+ $(xml.childNodes).filter('description:eq(0)').text()
+				+ ' - XML feed' + '</h3>');
 		
 		for (var i = 0, j = items.length; i < j; i++)
 			$div.append($(items[i].getElementsByTagName('content:encoded')).text());

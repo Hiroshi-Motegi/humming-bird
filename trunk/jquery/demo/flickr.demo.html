@@ -6,22 +6,23 @@
 		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 		<title>jQuery plugin - flickrPics demo</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-		<script src="../lib/jquery.flickrpics.js" type="text/javascript"></script>
+		<script src="../lib/jquery.flickr.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
 
 var tag = 'color';
-$.flickrPics({tags:tag}, function(data){
+
+$.flickr({tags:tag}, function(data){
 	$(document.body).append(
 		'<h3>Tag : ' + tag + '</h3>',
 		$.map(data.items, function(item, index){
-			return '<img src=\'' + item.media.m + '\'/>';
-		}).join('<br>'));
+			return '<img src=\'' + item.media.m.replace("_m","_s") + '\'/>';
+		}).join(''));
 });
 
 
 /*
-$.flickrPics({tags:tag}, function(data){
+$.flickr({tags:tag}, function(data){
 	$(document.body).append('<h3>Tag : ' + tag + '</h3>');
 	$.each(data.items, function(i, item){
 		$('<img>').attr('src', item.media.m).appendTo(document.body);
@@ -36,11 +37,10 @@ $.flickrPics({tags:tag}, function(data){
 </script>
 
 <style type="text/css">
-	img{
-		float:left;
-		margin:10px;
-	}
-
+img{
+	float :left;
+	margin:10px;
+}
 </style>
     </head>
     <body>
