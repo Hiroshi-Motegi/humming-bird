@@ -9,23 +9,28 @@
 
 (function($){
 /**
- * @param {Array}    arr
- * @param {function} callback
+ * @param  {Array}    arr
+ * @param  {function} callback
+ * @param  {string}   tagType
+ * @return {string}
  */
-$.toList = function(arr, callback){
+$.toList = function(arr, callback, tagType){
 	var
 	ret = [],
+	tag = tagType || "ul",
 	i   = arr.length;
 	
 	while (i--) {
 		ret[ret.length] = callback.call(this, arr[i], i);
 	}
 	
-	return '<ul><li>' + ret.reverse().join('</li><li>') + '</li></ul>';
+	return '<' + tag + '>'
+		+ '<li>' + ret.reverse().join('</li><li>') + '</li>'
+		+ '</' + tag + '>';
 };
 
 
-/*
+/*past
 $.toList = function(arr, callback){
 	var lst = [];
 	for (var i = 0, k = arr.length; i < k; i++)
