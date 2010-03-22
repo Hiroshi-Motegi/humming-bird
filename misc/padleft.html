@@ -54,22 +54,23 @@ String.prototype.PadLeft = function(totalWidth, paddingChar){
 String.prototype.times = function(len){
 	//thisの文字列の長さが1であることが保証されるならretをそのまま返せばよい。
 	var ret = len < 1 ? '' : new Array(len + 1).join(this);
-	//戻り値の文字列の長さをlnに合わせる。	
-	return ret.length > len ? ret.substr(0, len) : ret;
+	//戻り値の文字列の長さをlnに合わせる。
+	return ret.slice(0, len);	
+	//return ret.length > len ? ret.substr(0, len) : ret;
 	//return ret.length > len ? ret.substr(ret.length - len) : ret;
-}
+};
 
 String.prototype.padLeft = function(totalWidth, paddingChar){
 	return paddingChar.times(totalWidth - this.length) + this;
-}
+};
 
 String.prototype.padRight = function(totalWidth, paddingChar){
 	return this + paddingChar.times(totalWidth - this.length);
-}
+};
 
 
-var s = "PPP";
-alert(s.padLeft(7, 'KN0'));
+var s = "QWERTY";
+alert(s.padLeft(8, 'mkm'));
 
 
 

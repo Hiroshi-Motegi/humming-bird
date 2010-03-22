@@ -298,4 +298,4 @@ jQuery(function($){
 		// show Blog description Effect.
 		$.captionSlide();
 	});
-});
+}(jQuery));
