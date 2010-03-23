@@ -3,11 +3,11 @@
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * Author:y@s
- * Version:1.0
- * Published:2009-06-28
- * Update:2009-06-28
- * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/myAccordion.html
+ * Author    : y@s
+ * Version   : 1.0
+ * Published : 2009-06-28
+ * Update    : 2009-06-28
+ * Demo      : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/myAccordion.html
  */
 
 (function($){
@@ -18,7 +18,7 @@ myAccordion: function(options, callback){
 	opt = $.extend({
 		duration : 300,
 		wrap     : '#acc-wrap', // wrapper selector
-		tgl      : '.acc-tgl', // toggle selector
+		tgl      : '.acc-tgl',  // toggle selector
 		cont     : '.acc-cont', //content selector
 		dataKey  : 'accordion'
 	}, options),
