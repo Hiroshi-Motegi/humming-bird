@@ -26,7 +26,6 @@ function makeContent(keys, items, template){
 
 
 
-//alert(date.toString(""));
 
 var
 args   = ["d","D","f","F","g","G","m","M","r","R","s","t","T","u","y","Y"],
@@ -151,6 +150,11 @@ $("tbody > :first-child").children().each(function(){
 	$(this).css({"text-align":"center"});
 });
 
+var d = new Date("2010/03/24");
+alert(d.toString("yyyy/MM/dd"));
+//=> 2010年3月24日
+//=> Wednesday, March 24, 2010
+//=> 2010/03/24
 });
 </script>
 <style>

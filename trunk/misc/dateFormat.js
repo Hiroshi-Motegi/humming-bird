@@ -232,8 +232,7 @@ function format( date, pattern, language ){
 			case 'F':
 				return date.getMilliseconds().padZero(3).slice(0, $1.length).replace(/0+$/,"");
 			
-			
-			//AM / PM
+			//AM/PM
 			case 'tt':
 				return (date.getHours() < 12) ? 'AM' : 'PM';
 			case 't':
