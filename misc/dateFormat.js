@@ -1,4 +1,16 @@
 /**
+ * Javascript Date dateFormat
+ * Copyright 2010
+ * Released under the MIT and GPL licenses.
+ * 
+ * @Author     : y@s
+ * @Version    : 1.0
+ * @Published  : 2010/03/24
+ * @LastUpdate : -
+ * @Demo       : http://code.google.com/p/humming-bird/source/browse/trunk/misc/dateFormat.html
+ */
+
+/**
  * @param  {Number} totalWidth
  * @return {string}
  */
@@ -9,7 +21,6 @@ Number.prototype.padZero = function( totalWidth ){
 	
 	return ( this < 0 ? "-" : "" ) + zero + that;
 };
-
 
 
 
