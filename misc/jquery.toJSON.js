@@ -3,17 +3,24 @@
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * Author  : y@s
- * Updated : 2009-06-06
- * Version : 1.0
- * demo    : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/jsonToString.html
+ * Author     : y@s
+ * LastUpdate : 2009-06-06
+ * Version    : 1.0
+ * demo       : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/jsonToString.html
  */
+(function($){
 
 function escapeAndModify(s){
-	return (s || '').replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;').replace(/"/g, '&quot;');
+	return (s || '')
+		.replace(/\\/g, '\\\\')
+		.replace(/\n/g, '\\n')
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/'/g, '&apos;')
+		.replace(/"/g, '&quot;');
 }
 
-(function($){
 $.parseJSON = function(json){
 	return (function oFn(o){
 		

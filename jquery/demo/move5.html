@@ -2,14 +2,14 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
-		<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 		<title>Untitled Document</title>
-		<script src="http://www.google.com/jsapi"  type="text/javascript"></script>
-		<script type="text/javascript">google.load("jquery", "1");</script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 (function($) {
+
 var directions = {
 	topCenter    : "topCenter",
 	topRight     : "topRight",
@@ -19,37 +19,46 @@ var directions = {
 	middleRight  : "middleRight",
 	bottomCenter : "bottomCenter",
 	bottomRight  : "bottomRight",
-	bottomLeft   : "bottomLeft",
-	back         : "back",
-	turnBack     : "turnBack"
+	bottomLeft   : "bottomLeft"
 };
 
 
 $.fn.extend({	
-	positionAbsolute:function(){
+	positionAbsolute: function(){
 		return this.each(function(){
-			var $t = $(this);
-			if ($.css(this, "position") == "absolute") {
+		
+			if ($.css(this, "position") === "absolute") 
 				return;
-			}
+			
+			var
+			$t     = $(this),
+			offset = $t.offset();
+			
 			$t.css({
-				top      : $t.offset().top,
-				left     : $t.offset().left,
+				top      : offset.top,
+				left     : offset.left,
 				margin   : 0,
 				position : "absolute"
 			});
+			
 		});
 	},
 	
 	float:function(events){
 		return this.each(function(){
-			var $cln = $(this).clone(events || false);
+			
+			var
+			$t   = $(this),
+			$cln = $t.clone(events || false);
+			
 			$.data(this, "float", {
-				elm   : cln.get(0),
-				style : $(this).attr("style")
+				elm   : $cln[0],
+				style : $t.attr("style")
 			});
-			$(this).positionAbsolute();
+			
+			$t.positionAbsolute();
 			$cln.css("visibility", "hidden").insertBefore(this);
+			
 		});
 	},
 	
@@ -73,67 +82,79 @@ $.fn.extend({
 		
 		return this.each(function(){
 			var t = $(this), t = {
-				h  : t.outerHeight(),
-				w  : t.outerWidth(),
-				ot : t.offset().top,
-				ol : t.offset().left
+				h : t.outerHeight(),
+				w : t.outerWidth(),
+				ot: t.offset().top,
+				ol: t.offset().left
 			};
 			
-			if (opt.direction == "turnBack") {
-				$(this).turnBack(opt.duration,callback);
-			}
-			else {
-				if(/.+Center$/.test(opt.direction))
-					opt.left = (win.w - t.w) / 2 + win.sl;
-				if(/.+Left$/.test(opt.direction))
-					opt.left = win.sl;
-				if(/.+Right$/.test(opt.direction))
-					opt.left = win.w - t.w + win.sl;
-				if(/^top.+/.test(opt.direction))
-					opt.top = win.st;
-				if(/^middle.+/.test(opt.direction))
-					opt.top = (win.h - t.h) / 2 + win.st;
-				if(/^bottom.+/.test(opt.direction))
-					opt.top = win.h - t.h + win.st;
-
-				$(this).animate({
-					"top"  : opt.top,
-					"left" : opt.left
-				}, opt.duration, callback);
-			}
+			
+			if (/.+Center$/.test(opt.direction)) 
+				opt.left = (win.w - t.w) / 2 + win.sl;
+			if (/.+Left$/.test(opt.direction)) 
+				opt.left = win.sl;
+			if (/.+Right$/.test(opt.direction)) 
+				opt.left = win.w - t.w + win.sl;
+			if (/^top.+/.test(opt.direction)) 
+				opt.top = win.st;
+			if (/^middle.+/.test(opt.direction)) 
+				opt.top = (win.h - t.h) / 2 + win.st;
+			if (/^bottom.+/.test(opt.direction)) 
+				opt.top = win.h - t.h + win.st;
+			
+			$(this).animate({
+				"top": opt.top,
+				"left": opt.left
+			}, opt.duration, callback);
 		});
-	},
+	}/*,
 	
 	turnBack:function(duration, callback){
 		callback = $.isFunction(duration) ? duration : callback || function(){};
 		duration = $.fx.off ? 0 : typeof duration === "number" ? duration : $.fx.speeds[duration] || $.fx.speeds._default;
 		
 		return this.each(function(){
-			var style,elm,offset;
+			var style, elm, offset;
+			
 			try {
 				style = $($.data(this, "float").style);
 				elm = $($.data(this, "float").elm);
 				offset = elm.offset();
-			}catch (e){ return; }
+			} 
+			catch (e) {
+				return;
+			}
 			
-			$(this).animate({"top": offset.top,"left":offset.left}, duration,
-				function(){
-					style ? $(this).attr("style", style) : $(this).removeAttr("style");
-					$.removeData(this, "float");
-					elm.replaceWith(this).remove();
-					callback.call();
+			$(this).animate({
+				"top"  : offset.top,
+				"left" : offset.left
+			}, duration, function(){
+				if (style) {
+					$(this).attr("style", style);
+				}
+				else {
+					$(this).removeAttr("style");
+				}
+				
+				$.removeData(this, "float");
+				elm.replaceWith(this).remove();
+				callback.call(this);
 			});
 		});
-	}
+	}*/
 }); //End extend
 })(jQuery);
 
 
+
+
+
 jQuery(function($){
 
-	var $foo = $("#foo");
+	var $foo = $("#foo")
+		.positionAbsolute()
+		.move({direction:"middleCenter",duration:300});
 	
-	$foo.positionAbsolute();
 	
 	$("#btn-topLeft").click(function(){
 		$foo.move({direction:"topLeft",duration:300});
@@ -184,8 +205,6 @@ $("#foo").click(function(){
 
 
 })(jQuery);
-
-
 </script>
 <style type="text/css">
 body{
