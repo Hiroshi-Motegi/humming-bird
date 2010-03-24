@@ -7,7 +7,7 @@
  * @Version    : 1.1
  * @Published  : -
  * @LastUpdate : 2010-03-24
- * @Demo       : -
+ * @Demo       : http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/flickr.demo.html
  * 
  * [Query string parameters]
  * id      : user ID
