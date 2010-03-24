@@ -4,48 +4,162 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-		<title>jQuery plugin - flickrPics demo</title>
+		<title>jQuery plugin - flickr demo</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 		<script src="../lib/jquery.flickr.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
 
-var tag = 'color';
+var tag  = 'color',
+	keys = ["link", "description", "image_s"],
+	imgTemplate = "<a href='{{"+ keys[0] +"}}' title='{{"+ keys[1] +"}}'>" +
+		"<img src='{{" + keys[2] + "}}'\/></a>";
 
-$.flickr({tags:tag}, function(data){
-	$(document.body).append(
-		'<h3>Tag : ' + tag + '</h3>',
+
+$.makeContent = function(keys, items, template){
+	var i = keys.length;
+	while(i--)
+		template = template.replace( "{{" + keys[i] + "}}", items[ keys[i] ] );
+	
+	return template;
+};
+
+
+
+var $imgView =  $("#image-view > img").css({opacity: 0});
+
+$(document).bind("flickr-loaded", function(){
+	
+	$("#thumb-container > a > img")
+		.css({opacity: 0.5})
+		.hover(function(){
+			var $t  = $(this)
+					.stop(true)
+					.animate({opacity:1}, 250),
+				src = $t.attr("src").replace("_s", "");
+			
+			$imgView
+				.stop(true)
+				.css({
+					opacity: 0
+				})
+				.attr("src", src)
+				.animate({opacity:1}, 250);
+	
+		},function(){
+			$(this)
+				.stop(true)
+				.animate({opacity:0.5}, 400);
+			
+			$imgView
+				.stop(true)
+				.animate({opacity:0},400);
+		});
+});
+
+
+$.flickr({
+	tags: tag
+}, function(data){
+	
+	$("ul.list").append("<li>" + [
+			"tag:" + tag,
+			"title:" + data.title
+		].join("</li><li>") + "</li>");
+	
+	$("#thumb-container").append(
 		$.map(data.items, function(item, index){
-			return '<img src=\'' + item.media.m.replace("_m","_s") + '\'/>';
-		}).join(''));
+			return $.makeContent(keys, item, imgTemplate);
+		}).join(''),
+		$("<div>").addClass("clear"));
+	
+	
+	//lazy load.
+	var i = data.items.length;
+	while(i--){
+		$("<img>").attr("src",data.items[i].image);
+	}
+	
+	$(document).trigger("flickr-loaded");
+	
 });
 
 
-/*
-$.flickr({tags:tag}, function(data){
-	$(document.body).append('<h3>Tag : ' + tag + '</h3>');
-	$.each(data.items, function(i, item){
-		$('<img>').attr('src', item.media.m).appendTo(document.body);
-	});
-});
-*/
+
 
 	
-	// http://www.flickr.com/photos/
-	// id = 'dlc0421';
+// http://www.flickr.com/photos/
+// id = 'dlc0421';
 });
 </script>
 
 <style type="text/css">
-img{
-	float :left;
-	margin:10px;
+body{
+	background-color:#3a3a3a;
+	color:#ccc;
+	font-family:Arial, Helvetica, sans-serif;
+	margin:0;
+	padding:0;
+	font-size:100%;
+}
+a{
+	color:#0066cc;
+}
+a img{
+	vertical-align:middle;
+}
+h1{
+	color:#111;
+	font-family:Impact;
+	font-weight:normal;
+	margin-top:0;
+	text-shadow:0 0 8px #555;
+}
+#content{
+	background-color:#333;
+	border:4px double #ccc;
+	margin: 0 auto;
+	padding: 30px;
+	-moz-box-shadow   :0 0 6px #000;
+	-webkit-box-shadow:0 0 6px #000;
+	width:800px;
+}
+
+#thumb-container{
+	width:100%;
+}
+#thumb-container img{
+	border :1px solid #999;
+	float  :left;
+	margin :14px;
+	height :50px;
+	width  :50px;
+	-moz-box-shadow   :0 0 5px #000;
+	-webkit-box-shadow:0 0 5px #000;
+}
+
+#image-view{
+	height:580px;
+	width:100%;
+}
+#image-view img{
+	border :1px solid #999;
+	margin :40px;
+	-moz-box-shadow   :0 0 5px #000;
+	-webkit-box-shadow:0 0 5px #000;
+}
+
+div.clear{
+	clear:both;
 }
 </style>
     </head>
     <body>
-    	<h1>jQuery plugin - flickrPics demo</h1>
-		
-		<ul><li>参考:<a href="http://www.flickr.com/services/feeds/docs/photos_public/" title="Flickr Services">Flickr Services</a></li></ul>
-    </body>
+    	<div id="content">
+    	<h1>jQuery plugin - flickr demo</h1>
+		<ul class="list"><li>ref:<a href="http://www.flickr.com/services/feeds/docs/photos_public/" title="Flickr Services">Flickr Services</a></li></ul>
+    	<div id="thumb-container"></div>
+		<div id="image-view"><img src=''/></div>
+		</div>
+	</body>
 </html>
