@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>jQuery makeContent demo</title>
+	<script src="lib/jquery-1.4.2.min.js" type="text/javascript"></script>
+	<script src="http://humming-bird.googlecode.com/svn/trunk/jquery/lib/jquery.gfeed.js" type="text/javascript"></script>
+	<script src="http://humming-bird.googlecode.com/svn/trunk/jquery/lib/jquery.toList.js" type="text/javascript"></script>
+<script type="text/javascript" id="usage">
+jQuery(function($){
+
+	$.makeContent = function(prms){
+	
+		var
+		kys   = prms.keys || [],
+		itms  = prms.items ||{},
+		tmplt = prms.template || "",
+		prfx  = prms.prefix || "{{",
+		sffx  = prms.suffix || "}}",
+		i     = kys.length,
+		rgx, key;
+		
+		while (i--) {
+			key   = kys[i];
+			rgx   = new RegExp(prfx + key + sffx, "g");
+			tmplt = tmplt.replace(rgx, itms[key]);
+		}
+		
+		return tmplt;
+	}
+	
+	
+	
+	$.gFeed({
+		'q': 'http://googleblog.blogspot.com/feeds/posts/default'
+	}, function(feed){
+	
+		var
+		prefix = "{{",
+		suffix = "}}",
+		keys   = ["link", "title"],
+		
+		// => "<a href=\"{{link}}\">{{title}}</a>"
+		template = "<a href=\"" + prefix + keys[0] + suffix + "\">" +
+			prefix + keys[1] + suffix + "</a>",
+		
+		entryList = $.toList(feed.entries, function(entry){
+			return $.makeContent({
+				"items"    : entry,
+				"keys"     : keys,
+				"template" : template
+			});
+		},"ol");
+		
+		$(document.body).append($("<h3>").text(feed.title), entryList);
+		
+	});
+
+}( jQuery ));
+</script>
+<style>
+	body{
+		font-size:100%;
+	}
+</style>
+</head>
+<body>
+</body>
+</html>
