@@ -168,10 +168,12 @@ function format( date, pattern, language ){
 		"December"
 	];
 	
-	return pattern.replace(/(yyyy|yy|MMMM|MMM|MM|%?(?!G)M(?!T)|dddd|ddd|dd|%?d|HH|H|hh|h|mm|%?m|ss|%?s|fff|ff|%?f|FFF|FF|%?F|tt|%?t|zzz|zz|z|gg)/g, function($1){
+	//return pattern.replace(/(yyyy|yy|MMMM|MMM|MM|%?(?!G)M(?!T)|dddd|ddd|dd|%?d|HH|H|hh|h|mm|%?m|ss|%?s|fff|ff|%?f|FFF|FF|%?F|tt|%?t|zzz|zz|z|gg)/g, function($1){
+	return pattern.replace(/(yyyy|[Md]{2,4}|[hH]{1,2}|[ystmg]{2}|[fF]{2,3}|z{1,3}|%?[stmfFd]|%?(?!G)M(?!T))/g, function($1){
 		
 		var lang = language || clientLanguage, tmp;
 		$1 = $1.replace('%','');
+		
 		switch ($1) {
 		
 			//Year
@@ -261,9 +263,10 @@ function format( date, pattern, language ){
 			//Before Christ - B.C.
 			case 'gg':
 				return (lang === "en") ? "D.C." : "西暦";
+			
+			default:
+				return $1;
 		}
-		
-		return;
 	});
 }
 
