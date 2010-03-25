@@ -15,7 +15,8 @@
 	 * @param {Object}   options  : Query terms
 	 * @param {function} callback :
 	 */
-	jBloggerFeed: function(domain, order, options, callback){
+	bloggerFeed: function(domain, order, options, callback){
+		
 		var data = $.extend({
 			'max-results' : 10,
 			'redirect'    : false,

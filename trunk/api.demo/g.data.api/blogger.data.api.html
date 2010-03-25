@@ -27,15 +27,32 @@ function getFeedList(data){
 	document.getElementById('feedItemList').innerHTML = list.join('');
 }
 
+
 (function(domain, maxResults, order, redirect){
-	var script = document.createElement('script');
-	script.setAttribute('src',
-		'http://' + encodeURIComponent(domain) +
-		'.blogspot.com/feeds/' + order +
-		'/default?redirect=' + redirect +
-		'&max-results=' + (maxResults > 0 ? maxResults : 10) +
-		'&alt=json-in-script&callback=getFeedList');
+	
+	function toQuery(qPrms){
+		var ret = [];
+		for(var p in qPrms){
+			if(qPrms.hasOwnProperty(p))
+				ret[ret.length] = p +"=" + qPrms[p];
+		}
+		return ret.join("&");
+	}
+	
+	var script = document.createElement('script'),
+		src    = 'http://{{domain}}.blogspot.com/feeds/{{order}}/default?',
+		q      = toQuery({
+			"max-results" : maxResults || 10,
+			"redirect"    : redirect || false,
+			"alt"         : "json-in-script",
+			"callback"    : "getFeedList"
+		});
+	
+	src = src.replace(/{{domain}}/, domain).replace(/{{order}}/, order);
+	
 	script.setAttribute('type', 'text/javascript');
+	script.setAttribute('src', src + q);
+	
 	document.documentElement.firstChild.appendChild(script);
 }
 )('googleblog', 10, 'posts', false );
