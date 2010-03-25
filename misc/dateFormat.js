@@ -6,7 +6,7 @@
  * @Author     : y@s
  * @Version    : 1.0
  * @Published  : 2010/03/24
- * @LastUpdate : -
+ * @LastUpdate : 2010/03/26
  * @Demo       : http://code.google.com/p/humming-bird/source/browse/trunk/misc/dateFormat.html
  */
 
@@ -14,12 +14,8 @@
  * @param  {Number} totalWidth
  * @return {string}
  */
-Number.prototype.padZero = function( totalWidth ){
-	var
-	that = "" + Math.abs(this),
-	zero = totalWidth < 1 ? '' : new Array(totalWidth - that.length + 1).join("0");
-	
-	return ( this < 0 ? "-" : "" ) + zero + that;
+Number.prototype.padZero = function( len ){
+	return ("" + this).length < len ? ((+((1 << len).toString(2)) + this) + "").slice(1) : "" + this;
 };
 
 
@@ -252,13 +248,13 @@ function format( date, pattern, language ){
 			//GMT
 			case 'zzz':
 				tmp = -date.getTimezoneOffset() / 60;
-				return (tmp > 0 ? "+" : "") + tmp.padZero(2) + ":00";
+				return (tmp >= 0 ? "+" : "") + tmp.padZero(2) + ":00";
 			case 'zz':
 				tmp = -date.getTimezoneOffset() / 60;
-				return (tmp > 0 ? "+" : "") + tmp.padZero(2);
+				return (tmp >= 0 ? "+" : "") + tmp.padZero(2);
 			case 'z':
 				tmp = -date.getTimezoneOffset() / 60;
-				return (tmp > 0 ? "+" : "") + tmp;
+				return (tmp >= 0 ? "+" : "") + tmp;
 			
 			//The period or era
 			//Anno Domini   - A.D.
