@@ -280,7 +280,7 @@ Date.prototype.toString = function( pattern, language ){
 	if ( pattern !== undefined ) {
 		var lang = pattern.match(/^r$/i) ? "en" : language || clientLanguage;
 		
-		return pattern.match(/^(d|D|f|F|g|G|m|M|r|R|s|t|T|u|y|Y)$/) ?
+		return pattern.match(/^[dDfFgGmMrRstTuyY]$/) ?
 			format(this, fixedFormats[pattern][lang], lang) :
 			format(this, pattern, lang) || toString.call(this, arguments);
 	}else{
