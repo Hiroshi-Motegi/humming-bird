@@ -9,40 +9,7 @@
 <script type="text/javascript">
 jQuery(function($){
 
-function Times(){
-	this.initialize.apply(this, arguments);
-}
 
-Times.prototype = {
-	initialize:function(len, chr){
-		var ret = '';
-		chr = chr.substr(0, 1) || '0';
-
-		while (ret.length < len) 
-			ret += chr;
-
-		this.value = ret;
-	}
-}
-
-String.prototype.padLeft = function(totalWidth, paddingChar){
-	return (new Times(totalWidth - this.length, paddingChar)).value + this;
-}
-
-String.prototype.padRight = function(totalWidth, paddingChar){
-	return  this + (new Times(totalWidth - this.length, paddingChar)).value;
-}
-
-//alert("1".padLeft(4, "0"));
-
-/*
-var x = "";
-console.time("test");
-for (var i = 0; i < 100000; i++) {
-	x = "1".padLeft(4, "0");
-}
-console.timeEnd("test");
-*/
 
 
 
@@ -58,13 +25,14 @@ String.prototype.padLeft = function(len, chr){
 	return chr.times(len - this.length) + this;
 }
 
-
+/*
 String.prototype.padLeft = function(len, chr){
 	return len < 1 ? this : new Array((++len - this.length)).join(chr.substr(0, 1) || '') + this;
 }
+*/
 
 
-
+/*
 String.prototype.padLeft = function(len, chr){
 	return len < 1 ? this : (function(c){
 		var ret = '';
@@ -73,6 +41,7 @@ String.prototype.padLeft = function(len, chr){
 		return ret;
 	})(chr.substr(0, 1) || '0') + this;
 }
+*/
 
 
 
