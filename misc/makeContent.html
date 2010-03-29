@@ -5,31 +5,38 @@
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 	<title>jQuery makeContent demo</title>
-	<script src="lib/jquery-1.4.2.min.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 	<script src="http://humming-bird.googlecode.com/svn/trunk/jquery/lib/jquery.gfeed.js" type="text/javascript"></script>
 	<script src="http://humming-bird.googlecode.com/svn/trunk/jquery/lib/jquery.toList.js" type="text/javascript"></script>
 <script type="text/javascript" id="usage">
 jQuery(function($){
 
-	$.makeContent = function(prms){
-	
+	$.makeContent = function (params){
+		
 		var
-		kys   = prms.keys || [],
-		itms  = prms.items ||{},
-		tmplt = prms.template || "",
-		prfx  = prms.prefix || "{{",
-		sffx  = prms.suffix || "}}",
-		i     = kys.length,
+		p = $.extend({
+			"keys"     : [],
+			"items"    : {},
+			"template" : "",
+			"prefix"   : "{{",
+			"suffix"   : "}}"
+		}, params),
+		
+		i     = p.keys.length,
+		tmplt = p.template,
+		
 		rgx, key;
 		
+		
 		while (i--) {
-			key   = kys[i];
-			rgx   = new RegExp(prfx + key + sffx, "g");
-			tmplt = tmplt.replace(rgx, itms[key]);
+			key   = p.keys[i];
+			rgx   = new RegExp(p.prefix + key + p.suffix, "g");
+			tmplt = tmplt.replace(rgx, p.items[key]);
 		}
 		
 		return tmplt;
-	}
+
+	};
 	
 	
 	
@@ -52,7 +59,7 @@ jQuery(function($){
 				"keys"     : keys,
 				"template" : template
 			});
-		},"ol");
+		}, "ol");
 		
 		$(document.body).append($("<h3>").text(feed.title), entryList);
 		
