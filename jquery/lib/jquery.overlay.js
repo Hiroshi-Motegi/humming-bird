@@ -32,18 +32,20 @@ function keydownEventHandler(e){
 
 
 function windowResizeEventHandler(){
+	
 	var
 	ls = $.overlay.$layer[0].style,
 	styles = {
 		'display': 'none',
-		'height': $doc.height() + 'px',
-		'width': $doc.width() + 'px',
+		'height' : $doc.height() + 'px',
+		'width'  : $doc.width() + 'px',
 		'display': 'block'
 	};
 	
 	for(var s in styles){
 		ls[s] = styles[s];
 	}
+
 }
 
 $.fn.extend({
@@ -56,7 +58,9 @@ eosShow:function(){
 },
 eosHide:function(){
 	return this.each(function(){
-		$.data(this, dataKey,{'oldVisibility': $.css(this,'visibility')});
+		$.data(this, dataKey,{
+			'oldVisibility': $.css(this, 'visibility')
+		});
 	}).css('visibility', 'hidden');
 }
 });
@@ -70,18 +74,22 @@ $win = $(window),
 $doc = $(document),
 
 ovCSS = {
-	background:'none',
-	backgroundColor:'#000',
-	left: 0,
-	margin: 0,
-	padding: 0,
-	position: 'absolute',
-	top: 0
+	background      : 'none',
+	backgroundColor : '#000',
+	borderWidth     : 0,
+	display         : 'block',
+	left            : 0,
+	margin          : 0,
+	overflow        : 'hidden',
+	padding         : 0,
+	position        : 'absolute',
+	top             : 0,
+	position        : 'fixed'
 },
 
 animOpts = {
-	duration: 350,
-	easing:'swing'
+	duration : 350,
+	easing   : 'swing'
 },
 
 dataKey = evKey = ovID = 'overlay';
