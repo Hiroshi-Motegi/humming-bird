@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-	<title>New Web Project</title>
+	<title>equal test</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -13,7 +13,7 @@ jQuery(function($){
 var
 values = [
 	{ name: 'null',              value: null },                  //null
-	{ name: 'undefind',          value: (function(){return;})()},//undefind
+	{ name: 'undefind',          value: void 0 },                //undefind
 	{ name: '""',                value: '' },                    //String Empty
 	{ name: '"false"',           value: 'false' },               //String false
 	{ name: '"0"',               value: '0' },                   //String Zero
@@ -104,7 +104,8 @@ instanceOfValues = [
 
 function createEqualTable(caption, equal){
 	
-	var ret = [], ln = values.length;
+	var ret = [],
+		ln  = values.length;
 	
 	function arrJoin(tag, arr){
 		return "<" + tag + ">" +
@@ -123,9 +124,12 @@ function createEqualTable(caption, equal){
 	
 	
 	var tmp, v;
+	
 	for (var ii = 0; ii < ln; ii++) {
+		
 		tmp = [];
-		v = values[ii].value;
+		v   = values[ii].value;
+		
 		for (var k = 0; k < ln; k++) {
 			tmp.push(k < ii ? '-' : equal(v, values[k].value));
 		}
@@ -209,6 +213,7 @@ function(value){
 
 //===============================================================================
 function createInstanceOfTable(){
+	
 	var
 	table = document.createElement("table"),
 	regInstType = /(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g,
@@ -236,23 +241,37 @@ function createInstanceOfTable(){
 		
 		for (; i < ln;) {
 			child = children[i++];
-			elmnt.appendChild(createNode(child.tag, child.text));
+			elmnt.appendChild( createNode(child.tag, child.text) );
 		}
 	}
 	
-	append(table.insertRow(-1),[
-		{tag:th,text:"Object Type"},
-		{tag:th,text:"Value"},
-		{tag:th,text:"Result"}
-	]);
+	
 	
 	table.id = "inst";
 	table.setAttribute("cellSpacing","0");
-	append(table,[{tag:"caption",text:"Value instanceof ObjectType"}]);
 	
-	for (; i < ln; i++) {
+	append(table.insertRow(-1),[
+		{ tag : th, text : "Object Type" },
+		{ tag : th, text : "Value" },
+		{ tag : th, text : "Result" }
+	]);
+	
+	
+	var cap  = document.createElement("caption"),
+		tags = ["span","b","span"],
+		txts = ["Value"," instanceof ","ObjectType"];
+	
+	for (var i = 0; i < 3; i++) {
+		var helm = document.createElement(tags[i]);
+		helm.appendChild(document.createTextNode(txts[i]));
+		cap.appendChild(helm);
+	}
+	table.appendChild(cap);
+	
+	
+	for (var i = 0; i < ln; i++) {
 		inst = instArry[i].instance;
-		typ = instArry[i].type;
+		typ  = instArry[i].type;
 		
 		append(table.insertRow(-1),[
 			{ tag: th, text: inst.toString().match(regInstType) },
@@ -266,14 +285,15 @@ function createInstanceOfTable(){
 		]);
 	}
 	
-	$("tr",table).children(":first-child:odd").attr("rowSpan", "2");
+	$("tr", table).children(":first-child:odd").attr("rowSpan", "2");
 	
 	return table;
 }
 
 
-$('#target').append(createInstanceOfTable(),
-'<p>Example: "foo" instanceof String // false</p>');
+$('#target').append(
+	createInstanceOfTable(),
+	$("<p>").append("Example: &quot;foo&quot; instanceof String // false"));
 
 
 $('#inst td').filter(function(){
@@ -285,8 +305,6 @@ $('#inst td').filter(function(){
 }).css({
 	backgroundColor: '#666'
 });
-
-
 
 
 });
@@ -312,14 +330,14 @@ caption{
 tr{}
 th{
 	background-color:#ccc;
-	font-weight:bold;
-	padding:5px 0;
+	font-weight:normal;
+	padding:3px 0;
 }
 th, td {
 	border:1px solid #666;
 	font-family:monospace;
-	font-size:12px;
-	line-height: 1.2em;
+	font-size:11px;
+	line-height: 1.1em;
 	overflow:hidden;
 }
 

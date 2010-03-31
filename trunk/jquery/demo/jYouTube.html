@@ -70,22 +70,47 @@ $(function(){
 });
 </script>
 <style type="text/css">
+body{
+	margin:0;
+	padding:0;
+}
 h1,h3{
 	text-align: center;
 }
+h4{
+	margin-top:2em;
+	font-weight:normal;
+}
 table{
 	margin:0 auto;
+	padding:10px;
+	-moz-border-radius:10px;
+	-moz-box-shadow   :0 0 5px #000;
+	-webkit-box-shadow:0 0 5px #000;
 }
-table a{
-	float:left;
-	margin:0 0 5px 5px;
+
+
+
+
+table tr td{
+	padding:5px;
+}
+
+
+table tr td a{
+	display:block;
+	/*zoom:1;*/
+	/*hasLayout:true;*/
 	border: 4px solid #333;
+	-moz-box-shadow   :0 0 5px #000;
+	-webkit-box-shadow:0 0 5px #000;
 }
 table a img{
-	vertical-align:middle;
 	border:1px solid #ccc;
+	display:block;
 	height:90px;
 	width:120px;
+	vertical-align:middle;
 }
 #footer{
 	width:550px;

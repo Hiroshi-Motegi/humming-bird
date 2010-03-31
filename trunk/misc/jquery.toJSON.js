@@ -14,43 +14,41 @@ function escapeAndModify(s){
 	return (s || '')
 		.replace(/\\/g, '\\\\')
 		.replace(/\n/g, '\\n')
-		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
 		.replace(/>/g, '&gt;')
 		.replace(/'/g, '&apos;')
-		.replace(/"/g, '&quot;');
+		.replace(/"/g, '&quot;')
+		.replace(/&/g, '&amp;');
 }
 
-$.parseJSON = function(json){
-	return (function oFn(o){
+$.parseJSON = function(jsonObject){
+	return function fn(o){
 		
-		if (o === null || o === undefined) return '';
+		if (o === null || o === undefined) return '""';
 		
 		switch (o.constructor) {
 			case Boolean:
 			case Number:
-				return o;
 			case String:
-				return '\'' + o + '\'';
+				return '"' + o + '"';
 			case Date:
-				return '\'' + (+o) + '\'';
+				return '"' + (+o) + '"';
 			case Array:
-				var arr = [];
-				for (var i = 0, k = o.length; i < k; i++)
-					arr[arr.length] = oFn(o[i]);
+				for (var i = 0, k = o.length, arr = []; i < k; i++)
+					arr[arr.length] = fn(o[i]);
 				
-				return '[' + arr.join(',\n') + ']';
+				return '[' + arr.join(',') + ']';
 			case Object:
 					var arr = [];
 					for (var x in o) {
 						if (o.hasOwnProperty(x))
-							arr.push(x + ':' + oFn(o[x]));
+							arr[arr.length] = x + ':' + fn( o[x] );
 					}
-					return '{\n' + arr.join(',\n') + '\n}';
+					return '{' + arr.join(',') + '}';
 			default:
 				return null;
 		}
-	})(json);
+	}(jsonObject);
 }
 
 
