@@ -6,12 +6,12 @@
  * @Author     : y@s
  * @Version    : 1.0
  * @Published  : 2010/03/24
- * @LastUpdate : 2010/03/26
+ * @LastUpdate : 2010/04/01
  * @Demo       : http://code.google.com/p/humming-bird/source/browse/trunk/misc/dateFormat.html
  */
 
 /**
- * @param  {Number} totalWidth
+ * @param  {Number} len - totalWidth
  * @return {string}
  */
 Number.prototype.padZero = function( len ){
@@ -102,8 +102,8 @@ fixedFormats = {
 	
 	/*UTC Time
 	 U: {
-	 en: "dddd, MMMM dd, yyyy h:mm:ss tt",
-	 ja: "yyyy年M月dd日 H:mm:ss"
+	 	en: "dddd, MMMM dd, yyyy h:mm:ss tt",
+	 	ja: "yyyy年M月dd日 H:mm:ss"
 	 },
 	*/
 	
@@ -118,6 +118,7 @@ fixedFormats = {
 };
 
 /**
+ * @param  {date}   date
  * @param  {string} pattern
  * @param  {string} language
  * @return {string}
@@ -168,8 +169,7 @@ function format( date, pattern, language ){
 		"December"
 	];
 	
-	//return pattern.replace(/(yyyy|yy|MMMM|MMM|MM|%?(?!G)M(?!T)|dddd|ddd|dd|%?d|HH|H|hh|h|mm|%?m|ss|%?s|fff|ff|%?f|FFF|FF|%?F|tt|%?t|zzz|zz|z|gg)/g, function($1){
-	return pattern.replace(/(yyyy|[Md]{2,4}|[hH]{1,2}|[ystmg]{2}|[fF]{2,3}|z{1,3}|%?[stmfFd]|%?(?!G)M(?!T))/g, function($1){
+	return pattern.replace(/([yMd]{4}|[dfFMz]{3}|[dfFghHmMstyz]{2}|[hHz]|%?[dmsfFt]|%?(?!G)M(?!T))/g, function($1){
 		
 		var lang = language || clientLanguage, tmp;
 		$1 = $1.replace('%','');
