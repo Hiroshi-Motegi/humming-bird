@@ -13,7 +13,7 @@ var
 date     = new Date(),
 tKeys    = ["tHead","tCont"],
 template = "<table><tbody><tr>{{" + tKeys[0] + "}}</tr>{{" + tKeys[1] + "}}</tbody></table>",
-$cont    = $("#content").append( $("<h3>").text("Date : " + date.toString()) );
+$cont    = $("#content").append( $("<h3>").text("Now( toString ) : " + date.toString()) );
 
 function makeContent(keys, items, template){
 	var i = keys.length;
@@ -28,24 +28,119 @@ function makeContent(keys, items, template){
 
 
 var
+fixedFormats = {
+	d: {
+		en: "M/d/yyyy",
+		ja: "yyyy/MM/dd"
+	},
+	D: {
+		en: "dddd, MMMM dd, yyyy",
+		ja: "yyyy年M月d日"
+	},
+	
+	f: {
+		en: "dddd, MMMM dd, yyyy h:mm tt",
+		ja: "yyyy年M月d日 H:mm"
+	},
+	F: {
+		en: "dddd, MMMM dd, yyyy h:mm:ss tt",
+		ja: "yyyy年M月d日 H:mm:ss"
+	},
+	
+	g: {
+		en: "M/d/yyyy h:mm tt",
+		ja: "yyyy/MM/dd H:mm"
+	},
+	G: {
+		en: "M/d/yyyy h:mm:ss tt",
+		ja: "yyyy/MM/dd H:mm:ss"
+	},
+	
+	m: {
+		en: "MMMM dd",
+		ja: "M月d日"
+	},
+	M: {
+		en: "MMMM dd",
+		ja: "M月d日"
+	},
+	
+	/*Round-trip date/time pattern
+	o: {
+		en: "yyyy-MM-ddTHH:mm:ss.fffzzz",
+		ja: "yyyy-MM-ddTHH:mm:ss.fffzzz"
+	},
+	*/
+
+	r: {
+		en: "ddd, dd MMM yyyy HH:mm:ss GMT",
+		ja: "ddd, dd MMM yyyy HH:mm:ss GMT"
+	},
+	R: {
+		en: "ddd, dd MMM yyyy HH:mm:ss GMT",
+		ja: "ddd, dd MMM yyyy HH:mm:ss GMT"
+	},
+	
+	s: {
+		en: "yyyy-MM-ddTHH:mm:ss",
+		ja: "yyyy-MM-ddTHH:mm:ss"
+	},
+	
+	t: {
+		en: "h:mm tt",
+		ja: "H:mm"
+	},
+	T: {
+		en: "h:mm:ss tt",
+		ja: "H:mm:ss"
+	},
+	
+	u: {
+		en: "yyyy-MM-dd HH:mm:ssZ",
+		ja: "yyyy-MM-dd HH:mm:ssZ"
+	},
+	
+	/*UTC Time
+	 U: {
+	 	en: "dddd, MMMM dd, yyyy h:mm:ss tt",
+	 	ja: "yyyy年M月dd日 H:mm:ss"
+	 },
+	*/
+	
+	y: {
+		en: "MMMM, yyyy",
+		ja: "yyyy年M月"
+	},
+	Y: {
+		en: "MMMM, yyyy",
+		ja: "yyyy年M月"
+	}
+},
 args   = ["d","D","f","F","g","G","m","M","r","R","s","t","T","u","y","Y"],
 header = "<th>" + [
 	"Format Char",
+	"pattern (en)",
 	"Return value (en)",
+	"pattern (ja)",
 	"Return value (ja)"
 	].join("</th><th>") + "</th>",
 
+
+
+
 content = $.map(args, function(arg){
 	return "<tr><th>" + arg + "</th>" +
+		"<td>" + fixedFormats[arg]["en"] + "</td>" +
 		"<td>" + date.toString(arg, "en") + "</td>" +
+		"<td>" + fixedFormats[arg]["ja"] + "</td>" +
 		"<td>" + date.toString(arg, "ja") + "</td></tr>";
 }).join("");
+
 
 $cont.append(makeContent(tKeys,{
 	"tHead" : header,
 	"tCont" : content
 }, template));
-
 
 
 
@@ -90,7 +185,7 @@ $cont.append(makeContent(tKeys,{
 
 
 
-
+/*
 var
 dateProps = [
 	"getDate",
@@ -138,7 +233,7 @@ $cont.append(
 		"tCont" : content
 	}, template));
 
-
+*/
 
 
 
