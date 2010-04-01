@@ -25,7 +25,7 @@ clone:引数にtrueを指定するとイベントもコピーされる。
 
 animationで指定するopacityはtoggleを指定できる
 
-mapは配列が線形化される
+mapは配列が線形化される(完全にではない)
 
 ajaxのcache:falseにするとキャッシュされないようにできる。
 
@@ -122,24 +122,24 @@ var list = '<ul><li>' + ['item 1', 'item 2', 'item 3'].join('</li><li>') + '</li
 
 
 //--------------------------------------------------------------------------
-//Add Event
-var addListener = (function() {
+//Add Event Listener
+var addListener = function() {
     if ( window.addEventListener ) {
         return function(el, type, fn) {
             el.addEventListener(type, fn, false);
         };
     } else if ( window.attachEvent ) {
         return function(el, type, fn) {
-            el.attachEvent('on'+type, function() {
+            el.attachEvent('on' + type, function() {
                 fn.call(el, window.event);
             });
         };
     } else {
         return function(el, type, fn) {
-            el['on'+type] = fn;
+            el['on' + type] = fn;
         }
     }
-})();
+}();
 
 //--------------------------------------------------------------------------
 //DOMContentLoaded

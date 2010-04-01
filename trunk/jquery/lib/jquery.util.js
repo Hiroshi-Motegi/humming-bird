@@ -6,6 +6,8 @@ $.extend($.browser, {
 	chrome: $.browser.safari && /chrome/.test(userAgent)
 });
 
+
+
 // extend animate speed
 $.extend($.fx.speeds, {
 	faster :  100,
@@ -14,24 +16,8 @@ $.extend($.fx.speeds, {
 });
 
 
+
 $.extend({
-	dom: {
-		NodeType: {
-			ELEMENT                :  1,
-			ATTRIBUTE              :  2,
-			TEXT                   :  3,
-			CDATA_SECTION          :  4,
-			ENTITY_REFERENCE       :  5,
-			ENTITY                 :  6,
-			PROCESSING_INSTRUCTION :  7,
-			COMMENT                :  8,
-			DOCUMENT               :  9,
-			DOCUMENT_TYPE          : 10,
-			DOCUMENT_FRAGMENT      : 11,
-			NOTATION               : 12
-		}
-	},
-	
 	
 	// check exist parent node
 	existParent: function(elm){
@@ -45,37 +31,6 @@ $.extend({
 		$.each(elms, function(i, elm) {
 			$(elm).after($(elm).contents()).remove();
 		});
-	},
-	
-	
-	// Merge Objects.
-	merge:function(){
-		var
-		args = Array.prototype.slice.call(arguments),
-		len = args.length,
-		ret = args[0]||{},
-		i = 1,
-		itm, arg;
-		
-		for( ; i < len ; ){
-			arg = args[i++];
-			for (itm in arg) {
-				if (arg.hasOwnProperty(itm))
-					ret[itm] = arg[itm];
-			}
-		}
-		
-		return ret;
-	},
-	
-	// make Query String
-	toQueryString: function(o){
-		var ret = [];
-		for(i in o){
-			if( o.hasOwnProperty(i) )
-				ret.push( i + '=' + encodeURIComponent(o[i]) );
-		}
-		return ret.join('&');
 	},
 	
 	alphaImage: (function(){
