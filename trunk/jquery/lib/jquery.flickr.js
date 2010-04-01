@@ -6,13 +6,13 @@
  * @Author     : y@s
  * @Version    : 1.1
  * @Published  : -
- * @LastUpdate : 2010-03-24
+ * @LastUpdate : 2010-04-01
  * @Demo       : http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/flickr.demo.html
  * 
  * [Query string parameters]
  * id      : user ID
- * ids     : user ID's, delimiter - ","
- * tags    : filter the feed, delimiter - ","
+ * ids     : user ID's, delimiter -> ","
+ * tags    : filter the feed, delimiter -> ","
  * tagmode : Control whether items must have ALL the tags,
  *           or ANY of the tags. Default is ALL.
  * format  : The format of the feed
@@ -33,38 +33,29 @@
  *  - image*
  * 
  * [Size]
- * s  - w,h:75
- * t  - w,h:100
- * m  - w,h:240
- * d, - w,h:500
- * b  - w,h:1024
+ * s  - w,h:75   fixed
+ * t  - w,h:100  max
+ * m  - w,h:240  max
+ * d, - w,h:500  max
+ * b  - w,h:1024 max
  */
 (function($) {
-
-function toQueryString(qs){
-	var ret = [], q;
-	for (q in qs) {
-		if (qs.hasOwnProperty(q)) 
-			ret.push(q + '=' + qs[q]);
-	}
-	return ret.join("&");
-}
-
 $.flickr = function(params, callback) {
 
 	callback = $.isFunction(callback) ? callback : function(){};
 
-	$.get("http://api.flickr.com/services/feeds/photos_public.gne?" +
-		toQueryString($.extend({
-			format       : "json",
-			jsoncallback : "?"
-		}, params)), function(res){
+	$.get("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+	
+		$.extend({
+			format : "json"
+		}, params),
+		
+		function(res){
 			
 			var
 			prefix = ["_s", "_t", "_m", "", "_b"],
 			i      = res.items.length,
 			item, m, j;
-			
 			
 			while(i--){
 				item = res.items[i];
@@ -83,18 +74,4 @@ $.flickr = function(params, callback) {
 			
 		},"json");
 };
-
-
-/*past
-$.flickr = function(options, callback){
-	var opt = $.extend({
-		tagmode : "any",
-		format  : "json"
-	}, options);
-	
-	$.get("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
-		opt, callback, "json");
-};
-*/
-
 })(jQuery);
