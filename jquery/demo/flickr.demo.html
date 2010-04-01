@@ -11,7 +11,7 @@
 jQuery(function($){
 
 
-$.makeContent = function(keys, items, template){
+function makeContent(keys, items, template){
 	
 	var i = keys.length, key;
 	
@@ -31,30 +31,38 @@ $(document).bind("flickr-loaded", function(){
 	
 	var $imgView =  $("#image-view > img").css({opacity: 0});
 	
-	$("#thumb-container > a > img")
+	var $thumbs = $("#thumb-container > a > img");
+	
+	$thumbs
 		.css({opacity: 0.5})
 		.hover(function(){
-			var $t  = $(this)
-					.stop(true)
-					.animate({opacity:1}, 250),
-				src = $t.attr("src").replace("_s", "");
+			var $t = $(this)
+				.stop(true)
+				.animate({opacity:0.25}, 250);
+			
+			$thumbs.not(this)
+				.stop(true)
+				.animate({opacity:1}, 250);
 			
 			$imgView
 				.stop(true)
 				.css({
 					opacity: 0
 				})
-				.attr("src", src)
+				.attr("src", $t.attr("src").replace("_s", ""))
 				.animate({opacity:1}, 250);
 
 		},function(){
-			$(this)
+
+			$thumbs
 				.stop(true)
-				.animate({opacity:0.5}, 400);
+				.animate({ opacity:0.5 }, 400);
 			
 			$imgView
 				.stop(true)
-				.animate({opacity:0}, 400);
+				.animate({opacity:0}, 400,function(){
+					$(this).attr("src", "");
+				});
 		});
 });
 
@@ -75,17 +83,22 @@ $.flickr({
 	//thumbnail
 	$("#thumb-container").append(
 		$.map(data.items, function(item, index){
-			return $.makeContent(keys, item, imgTemplate);
+			return makeContent(keys, item, imgTemplate);
 		}).join('')
 		//,$("<div>").addClass("clear")
 		);
 	
 	
 	//preload image.
-	var i = data.items.length;
-	while(i--){
-		$("<img>").attr("src", data.items[i].image);
-	}
+	var i = 0,
+		imgs = new Array(data.items.length);
+	
+	$(data.items).each(function(){
+		imgs[i] = new Image();
+		imgs[i++].src = this.image;
+	});
+	
+	//alert(imgs[imgs.length-1].src);
 	
 	$(document).trigger("flickr-loaded");
 	
@@ -130,9 +143,14 @@ h1{
 	zoom:1;
 	width:100%;
 }
-#thumb-container img{
+
+#thumb-container a{
+	display:block;
+}
+#thumb-container a img{
 	border :1px solid #999;
 	float  :left;
+	display:inline;
 	margin :14px;
 	height :50px;
 	width  :50px;

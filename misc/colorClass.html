@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>New Web Project</title>
+	<!--<script src="lib/jquery-1.4.2.min.js" type="text/javascript"></script>-->
+<script type="text/javascript">
+//add event listener
+var addListener = function(){
+	if (window.addEventListener) {
+		return function(el, type, fn){
+			el.addEventListener(type, fn, false);
+		};
+	}
+	else 
+		if (window.attachEvent) {
+			return function(el, type, fn){
+				el.attachEvent('on' + type, function(){
+					fn.call(el, window.event);
+				});
+			};
+		}
+		else {
+			return function(el, type, fn){
+				el['on' + type] = fn;
+			}
+		}
+}();
+
+
+//Color Object(class)
+function Color(){
+	this.initialize.apply(this, arguments);
+}
+
+Color.prototype = {
+	initialize: function(){
+		
+		var prm = arguments[0] || {};
+		
+		this.r = prm.r || 0;
+		this.g = prm.g || 0;
+		this.b = prm.b || 0;
+		this.name = prm.name || "";
+
+	},
+	
+	r: 0, //red
+	g: 0, //greeen
+	b: 0, //blue
+	name : "", //color name
+	
+	//Color code. ex:#ffffff
+	code : function(){
+		return '#' + (((256 + this.r << 8) + this.g << 8) + this.b).toString(16).slice(1);
+	},
+	//RGB Array
+	toRgb: function(){
+		return [this.r, this.g, this.b];
+	},
+	valueOf: function(){
+		return this.code();
+	},
+	toString: function(){
+		return this.valueOf();
+	}
+	
+}
+
+Color.aqua = function(){
+	return new Color({
+		r: 0,
+		g: 255,
+		b: 255,
+		name: "aqua"
+	});
+}
+
+
+
+
+addListener(window || window.document , "load", function(){
+	
+	/* IEではプリミティブ値を呼ばない。
+	 * そのため、このような実装は不可能。
+	 * Javascriptがオブジェクト指向に向かない理由の一つと考える。*/
+	
+	var p = document.getElementById("test");
+	
+	p.style.backgroundColor = Color.aqua();//IEでは色は変わらない。
+	
+	//p.style.backgroundColor = Color.aqua().code();
+
+});
+</script>
+<style type="text/css">
+body{
+	/* Lucida Grandeは二バイト文字が文字化けする? */
+	font-family:'Lucida Grande','Verdana';
+}
+</style>
+</head>
+<body>
+	<p>１２３ABCあいうえお</p>
+	<p id="test">123 ABC abc</p>
+</body>
+</html>

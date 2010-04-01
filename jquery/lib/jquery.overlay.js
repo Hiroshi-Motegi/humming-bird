@@ -3,15 +3,14 @@
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * Author:y@s
- * Version:1.2
- * Published:2009-06-21
- * Update:2009-07-12
- * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
+ * Author    :y@s
+ * Version   :1.2
+ * Published :2009-06-21
+ * Update    :2010-04-02
+ * Demo      :http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
  */
 
 (function($) {
-
 
 function clickEventHandler(e){
 	if (e.button == 0) {
@@ -22,14 +21,13 @@ function clickEventHandler(e){
 }
 
 function keydownEventHandler(e){	
-	var keycode = e.keyCode;
-	if (keycode == 27 || keycode == 13) {
+	var kc = e.keyCode;
+	if (kc == 27 || kc == 13) {
 		$.overlay.$layer.trigger(evKey);
 		e.stopPropagation();
 	}
 	return false;
 }
-
 
 function windowResizeEventHandler(){
 	
@@ -48,24 +46,6 @@ function windowResizeEventHandler(){
 
 }
 
-$.fn.extend({
-eosShow:function(){
-	return this.each(function(){
-		var v = $.data(this, dataKey);
-		if(v)
-			this.style.visibility = v.oldVisibility;
-	});
-},
-eosHide:function(){
-	return this.each(function(){
-		$.data(this, dataKey,{
-			'oldVisibility': $.css(this, 'visibility')
-		});
-	}).css('visibility', 'hidden');
-}
-});
-
-
 
 var
 isOldIE = $.browser.msie && $.browser.version < 7,
@@ -76,14 +56,14 @@ $doc = $(document),
 ovCSS = {
 	background      : 'none',
 	backgroundColor : '#000',
-	borderWidth     : 0,
+	borderWidth     : '0',
 	display         : 'block',
-	left            : 0,
-	margin          : 0,
+	left            : '0',
+	margin          : '0',
 	overflow        : 'hidden',
-	padding         : 0,
+	padding         : '0',
 	position        : 'absolute',
-	top             : 0,
+	top             : '0',
 	position        : 'fixed'
 },
 
@@ -92,10 +72,31 @@ animOpts = {
 	easing   : 'swing'
 },
 
-dataKey = evKey = ovID = 'overlay';
+evKey,
+ovID,
+dataKey = evKey = ovID = 'overlay',
 
 
-$.overlay = {
+showEOS = isOldIE ? function(){
+	$('embed,object,select').each(function(){
+		var v = $.data(this, dataKey);
+		if(v)
+			this.style.visibility = v.oldVisibility;
+	});
+}:function(){},
+
+hideEOS = isOldIE ? function(){
+	$('embed,object,select').each(function(){
+		$.data(this, dataKey,{
+			'oldVisibility': $.css(this, 'visibility')
+		});
+	}).css('visibility', 'hidden');
+}:function(){};
+
+
+var Overlay = function(){};
+
+Overlay.prototype = {
 	
 	$layer: null,
 	
@@ -105,7 +106,8 @@ $.overlay = {
 		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
 		if (!this.$layer) {
-			var n = 0, tmpID = ovID;
+			var n = 0,
+				tmpID = ovID;
 			
 			while (document.getElementById(ovID)) 
 				ovID = tmpID + n++;
@@ -121,11 +123,12 @@ $.overlay = {
 		callback = $.isFunction(options) ? options : callback || function(){};
 		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
-		if(!this.$layer)
+		if (!this.$layer) {
 			this.create(options);
+		}
 		
-		if(isOldIE)
-			$('embed,object,select').eosHide();
+		//hide embed,object,select
+		hideEOS();
 		
 		$win.bind('resize', windowResizeEventHandler);
 		$doc.bind('keydown', keydownEventHandler);
@@ -151,19 +154,24 @@ $.overlay = {
 		
 		this.$layer
 			.stop(true)
-			.animate({opacity: 0}, $.extend({}, animOpts, {complete:function(){
-				$(this).remove();
-				if (isOldIE)
-					$('embed,object,select').eosShow();
-				
-				$(document).unbind('keydown', keydownEventHandler);
-				callback.call(this);
-			}}, options.animateOptions || {}));
+			.animate({
+				opacity: 0
+			}, $.extend({}, animOpts, {
+				complete: function(){
+					$(this).remove();
+					//show embed,object,select
+					showEOS();
+					$(document).unbind('keydown', keydownEventHandler);
+					callback.call(this);
+				}
+			}, options.animateOptions || {}));
 	},
 	
 	bind:function(fn){
 		if (this.$layer)
 			this.$layer.bind(evKey, fn);
 	}
-}
+};
+
+$.overlay = new Overlay();
 })(jQuery);

@@ -7,7 +7,7 @@
  * @Version    : 1.0
  * @Published  : 2010/03/24
  * @LastUpdate : 2010/04/01
- * @Demo       : http://code.google.com/p/humming-bird/source/browse/trunk/misc/dateFormat.html
+ * @Demo       : http://humming-bird.googlecode.com/svn/trunk/misc/dateFormat.html
  */
 
 /**
