@@ -22,7 +22,8 @@ function clickEventHandler(e){
 
 function keydownEventHandler(e){	
 	var kc = e.keyCode;
-	if (kc == 27 || kc == 13) {
+	//13 => Enter, 27 => Esc
+	if (kc === 27 || kc === 13) {
 		$.overlay.$layer.trigger(evKey);
 		e.stopPropagation();
 	}
@@ -106,13 +107,22 @@ Overlay.prototype = {
 		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
 		if (!this.$layer) {
+			
 			var n = 0,
 				tmpID = ovID;
 			
-			while (document.getElementById(ovID)) 
+			//make unique id.
+			while (document.getElementById(ovID)) {
 				ovID = tmpID + n++;
+			}
 			
-			this.$layer = $(document.createElement('div')).attr('id', ovID).css($.extend({}, ovCSS, options.css || {}));
+			//set same string.
+			dataKey = evKey = ovID;
+			
+			//create layer element.
+			this.$layer = $(document.createElement('div'))
+				.attr('id', ovID)
+				.css($.extend({}, ovCSS, options.css || {}));
 		}
 		
 		callback.call(this);
@@ -161,7 +171,7 @@ Overlay.prototype = {
 					$(this).remove();
 					//show embed,object,select
 					showEOS();
-					$(document).unbind('keydown', keydownEventHandler);
+					$doc.unbind('keydown', keydownEventHandler);
 					callback.call(this);
 				}
 			}, options.animateOptions || {}));
