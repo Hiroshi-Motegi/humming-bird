@@ -13,99 +13,31 @@
 (function($){
 $.fn.extend({
 	positionCenter: function() {
-		var 
-		$win = $(window),
-		win  = {
-			h  : $win.height(),
-			w  : $win.width(),
-			st : $win.scrollTop(),
-			sl : $win.scrollLeft()
-		};
+		var $win = $(window);
 		
-		return this.each(function(){
+		return this.each(function( elm ){
 			
-			var
-			$t = $(this),
-			ts = this.style,
-			ps = $t.css('position'),
-			$te;
+			var $elm = $(elm),
+				pos  = $.curCSS( elm, "position" ),
+				$tmp;
 			
-			if(ps != 'absolute' && ps != 'fixed')
-				ps = ts['position'] = 'absolute';
+			//absolute, fixed, static or relative
+			if ( pos !== 'absolute' && pos !== 'fixed' ) {
+				pos = elm.style['position'] = 'absolute';
+			}
 			
-			$te = (!this.parentNode || !this.parentNode.tagName) ?
-				$t.clone().hide().appendTo(document.body) : $t;
+			$tmp = ( !elm.parentNode || !elm.parentNode.tagName )
+				? $elm.clone().hide().appendTo(document.body)
+				: $elm;
 			
-			var ts = this.style;
-			ts['top']    = ( win.h - $te.outerHeight() + (ps == 'absolute' ? win.st : 0) ) / 2 + 'px';
-			ts['left']   = ( win.w - $te.outerWidth() + (ps == 'absolute' ? win.sl : 0) ) / 2 + 'px';
-			ts['margin'] = '0';
+			elm.style['top']    = ( $win.height() - $tmp.outerHeight() + ( pos === 'absolute' ? $win.scrollTop()  : 0 ) ) / 2 + 'px';
+			elm.style['left']   = ( $win.width()  - $tmp.outerWidth()  + ( pos === 'absolute' ? $win.scrollLeft() : 0 ) ) / 2 + 'px';
+			elm.style['margin'] = '0';
 			
-			if($te != $t)
-				$te.remove();
-
+			if ( $tmp !== $elm ) {
+				$tmp.remove();
+			}
 		});
 	}
 });
 })(jQuery);
-
-
-
-/* past
-(function($){
-$.fn.extend({
-	positionCenter: function() {
-		var 
-		$win = $(window),
-		win = {
-			h:$win.height(),
-			w:$win.width(),
-			st:$win.scrollTop(),
-			sl:$win.scrollLeft()
-		};
-		
-		return this.each(function(){
-			var
-			$t = $(this),
-			to = {},
-			posStyle =  $.css(this,'position');
-			
-			if(posStyle != 'absolute' && posStyle != 'fixed') {
-				$t.css({ position:'absolute' });
-				posStyle = $.css(this,'position');
-			}
-			
-			function getOuterSize($x){
-				to.h = $x.outerHeight();
-				to.w = $x.outerWidth();
-			}
-			
-			//!this.parentNode.tagName はIE対策
-			if (!this.parentNode || !this.parentNode.tagName) {
-				var $cln =$t.clone().hide().appendTo(document.body);
-				getOuterSize($cln);
-				$cln.remove();
-			}else{
-				getOuterSize($t);
-			}
-			
-			var cPos = {
-				top: Math.floor((win.h - to.h)/2),
-				left: Math.floor((win.w - to.w)/2)
-			}
-			
-			if (posStyle == 'absolute') {
-				cPos.top += win.st;
-				cPos.left += win.sl;
-			}
-
-			$t.css({
-				top:cPos.top,
-				left:cPos.left,
-				margin:0
-			});
-		});
-	}
-});
-})(jQuery);
-*/
