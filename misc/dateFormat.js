@@ -227,13 +227,14 @@ function format( date, pattern, language ){
 			case 'fff':
 			case 'ff':
 			case 'f':
-				return ( "00" + date.getMilliseconds() ).slice($1.length * -1 );
+				return ( "00" + date.getMilliseconds() ).slice(-3).slice(0, $1.length);
 			
 			case 'FFF':
 			case 'FF':
 			case 'F':
 				return ( "00" + (tmp = date.getMilliseconds()) )
-					.slice($1.length * -1 )
+					.slice(-3)
+					.slice(0, $1.length)
 					.replace(new RegExp(/0+$/),function(z){
 						return tmp.length > 1 ? "" : z;
 					});
@@ -284,16 +285,4 @@ Date.prototype.toString = function( pattern, language ){
 		 return toString.call(this, arguments);
 	}
 };
-
-Date.prototype.toUTC = function () {
-    return isFinite(this.valueOf()) ?
-		   this.getUTCFullYear()   + '-' +
-		pz(this.getUTCMonth() + 1) + '-' +
-		pz(this.getUTCDate())      + 'T' +
-		pz(this.getUTCHours())     + ':' +
-		pz(this.getUTCMinutes())   + ':' +
-		pz(this.getUTCSeconds())   + 'Z' : null;
-};
-
-
 })( navigator["language"] ? navigator["language"] : navigator["userLanguage"] );
