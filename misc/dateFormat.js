@@ -6,23 +6,16 @@
  * @Author     : y@s
  * @Version    : 1.0
  * @Published  : 2010/03/24
- * @LastUpdate : 2010/04/01
+ * @LastUpdate : 2010/04/12
  * @Demo       : http://humming-bird.googlecode.com/svn/trunk/misc/dateFormat.html
  */
-
-/**
- * @param  {Number} len - totalWidth
- * @return {string}
- */
-Number.prototype.padZero = function( len ){
-	return ("" + this).length < len ? ((+((1 << len).toString(2)) + this) + "").slice(1) : "" + this;
-};
-
-
-
 (function( clientLanguage, undefined ){
 
 clientLanguage = clientLanguage || "en";
+
+function pz(n){
+	return n < 10 ? "0" + n : n;
+}
 
 var
 toString = Date.prototype.toString,
@@ -180,7 +173,7 @@ function format( date, pattern, language ){
 			case 'yyyy': //The year in four digits
 				return date.getFullYear();
 			case 'yy': //The year without the century
-				return (date.getFullYear() + "").slice(2);
+				return pz(date.getFullYear() + "");
 				
 			//Month
 			case 'MMMM': //The full name of the month
@@ -191,7 +184,7 @@ function format( date, pattern, language ){
 				return lang === "en" ? month[m].slice(0, 3) : ++m;
 			//Numeric Month
 			case 'MM':
-				return (date.getMonth() + 1).padZero(2);
+				return pz(date.getMonth() + 1);
 			case 'M':
 				return date.getMonth() + 1;
 			
@@ -203,30 +196,30 @@ function format( date, pattern, language ){
 			
 			//Day - The day of the month
 			case 'dd':
-				return date.getDate().padZero(2);
+				return pz(date.getDate());
 			case 'd':
 				return date.getDate();
 			
 			//Hour 24
 			case 'HH':
-				return date.getHours().padZero(2);
+				return pz(date.getHours());
 			case 'H':
 				return date.getHours();
 			//Hour 12
 			case 'hh':
-				return ((tmp = date.getHours() % 12) ? tmp : 12).padZero(2);
+				return pz( (tmp = date.getHours() % 12) ? tmp : 12 );
 			case 'h':
-				return ((tmp = date.getHours() % 12) ? tmp : 12);
+				return ( (tmp = date.getHours() % 12) ? tmp : 12 );
 			
 			//Minute
 			case 'mm':
-				return date.getMinutes().padZero(2);
+				return pz(date.getMinutes());
 			case 'm':
 				return date.getMinutes();
 			
 			//Second
 			case 'ss':
-				return date.getSeconds().padZero(2);
+				return pz(date.getSeconds());
 			case 's':
 				return date.getSeconds();
 				
@@ -234,12 +227,16 @@ function format( date, pattern, language ){
 			case 'fff':
 			case 'ff':
 			case 'f':
-				return date.getMilliseconds().padZero(3).slice(0, $1.length);
+				return ( "00" + date.getMilliseconds() ).slice($1.length * -1 );
 			
 			case 'FFF':
 			case 'FF':
 			case 'F':
-				return date.getMilliseconds().padZero(3).slice(0, $1.length).replace(/0+$/,"");
+				return ( "00" + (tmp = date.getMilliseconds()) )
+					.slice($1.length * -1 )
+					.replace(new RegExp(/0+$/),function(z){
+						return tmp.length > 1 ? "" : z;
+					});
 			
 			//AM/PM
 			case 'tt':
@@ -250,10 +247,10 @@ function format( date, pattern, language ){
 			//GMT
 			case 'zzz':
 				tmp = -date.getTimezoneOffset() / 60;
-				return (tmp >= 0 ? "+" : "") + tmp.padZero(2) + ":00";
+				return (tmp >= 0 ? "+" : "") + pz(tmp) + ":00";
 			case 'zz':
 				tmp = -date.getTimezoneOffset() / 60;
-				return (tmp >= 0 ? "+" : "") + tmp.padZero(2);
+				return (tmp >= 0 ? "+" : "") + pz(tmp);
 			case 'z':
 				tmp = -date.getTimezoneOffset() / 60;
 				return (tmp >= 0 ? "+" : "") + tmp;
@@ -286,6 +283,16 @@ Date.prototype.toString = function( pattern, language ){
 	}else{
 		 return toString.call(this, arguments);
 	}
+};
+
+Date.prototype.toUTC = function () {
+    return isFinite(this.valueOf()) ?
+		   this.getUTCFullYear()   + '-' +
+		pz(this.getUTCMonth() + 1) + '-' +
+		pz(this.getUTCDate())      + 'T' +
+		pz(this.getUTCHours())     + ':' +
+		pz(this.getUTCMinutes())   + ':' +
+		pz(this.getUTCSeconds())   + 'Z' : null;
 };
 
 

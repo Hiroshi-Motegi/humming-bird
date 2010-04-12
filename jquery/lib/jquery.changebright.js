@@ -10,11 +10,11 @@
 (function($){
 $.changeBright = function(color, p) {
 	
-	if (!color || color == 'transparent') return color;
+	if ( !color || color === 'transparent' ) return color;
 	
 	var rgb = $.getRGB(color), re, n = 0;
 	
-	if (re = /^(\d+)%$/.exec(p)) { //example: '150%', '50%'
+	if ( re = /^(\d+)%$/.exec( p ) ) { //example: '150%', '50%'
 	
 		n = re[1];
 		
@@ -27,11 +27,11 @@ $.changeBright = function(color, p) {
 	}
 	else {
 		
-		if (+p == p) { //example: '10', -20, +30
+		if (+p === p) { //example: '10', -20, +30
 			n = p;
 		}
 		else 
-			if (re = /^([\+\-])=(\d+)$/.exec(p)) { //example: '+=20', '-=100'
+			if ( re = /^([\+\-])=(\d+)$/.exec( p ) ) { //example: '+=20', '-=100'
 				n = re[1] + re[2];
 			}
 			else {
