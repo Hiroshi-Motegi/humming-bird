@@ -34,11 +34,11 @@ function gChart() {
 }
 
 gChart.prototype = {
-	initialize: function(options){
+	initialize: function( options ){
 		this.params = gChart.merge({}, _defaults, options || {});
 	},
 	
-	src: function(options){
+	src: function( options ){
 		return 'http://chart.apis.google.com/chart?' +
 			(function(o){
 				var ret = [];
@@ -50,9 +50,9 @@ gChart.prototype = {
 			})(gChart.merge({}, this.params, options || {}));
 	},
 	
-	image: function(options){
+	image: function( options ){
 		var img = document.createElement('img');
-		img.src = this.src(options);
+		img.src = this.src( options );
 		return img;
 	}
 };
@@ -60,14 +60,15 @@ gChart.prototype = {
 
 gChart.merge = function(){
 	var
-	args = Array.prototype.slice.call(arguments),
+	args = Array.prototype.slice.call( arguments ),
 	len  = args.length,
 	ret  = args[0],
-	itm;
+	i    = 1,
+	itm, arg;
 	
-	for (var i = 1; i < len; i++) {
-		var arg = args[i];
-		for (itm in arg) {
+	for ( ; i < len ; i++ ) {
+		arg = args[i];
+		for ( itm in arg ) {
 			if (arg.hasOwnProperty(itm)) 
 				ret[itm] = arg[itm];
 		}
@@ -87,9 +88,9 @@ gChart.textEncoding = function(){
 		var data = [], arg = args[i];
 
 		for (var n = 0, m = arg.length; n < m; n++)
-			data.push(Math.round( parseFloat(arg[n]) * 100) / 100 );
+			data.push( Math.round( parseFloat( arg[n] ) * 100) / 100 );
 		
-		ret.push(data.join(','));
+		ret.push( data.join(',') );
 	}
 	
 	return 't:' + ret.join('|');
@@ -191,7 +192,7 @@ gChart.simpleDecoding = function(data){
 		ret.push(ar);
 	}
 	
-	return ret.length == 1 ? ret[0] : ret;
+	return ret.length === 1 ? ret[0] : ret;
 }
 
 
@@ -204,9 +205,9 @@ gChart.simpleDecoding = function(data){
 gChart.extendedDecode = function(v){
 	var re = /([A-Za-z\d\-\.])([A-Za-z\d\-\.])/.exec(v);
 	
-	return re ? extendedChrs.search(re[1] == '.' ? '\\.' :
-		re[1]) * 64 + extendedChrs.search(re[2] == '.' ? '\\.' :
-		re[2]) : v == '__' ? -1 : null;
+	return re ? extendedChrs.search(re[1] === '.' ? '\\.' :
+		re[1]) * 64 + extendedChrs.search(re[2] === '.' ? '\\.' :
+		re[2]) : v === '__' ? -1 : null;
 }
 
 /**
@@ -217,17 +218,24 @@ gChart.extendedDecode = function(v){
 gChart.extendedDecoding = function(data){
 	data = /^e:.*$/.test(data) ? data.substr(2) : data;
 	
-	var dts = data.split(','), ret = [];
+	var dts = data.split(','),
+		ret = [],
+		i   = 0,
+		n   = 0,
+		ar, dt, m;
 	
-	for (var i = 0; i < dts.length; i++) {
-		var ar = [], dt = dts[i];
-		for (var n = 0, m = dt.length; n < m; n += 2) 
+	for (; i < dts.length; i++) {
+		ar = [];
+		dt = dts[i];
+		
+		for ( m = dt.length; n < m; n += 2 ) {
 			ar.push(gChart.extendedDecode(dt.substr(n, 2)));
+		}
 		
 		ret.push(ar);
 	}
 	
-	return ret.length == 1 ? ret[0] : ret;
+	return ret.length === 1 ? ret[0] : ret;
 }
 
 return gChart;

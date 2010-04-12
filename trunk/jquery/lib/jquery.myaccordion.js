@@ -12,14 +12,14 @@
 
 (function($){
 $.extend({
-myAccordion: function(options, callback){
+myAccordion: function( options, callback ){
 
 	var
 	opt = $.extend({
 		duration : 300,
 		wrap     : '#acc-wrap', // wrapper selector
 		tgl      : '.acc-tgl',  // toggle selector
-		cont     : '.acc-cont', //content selector
+		cont     : '.acc-cont', // content selector
 		dataKey  : 'accordion'
 	}, options),
 	
@@ -34,7 +34,7 @@ myAccordion: function(options, callback){
 		.show();
 	
 	$(opt.wrap)
-		.css('position','relative')
+		.css( 'position', 'relative' )
 		.height(($tgls.outerHeight() * $tgls.length) + $conts.outerHeight());
 
 	$tgls
@@ -51,9 +51,9 @@ myAccordion: function(options, callback){
 			var
 			$t        = $(elm),
 			$c        = $conts.eq(indx),
-			$sttcsTgt = $tgls.filter(':lt(' + indx + ')').add($t),
+			$sttcsTgt = $tgls.filter( ':lt(' + indx + ')' ).add($t),
 			$notThis  = $tgls.not($t),
-			$nxts     = $tgls.filter(':gt(' + indx + ')');
+			$nxts     = $tgls.filter( ':gt(' + indx + ')' );
 			
 			$.data(elm, opt.dataKey, function(){
 				if ($c.is(':hidden') && !$conts.is(':animated')) {
@@ -89,7 +89,7 @@ $.fn.extend({
 sameHeight: function(){
 	var h = 0;
 	return this.each(function(){
-		h = Math.max(h, $(this).outerHeight());
+		h = Math.max( h, $(this).outerHeight() );
 	}).height(h);
 },
 
