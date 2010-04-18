@@ -4,9 +4,10 @@
  * Version 1.1
  * Released under the MIT and GPL licenses.
  * 
+ * Last Update : 2010-04-18
  * Dependencies:
- * 	- jQuery plugin changeBright
- * 	- jQuery plugin Color Animations ver.2
+ * [ jQuery plugin changeBright ]
+ * [ jQuery plugin Color Animations Custom ]
  * 
  * @Param bright  : '+=20', '40', '60%' など
  * @Param attr    : 'backgroundColor', 'borderColor', 'color'
@@ -20,43 +21,43 @@
 $.fn.flash = function(bright, attr, options){
 	
 	function isAttr(attr){
-		var attrs = ['backgroundColor', 'borderColor', 'color'];
-		for (var i= 0; i < attrs.length ; i++)
-			if( attr == attrs[i] ) return true;
+		var attrs = ['backgroundColor', 'borderColor', 'color'],
+			j = attrs.length,
+			i = 0;
+		for (; i < j; i++) {
+			if (attr === attrs[i]) 
+				return true;
+		}
 		return false;
 	}
 	
 	options = bright && bright.constructor == Object ? bright : attr && attr.constructor == Object ? attr : options || {};
-	attr = typeof bright === 'string' && isAttr(bright)? bright : attr && isAttr(attr) ? attr : 'backgroundColor';
-	bright = typeof bright === 'string' && /^[-+]?\d%?$/.test(bright) || +bright == bright ? bright : '+=50';
+	attr    = typeof bright === 'string' && isAttr(bright)? bright : attr && isAttr(attr) ? attr : 'backgroundColor';
+	bright  = typeof bright === 'string' && /^[-+]?\d%?$/.test(bright) || +bright == bright ? bright : '+=50';
 
-	var
-	op = $.extend({
-		duration : 400,
-		easing   : 'swing',
-		complete : function(){}
-	}, options),
-	dataKey = 'flash';
+	var op = $.extend({
+			duration: 400,
+			easing  : 'swing',
+			complete: function(){}
+		}, options),
+		dataKey = 'flash';
 	
 	return this.each(function(){
 		
-		function toArray(attr){
-			if (attr == 'borderColor') 
-				return ['borderTopColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor'];
-			
-			return [attr];
-		}
-		
-		var
-		$t = $(this),
-		attrs = toArray(attr);
+		var $t    = $(this),
+			attrs = (attr === 'borderColor'
+				? ['borderTopColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor']
+				: [attr]);
 		
 		if( !$.data(this, dataKey) || !$.data(this, dataKey)[attrs[0]] ){
 			
-			var tmp = {};
+			var tmp = {},
+				i   = 0,
+				j   = attrs.length,
+				c;
 			
-			for(var i = 0, j = attrs.length; i < j; i++ ){
-				var c = $t.css(attrs[i]);
+			for(; i < j; i++ ){
+				c = $t.css(attrs[i]);
 				tmp[attrs[i]] = c == 'transparent' ? '#000' : c;
 			}
 			
@@ -64,13 +65,14 @@ $.fn.flash = function(bright, attr, options){
 			
 		}
 		
-		var
-		def_attrs = {},
-		hi_attrs  = {};
+		var def_attrs = {},
+			hi_attrs  = {},
+			i = 0,
+			j = attrs.length,
+			key;
 		
-		for (var i = 0, j = attrs.length; i < j; i++) {
-			var key = attrs[i];
-			
+		for (; i < j; i++) {
+			key = attrs[i];
 			def_attrs[key] = $.data(this, dataKey)[key];
 			hi_attrs[key]  = $.changeBright(def_attrs[key], bright);
 		}
