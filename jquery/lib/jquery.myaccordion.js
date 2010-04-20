@@ -10,24 +10,48 @@
  * Demo      : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/myAccordion.html
  */
 
-(function($){
+;(function($){
+var dataKey = '';
+
+$.fn.extend({
+sameHeight: function(){
+	var h = 0;
+	return this.each(function(){
+		h = Math.max( h, $(this).outerHeight() );
+	}).height(h);
+},
+setAbsolute: function(){
+	return this.each(function(i, elm){
+		elm.style.top      = ($.data(elm, dataKey).top || 0) + 'px';
+		elm.style.position = 'absolute';
+	});
+},
+setStatic: function(){
+	return this.each(function(i, elm){
+		elm.style.top      = 'auto';
+		elm.style.position = 'static';
+	});
+}
+});
+
 $.extend({
 myAccordion: function( options, callback ){
 
 	var
 	opt = $.extend({
-		duration : 300,
-		wrap     : '#acc-wrap', // wrapper selector
-		tgl      : '.acc-tgl',  // toggle selector
-		cont     : '.acc-cont', // content selector
+		duration : 0,
+		wrap     : '#acc-wrap',    // wrapper selector
+		toggle   : '.acc-toggle',  // toggle selector
+		content  : '.acc-content', // content selector
 		dataKey  : 'accordion'
 	}, options),
 	
-	$tgls  = $( opt.tgl ),
-	$conts = $( opt.cont );
+	$toggles  = $( opt.toggle ),
+	$contents = $( opt.content );
 	
+	dataKey = opt.dataKey;
 	
-	$conts
+	$contents
 		.sameHeight()
 		.hide()
 		.filter(':first')
@@ -35,40 +59,44 @@ myAccordion: function( options, callback ){
 	
 	$(opt.wrap)
 		.css( 'position', 'relative' )
-		.height(($tgls.outerHeight() * $tgls.length) + $conts.outerHeight());
+		.height((function(){
+				var h = 0;
+				$toggles.each(function(){
+					h += $(this).outerHeight();
+				});
+				return h;
+			})() + $contents.outerHeight());
 
-	$tgls
+	$toggles
 		.css({
 			left : 0,
-			width: $tgls.width()
+			width: $toggles.width()
 		})
-		.each(function(indx, elm){
-			
-			$.data(elm, 'position', {
-				'top': $(elm).position().top
-			});
-			
+		.each(function(i, elm){
 			var
-			$t        = $(elm),
-			$c        = $conts.eq(indx),
-			$sttcsTgt = $tgls.filter( ':lt(' + indx + ')' ).add($t),
-			$notThis  = $tgls.not($t),
-			$nxts     = $tgls.filter( ':gt(' + indx + ')' );
+			$self     = $(elm), //toggle button
+			$content  = $contents.eq(i), // content of same index
+			$sttcsTgt = $toggles.filter( ':lt(' + i + ')' ).add($self),
+			$notSelf  = $toggles.not($self),
+			$nexts    = $toggles.filter( ':gt(' + i + ')' );
 			
-			$.data(elm, opt.dataKey, function(){
-				if ($c.is(':hidden') && !$conts.is(':animated')) {
-					$t.addClass('current');
-					$sttcsTgt.setStatic();
-					$conts.filter(':visible').slideUp(opt.duration);
-					$c.slideDown(opt.duration, function(){
-						$notThis.removeClass('current');
-						$nxts.setAbsolute();
-					});
+			$.data(elm, dataKey, {
+				'top': $(elm).position().top,
+				'fn' : function(){
+					if ($content.is(':hidden') && !$contents.is(':animated')) {
+						$self.addClass('current');
+						$sttcsTgt.setStatic();
+						$contents.filter(':visible').slideUp(opt.duration);
+						$content.slideDown(opt.duration, function(){
+							$notSelf.removeClass('current');
+							$nexts.setAbsolute();
+						});
+					}
 				}
 			});
-			
-		}).click(function(e){
-			$.data(e.target, opt.dataKey).call(e.target);
+		})
+		.click(function(e){
+			$.data(e.target, dataKey).fn.call(e.target);
 			return false;
 		})
 		.eq(0)
@@ -82,29 +110,4 @@ myAccordion: function( options, callback ){
 	callback.call(this);
 
 }});
-
-
-$.fn.extend({
-
-sameHeight: function(){
-	var h = 0;
-	return this.each(function(){
-		h = Math.max( h, $(this).outerHeight() );
-	}).height(h);
-},
-
-setAbsolute: function(){
-	return this.each(function(indx, elm){
-		elm.style.top      = ($.data(elm, 'position').top || 0) + 'px';
-		elm.style.position = 'absolute';
-	});
-},
-
-setStatic: function(){
-	return this.each(function(indx, elm){
-		elm.style.top      = 'auto';
-		elm.style.position = 'static';
-	});
-}
-
-})})(jQuery);
+})(jQuery);
