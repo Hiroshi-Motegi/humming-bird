@@ -11,17 +11,29 @@
 <script type="text/javascript">
 jQuery(function($){
 	$.myAccordion({
-		wrap : '#itunes-navi',
-		tgl  : '.itunes-category-tgl',
-		cont : '.itunes-genre-list'
+		duration: 350,
+		wrap   : '#itunes-navi',
+		toggle : '.itunes-category-tgl',
+		content: '.itunes-genre-list'
 	});
+	
+	$('.itunes-category-tgl')
+		.mousedown(function(){
+			$(this).addClass('mousedown');
+		})
+		.mouseup(function(){
+			$(this).removeClass('mousedown');
+		})
+		.mouseout(function(){
+			$(this).removeClass('mousedown');
+		})
 });
 </script>
 
 <style type="text/css">
 #itunes-navi{
 	background-color:#eee;
-	border: 1px solid #ccc;
+	border: 1px solid #333;
 	color:#1a1a1a;
 	font-family:Verdana;
 	font-size:16px;
@@ -30,11 +42,17 @@ jQuery(function($){
 	padding:0;
 	text-align:center;
 	width:160px;
+	box-shadow        :0 0 5px #999;
+	-moz-box-shadow   :0 0 5px #999;
+	-webkit-box-shadow:0 0 5px #999;
 }
 
 .itunes-category-tgl{
 	background-color:#ccc;
-	color:#666;
+	border-top:1px solid #eee;
+	border-right:1px solid #eee;
+	border-left:1px solid #eee;
+	color:#1a1a1a;
 	cursor:pointer;
 	display:block;
 	font-size:12px;
@@ -42,23 +60,76 @@ jQuery(function($){
 	line-height:24px;
 	height:24px;
 	text-align:center;
+	
+	background-image:-moz-linear-gradient(top,
+		#fff,
+		#aaa 100%);
+	background-image:-webkit-gradient(linear,
+		center top,
+		center bottom,
+		from(#fff),
+		to(#aaa));
+	background-image:linear-gradient(-90deg,
+		#fff 0%,
+		#aaa 100%);
+	box-shadow        : inset 0 0 1px #000;
+	-moz-box-shadow   : inset 0 0 1px #000;
+	-webkit-box-shadow: inset 0 0 1px #000;
 }
-.itunes-category-tgl:hover{
-	color:#fff;
-	background-color:#999;
+.itunes-category-tgl.mousedown:hover{
+	background-image:-moz-linear-gradient(top,
+		#aab,
+		#eef 100%);
+	background-image:-webkit-gradient(linear,
+		center top,
+		center bottom,
+		from(#aab),
+		to(#eef));
+	background-image:linear-gradient(-90deg,
+		#aab 0%,
+		#eef 100%);
+	cursor:pointer;
+}
+.itunes-category-tgl.last{
+	border-bottom:1px solid #eee;
 }
 
-.itunes-category-tgl.current{
-	background-color:#eee;
-	color:#1a1a1a;
-	cursor:text;
+.itunes-category-tgl:hover{
+	background-color:#999;
+	background-image:-moz-linear-gradient(top,
+		#eef,
+		#aab 100%);
+	background-image:-webkit-gradient(linear,
+		center top,
+		center bottom,
+		from(#eef),
+		to(#aab));
+	background-image:linear-gradient(-90deg,
+		#eef 0%,
+		#aab 100%);
 }
+.itunes-category-tgl.current,
+.itunes-category-tgl.current.mousedown{
+	background-color:#eee;
+	background-image:none;
+	cursor:default;
+	box-shadow        : inset 0 0 0px #fff;
+	-moz-box-shadow   : inset 0 0 0px #fff;
+	-webkit-box-shadow: inset 0 0 0px #fff;
+}
+.itunes-category-tgl.current:hover{
+	color:#1a1a1a;
+	background-image:none;
+}
+
+
 
 .itunes-genre-list{
+	cursor:default;
 	font-size:12px;
 	list-style:none;
 	margin:0;
-	padding:0;
+	padding:2px;
 	text-indent:0;
 }
 
@@ -66,12 +137,25 @@ jQuery(function($){
 	border: 1px solid #eee;
 	line-height:22px;
 	height:22px;
+	margin:3px;
 }
 .itunes-genre-list li:hover{
 	background-color:#ddd;
 	border: 1px solid #fff;
-	border-right: 5px solid #fff;
-	border-left: 5px solid #fff;
+	background-image:-moz-linear-gradient(top,
+		#fff,
+		#ccc 100%);
+	background-image:-webkit-gradient(linear,
+		center top,
+		center bottom,
+		from(#fff),
+		to(#ccc));
+	background-image:linear-gradient(-90deg,
+		#fff 0%,
+		#ccc 100%);
+	box-shadow        :0 0 3px #666;
+	-moz-box-shadow   :0 0 3px #666;
+	-webkit-box-shadow:0 0 3px #666;
 }
 </style>
 </head>
@@ -106,7 +190,7 @@ jQuery(function($){
 			<li><a class="genre">Reggae</a></li>
 			<li><a class="genre">J-Pop</a></li>
 		</ul>
-		<a class="itunes-category-tgl" title="ニューリリース">New Releases</a>
+		<a class="itunes-category-tgl last" title="ニューリリース">New Releases</a>
 		<ul class="itunes-genre-list">
 			<li><a class="genre">All</a></li>
 			<li><a class="genre">Blues</a></li>
