@@ -1,25 +1,24 @@
 /**
  * jQuery plugin iTunesFeed
- * Copyright 2009
+ * Copyright 2009 - 2010
  * Released under the MIT and GPL licenses.
  * 
  * @Author     : y@s
- * @Version    : 1.4.1
+ * @Version    : 1.4.2
  * @Published  : 2009/06/00
- * @LastUpdate : 2010/03/14
+ * @LastUpdate : 2010/04/20
  * @Demo       : http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
  */
 
 (function($){
 	$.iTunes = {
 		/**
-		 * @param {Object}   params   - query params
-		 * @param {Function} callback - callback function
+		 * @param params   {Object}   - query params
+		 * @param callback {Function} - callback function
 		 */
 		feed: function(params, callback){
-			var
-			outputType = params.output = params.output.toLowerCase(),
 			
+			var
 			// make query params.
 			op = (function(prms){
 				var query = (function(qs){
@@ -30,16 +29,16 @@
 					}
 					return ret.join('/');
 				}({
-					sf       : prms.sf,
-					limit    : prms.limit,
-					genre    : prms.genre,
-					explicit : prms.explicit
+					sf      : prms.sf,
+					limit   : prms.limit,
+					genre   : prms.genre,
+					explicit: prms.explicit
 				}));
 				
 				return {
 					v      : '1.0',
 					num    : prms.limit || '-1', //-1 = all
-					output : prms.output || 'json', //json, xml or json_xml
+					output : prms.output.toLowerCase() || 'json', //json, xml or json_xml
 					q      : 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' +
 						prms.category.toLowerCase() + '/' + query + '/rss.xml'
 				};
@@ -50,16 +49,20 @@
 				limit    : 10,
 				genre    : 0,
 				explicit : true
-			}, params)));
+			}, params))),
+			outputType;
 			
+			outputType = params.output;
 			
 			function parseXMLfromString(xmlString){
 				if (window.DOMParser) {
-					var parser = new DOMParser();
-					if ('async' in parser) 
-						parser.async = false;
+					var parser = new DOMParser(),
+						dom;
 					
-					var dom = parser.parseFromString(xmlString, 'text/xml');
+					if (parser['async']) {
+						parser.async = false;
+					}
+					dom = parser.parseFromString(xmlString, 'text/xml');
 					return dom.documentElement.firstChild;
 				}
 				else //IE
@@ -73,7 +76,6 @@
 						return false;
 					}
 			}
-			
 			
 			$.get('http://ajax.googleapis.com/ajax/services/feed/load?', op,
 				function(result){
@@ -90,8 +92,6 @@
 				}, 'jsonp');
 				//json => add url "callback=?"
 		},
-		
-		
 		categories: {
 			'Top Albums'     : 'topalbums',
 			'Top Songs'      : 'topsongs',
@@ -99,8 +99,6 @@
 			'Just Added'     : 'justadded',
 			'Featured Albums': 'featuredalbums'
 		},
-		
-		
 		genre: {
 			'All'       :  0,
 			'Blues'     :  2,
@@ -120,17 +118,15 @@
 			'J-Pop'     : 27
 			// etc ...
 		},
-		
-		
 		countries: {
-			usa       : 143441,
-			france    : 143442,
-			germany   : 143443,
-			uk        : 143444,
-			italy     : 143450,
-			canada    : 143455,
-			australia : 143460,
-			japan     : 143462
+			'usa'       : 143441,
+			'france'    : 143442,
+			'germany'   : 143443,
+			'uk'        : 143444,
+			'italy'     : 143450,
+			'canada'    : 143455,
+			'australia' : 143460,
+			'japan'     : 143462
 			// etc ...
 		}
 	}
