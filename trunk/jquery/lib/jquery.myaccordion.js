@@ -6,7 +6,7 @@
  * Author    : y@s
  * Version   : 1.0
  * Published : 2009-06-28
- * Update    : 2009-06-28
+ * Update    : 2010-04-20
  * Demo      : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/myAccordion.html
  */
 
