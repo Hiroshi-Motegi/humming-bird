@@ -19,8 +19,12 @@ $(document).click(function(e){
 	if (e.button == 0) {
 		
 		$.overlay.show({
-			css:{background:'url(../../tool/css/img/bg_cb_120x120.png)'},
-			animateParams:{opacity:0.8}
+			css: {
+				background: 'url(../../tool/css/img/bg_cb_120x120.png)'
+			},
+			animateParams: {
+				opacity: 0.8
+			}
 		},function(){
 			$('<p>')
 				.attr('id', 'pdesc')
@@ -29,12 +33,14 @@ $(document).click(function(e){
 				.click(function(e){
 					e.stopPropagation();
 				})
-				.appendTo(document.body);
+				.appendTo($(document.body));
 		});
 		
 		$.overlay.bind(function(){
 			$.overlay.hide({
-				animateOptions:{duration:800}
+				animateOptions: {
+					duration: 800
+				}
 			},function(){
 				$('#pdesc').remove();
 			});
@@ -51,38 +57,51 @@ prettyPrint();
 </script>
 <style>
 body{
-	margin:0;
 	padding:0;
 }
 body,input,textarea{
-	font-family:
-		Meiryo,
-		'メイリオ',
-		'Hiragino Kaku Gothic Pro',
-		'ヒラギノ角ゴ Pro W3',
-		Verdana,Geneva,Arial,Helvetica,sans-serif;
+	color:#1a1a1a;
+	font-family:Tahoma,Verdana;
 }
 h1{
 	line-height:2em;
 }
+h3{
+	margin:20px 0 0;
+	line-height:32px;
+}
+#wrap{
+	padding:0 20px;
+}
+pre.prettyprint{
+	background-color:#eee;
+	font-size:16px;
+	margin-top:0;
+	padding:10px;
+	border-radius:15px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	/*box-shadow        :0 0 5px #333;
+	-moz-box-shadow   :0 0 5px #333;
+	-webkit-box-shadow:0 0 5px #333;*/
+}
 #pdesc{
-	color:#fff;
-	font-size:18px;
+	color:#eee;
+	font-size:16px;
 	position:absolute;
 }
 span.lbl-select{
 	vertical-align:middle;
 }
 </style>
+
 </head>
 <body>
 
-<div style='padding:0 20px 1000px'>
-	
+<div id="wrap">
 	<h1>jQuery plugin - overlay demo</h1>
 	<p>当ページをクリックするとページ全体をレイヤー要素で被います。</p>
 	
-	<div id="overlay"></div>
 	<div>
 		<span class="lbl-select">IE6 対応確認用</span>
 		<select>
@@ -96,7 +115,7 @@ span.lbl-select{
 	
 	
 
-<h3>Usage</h3>
+<h3>Usage:</h3>
 <pre class='prettyprint'>
 $(document).click(function(e){
 &nbsp;&nbsp;&nbsp;&nbsp;

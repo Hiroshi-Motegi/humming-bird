@@ -56,12 +56,12 @@
 			
 			function parseXMLfromString(xmlString){
 				if (window.DOMParser) {
-					var parser = new DOMParser(),
-						dom;
+					var parser = new DOMParser(), dom;
 					
 					if (parser['async']) {
 						parser.async = false;
 					}
+					
 					dom = parser.parseFromString(xmlString, 'text/xml');
 					return dom.documentElement.firstChild;
 				}

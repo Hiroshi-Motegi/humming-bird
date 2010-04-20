@@ -47,11 +47,11 @@ $.iTunes.feed({
 	}, function(result){
 		
 		var xml   = result.xml,
-			$div  = $('<div>'),
-			items = xml.getElementsByTagName('item'),
-			i = 0,
-			j = items.length,
-			item, content, nd;
+		    $div  = $('<div>'),
+		    items = xml.getElementsByTagName('item'),
+		    i = 0,
+		    j = items.length,
+		    item, content, nd;
 		
 		$div
 			.addClass('feed-result')

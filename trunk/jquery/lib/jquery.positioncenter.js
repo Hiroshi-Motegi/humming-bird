@@ -13,7 +13,7 @@
 $.fn.positionCenter = function() {
 	var $win = $(window);
 	
-	return this.each(function( elm ){
+	return this.each(function(i, elm ){
 		
 		var $elm = $(elm),
 			pos  = $.curCSS( elm, "position" ),
