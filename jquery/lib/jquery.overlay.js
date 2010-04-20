@@ -48,6 +48,7 @@ function windowResizeEventHandler(){
 }
 
 
+
 var
 isOldIE = $.browser.msie && $.browser.version < 7,
 
@@ -108,8 +109,7 @@ Overlay.prototype = {
 		
 		if (!this.$layer) {
 			
-			var n = 0,
-				tmpID = ovID;
+			var n = 0, tmpID = ovID;
 			
 			//make unique id.
 			while (document.getElementById(ovID)) {
@@ -183,5 +183,5 @@ Overlay.prototype = {
 	}
 };
 
-$.overlay = new Overlay();
+$.overlay = new Overlay;
 })(jQuery);
