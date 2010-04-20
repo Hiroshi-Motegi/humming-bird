@@ -5,32 +5,60 @@
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 	<title>jQuery plugin - myAccordion Demo</title>
+	<link rel="stylesheet" type="text/css" href="../../prettify/prettify.css" media="screen" charset="utf-8"/>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 	<script src="../lib/jquery.myaccordion.js" type="text/javascript"></script>
+	<script src="../../prettify/prettify.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 jQuery(function($){
-	$.myAccordion({
-		duration: 350,
-		wrap   : '#itunes-navi',
-		toggle : '.itunes-category-tgl',
-		content: '.itunes-genre-list'
-	});
+
+$.myAccordion({
+	duration: 350,
+	wrap   : '#itunes-navi',
+	toggle : '.itunes-category-tgl',
+	content: '.itunes-genre-list'
+});
 	
-	$('.itunes-category-tgl')
-		.mousedown(function(){
-			$(this).addClass('mousedown');
-		})
-		.mouseup(function(){
-			$(this).removeClass('mousedown');
-		})
-		.mouseout(function(){
-			$(this).removeClass('mousedown');
-		})
+$('.itunes-category-tgl')
+	.mousedown(function(){
+		$(this).addClass('mousedown');
+	})
+	.mouseup(function(){
+		$(this).removeClass('mousedown');
+	})
+	.mouseout(function(){
+		$(this).removeClass('mousedown');
+	});
+
+prettyPrint();
 });
 </script>
 
 <style type="text/css">
+body{
+	font-family:Tahoma,Verdana;
+	color:#333;
+}
+#left-wrap{
+	float:left;
+	/*padding:20px;*/
+}
+#right-wrap{
+	margin-left:250px;
+}
+h1{
+	margin-left:20px;
+}
+h3{
+	margin:20px 0 2px;
+}
+pre{
+	background-color:#eee;
+	border:1px solid #ccc;
+	margin-top:0;
+}
+
 #itunes-navi{
 	background-color:#eee;
 	border: 1px solid #333;
@@ -38,7 +66,7 @@ jQuery(function($){
 	font-family:Verdana;
 	font-size:16px;
 	line-height:1.5em;
-	margin:0;
+	margin:20px;
 	padding:0;
 	text-align:center;
 	width:160px;
@@ -161,6 +189,7 @@ jQuery(function($){
 </head>
 <body>
 	<h1>jQuery plugin - myAccordion Demo</h1>
+<div id="left-wrap">
 	<div id="itunes-navi">
 		<a class="itunes-category-tgl" title="トップアルバム">Top Albums</a>
 		<ul class="itunes-genre-list">
@@ -205,5 +234,41 @@ jQuery(function($){
 			<li><a class="genre">J-Pop</a></li>
 		</ul>
 	</div>
+</div>
+
+<div id="right-wrap">
+<h3>HTML:</h3>
+<pre class="prettyprint">
+&lt;div id="itunes-navi"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;a class="itunes-category-tgl" title="トップアルバム"&gt;Top Albums&lt;/a&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul class="itunes-genre-list"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a class="genre"&gt;All&lt;/a&gt;&lt;/li&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- ... --&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a class="genre"&gt;J-Pop&lt;/a&gt;&lt;/li&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;a class="itunes-category-tgl" title="トップソング"&gt;Top Songs&lt;/a&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul class="itunes-genre-list"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a class="genre"&gt;All&lt;/a&gt;&lt;/li&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- ... --&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a class="genre"&gt;J-Pop&lt;/a&gt;&lt;/li&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;a class="itunes-category-tgl last" title="ニューリリース"&gt;New Releases&lt;/a&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;ul class="itunes-genre-list"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a class="genre"&gt;All&lt;/a&gt;&lt;/li&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- ... --&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a class="genre"&gt;J-Pop&lt;/a&gt;&lt;/li&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;
+&lt;/div&gt;
+</pre>
+<h3>Usage:</h3>
+<pre class="prettyprint">
+$.myAccordion({
+&nbsp;&nbsp;&nbsp;&nbsp;duration: 350,
+&nbsp;&nbsp;&nbsp;&nbsp;wrap   : '#itunes-navi',
+&nbsp;&nbsp;&nbsp;&nbsp;toggle : '.itunes-category-tgl',
+&nbsp;&nbsp;&nbsp;&nbsp;content: '.itunes-genre-list'
+});
+</pre>
+</div>
 </body>
 </html>

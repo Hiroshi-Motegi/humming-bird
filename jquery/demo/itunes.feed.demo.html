@@ -12,7 +12,6 @@
 <script type="text/javascript">
 $(function(){
 // Usage
-
 $.iTunes.feed({
 		output   : 'json',
 		category : $.iTunes.categories['New Releases'],
@@ -30,8 +29,9 @@ $.iTunes.feed({
 			.addClass('feed-result')
 			.append($('<h3>').text(feed.description + ' - json feed'));
 		
-		for (; i < j ; i++ )
+		for (; i < j; i++) {
 			$div.append(entries[i].content);
+		}
 
 		$div.appendTo('#json-feed');
 });
@@ -48,16 +48,42 @@ $.iTunes.feed({
 		
 		var xml   = result.xml,
 			$div  = $('<div>'),
-			items = xml.getElementsByTagName('item');
+			items = xml.getElementsByTagName('item'),
+			i = 0,
+			j = items.length,
+			item, content, nd;
 		
 		$div
 			.addClass('feed-result')
-			.append('<h3>'
-				+ $(xml.childNodes).filter('description:eq(0)').text()
-				+ ' - XML feed' + '</h3>');
+			.append('<h3>' +
+				$(xml.childNodes).filter('description:eq(0)').text() +
+				' - XML feed' + '</h3>');
 		
-		for (var i = 0, j = items.length; i < j; i++)
-			$div.append($(items[i].getElementsByTagName('content:encoded')).text());
+		for (; i < j; i++) {
+			content = items[i].getElementsByTagName('content:encoded');
+			
+			if( content.length === 0 ){
+				content = (function (parent, tagName){
+					var cnd = parent.firstChild;
+					
+					while (cnd) {
+						if (cnd.nodeType === 1 && cnd.tagName === tagName) {//1 = elementNode
+							return [ cnd ];
+						}
+						cnd = cnd.nextSibling;
+					}
+					
+				})(items[i], 'content:encoded');
+			}
+			
+			nd = content[0].firstChild;
+			
+			while(nd && nd.nodeType !== 3){//3 = textNode
+				nd = nd.nextSibling;
+			}
+			
+			$div.append(nd.textContent || nd.text || null);
+		}
 
 		$div.appendTo('#xml-feed');
 });
@@ -67,20 +93,36 @@ prettyPrint();
 </script>
 <style type='text/css'>
 body {
+	color:#333;
+	font-family:Tahoma,Verdana;
 	font-size:100%;
 	min-width:1200px;
 }
-h2 {font-size:18px;margin:20px 0;}
+
+h2 {
+	font-size:18px;
+	line-height:28px;
+	margin:20px 0 0;
+}
+pre{
+	background-color:#eee;
+	border:1px solid #ccc;
+	font-size:16px;
+	margin-top:0;
+}
+#wrap{
+	margin:20px;
+}
 #itunes-feed-result,
 #json-feed,
-#xml-feed {width:500px}
+#xml-feed {width:600px}
 #json-feed {
 	float:left;
 }
 * html #json-feed {
 	display:inline;
 }
-#xml-feed {margin-left:700px}
+#xml-feed {margin-left:650px}
 .feed-result * {font-size:11px}
 .feed-result h3 {
 	font-size:16px;
@@ -101,65 +143,96 @@ pre.prettyprint {overflow: auto}
 }
 </style>
 </head>
- <body>
+ <body><div id="wrap">
+ 
 <h1>jQuery plugin - iTunes.feed demo</h1>
 <div id='code-link'>
 <span>Source:<a href="http://code.google.com/p/humming-bird/source/browse/trunk/jquery/lib/jquery.itunes.feed.js" title="jquery.itunes.feed.js - humming-bird - Google Code">jquery.itunes.feed.js - humming-bird - Google Code</a></span>
 </div>
 <div style='clear:both;'></div>
 <div id='json-feed'>
-<h2>Example:json feed</h2>
-<pre class='prettyprint'>
+<h2>Example: JSON Feed</h2>
+<pre class="prettyprint">
 $.iTunes.feed({
-&nbsp;&nbsp;&nbsp;&nbsp;output:'json',
-&nbsp;&nbsp;&nbsp;&nbsp;category:$.iTunes.categories['New Releases'],
-&nbsp;&nbsp;&nbsp;&nbsp;sf:$.iTunes.countries.japan,
-&nbsp;&nbsp;&nbsp;&nbsp;limit:5,
-&nbsp;&nbsp;&nbsp;&nbsp;genre:$.iTunes.genre['Rock']
-&nbsp;&nbsp;}, function(result){
-&nbsp;&nbsp;&nbsp;&nbsp;var
-&nbsp;&nbsp;&nbsp;&nbsp;feed = result.json,
-&nbsp;&nbsp;&nbsp;&nbsp;$div = $('&lt;div&gt;'),
-&nbsp;&nbsp;&nbsp;&nbsp;entries = feed.entries;
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;$div
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.addClass('feed-result')
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append('&lt;h3&gt;' + feed.description + ' - json feed' + '&lt;/h3&gt;');
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;for ( var i =0, j = entries.length ; i &lt; j ; i++ )
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.append(entries[i].content);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output   : 'json',
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;category : $.iTunes.categories['New Releases'],
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sf       : $.iTunes.countries.japan,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit    : 5,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;genre    : $.iTunes.genre['Rock']
+&nbsp;&nbsp;&nbsp;&nbsp;}, function(result){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var feed    = result.json,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div    = $('&lt;div&gt;'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entries = feed.entries,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i       = 0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j       = entries.length;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.addClass('feed-result')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append($('&lt;h3&gt;').text(feed.description + ' - json feed'));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (; i &lt; j; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.append(entries[i].content);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
 
-&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#json-feed');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#json-feed');
 });
 </pre>
 </div>
 
 <div id='xml-feed'>
-<h2>Example:XML feed</h2>
-<pre class='prettyprint'>
+<h2>Example: XML Feed</h2>
+<pre class="prettyprint">
 $.iTunes.feed({
-&nbsp;&nbsp;&nbsp;&nbsp;output:'xml',
-&nbsp;&nbsp;&nbsp;&nbsp;category:'topalbums',
-&nbsp;&nbsp;&nbsp;&nbsp;sf:$.iTunes.countries.japan,
-&nbsp;&nbsp;&nbsp;&nbsp;limit:5,
-&nbsp;&nbsp;&nbsp;&nbsp;genre:$.iTunes.genre['All']
-&nbsp;&nbsp;}, function(result){
-&nbsp;&nbsp;&nbsp;&nbsp;var
-&nbsp;&nbsp;&nbsp;&nbsp;xml = result.xml,
-&nbsp;&nbsp;&nbsp;&nbsp;$div = $('&lt;div&gt;'),
-&nbsp;&nbsp;&nbsp;&nbsp;items = xml.getElementsByTagName('item');
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;$div
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.addClass('feed-result')
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append('&lt;h3&gt;' + $(xml.childNodes).filter('description:eq(0)').text() + 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' - XML feed' + '&lt;/h3&gt;');
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;for (var i = 0, j = items.length; i &lt; j; i++)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.append($(items[i].getElementsByTagName('content:encoded')).text());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output   : 'xml',
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;category : 'topalbums',
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sf       : $.iTunes.countries.japan,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;limit    : 5,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;genre    : $.iTunes.genre['All']
+&nbsp;&nbsp;&nbsp;&nbsp;}, function(result){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var xml   = result.xml,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div  = $('&lt;div&gt;'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items = xml.getElementsByTagName('item'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i = 0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j = items.length,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item, content, nd;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.addClass('feed-result')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append('&lt;h3&gt;' +
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(xml.childNodes).filter('description:eq(0)').text() +
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' - XML feed' + '&lt;/h3&gt;');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (; i &lt; j; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content = items[i].getElementsByTagName('content:encoded');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( content.length === 0 ){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;content = (function (parent, tagName){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var cnd = parent.firstChild;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (cnd) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cnd.nodeType === 1 &amp;&amp; cnd.tagName === tagName) {//1 = elementNode
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return [ cnd ];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cnd = cnd.nextSibling;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})(items[i], 'content:encoded');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nd = content[0].firstChild;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while(nd &amp;&amp; nd.nodeType !== 3){//3 = textNode
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nd = nd.nextSibling;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.append(nd.textContent || nd.text || null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
 
-&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#xml-feed');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$div.appendTo('#xml-feed');
 });
 </pre>
 </div>
-</body>
+
+</div></body>
 </html>
