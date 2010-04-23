@@ -105,30 +105,31 @@ $.fn.extend({
 layerSlide:function(options, element){
 
 	var opt = $.extend({
-		duration:300, // animate speed
-		easing:'swing', // animate easing
-		bgColor:'#000', //second layer background color
-		opacity:0.8, // second element opacity
-		color:'#eee', // second element color
-		margin:'10px', // second element margin
-		textAlign:'left', // second element text-align
-		height:'original', // second element height
-		width:'original', // second element width
-		bgImage:'none', // second element background-image
-		effect:'down' //default slide animate
+		duration : 300,        // animate speed
+		easing   : 'swing',    // animate easing
+		bgColor  : '#000',     // second layer background color
+		opacity  : 0.8,        // second element opacity
+		color    : '#eee',     // second element color
+		margin   : '10px',     // second element margin
+		textAlign: 'left',     // second element text-align
+		height   : 'original', // second element height
+		width    : 'original', // second element width
+		bgImage  : 'none',     // second element background-image
+		effect   : 'down'      // default slide animate
 		}, options);
 	
 	element = options.childNodes ? options : element.childNodes ? element : null;
 	
 return this.each(function(){
 
-	var
-	$this = $(this), //container element
-	$first = $(':first', $this), // first-child element
-	$second = $(document.createElement('div')), //second-child element
-	ez = {tgt:null, mOver:null, mOut:null};
-	
-	
+	var $this   = $(this), //container element
+	    $first  = $(':first', $this), // first-child element
+	    $second = $(document.createElement('div')), //second-child element
+	    ez      = {
+			tgt  : null,
+			mOver: null,
+			mOut : null
+		};	
 
 	$(element)
 		.css({margin: opt.margin})
@@ -136,12 +137,12 @@ return this.each(function(){
 	
 	$second
 		.css({
-			top: 0,
-			left: 0,
-			margin: 0,
-			padding: 0,
-			textAlign:opt.textAlign,
-			color: opt.color,
+			top            : 0,
+			left           : 0,
+			margin         : 0,
+			padding        : 0,
+			textAlign      : opt.textAlign,
+			color          : opt.color,
 			backgroundColor: opt.bgColor
 		});
 	
@@ -168,26 +169,26 @@ return this.each(function(){
 	$first
 		.css({
 			position: 'absolute',
-			top: 0,
-			left: 0,
-			margin: 0,
-			padding: 0
+			top     : 0,
+			left    : 0,
+			margin  : 0,
+			padding : 0
 		});
 	
 	
 	$this
 		.css({
-			display:'block',
-			position: 'relative',
-			top: 0,
-			left: 0,
-			margin: 0,
-			padding: 0,
-			overflow: 'hidden',
-			textDecoration:'none',
+			display        : 'block',
+			position       : 'relative',
+			top            : 0,
+			left           : 0,
+			margin         : 0,
+			padding        : 0,
+			overflow       : 'hidden',
+			textDecoration : 'none',
 			backgroundColor: opt.bgColor,
-			height:$first.outerHeight(),
-			width:$first.outerWidth()
+			height         : $first.outerHeight(),
+			width          : $first.outerWidth()
 		})
 		.append($second);
 	
