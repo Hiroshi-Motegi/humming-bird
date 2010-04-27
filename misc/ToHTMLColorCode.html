@@ -33,12 +33,12 @@ alert(digit.toString(2)); //111111110000000000000000
 
 //713ms
 function toColorCode_1a(r,g,b){
-	return (((256 + r << 8) + g << 8) + b).toString(16).replace(/^1/,'#');
+	return (((0x100 + r << 8) + g << 8) + b).toString(16).replace(/^1/,'#');
 }
 
 //720ms
 function toColorCode_1b(r,g,b){
-	return ((256 + r << 16) + (g << 8) + b).toString(16).replace(/^1/,'#');
+	return ((0x100 + r << 16) + (g << 8) + b).toString(16).replace(/^1/,'#');
 }
 
 //718ms
@@ -55,22 +55,22 @@ function toColorCode_1d(r,g,b){
 
 //713ms
 function toColorCode_1a(r,g,b){
-	return (((256 + r << 8) + g << 8) + b).toString(16).replace(/^1/,'#');
+	return (((0x100 + r << 8) + g << 8) + b).toString(16).replace(/^1/,'#');
 }
 
 //463ms
 function toColorCode_1e(r,g,b){
-	return '#' + (((256 + r << 8) + g << 8) + b).toString(16).substr(1, 6);
+	return '#' + (((0x100 + r << 8) + g << 8) + b).toString(16).substr(1, 6);
 }
 
 //425ms
 function toColorCode_1ea(r,g,b){
-	return '#' + (((256 + r << 8) + g << 8) + b).toString(16).substr(1);
+	return '#' + (((0x100 + r << 8) + g << 8) + b).toString(16).substr(1);
 }
 
 //385ms
 function toColorCode_1f(r,g,b){
-	return '#' + (((256 + r << 8) + g << 8) + b).toString(16).slice(1);
+	return '#' + (((0x100 + r << 8) + g << 8) + b).toString(16).slice(1);
 }
 
 /*
@@ -103,7 +103,7 @@ alert(toColorCode(0,0,128));//#80
 
 //713ms
 function toColorCode_2b(r, g, b){
-	return (((256 + r) * 256 + g) * 256 + b).toString(16).replace(/^1/, '#');
+	return (((0x100 + r) * 0x100 + g) * 0x100 + b).toString(16).replace(/^1/, '#');
 }
 
 //714ms
@@ -119,12 +119,12 @@ function toColorCode_2d(r, g, b){
 
 //713ms
 function toColorCode_2b(r, g, b){
-	return (((256 + r) * 256 + g) * 256 + b).toString(16).replace(/^1/, '#');
+	return (((0x100 + r) * 0x100 + g) * 0x100 + b).toString(16).replace(/^1/, '#');
 }
 
 //478ms
 function toColorCode_2a(r, g, b){
-	return '#' + (((256 + r) * 256 + g) * 256 + b).toString(16).substr(1, 6);
+	return '#' + (((0x100 + r) * 0x100 + g) * 0x100 + b).toString(16).substr(1, 6);
 }
 
 

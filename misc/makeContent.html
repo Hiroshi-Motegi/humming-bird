@@ -50,14 +50,17 @@ jQuery(function($){
 		keys   = ["link", "title"],
 		
 		// => "<a href=\"{{link}}\">{{title}}</a>"
-		template = "<a href=\"" + prefix + keys[0] + suffix + "\">" +
-			prefix + keys[1] + suffix + "</a>",
+		template = "<a href=\""
+			+ prefix + keys[0] + suffix + "\">"
+			+ prefix + keys[1] + suffix + "</a>",
 		
-		entryList = $.toList(feed.entries, function(entry){
+		entryList = $.toList(feed.entries, function( entry ){
 			return $.makeContent({
 				"items"    : entry,
 				"keys"     : keys,
-				"template" : template
+				"template" : template,
+				"prefix"   : prefix,
+				"suffix"   : suffix
 			});
 		}, "ol");
 		

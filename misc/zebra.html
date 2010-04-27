@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>Test</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+jQuery(function($){
+// Zebra
+$.fn.zebra = function(){
+	var x = arguments[1] || "odd"
+	    c = arguments[0] || x === "odd" ? "#eee" : "#ddd";
+	
+	return this.each(function(){
+		if(this.tagName.toLowerCase() === "table"){
+			$(this).find("tr:has(td):" + x).css("background-color", c);
+		}
+	});
+}
+
+//Lattice 
+$.fn.lattice = function(){
+	var c = arguments[0] || "#eee",
+	    x = ":" + (arguments[1] || "odd"),
+	    y = x === ":odd" ? ":even" : ":odd";
+	
+	return this.each(function(){
+		if(this.tagName.toLowerCase() === "table"){
+			$(this)
+				.find("tr:has(td)")
+				.filter(x)
+				.find("td:odd")
+				.css("background-color", c)
+				.end().end()
+				.filter(y)
+				.find("td:even")
+				.css("background-color", c);
+		}
+	});
+}
+
+$("table.zebra").zebra("#def","odd").zebra(null,"even");
+$("table.lattice").lattice("#def","odd").lattice("#fed","even");
+
+});
+</script>
+<style type="text/css">
+body{
+	font-family:"メイリオ", Meiryo;
+	font-size  :16px;
+	margin:0;
+	padding:0;
+}
+#wrap{
+	margin:20px;
+	
+}
+
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+table,tbody,tr,th,td{
+	margin:0;
+	padding:0;
+}
+table{
+	margin-bottom:20px;
+}
+th{
+	color:#ccc;
+	background-color:#333;
+}
+th,td{
+	font-size:14px;
+	line-height:24px;
+	height:24px;
+	padding:0 10px;
+	border:1px solid #333;
+}
+
+caption{
+	margin:0;
+	padding:0;
+}
+
+</style>
+</head>
+<body>
+<div id="wrap">
+<table class='zebra' cellSpacing="0" cellpadding="0">
+    <caption>zebra</caption>
+    <tr><td>xxx</td><td>xxx</td><td>xxx</td></tr>
+	<tr><td>yyy</td><td>yyy</td><td>yyy</td></tr>
+	<tr><td>zzz</td><td>zzz</td><td>zzz</td></tr>
+</table>
+<table class='zebra' cellSpacing="0" cellpadding="0">
+    <caption>zebra 4×4</caption>
+	<tr><th>th</th><th>th</th><th>th</th><th>th</th></tr>
+    <tr><td>xxx</td><td>xxx</td><td>xxx</td><td>xxx</td></tr>
+	<tr><td>xxx</td><td>xxx</td><td>xxx</td><td>xxx</td></tr>
+	<tr><td>xxx</td><td>xxx</td><td>xxx</td><td>xxx</td></tr>
+	<tr><td>xxx</td><td>xxx</td><td>xxx</td><td>xxx</td></tr>
+</table>
+<table class='lattice' cellSpacing="0" cellpadding="0">
+    <caption>lattice 3×3</caption>
+    <tr><td>xxx</td><td>xxx</td><td>xxx</td></tr>
+	<tr><td>yyy</td><td>yyy</td><td>yyy</td></tr>
+	<tr><td>zzz</td><td>zzz</td><td>zzz</td></tr>
+</table>
+<table class='lattice' cellSpacing="0" cellpadding="0">
+    <caption>lattice 4×4</caption>
+	<tr><th>th</th><th>th</th><th>th</th><th>th</th></tr>
+    <tr><td>xxx</td><td>xxx</td><td>xxx</td><td>xxx</td></tr>
+	<tr><td>xxx</td><td>xxx</td><td>xxx</td><td>xxx</td></tr>
+	<tr><td>xxx</td><td>xxx</td><td>xxx</td><td>xxx</td></tr>
+	<tr><td>xxx</td><td>xxx</td><td>xxx</td><td>xxx</td></tr>
+</table>
+</div>
+</body>
+</html>

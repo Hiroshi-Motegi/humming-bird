@@ -4,8 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-	<title>New Web Project</title>
-	<!--<script src="lib/jquery-1.4.2.min.js" type="text/javascript"></script>-->
+	<title>Color Object test</title>
 <script type="text/javascript">
 //add event listener
 var addListener = function(){
@@ -91,6 +90,7 @@ addListener(window || window.document , "load", function(){
 	
 	p.style.backgroundColor = Color.aqua();//IEでは色は変わらない。
 	
+	//このようにプロパティ値を渡さなければならない。
 	//p.style.backgroundColor = Color.aqua().code();
 
 });
@@ -103,6 +103,7 @@ body{
 </style>
 </head>
 <body>
+	<h1>Color Object test</h1>
 	<p>１２３ABCあいうえお</p>
 	<p id="test">123 ABC abc</p>
 </body>

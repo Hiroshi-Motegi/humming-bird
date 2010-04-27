@@ -22,11 +22,14 @@ values = [
 	{ name: '"null"',            value: 'null' },                //String null
 	{ name: 'new String("0")',   value: new String('0') },       //String Object
 	{ name: '0',                 value: 0 },                     //Number Zero
-	{ name: 'new Number("0")',   value: new Number(0) },         //Number Object
+	{ name: 'new Number(0)',     value: new Number(0) },         //Number Object
 	{ name: 'NaN',               value: NaN },                   //NaN
+	{ name: 'Infinity',          value: Infinity },              //Infinity
 	{ name: '[]',                value: [] },                    //Array Reteral
+	{ name: '[0,1]',             value: [0,1] },                 //Array Reteral
 	{ name: 'new Array([])',     value: new Array([]) },         //Array Object
 	{ name: '{}',                value: {} },                    //Object Reteral
+	{ name: '{a:0}',             value: {a:0} },                 //Object Reteral
 	{ name: 'new Object()',      value: new Object() },          //Object
 	{ name: 'true',              value: true },                  //Boolean Reteral true
 	{ name: 'false',             value: false },                 //Boolean Reteral false
@@ -37,7 +40,8 @@ values = [
 	{ name: 'function',          value: function(){} },          //Function Reteral
 	{ name: 'new Function()',    value: new Function() },        //Function Object
 	{ name: 'new Error()',       value: new Error()},            //Error
-	{ name: 'Object',            value: Object }                 //Object
+	{ name: 'Object',            value: Object },                //Object
+	{ name: 'new Object',        value: new Object }             //new Object
 ],
 
 
@@ -105,7 +109,8 @@ instanceOfValues = [
 function createEqualTable(caption, equal){
 	
 	var ret = [],
-		ln  = values.length;
+	    ln  = values.length,
+	    tmp, v;
 	
 	function arrJoin(tag, arr){
 		return "<" + tag + ">" +
@@ -121,9 +126,6 @@ function createEqualTable(caption, equal){
 		return arr;
 	})([''])));
 	//===============================================
-	
-	
-	var tmp, v;
 	
 	for (var ii = 0; ii < ln; ii++) {
 		
@@ -143,20 +145,28 @@ function createEqualTable(caption, equal){
 		.attr("cellSpacing","0")
 		.append(
 			$("<caption>").html(caption),
-			$("<tbody>").append("<tr>" + ret.join("</tr><tr>") + "</tr>"));
+			$("<tbody>").append( arrJoin("tr", ret) ));
 }
 
 
 
 
-$('#target').append(createEqualTable('A <b>==</b> B', function (a, b){
-	return (a == b);
-}));
+$('#target')
+	.append(createEqualTable(
+		'A <b>==</b> B',
+		function (a, b){
+			return (a == b);
+		}
+	));
 
 
-$('#target').append(createEqualTable('A <b>===</b> B', function (a, b){
-	return (a === b);
-}));
+$('#target')
+	.append(createEqualTable(
+		'A <b>===</b> B',
+		function (a, b){
+			return (a === b);
+		}
+	));
 
 
 $('#target td').filter(function(){
@@ -184,27 +194,38 @@ function createSingleTables(caption, id, fn){
 	}
 	
 	return $("<table>").attr({
-		"cellSpacing":"0",
-		"id":id
-	}).append(
-		$("<caption>").html(caption),
-		"<tbody><tr>" + ret.join("</tr><tr>") + "</tr></tbody>");;
+			"cellSpacing":"0",
+			"id":id
+		}).append(
+			$("<caption>").html(caption),
+			"<tbody><tr>" + ret.join("</tr><tr>") + "</tr></tbody>");
 }
 
 
-$("#target").append(createSingleTables("<b>typeof</b> Value", "typeof",
-function (v){
-	return typeof v;
-}));
+$("#target")
+	.append(createSingleTables(
+		"<b>typeof</b> Value",
+		"typeof",
+		function (v){
+			return typeof v;
+		}
+	));
 
-$("#target").append(createSingleTables("Value.<b>constructor</b>", "construct",
-function(value){
-	try{
-		return value.constructor.toString().match(/(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g);
-	}catch(e){
-		return e.toString();
-	}
-}));
+$("#target")
+	.append(createSingleTables(
+		"Value.<b>constructor</b>",
+		"construct",
+		function(value){
+			try{
+				return value
+					.constructor
+					.toString()
+					.match(/(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g);
+			}catch(e){
+				return e.toString();
+			}
+		}
+	));
 
 
 
@@ -226,9 +247,9 @@ function createInstanceOfTable(){
 	
 	
 	/**
-	 * append to tr(row) elemnt
-	 * @param {tr Elemnt} row
-	 * @param {Array} children
+	 * append to tr(row) element
+	 * @param row      {tr Element}
+	 * @param children {Array}
 	 */
 	function append(elmnt, children){
 		var ln = children.length, i = 0, child;
@@ -258,8 +279,8 @@ function createInstanceOfTable(){
 	
 	
 	var cap  = document.createElement("caption"),
-		tags = ["span","b","span"],
-		txts = ["Value"," instanceof ","ObjectType"];
+	    tags = ["span", "b", "span"],
+	    txts = ["Value", " instanceof ", "ObjectType"];
 	
 	for (var i = 0; i < 3; i++) {
 		var helm = document.createElement(tags[i]);
@@ -292,26 +313,110 @@ function createInstanceOfTable(){
 
 
 $('#target').append(
-	createInstanceOfTable(),
-	$("<p>").append("Example: &quot;foo&quot; instanceof String // false"));
+	$("<p>").append("Example: &quot;foo&quot; instanceof String // false"),
+	createInstanceOfTable());
 
 
-$('#inst td').filter(function(){
-	return $(this).text() == 'false';
-}).css({
-	backgroundColor: '#caa'
-}).end().filter(function(){
-	return $(this).text() == '';
-}).css({
-	backgroundColor: '#666'
-});
+$('#inst td')
+	.filter(function(){
+		return $(this).text() == 'false';
+	})
+	.css({
+		backgroundColor: '#caa'
+	})
+	.end()
+	.filter(function(){
+		return $(this).text() == '';
+	})
+	.css({
+		backgroundColor: '#666'
+	});
+
+
+
+
+$("#target")
+	.append(createSingleTables(
+		"<b>isNaN(</b> Value <b>)</b>",
+		"isnan",
+		function ( v ){
+			return isNaN( v );
+		}
+	));
+
+$('#isnan td')
+	.filter(function(){
+		return $(this).text() == 'true';
+	})
+	.css({
+		backgroundColor: '#caa'
+	});
+
+
+
+function properIsNaN( v ){
+	return typeof v == "number" && isNaN( v );
+}
+
+$("#target")
+	.append(createSingleTables(
+		"<b>properIsNaN(</b> Value <b>)</b>",
+		"properisnan",
+		properIsNaN
+	));
+
+$('#properisnan td')
+	.filter(function(){
+		return $(this).text() == 'true';
+	})
+	.css({
+		backgroundColor: '#caa'
+	});
+
+
+
+
+$("#target")
+	.append(createSingleTables(
+		"<b>isFinite(</b> Value <b>)</b>",
+		"isfinite",
+		function ( v ){
+			return isFinite( v );
+		}
+	));
+
+$('#isfinite td')
+	.filter(function(){
+		return $(this).text() == 'true';
+	})
+	.css({
+		backgroundColor: '#caa'
+	});
+
+
+
+$('#isfinite,#isnan,#inst,#construct,#typeof')
+	.find("tr:eq(0) th")
+	.css({
+		fontFamily:"Tahoma",
+		fontWeight: 'bold',
+		backgroundColor:'#999'
+	});
+	
+	
+
 
 
 });
 </script>
 <style>
 body{
-	font-size:16px;
+	font-family:Tahoma;
+	font-size:11px;
+}
+table,tbody,tr,td,th{
+	margin:0;
+	padding:0;
 }
 table{
 	background-color:#eee;
@@ -325,6 +430,7 @@ table{
 	width:100%;
 }
 caption{
+	font-size:20px;
 	line-height:2em;
 }
 tr{}
@@ -336,20 +442,28 @@ th{
 th, td {
 	border:1px solid #666;
 	font-family:monospace;
-	font-size:11px;
-	line-height: 1.1em;
 	overflow:hidden;
 }
 
-#typeof, #construct{
-	width:300px;
+#typeof,
+#construct,
+#isnan,
+#properisnan,
+#isfinite{
+	width:400px;
 }
 #inst{
-	width:400px;
-	margin-bottom:10px;
+	width:600px;
 }
-#inst td{
-	line-height:2em;
+
+
+#typeof,
+#construct,
+#isnan,
+#properisnan,
+#isfinite,
+#inst{
+	font-size:16px;
 }
 </style>
 

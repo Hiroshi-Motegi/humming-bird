@@ -63,50 +63,10 @@ function getType(val){
 
 
 
-function CheckType(){
+var Type = function ( undefined ){
 	
-	var fn = function(){};
-	var toString = Object.prototype.toString;
-	
-	/*
-	 getType: function(v){
-			if (this.isNull(v)) 
-				return 'null';
-			
-			if (this.isUndefind(v)) 
-				return 'undefind';
-			
-			if (this.isBoolean(v)) 
-				return 'boolean';
-			
-			if (this.isString(v)) 
-				return 'string';
-			
-			if (this.isNumber(v)) 
-				return 'number';
-			
-			if (this.isArray(v)) 
-				return 'array';
-			
-			if (this.isRegExp(v)) 
-				return 'regexp';
-			
-			if (this.isDate(v)) 
-				return 'date';
-			
-			if (this.isFunction(v)) 
-				return 'function';
-			
-			if (this.isArguments(v)) 
-				return 'arguments';
-			
-			if (this.isObject(v)) 
-				return 'object';
-			
-			return 'unknown';
-		}
-	 */
-	
+	var fn = function(){},
+	    toString = Object.prototype.toString;
 	
 	fn.prototype = {
 		isNull: function(v){
@@ -142,11 +102,15 @@ function CheckType(){
 		isObject: function(v){
 			return typeof v == 'object';
 		},
+		getClass: function(o){
+			return (toString.call(o).match(/^\[object\s(.*)\]$/) || [undefined, undefined])[1];
+		},
 		getType: function(v){
 			
 			var
 			_typeof = typeof v,
-			_toStrCall = toString.call(v);
+			_class = this.getClass(v).toLowerCase();
+			
 			
 			if ( v === null ) {
 				return 'null';
@@ -160,14 +124,13 @@ function CheckType(){
 			}
 			
 			
-			switch(_toStrCall){
-				case '[object Array]':
-				case '[object RegExp]':
-				case '[object Date]':
-				case '[object Function]':
-				 return _toStrCall;
+			switch(_class){
+				case 'array':
+				case 'regexp':
+				case 'date':
+				case 'function':
+				 return _class;
 			}
-			
 
 			
 			if ( _typeof == 'object'){
@@ -184,8 +147,8 @@ function CheckType(){
 		}
 	};
 	
-	return new fn();
-}
+	return new fn;
+}();
 
 
 
@@ -207,13 +170,6 @@ function timeLog(callback, loopCount){
 }
 
 
-var
-check = CheckType();
-x = /(?:)/;
-
-alert( [1,2,3] instanceof Array );
-
-
 /*
 timeLog(function(){
 	//return x instanceof RegExp;
@@ -224,10 +180,7 @@ timeLog(function(){
 */
 
 
-var toStringCall = Object.prototype.toString.call;
-function getClass(object) {
-  return toStringCall(object).match(/^\[object\s(.*)\]$/)[1]; 
-};
+
 
 
 function isDate(o) {
@@ -263,7 +216,6 @@ th, td {
 	overflow:hidden;
 }
 </style>
-
 </head>
 <body>
 	<div id='target'></div>
