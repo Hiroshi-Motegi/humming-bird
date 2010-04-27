@@ -21,6 +21,19 @@ function escapeAndModify(s){
 		.replace(/&/g, '&amp;');
 }
 
+function toUTCFormat ( date ) {
+	function pz(n){
+		return n < 10 ? "0" + n : n;
+	}
+    return isFinite(date.valueOf()) ?
+		date.getUTCFullYear()        + '-'
+		+ pz(date.getUTCMonth() + 1) + '-'
+		+ pz(date.getUTCDate())      + 'T'
+		+ pz(date.getUTCHours())     + ':'
+		+ pz(date.getUTCMinutes())   + ':'
+		+ pz(date.getUTCSeconds())   + 'Z' : null;
+};
+
 $.parseJSON = function(jsonObject){
 	return function fn(o){
 		
@@ -29,10 +42,11 @@ $.parseJSON = function(jsonObject){
 		switch (o.constructor) {
 			case Boolean:
 			case Number:
+				return o;
 			case String:
 				return '"' + o + '"';
 			case Date:
-				return '"' + (+o) + '"';
+				return '"' + toUTCFormat(o) + '"';
 			case Array:
 				for (var i = 0, k = o.length, arr = []; i < k; i++)
 					arr[arr.length] = fn(o[i]);
@@ -42,7 +56,7 @@ $.parseJSON = function(jsonObject){
 					var arr = [];
 					for (var x in o) {
 						if (o.hasOwnProperty(x))
-							arr[arr.length] = x + ':' + fn( o[x] );
+							arr[arr.length] = '"' + x + '":' + fn( o[x] );
 					}
 					return '{' + arr.join(',') + '}';
 			default:
