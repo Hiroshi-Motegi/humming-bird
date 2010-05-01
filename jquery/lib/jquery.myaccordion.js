@@ -11,7 +11,7 @@
  */
 
 ;(function($){
-var dataKey = '';
+var dataKey = '' + (+new Date);
 
 $.fn.extend({
 sameHeight: function(){
@@ -49,7 +49,7 @@ myAccordion: function( options, callback ){
 	$toggles  = $( opt.toggle ),
 	$contents = $( opt.content );
 	
-	dataKey = opt.dataKey;
+	dataKey = (opt.dataKey || "") + (+new Date);
 	
 	$contents
 		.sameHeight()

@@ -15,16 +15,23 @@ $.fn.positionCenter = function() {
 	
 	return this.each(function(i, elm ){
 		
-		var $elm = $(elm),
-			pos  = $.curCSS( elm, "position" ),
-			$tmp;
+		var
+		$elm    = $(elm),
+		pos     = $.curCSS( elm, "position" ),
+		isAdded = (function isAddedToDom( elm ){
+			while(elm.parentNode && elm.parentNode.tagName){
+				elm = elm.parentNode;
+			}
+			return elm.tagName.toLowerCase() === "html";
+		})(elm),
+		$tmp;
 		
 		//absolute, fixed, static or relative
 		if ( pos !== 'absolute' && pos !== 'fixed' ) {
 			pos = elm.style['position'] = 'absolute';
 		}
 		
-		$tmp = ( !elm.parentNode || !elm.parentNode.tagName )
+		$tmp = !isAdded
 			? $elm.clone().hide().appendTo(document.body)
 			: $elm;
 		
@@ -32,7 +39,7 @@ $.fn.positionCenter = function() {
 		elm.style['left']   = ( $win.width()  - $tmp.outerWidth()  + ( pos === 'absolute' ? $win.scrollLeft() : 0 ) ) / 2 + 'px';
 		elm.style['margin'] = '0';
 		
-		if ( $tmp !== $elm ) {
+		if ( !isAdded ) {
 			$tmp.remove();
 		}
 	});
