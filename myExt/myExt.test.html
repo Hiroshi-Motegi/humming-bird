@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>myExt test page</title>
+	<!--<script src="lib/jquery.min.js" type="text/javascript"></script>-->
+	<!--<script src="lib/myExt.core.js" type="text/javascript"></script>-->
+	<!--<script src="lib/myExt.array.js" type="text/javascript"></script>-->
+	<!--<script src="lib/myExt.date.js" type="text/javascript"></script>-->
+	<!--<script src="lib/myExt.number.js" type="text/javascript"></script>-->
+	<!--<script src="lib/myExt.string.js" type="text/javascript"></script>-->
+	<script src="lib/myExt.util.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function( undefined ){
+
+	/*
+	 //console.profile("test");
+	 var testFunction = function(a){
+	 return a.isUniq();
+	 },
+	 loopCount = 1E5,
+	 args = [0, 1, 2, 3, 4, 5, 6, 7];
+	 
+	 var ret = $.debug(testFunction, loopCount, args);
+	 console.log(ret.time);
+	 console.log(ret.ret);
+	 //console.profileEnd("test");
+	 */
+	/*
+	 var timeKey = "sw-test";
+	 $.sw.time(timeKey);
+	 for( var i = 0 ; i < 1E5 ; i++ ){}
+	 var time = $.sw.timeEnd(timeKey);
+	 console.log(time);
+	 console.log( /^(?:.+:\s)?(\d+)(?:ms)?$/.exec( time + "" )[1] );
+	 */
+	
+Number.prototype.padZero = function(len){
+	return (this + "").length < len ? ((+((1 << len).toString(2)) + this) + "").slice(1) : this + "";
+}
+
+
+Number.prototype.padZero = function(len){
+	return (this + "").length < len ? ((new Array(len)).join("0") + this).slice(-len) : this + "";
+}
+
+
+
+
+var ret = $.fnTime({
+	args     : 123,
+	loopCount: 1E5,
+	callback : function(n){
+		return n.padZero(4);
+	}
+});
+
+alert(ret.time);
+alert(ret.ret);
+//var n = 123
+//alert(n.padZero(1));
+
+//var n = 123;
+//n += "";
+//alert(typeof n);
+
+})();
+</script>
+<style type="text/css">
+</style>
+</head>
+<body>
+</body>
+</html>
