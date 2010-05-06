@@ -241,7 +241,7 @@ function lastChildIndex(elm){
 //クロスブラウザなfirstChild
 function firstChild(elm){
 	var nd = elm.firstChild;
-	while (nd.nodeType != 1 && nd) {
+	while (nd && nd.nodeType != 1) {
 		nd = nd.nextSibling;
 	}
 	return nd;
