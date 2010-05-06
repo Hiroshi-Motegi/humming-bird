@@ -113,9 +113,9 @@ function createEqualTable(caption, equal){
 	    tmp, v;
 	
 	function arrJoin(tag, arr){
-		return "<" + tag + ">" +
-			arr.join("</" + tag + "><" + tag + ">") +
-			"</" + tag + ">";
+		return "<" + tag + ">"
+			+ arr.join("</" + tag + "><" + tag + ">")
+			+ "</" + tag + ">";
 	}
 	
 	//===============================================
@@ -171,11 +171,15 @@ $('#target')
 
 $('#target td').filter(function(){
 	return $(this).text() == 'true';
-}).css({
+})
+.css({
 	backgroundColor: '#caa'
-}).end().filter(function(){
+})
+.end()
+.filter(function(){
 	return $(this).text() == '-';
-}).css({
+})
+.css({
 	backgroundColor: "#999"
 });
 
