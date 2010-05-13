@@ -162,7 +162,7 @@ function format( date, pattern, language ){
 		"December"
 	];
 	
-	return pattern.replace(/([yMd]{4}|[dfFMz]{3}|[dfFghHmMstyz]{2}|[hHz]|%?[dmsfFt]|%?(?!G)M(?!T))/g, function($1){
+	return pattern.replace(/([yMd]{4}|[dfFMz]{3}|[dfFghHmMstyz]{2}|[hHz]|%?[dmsfFt]|%?M(?!T))/g, function($1){
 		
 		var lang = language || clientLanguage, tmp;
 		$1 = $1.replace('%','');
