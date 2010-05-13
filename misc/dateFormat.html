@@ -256,18 +256,27 @@ body{
 	padding: 0;
 	font-size:100%;
 }
-h1,h3{
-	color:#333;
+h1{
 	text-shadow:0 0 4px #666;
 }
+h1,h3{
+	color:#333;
+}
 h3,h4{
-	margin:30px 0 0 10px;
+	margin:30px 0 0 0;
 }
 h4{
 	font-size:18px;
 	font-weight:normal;
 	font-family:"Courier New","メイリオ", Meiryo;
 	text-shadow:1px 1px 2px #4c4c4c;
+}
+a{
+	color:#006699;
+	text-decoration:none;
+}
+a:hover{
+	text-decoration:underline;
 }
 table{
 	background-color:#000;
@@ -293,9 +302,9 @@ td{
 	/*border:1px solid #fff;*/
 	background-color:#ddd;
 	font-family:"Courier New","メイリオ", Meiryo;
-	box-shadow        :0 0 5px #333 inset;
-	-moz-box-shadow   :0 0 3px #333 inset;
-	-webkit-box-shadow:0 0 5px #333 inset;
+	box-shadow        :0 0 5px #666 inset;
+	-moz-box-shadow   :0 0 5px #666 inset;
+	-webkit-box-shadow:0 0 5px #666 inset;
 }
 
 #content{
@@ -306,6 +315,7 @@ td{
 <body>
 	<div id="content">
 		<h1>dateFormat.js demo</h1>
+		<p>source:<a id="source" href="http://humming-bird.googlecode.com/svn/trunk/misc/dateFormat.js">http://humming-bird.googlecode.com/svn/trunk/misc/dateFormat.js</a></p>
 	</div>
 </body>
 </html>
