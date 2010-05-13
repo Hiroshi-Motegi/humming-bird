@@ -33,8 +33,9 @@ $.gTranslate = function(params, callback){
 		to   : "ja"
 	}, params);
 	
-	if (!prm.langpair || !(/^[a-z]{2}\|[a-z]{2}$/.test(prm.langpair)) )
+	if (!prm.langpair || !(/^[a-z]{2}\|[a-z]{2}$/.test(prm.langpair))) {
 		prm.langpair = prm.from + '|' + prm.to;
+	}
 	
 	delete prm.from;
 	delete prm.to;

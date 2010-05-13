@@ -10,20 +10,22 @@
  * @Demo       : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/positionCenter.demo.html
  */
 (function($){
+function isAddedToDom( elm ){
+	while(elm.parentNode && elm.parentNode.tagName){
+		elm = elm.parentNode;
+	}
+	return elm.tagName.toLowerCase() === "html";
+}
+
+var $win = $(window);
+
 $.fn.positionCenter = function() {
-	var $win = $(window);
-	
-	return this.each(function(i, elm ){
+	return this.each(function( i, elm ){
 		
 		var
 		$elm    = $(elm),
 		pos     = $.curCSS( elm, "position" ),
-		isAdded = (function isAddedToDom( elm ){
-			while(elm.parentNode && elm.parentNode.tagName){
-				elm = elm.parentNode;
-			}
-			return elm.tagName.toLowerCase() === "html";
-		})(elm),
+		isAdded = isAddedToDom(elm),
 		$tmp;
 		
 		//absolute, fixed, static or relative

@@ -136,6 +136,7 @@ content = $.map(args, function(arg){
 		"<td>" + date.toString(arg, "ja") + "</td></tr>";
 }).join("");
 
+$cont.append("<h4>syntax: <i>date</i>.toString( <i>format char</i> )</h4>");
 
 $cont.append(makeContent(tKeys,{
 	"tHead" : header,
@@ -176,6 +177,7 @@ content = $.map(ptns, function(ptn){
 		"<td>" + date.toString(ptn, "ja") + "</td></tr>";
 }).join("");
 
+$cont.append("<h4>syntax: <i>date</i>.toString( <i>format pattern</i> )</h4>");
 $cont.append(makeContent(tKeys,{
 	"tHead" : header,
 	"tCont" : content
@@ -243,23 +245,38 @@ $("table").attr("cellSpacing",1);
 $("tbody > :first-child").children().each(function(){
 	$(this).css({"text-align":"center"});
 });
+
 });
 </script>
 <style>
 body{
+	background-color:#eee;
 	font-family:Arial, Helvetica, sans-serif;
 	margin: 0;
 	padding: 0;
 	font-size:100%;
 }
-h3{
+h1,h3{
+	color:#333;
+	text-shadow:0 0 4px #666;
+}
+h3,h4{
 	margin:30px 0 0 10px;
 }
+h4{
+	font-size:18px;
+	font-weight:normal;
+	font-family:"Courier New","メイリオ", Meiryo;
+	text-shadow:1px 1px 2px #4c4c4c;
+}
 table{
-	background-color:#4c4c4c;
+	background-color:#000;
 	border-spacing:1px;
-	border:1px solid #ccc;
+	border:1px solid #fff;
 	margin:20px 20px 40px;
+	box-shadow        :0 0 5px #000;
+	-moz-box-shadow   :0 0 5px #000;
+	-webkit-box-shadow:0 0 5px #000;
 }
 th,td{
 	padding: 2px 10px;
@@ -273,8 +290,12 @@ th{
 	font-weight:normal;
 }
 td{
-	border:1px solid #fff;
+	/*border:1px solid #fff;*/
 	background-color:#ddd;
+	font-family:"Courier New","メイリオ", Meiryo;
+	box-shadow        :0 0 5px #333 inset;
+	-moz-box-shadow   :0 0 3px #333 inset;
+	-webkit-box-shadow:0 0 5px #333 inset;
 }
 
 #content{

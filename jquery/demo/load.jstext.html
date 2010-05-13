@@ -12,71 +12,54 @@
 //別ドメインから取得したい。
 
 (function($){
-$.fn.getJsSource = function(jsUrl){
+var prettify = (function( cssUrl, jsUrl ){
+	return {
+		
+		loadCss: function(callback){
+			var css = document.createElement('link');
+			css.setAttribute('rel', 'stylesheet');
+			css.setAttribute('type', 'text/css');
+			css.setAttribute('href', cssUrl);
+			css.onload = function(){
+				(callback || function(){}).call(this);
+			};
+			document.getElementsByTagName('head')[0].appendChild(css);
+		},
+		
+		loadJs: function(callback){
+			var script = document.createElement('script');
+			script.setAttribute('src', jsUrl);
+			script.setAttribute('type', 'text/javascript');
+			script.onload = function(){
+				callback.call(this);
+			};
+			
+			document.documentElement.firstChild.appendChild(script);
+		}
+	};
+	
+}("../../prettify/prettify.css", "../../prettify/prettify.js"));
 
-	var prettify = (function(){
-		
-		var
-		cssUrl = "../../prettify/prettify.css",
-		jsUrl  = "../../prettify/prettify.js";
-		
-		return {
-			
-			loadCss: function(callback){
-				var css = document.createElement('link');
-				css.rel  = 'stylesheet';
-				css.href = cssUrl;
-				css.type = 'text/css';
-				
-				document.getElementsByTagName('head')[0].appendChild(css);
-				
-				if ($.isFunction(callback)) {
-					$(css).load(function(){
-						callback.call(this)
-					});
-				}
-			},
-			
-			loadJs: function(callback){
-				var script = document.createElement('script');
-				script.setAttribute("src", jsUrl);
-				script.setAttribute("type", 'text/javascript');
-				
-				document.documentElement.firstChild.appendChild(script);
-				
-				if ($.isFunction(callback)) {
-					$(script).load(function(){
-						callback.call(this)
-					});
-				}
-			}
-		};
-		
-	}());
-	 
+
+function getJsText (url, data, callback){
+	callback = $.isFunction(data) ? data : callback || function(){};
 	
+	$.ajax({
+	    'dataType' : 'script',
+		'data'     : data,
+	    'cache'    : false,
+	    'url'      : url,
+	    'success'  : callback
+	});
+}
+
+$.fn.getJsSource = function(jsUrl){
+	var $self = $(this);
+	prettify.loadCss();
 	
-	
-	function getJsText (url, data, callback){
-		//var dt = $.extend({}, data);
-		callback = $.isFunction(data) ? data : callback || function(){};
-		
-		$.ajax({
-		    'dataType' : 'script',
-			'data'     : data,
-		    'cache'    : false,
-		    'url'      : url,
-		    'success'  : callback
-		});
-	}
-	
-	
-	var $t = $(this);
-	
-	getJsText(jsUrl, function(source){
-		$t.append('<pre class=\'prettyprint\'>' + source + '</pre>');
-		prettify.loadCss();
-		prettify.loadJs(function(){
+	prettify.loadJs(function(){
+		getJsText(jsUrl, null, function( source ){
+			$self.append('<pre class=\'prettyprint\'>' + source + '</pre>');
 			prettyPrint();
 		});
 	});
@@ -98,7 +81,7 @@ jQuery(function(){
 </head>
 <style>
 	#code pre.prettyprint{
-		font-family:monospace;
+		font-family:"Courier New", monospace;
 	}
 </style>
 <body>
