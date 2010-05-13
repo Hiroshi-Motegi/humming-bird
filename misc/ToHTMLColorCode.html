@@ -5,31 +5,12 @@
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 	<title>New Web Project</title>
+	<link href="../prettify/prettify.css" rel="stylesheet" type="text/css" media="screen" charset="utf-8"/>
+	<script src="../prettify/prettify.js" type="text/javascript"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-
+	<script src="../myExt/lib/myExt.util.js" type="text/javascript"></script>
 <script type="text/javascript">
 jQuery(function($){
-
-/*
-var digit = 255;
-alert(digit.toString(16)); //FF
-alert(digit.toString(2)); //11111111
-
-
-
-var digit = 255 << 8;
-alert(digit); //65280
-alert(digit.toString(16)); //FF00
-alert(digit.toString(2)); //1111111100000000
-
-
-
-var digit = 65280 << 8;
-alert(digit); //16711680
-alert(digit.toString(16)); //FF0000
-alert(digit.toString(2)); //111111110000000000000000
-*/
-
 
 //713ms
 function toColorCode_1a(r,g,b){
@@ -52,44 +33,33 @@ function toColorCode_1d(r,g,b){
 }
 
 
-
-//713ms
-function toColorCode_1a(r,g,b){
-	return (((0x100 + r << 8) + g << 8) + b).toString(16).replace(/^1/,'#');
-}
-
 //463ms
 function toColorCode_1e(r,g,b){
 	return '#' + (((0x100 + r << 8) + g << 8) + b).toString(16).substr(1, 6);
 }
 
 //425ms
-function toColorCode_1ea(r,g,b){
+function toColorCode_1f(r,g,b){
 	return '#' + (((0x100 + r << 8) + g << 8) + b).toString(16).substr(1);
 }
 
 //385ms
-function toColorCode_1f(r,g,b){
+function toColorCode_1g(r,g,b){
 	return '#' + (((0x100 + r << 8) + g << 8) + b).toString(16).slice(1);
 }
 
-/*
-var x = 255;
-alert(x.toString(16)); //FF
-alert((x).toString(2)); //11111111
-alert((x << 8).toString(2)); //1111111100000000
-alert((x << 16).toString(2)); //111111110000000000000000
-
-alert((16777216).toString(16)); //1000000
-*/
+//713ms
+function toColorCode_1h(r,g,b){
+	return (((0x100 + r << 8) + g << 8) + b).toString(16).replace(/^1/,'#');
+}
 
 
-/*bad
+
+/*bad code
 //318ms
 function toColorCode_2a(r, g, b){
     return '#' + ((r * 256 + g) * 256 + b).toString(16);
 }
-
 
 function toColorCode(r, g, b){
     return '#' + (((r << 8) + g << 8) + b).toString(16);
@@ -98,8 +68,10 @@ function toColorCode(r, g, b){
 alert(toColorCode(0,0,128));//#80
 */
 
-
-
+//478ms
+function toColorCode_2a(r, g, b){
+	return '#' + (((0x100 + r) * 0x100 + g) * 0x100 + b).toString(16).substr(1, 6);
+}
 
 //713ms
 function toColorCode_2b(r, g, b){
@@ -118,14 +90,11 @@ function toColorCode_2d(r, g, b){
 
 
 //713ms
-function toColorCode_2b(r, g, b){
+function toColorCode_2e(r, g, b){
 	return (((0x100 + r) * 0x100 + g) * 0x100 + b).toString(16).replace(/^1/, '#');
 }
 
-//478ms
-function toColorCode_2a(r, g, b){
-	return '#' + (((0x100 + r) * 0x100 + g) * 0x100 + b).toString(16).substr(1, 6);
-}
+
 
 
 
@@ -146,6 +115,7 @@ function toColorCode_3b(r, g, b){
 	}).join('');
 }
 
+
 //2250ms
 function toColorCode_3c(r, g, b){
 	return (function(rgb){
@@ -157,6 +127,18 @@ function toColorCode_3c(r, g, b){
 	})([r, g, b]);
 }
 
+//1860ms
+function toColorCode_3d(r, g, b){
+	var ret = '#', rgb = [r, g, b], i = 0, len = rgb.length, cp;
+	
+	for ( ; i < len; ) {
+		cp = rgb[i++];
+		ret += (cp > 16 ? '' : '0') + cp.toString(16);
+	}
+	
+	return ret;
+}
+
 //623ms
 function toColorCode_3e(r, g, b){
 	return '#' +
@@ -166,22 +148,84 @@ function toColorCode_3e(r, g, b){
 }
 
 
-//1860ms
-function toColorCode_3d(r, g, b){
-	var ret = '#', rgb = [r, g, b], i = 0, len = rgb.length, cp;
-	
-	for (; i < len;) {
-		cp = rgb[i++];
-		ret += (cp > 16 ? '' : '0') + cp.toString(16);
+
+
+
+//function getSource( fn ) {
+//	return fn.toSource(0).split('\n').slice(1, -1).join('\n').replace(/^\s+/, '').replace(/^\s{4}/gm, '');
+//}
+function getSource( fn ) {
+	return fn.toSource(0);
+}
+function beautify(source) {
+	var fn;
+	try {
+		fn = new Function(source);
+	} catch (e if(e instanceof SyntaxError)) {
+		return null;
 	}
+	return getSource (fn );
+}
+
+
+var fns = [
+	toColorCode_1a,
+	toColorCode_1b,
+	toColorCode_1c,
+	toColorCode_1d,
+	toColorCode_1e,
+	toColorCode_1f,
+	toColorCode_1g,
+	toColorCode_1h,
 	
-	return ret;
+	toColorCode_2a,
+	toColorCode_2b,
+	toColorCode_2c,
+	toColorCode_2d,
+	toColorCode_2e,
+	
+	toColorCode_3a,
+	toColorCode_3b,
+	toColorCode_3c,
+	toColorCode_3d,
+	toColorCode_3e
+],
+$body = $(document.body),
+args = [1,2,3],
+count = 1E5,
+ret, $div;
+
+$body.append(
+	"<h4>arguments:" + args + "</h4>",
+	"<h4>loop count:" + count + "</h4>");
+
+for(var i = 0, j = fns.length; i < j ; i++){
+	
+	ret = $.fnTime({
+		args     : args,
+		loopCount: count,
+		callback : fns[i]
+	});
+	
+	$div = $("<div>");
+	
+	$div
+	.addClass("fn-wrap")
+	.append(
+		$("<pre>")
+			.addClass("prettyprint")
+			.text( getSource( fns[i] ) ),
+		"<p>time:" + ret.time + "ms</p>",
+		"<p>result:" + ret.ret + "</p>"
+	);
+	
+	$body.append($div);
 }
 
 
 
 
-
+/*
 var x = '';
 console.time('test');
 for (var i = 0; i < 1000 * 1000; i++) {
@@ -191,17 +235,34 @@ for (var i = 0; i < 1000 * 1000; i++) {
 }
 console.timeEnd('test');
 console.log(x);
+*/
 
-
+prettyPrint();
 });
 
 
 
 </script>
 
-<style type="text/css"></style>
+<style type="text/css">
+	div.fn-wrap{
+		background-color:#999;
+		padding:10px;
+		border:1px solid #666;
+		margin-bottom:30px;
+	}
+	p{
+		margin:3px 0;
+		line-height:1.2em;
+	}
+	pre.prettyprint{
+		border:1px solid #666;
+		background-color:#eee;
+		margin:0;
+	}
+</style>
 </head>
 <body>
-<p id='coments'>&gt;</p>
+
 </body>
 </html>

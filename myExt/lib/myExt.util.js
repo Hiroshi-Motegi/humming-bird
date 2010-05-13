@@ -1,5 +1,7 @@
 (function( $ ){
-var myExt = {
+var
+slice = Array.prototype.slice,
+myExt = {
 	/**
 	 * StopWatch
 	 * Firefoxのconsole.timeの代わり。
@@ -63,11 +65,10 @@ var myExt = {
 		 */
 		function x(fn, count, arg){
 			var key = "debug-test" + (+new Date), i = 0, ret;
-			
+			args = Array.prototype.slice.call(arg);
 			myExt.sw.time(key);
-			
 			for (; i < count; i++) {
-				ret = fn.call(null, arg);
+				ret = fn.apply( null, args );
 			}
 			
 			return {
@@ -165,11 +166,11 @@ var myExt = {
 	},
 	// Merge Objects.
 	merge: function(){
-		var args = Array.prototype.slice.call( arguments ),
-			j    = args.length || 0,
-			ret  = args[0],
-			i    = 1,
-			itm, arg;
+		var args = slice.call( arguments ),
+		    j    = args.length || 0,
+		    ret  = args[0],
+		    i    = 1,
+		    itm, arg;
 		
 		for ( arg = args[i]; i < j ; arg = args[++i] ) {
 			for (itm in arg) {
