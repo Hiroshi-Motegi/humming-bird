@@ -20,6 +20,18 @@ var myExt = {
 	contains: function(obj /*, index */){
 		return this.indexOf(obj, arguments[1] || 0) !== -1;
 	},
+	every: function(fun /*, thisp*/){
+		var i = 0, j = this.length, thisp = arguments[1];
+		
+		for (; i < j; i++) {
+			if (i in this && !fun.call(thisp, this[i], i, this)) {
+				return false;
+			}
+		}
+		
+		return true;
+	},
+
 	/**
 	 * 配列を線形化します。(flatten)
 	 * @return {array} - 一元配列
@@ -52,10 +64,11 @@ var myExt = {
 	},
 	grep:function(fn){
 		var i = 0,
-			j = this.length,
-			ret = [], c;
-			
-		for (; i < j; i++) {
+		    j = this.length,
+		    ret = [],
+			c;
+		
+		for ( ; i < j ; i++ ) {
 			c = this[i];
 			if ( fn.call(c, i, c) !== false ) {
 				ret[ret.length] = c;
@@ -71,7 +84,7 @@ var myExt = {
 	first: function(){
 		return this[0];
 	},
-	indexOf: function(obj /*, from*/){
+	indexOf: function( obj /*, from*/ ){
 		var len  = this.length,
 			from = arguments[1] || 0;
 		
@@ -85,7 +98,7 @@ var myExt = {
 		
 		return -1;
 	},
-	insert: function(/* index, insert value... */){
+	insert: function( /* index, insert value... */ ){
 		var args  = Array.prototype.slice.call(arguments),
 			index = args.shift();
 		
@@ -220,7 +233,7 @@ var myExt = {
 			while (true);
 		}
 		
-		for (; i < len; i++) {
+		for ( ; i < len ; i++ ) {
 			if (i in this) 
 				rv = fun.call(null, rv, this[i], i, this);
 		}
@@ -288,6 +301,11 @@ var myExt = {
 		this.splice( index || 0, 1 );
 		return this;
 	},
+	replace: function(i, o){
+		var self = this.concat();
+		self[i] = o;
+		return self;
+	},
 	
 	/**
 	 * 与えられた関数によって実行されるテストに合格する要素が配列の中にあるかどうかをテストします。 
@@ -295,12 +313,11 @@ var myExt = {
 	 * @param {Object}   thisp
 	 */
 	some: function(fun /*, thisp*/){
-		var len = this.length;
-		if (typeof fun != "function") 
-			throw new TypeError();
+		var i = 0,
+		    j = this.length,
+		    thisp = arguments[1];
 		
-		var thisp = arguments[1];
-		for (var i = 0; i < len; i++) {
+		for ( ; i < j ; i++ ) {
 			if (i in this && fun.call(thisp, this[i], i, this)) {
 				return true;
 			}
@@ -308,12 +325,28 @@ var myExt = {
 		
 		return false;
 	},
-	
+	//push at first
+	stack: function( o ){
+		this.unshift(o);
+		return this;
+	},
+	sum: function(){
+		var self = this,
+		    i = 0,
+		    j = self.length,
+		    ret = 0;
+		
+		for ( ; i < j ; i++ ) {
+			ret += self[i];
+		}
+		
+		return ret;
+	},/*
 	sum: function(){
 		return this.reduce(function(a, b){
 			return a + b;
 		}, 0);
-	},
+	},*/
 	/**
 	 * 重複している値を削除します。
 	 * @return {array}
@@ -330,7 +363,7 @@ var myExt = {
 		}
 		
 		return self;
-	},
+	}/*,
 	uniq: function(){
 		for( var i = 0; i < this.length - 1; ){
 			if ( this.indexOf(this[i], i + 1 ) !== -1 ) {
@@ -340,7 +373,7 @@ var myExt = {
 			}
 		}
 		return this;
-	}
+	}*/
 };
 
 myExt.all     = Array.prototype.every || myExt.every;
@@ -349,9 +382,13 @@ myExt.any     = Array.prototype.some || myExt.some;
 myExt.filter  = Array.prototype.grep || myExt.grep;
 myExt.include = Array.prototype.contains || myExt.contains;
 
-for(var i in myExt){
-	if (!Array.prototype[i]) {
-		Array.prototype[i] = myExt[i];
+var
+proto = Array.prototype,
+i;
+
+for(i in myExt){
+	if (!proto[i]) {
+		proto[i] = myExt[i];
 	}
 }
 })();

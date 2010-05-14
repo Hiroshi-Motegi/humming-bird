@@ -1,5 +1,10 @@
 (function( undefined ){
 var myExt = {
+	insert: function(i, o){
+		return o !== null && o !== undefined && !isNaN(o)
+			? this.slice(0, i) + o + this.slice(i)
+			: this;
+	},
 	/** 連続した文字を生成します。
 	 * @param  {Number} n
 	 * 				step count
