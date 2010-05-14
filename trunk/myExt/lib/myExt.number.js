@@ -13,8 +13,8 @@ var myExt = {
 	 * @param  {number} len - total width
 	 * @return {string}
 	 */
-	padZero: function(len){
-		return (this + "").length < len ? ((+((1 << len).toString(2)) + this) + "").slice(1) : "" + this;
+	padZero: function( len ){
+		return (this + "").length < len ? ((+((1 << len).toString(2)) + this) + "").slice(1) : this + "";
 	},
 	properIsNaN: function(){
 		return typeof this == "number" && isNaN(this);
@@ -43,7 +43,7 @@ var myExt = {
 		return ( ( new Array(n + 1) ).join("0") + this.toString(16) ).slice(-n);
 	}
 	/*too late.
-	Number.prototype.pow = function( exponent ){
+	pow: function( exponent ){
 		
 		var base = this;
 		

@@ -7,25 +7,23 @@
 	<title>myExt test page</title>
 	<!--<script src="lib/jquery.min.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.core.js" type="text/javascript"></script>-->
-	<!--<script src="lib/myExt.array.js" type="text/javascript"></script>-->
+	<script src="lib/myExt.array.js" type="text/javascript"></script>
 	<!--<script src="lib/myExt.date.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.number.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.string.js" type="text/javascript"></script>-->
 	<script src="lib/myExt.util.js" type="text/javascript"></script>
 <script type="text/javascript">
 (function( undefined ){	
+/*
 //260ms - loop 1E5
-//Number.prototype.padZero = function(len){
-//	return (this + "").length < len ? ((+((1 << len).toString(2)) + this) + "").slice(1) : this + "";
-//}
+Number.prototype.padZero = function(len){
+	return (this + "").length < len ? ((+((1 << len).toString(2)) + this) + "").slice(1) : this + "";
+}
 
 //230ms - loop 1E5
-//Number.prototype.padZero = function(len){
-//	return (this + "").length < len ? ((new Array(len)).join("0") + this).slice(-len) : this + "";
-//}
-
-
-
+Number.prototype.padZero = function(len){
+	return (this + "").length < len ? ((new Array(len)).join("0") + this).slice(-len) : this + "";
+}
 
 var ret = $.fnTime({
 	args     : 123,
@@ -37,12 +35,28 @@ var ret = $.fnTime({
 
 console.log(ret.time);
 console.log(ret.ret);
-//var n = 123
-//alert(n.padZero(1));
+*/
 
-//var n = 123;
-//n += "";
-//alert(typeof n);
+
+
+
+/*
+var
+arg = [1,2,3],
+ret = $.fnTime({
+	args     : [arg],
+	loopCount: 1E6,
+	callback : function(n){
+		return n.sum();
+	}
+});
+
+console.log(ret.time);
+console.log(ret.ret);
+*/
+
+
+
 
 })();
 </script>
