@@ -1,5 +1,7 @@
 (function( undefined ){
-var myExt = {
+var
+proto = Number.prototype,
+myExt = {
 	/**
 	 * 差分を返します。
 	 * @param  {Number} n
@@ -14,14 +16,15 @@ var myExt = {
 	 * @return {string}
 	 */
 	padZero: function( len ){
-		return (this + "").length < len ? ((+((1 << len).toString(2)) + this) + "").slice(1) : this + "";
+		var self = this + "";
+		return self.length < len ? ( ( +( (1 << len).toString(2) ) + this ) + "" ).slice(1) : self;
 	},
-	properIsNaN: function(){
-		return typeof this == "number" && isNaN(this);
+	isNaN: function(){
+		return isNaN(this);
 	},
-	times: function( fnc ){
-		for ( var i = 0; i < this; i++ ) {
-			fnc.call( this, i, this );
+	times: function( fn ){
+		for ( var i = 0 ; i < this ; i++ ) {
+			fn.call( this, i, this );
 		}
 	},
 	/**数値を2進数文字列に変換します。
@@ -29,9 +32,9 @@ var myExt = {
 	 * @param  {Object} length - option
 	 * @return {String}
 	 */
-	toBinary: function( /* length */){
+	toBinary: function( /* length */ ){
 		var len = arguments[0] || 0, bin = this.toString(2);
-		return bin.length < len ? ((1 << len) + this).toString(2).slice(1) : bin;
+		return bin.length < len ? ( (1 << len) + this ).toString(2).slice(1) : bin;
 	},
 	/**プリミティブ値に対応する文字(char)を返します。
 	 * @return {string}
@@ -40,7 +43,8 @@ var myExt = {
 		return String.fromCharCode(this);
 	},
 	toHex:function( n ){
-		return ( ( new Array(n + 1) ).join("0") + this.toString(16) ).slice(-n);
+		var hx = this.toString(16);
+		return n > hx.length ? ( ( new Array(n + 1) ).join("0") + hx ).slice(-n) : hx;
 	}
 	/*too late.
 	pow: function( exponent ){
@@ -57,12 +61,11 @@ var myExt = {
 		//return Math.pow( this, exponent );
 	}
 	*/
-};
+}, mName;
 
-for(var i in myExt){
-	if( !(i in Number.prototype) ){
-		Number.prototype[i] = myExt[i];
+for( mName in myExt ){
+	if( !( mName in proto ) ){
+		proto[mName] = myExt[mName];
 	}
 }
-
 })();
