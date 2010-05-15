@@ -12,18 +12,18 @@ myExt = {
 	 *   var ret = Date.sw.timeEnd("test");
 	 */
 	sw: function(){
-	
 		var times = {};
 		
-		function clearn(time){
+		function clearn( time ){
 			return +(/^(?:.+:\s)?(\d+)(?:ms)?$/.exec(time)[1] || 0);
 		}
 		
 		return {
 			//timer start
-			time: function(key){
-				if (key) 
+			time: function( key ){
+				if ( key ) {
 					times[key] = +new Date;
+				}
 			},
 			/**
 			 * timer stop
@@ -31,20 +31,19 @@ myExt = {
 			 * @param  {Boolean} clearn*
 			 * @return {Number}   - milisecond
 			 */
-			timeEnd: function(key /*, clearn */){
-				if (key in times) {
-					var time = +new Date - times[key];
+			timeEnd: function( key /*, clearn */ ){
+				if ( key in times ) {
+					var time = (+new Date) - times[key];
 					return !arguments[1] ? key + ": " + time + "ms" : time;
 				}
 			},
-			diff: function(t1, t2){
+			diff: function( t1, t2 ){
 				t1 = typeof t1 == "number" ? t1 : clearn(t1);
 				t2 = typeof t2 == "number" ? t2 : clearn(t2);
 				
 				return Math.max(t1, t2) - Math.min(t1, t2);
 			}
 		};
-		
 	}(),
 	/**
 	 * @param {Object} params
@@ -63,12 +62,16 @@ myExt = {
 		 * @param  {unknown}  arg      - arguments of callback
 		 * @return {Number}
 		 */
-		function x(fn, count, arg){
-			var key = "debug-test" + (+new Date), i = 0, ret;
-			args = Array.prototype.slice.call(arg);
+		function x( fn, count, arg ){
+			var
+			i   = 0,
+			key = "debug-test" + (+new Date),
+			ret;
+			
 			myExt.sw.time(key);
-			for (; i < count; i++) {
-				ret = fn.apply( null, args );
+			
+			for ( ; i < count ; i++ ) {
+				ret = fn.apply( null, arg );
 			}
 			
 			return {
@@ -77,15 +80,11 @@ myExt = {
 			};
 		}
 		
-		return function( params ){
-			var result = x(
-				params.callback,
-				params.loopCount,
-				params.args
-			);
-			
+		return function( loopCount, callback ){
+			arg = slice.call(arguments).slice(2);
+			var result = x( callback, loopCount, arg );
 			return {
-				time: result.time - x(function(){}, params.loopCount).time,
+				time: result.time - x(function(){}, loopCount, arg).time,
 				ret : result.ret
 			};
 		};
@@ -172,30 +171,32 @@ myExt = {
 		    i    = 1,
 		    itm, arg;
 		
-		for ( arg = args[i]; i < j ; arg = args[++i] ) {
-			for (itm in arg) {
-				if ( arg.hasOwnProperty( itm ) ) 
+		for ( arg = args[i] ; i < j ; arg = args[++i] ) {
+			for ( itm in arg ) {
+				if ( arg.hasOwnProperty(itm) ) {
 					ret[itm] = arg[itm];
+				}
 			}
 		}
 		
 		return ret;
 	},
 	overlay:function(){
+		var Overlay = function( options ){
 		
-		var Overlay = function(options){
-		
-			var el  = $(options.dom_element),
-				pos = el.position();
+			var elm = $(options.dom_element),
+			    pos = elm.position();
 			
 			this.image = $("<div>").css({
 				"position": "absolute",
 				"left"    : pos.left,
 				"top"     : pos.top,
 				"z-index" : 1E6
-			}).width(el.width()).height(el.height());
+			})
+			.width( elm.width() )
+			.height( elm.height() );
 			
-			this.el = el;
+			this.elm = elm;
 			this.click_handler = options.click_handler;
 			
 			Overlay.instances.push(this);
@@ -212,11 +213,12 @@ myExt = {
 		
 		Overlay.prototype.display = function(){
 			var that = this;
-			
-			this.image.appendTo(that.el.parent()).click(function(){
-				that.click_handler(that.el);
-				return false;
-			});
+			this.image
+				.appendTo( that.elm.parent() )
+				.click(function(){
+					that.click_handler( that.elm );
+					return false;
+				});
 		};
 		
 		return Overlay;

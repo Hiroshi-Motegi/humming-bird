@@ -1,5 +1,8 @@
-(function( undefined ){
-var myExt = {
+;(function( undefined ){
+var
+proto = Array.prototype,
+slice = proto.slice,
+myExt = {
 	/**
 	 * 要検討
 	 * 配列を複製します。
@@ -17,33 +20,37 @@ var myExt = {
 	 * @param  {Number} index
 	 * @return {boolean}
 	 */
-	contains: function(obj /*, index */){
-		return this.indexOf(obj, arguments[1] || 0) !== -1;
+	contains: function( o /*, index */ ){
+		return this.indexOf( o, arguments[1] || 0 ) !== -1;
 	},
-	every: function(fun /*, thisp*/){
-		var i = 0, j = this.length, thisp = arguments[1];
+	every: function( fun /*, thisObject*/ ){
+		var i  = 0,
+		    j  = this.length,
+		    to = arguments[1];
 		
-		for (; i < j; i++) {
-			if (i in this && !fun.call(thisp, this[i], i, this)) {
+		for ( ; i < j ; i++ ) {
+			if ( i in this && !fun.call(to, this[i], i, this) ) {
 				return false;
 			}
 		}
 		
 		return true;
 	},
-
-	/**
-	 * 配列を線形化します。(flatten)
+	/**配列の最初の値を返します。
+	 */
+	first: function(){
+		return this[0];
+	},
+	/**配列を線形化します。(linearize)
 	 * @return {array} - 一元配列
+	 * loop count:1E4
+	 * firefox3.6 -  142ms
+	 * chrome6    -  255ms
+	 * msie8      - 1605ms
 	 */
 	flatten: function(){
 		return this.reduce(function(a, b){
-			if (b instanceof Array) {
-				return a.concat(b.flatten());
-			}
-			else {
-				return a.concat(b);
-			}
+			return a.concat( b instanceof Array ? b.flatten() : b );
 		}, []);
 	},
 	/**
@@ -58,51 +65,45 @@ var myExt = {
 		
 		do{
 			itm = this[i];
-		}while( i < j && fn.call(itm, i++, itm) !== false )
+		}while( i < j && fn.call( itm, i++, itm ) !== false )
 		
 		return this;
 	},
-	grep:function(fn){
-		var i = 0,
-		    j = this.length,
+	grep:function( fn ){
+		var i   = 0,
+		    j   = this.length,
 		    ret = [],
 			c;
 		
 		for ( ; i < j ; i++ ) {
 			c = this[i];
-			if ( fn.call(c, i, c) !== false ) {
-				ret[ret.length] = c;
+			if ( fn.call( c, i, c ) !== false ) {
+				ret[ ret.length ] = c;
 			}
 		}
 		
 		return ret;
 	},
-	
-	/**
-	 * 配列の最初の値を返します。
-	 */
-	first: function(){
-		return this[0];
-	},
 	indexOf: function( obj /*, from*/ ){
 		var len  = this.length,
-			from = arguments[1] || 0;
+		    from = arguments[1] || 0;
 		
-		if (from < 0) 
+		if ( from < 0 ) {
 			from += len;
+		}
 		
-		for (; from < len; from++) {
-			if (from in this && this[from] === obj) 
+		for ( ; from < len ; from++ ) {
+			if ( from in this && this[from] === obj ) 
 				return from;
 		}
 		
 		return -1;
 	},
 	insert: function( /* index, insert value... */ ){
-		var args  = Array.prototype.slice.call(arguments),
-			index = args.shift();
+		var args  = slice.call(arguments),
+		    index = args.shift();
 		
-		return this.slice(0, index).concat(args, this.slice(index));
+		return this.slice(0, index).concat( args, this.slice(index) );
 	},
 	/**
 	 * 重複している値があるかをboolで返します。
@@ -112,8 +113,8 @@ var myExt = {
 		var self = this.concat().sort(),
 			i = self.length - 1;
 		
-		while (i > 0) {
-			if (self[i--] === self[i]) {
+		while ( i > 0 ) {
+			if ( self[i--] === self[i] ) {
 				return false;
 			}
 		}
@@ -139,21 +140,27 @@ var myExt = {
 	last: function(){
 		return this[this.length - 1];
 	},
-	/**
-	 * 配列を線形化します。(flatten)
+	/**配列を線形化します。(flatten)
 	 * @return {array} - 一元配列
+	 * loop count:1E4
+	 * firefox3.6 -  132ms
+	 * chrome6    -  222ms
+	 * msie8      - 1105ms
 	 */
 	linearize: function(){
-		return function fn(arr){
-			var i = 0, j = arr.length, ret = [], tmp;
+		return function fn( ary ){
+			var i = 0,
+			    j = ary.length,
+			    ret = [],
+			    tmp;
 			
-			for (; i < j; i++) {
-				tmp = arr[i];
+			for ( ; i < j ; i++ ) {
+				tmp = ary[i];
 				ret = ret.concat( tmp instanceof Array ? fn(tmp) : tmp );
 			}
 			
 			return ret;
-		}(this);
+		}( this );
 	},
 	/**
 	 * map function
@@ -161,13 +168,13 @@ var myExt = {
 	 * @return {array}    this
 	 */
 	map: function( fn /*, that*/ ){
-		var i = 0,
-			j = this.length,
-			ret = new Array(j),
-			that = arguments[1];
+		var i    = 0,
+		    j    = this.length,
+		    ret  = new Array(j),
+		    that = arguments[1];
 		
 		for( ; i < j ; i++ ){
-			ret[i] = fn.call(that, this[i], i, this);
+			ret[i] = fn.call( that, this[i], i, this );
 		}
 		
 		return ret;
@@ -183,10 +190,10 @@ var myExt = {
 	 * 非破壊的です。
 	 */
 	merge: function(){
-		var args = Array.prototype.slice.call(arguments),
-			ret = this.clone(),
-			i = 0,
-			j = args.length,
+		var args = slice.call(arguments),
+			ret  = this.clone(),
+			i    = 0,
+			j    = args.length,
 			tmp, arg, k, m;
 		
 		for ( ; i < j ; i++ ) {
@@ -195,8 +202,8 @@ var myExt = {
 			k = 0;
 			m = arg.length;
 			for ( ; k < m ; k++ ) {
-				if ( tmp.indexOf(arg[k]) === -1 ) {
-					ret[ret.length] = arg[k];
+				if ( tmp.indexOf( arg[k] ) === -1 ) {
+					ret[ ret.length ] = arg[k];
 				}
 			}
 		}
@@ -210,83 +217,50 @@ var myExt = {
 		return Math.min.apply(null, this);
 	},
 	reduce: function(fun /*, initial*/){
-		var len = this.length, i = 0;
+		var i   = 0,
+		    len = this.length,
+			ret;
 		
 		if (len == 0 && arguments.length == 1) {
 			return;
 		}
 
-		if (arguments.length >= 2) {
-			var rv = arguments[1];
+		if (arguments.length > 1) {
+			ret = arguments[1];
 		}
 		else {
 			do {
-				if (i in this) {
-					rv = this[i++];
+				if ( i in this ) {
+					ret = this[i++];
 					break;
 				}
-				
-				if (++i >= len) {
+				//if array contains no values, no initial value to return
+				if ( ++i >= len ) {
 					return;
 				}
 			}
-			while (true);
+			while ( true );
 		}
 		
 		for ( ; i < len ; i++ ) {
-			if (i in this) 
-				rv = fun.call(null, rv, this[i], i, this);
-		}
-		
-		return rv;
-	},
-	/* , initial
-	reduce: function(fun){
-		var len = this.length >>> 0;
-		if (typeof fun != "function") 
-			throw new TypeError();
-		
-		// no value to return if no initial value and an empty array
-		if (len == 0 && arguments.length == 1) 
-			throw new TypeError();
-		
-		var i = 0;
-		if (arguments.length >= 2) {
-			var rv = arguments[1];
-		}
-		else {
-			do {
-				if (i in this) {
-					var rv = this[i++];
-					break;
-				}
-				
-				// if array contains no values, no initial value to return
-				if (++i >= len) 
-					throw new TypeError();
+			if (i in this) {
+				ret = fun.call( null, ret, this[i], i, this );
 			}
-			while (true);
 		}
 		
-		for (; i < len; i++) {
-			if (i in this) 
-				rv = fun.call(null, rv, this[i], i, this);
-		}
-		
-		return rv;
+		return ret;
 	},
-	*/
 	/**
 	 * 引数に一致する値を削除します。
 	 * このメソッドは破壊的です。
 	 */
 	remove: function(){
-		var args = Array.prototype.slice.call(arguments),
-			j = args.length,
+		var args = slice.call(arguments),
+			j    = args.length,
 			i;
 		
-		while (j--) {
-			while ((i = this.indexOf(args[j])) !== -1) {
+		while ( j-- ) {
+			while ( ( i = this.indexOf( args[j] ) ) !== -1 ) {
 				self.splice(i, 1);
 			}
 		}
@@ -295,13 +269,14 @@ var myExt = {
 	},
 	/**
 	 * 指定したインデックスの要素を削除します。
-	 * @param {Object} index
+	 * このメソッドは破壊的です。
+	 * @param {number} index
 	 */
 	removeAt: function( index ){
-		this.splice( index || 0, 1 );
+		this.splice( typeof index == "number" && !isNaN(index) ? index : 0, 1 );
 		return this;
 	},
-	replace: function(i, o){
+	replace: function( i, o ){
 		var self = this.concat();
 		self[i] = o;
 		return self;
@@ -310,15 +285,15 @@ var myExt = {
 	/**
 	 * 与えられた関数によって実行されるテストに合格する要素が配列の中にあるかどうかをテストします。 
 	 * @param {Function} fun
-	 * @param {Object}   thisp
+	 * @param {Object}   that - this object
 	 */
-	some: function(fun /*, thisp*/){
-		var i = 0,
-		    j = this.length,
-		    thisp = arguments[1];
+	some: function( fun /*, that*/ ){
+		var i    = 0,
+		    j    = this.length,
+		    that = arguments[1];
 		
 		for ( ; i < j ; i++ ) {
-			if (i in this && fun.call(thisp, this[i], i, this)) {
+			if ( i in this && fun.call( that, this[i], i, this ) ) {
 				return true;
 			}
 		}
@@ -332,9 +307,9 @@ var myExt = {
 	},
 	sum: function(){
 		var self = this,
-		    i = 0,
-		    j = self.length,
-		    ret = 0;
+		    i    = 0,
+		    j    = self.length,
+		    ret  = 0;
 		
 		for ( ; i < j ; i++ ) {
 			ret += self[i];
@@ -352,9 +327,10 @@ var myExt = {
 	 * @return {array}
 	 */
 	uniq : function(){
-		var self = this.concat().sort(), i = 0;
+		var self = this.concat().sort(),
+		    i    = 0;
 		
-		for( ; i < self.length - 1; ){
+		for( ; i < self.length - 1 ; ){
 			if ( self[i] === self[i + 1] ) {
 				self.splice( i, 1 );
 			}else{
@@ -374,21 +350,17 @@ var myExt = {
 		}
 		return this;
 	}*/
-};
+}, mName;
 
-myExt.all     = Array.prototype.every || myExt.every;
-myExt.each    = Array.prototype.forEach || myExt.forEach;
-myExt.any     = Array.prototype.some || myExt.some;
-myExt.filter  = Array.prototype.grep || myExt.grep;
-myExt.include = Array.prototype.contains || myExt.contains;
+myExt.all     = proto.every || myExt.every;
+myExt.each    = proto.forEach || myExt.forEach;
+myExt.any     = proto.some || myExt.some;
+myExt.filter  = proto.grep || myExt.grep;
+myExt.include = proto.contains || myExt.contains;
 
-var
-proto = Array.prototype,
-i;
-
-for(i in myExt){
-	if (!proto[i]) {
-		proto[i] = myExt[i];
+for( mName in myExt ){
+	if ( !proto[ mName ] ) {
+		proto[ mName ] = myExt[ mName ];
 	}
 }
 })();
