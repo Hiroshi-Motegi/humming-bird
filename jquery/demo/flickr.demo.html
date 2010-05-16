@@ -69,9 +69,9 @@ $(document).bind("flickr-loaded", function(){
 
 $.flickr({
 	//id:'dlc0421',
-	tags: tag,
-	tagmode:"any"
-}, function(data){
+	tags   : tag,
+	tagmode: "any"
+}, function( data ){
 	
 	//simple feed description
 	$("ul.list").append("<li>" + [
@@ -97,8 +97,6 @@ $.flickr({
 		imgs[i] = new Image();
 		imgs[i++].src = this.image;
 	});
-	
-	//alert(imgs[imgs.length-1].src);
 	
 	$(document).trigger("flickr-loaded");
 	
