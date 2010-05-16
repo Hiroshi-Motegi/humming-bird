@@ -45,27 +45,30 @@ $.flickr = function(params, callback) {
 	callback = $.isFunction(callback) ? callback : function(){};
 
 	$.get("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
-	
+		
+		//query params
 		$.extend({
 			format : "json"
 		}, params),
 		
-		function(res){
+		//callback function
+		function( res ){
 			
 			var
 			prefix = ["_s", "_t", "_m", "", "_b"],
-			i      = res.items.length,
+			items  = res.items,
+			i      = items.length,
 			item, m, j;
 			
 			while(i--){
-				item = res.items[i];
-				m    = item.media.m;
+				item = items[i];
 				j    = prefix.length;
+				m    = item.media.m;
 				
 				item.description = item.description.replace(/<\/?[^>]+>/g, "");
 				
 				while (j--)
-					item["image" + prefix[j]] = m.replace("_m", prefix[j]);
+					item[ "image" + prefix[j] ] = m.replace( "_m", prefix[j] );
 				
 				delete item.media.m;
 			}
