@@ -216,6 +216,12 @@ myExt = {
 	min: function(){
 		return Math.min.apply(null, this);
 	},
+	/**
+	 * 
+	 */
+	parseColorCode:function(){
+		return '#' + ( ( ( 0x100 + this[0] << 8 ) + this[1] << 8) + this[2]).toString(16).slice(1);
+	},
 	reduce: function(fun /*, initial*/){
 		var i   = 0,
 		    len = this.length,

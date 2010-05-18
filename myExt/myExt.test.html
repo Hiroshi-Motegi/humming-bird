@@ -10,7 +10,7 @@
 	<script src="lib/myExt.array.js" type="text/javascript"></script>
 	<!--<script src="lib/myExt.date.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.number.js" type="text/javascript"></script>-->
-	<!--<script src="lib/myExt.string.js" type="text/javascript"></script>-->
+	<script src="lib/myExt.string.js" type="text/javascript"></script>
 	<script src="lib/myExt.util.js" type="text/javascript"></script>
 <script type="text/javascript">
 (function( undefined ){	
@@ -42,6 +42,7 @@ console.log(ret.ret);
 //firefox3.6 -  142ms
 //chrome6    -  215ms
 //msie8      - 1605ms
+/*
 var
 arg = [0,1,[2,3],[[4,5],[6,7,8]]],
 ret = $.fnTime(1E4, function(n){
@@ -49,7 +50,9 @@ ret = $.fnTime(1E4, function(n){
 }, arg);
 
 alert(ret.time + "ms\n" + ret.ret);
+*/
 
+alert( "#408080".toRGB() );
 
 
 

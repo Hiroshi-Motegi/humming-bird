@@ -1,14 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja" dir="ltr" id="html">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
-	<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 	<title>Basic CSS</title>
 
 <style type="text/css">
-a,b,body,dd,div,dl,dt,form,h1,h2,h3,h4,h5,h6,input,label,li,ol,p,small,span,strong,table,textarea,tbody,td,tr,ul{margin:0;padding:0;line-height:1.5em}
-body,input,textarea{font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,'Century Gothic',Verdana, Geneva, Arial, Helvetica, sans-serif}
+a,b,body,code,dd,div,dl,dt,form,h1,h2,h3,h4,h5,h6,img,input,label,li,ol,p,pre,small,span,strong,table,textarea,tbody,td,th,tr,ul{margin:0;padding:0;line-height:1.5em}
+body,input,textarea{font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3',Arial,Helvetica,sans-serif}
 h1{font-size:32px}
 h2{font-size:24px}
 h3{font-size:19px}
@@ -17,9 +17,10 @@ h5,input,small{font-size:13px}
 h6{font-size:11px}
 ol,ul{text-indent:0;margin:0 0 0 1em;padding:0}
 ol{margin-left:1.6em}
+code,pre{font-family:"Courier New",Courier,monospace}
 img{border-width:0}
-a{color:#006699;cursor:pointer;text-decoration:none}
-a:hover{color:#0099ff}
+a{color:#0066cc;cursor:pointer;text-decoration:none}
+a:hover{color:#0099ff;text-decoration:underline}
 a img,input,label,textarea{vertical-align:middle}
 textarea{overflow:auto}
 
@@ -29,14 +30,14 @@ textarea{overflow:auto}
 </style>
 </head>
 <body>
-	<h1>h1 あいうえお New Web Project Page</h1>
+	<h1 id="title">h1 あいうえお New Web Project Page</h1>
 	<h2>h2 あいうえお New Web Project Page</h2>
 	<h3>h3 あいうえお New Web Project Page</h3>
 	<h4>h4 あいうえお New Web Project Page</h4>
 	<h5>h5 あいうえお New Web Project Page</h5>
 	<h6>h6 あいうえお New Web Project Page</h6>
 	<p>p あいうえお New Web Project Page</p>
-	<a>a あいうえお New Web Project Page</a><br>
+	<a href="#title">a あいうえお New Web Project Page</a><br/>
 	<small>small あいうえお New Web Project Page</small>
 	<div style='margin:20px 0;'>
 		<p style='font-size:32px'>32px あいうえお New Web Project Page</p>
@@ -48,11 +49,27 @@ textarea{overflow:auto}
 	</div>
 	
 	<form action="" method="" accept-charset="utf-8">
-		<p><input type="radio" name='rdo1' id='rdo01' /><label for='rdo01'>label 1</label></p>
-		<p><input type="checkbox" name='chk1' id='chk01' /><label for='chk01'>label 1</label></p>
-		<p><input type="text" value="text" /><input type="submit" value="Continue" /></p>
-		<p><textarea>textarea</textarea></p>
+		<ul><!--
+			--><li><input type="radio" name='rdo' id='rdo01'/><label for='rdo01'>label あいうえお</label></li><!--
+			--><li><input type="radio" name='rdo' id='rdo02'/><label for='rdo02'>label あいうえお</label></li><!--
+		--></ul>
+		<ul>
+			<li><input type="checkbox" name='chk' id='chk01'/><label for='chk01'>label あいうえお</label></li>
+			<li><input type="checkbox" name='chk' id='chk02'/><label for='chk02'>label あいうえお</label></li>
+		</ul>
+		<p><input type="text" value="text あいうえお"/><input type="submit" value="Continue"/></p>
+		<p><textarea>textarea
+Testg</textarea></p>
 	</form>
+	
+	<a href="#title"><img src="hb_logo.png" /></a><br/>
+	
+	<pre class="prettyprint">
+function foo() {
+&nbsp;&nbsp;&nbsp;&nbsp;alert("foo");
+}
+	</pre>
+	
 	<ul>
 		<li>ul li - 01</li>
 		<li>ul li - 02</li>
