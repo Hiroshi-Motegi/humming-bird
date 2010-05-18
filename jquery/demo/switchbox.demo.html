@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>jQuery plugin switchBox</title>
+	<link href="style/switchBox.css" rel="stylesheet" type="text/css" media="screen" charset="utf-8"/>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+	<script src="../lib/jquery.switchBox.js" type="text/javascript"></script>
+<script type="text/javascript">
+jQuery(function($){
+
+$("#default-on").switchBox();
+
+$("#default-off").switchBox({state:false});
+
+$("#label-change").switchBox({
+	label: {
+		on : "True",
+		off: "False"
+	}
+});
+
+$("#duration-fast").switchBox({duration:80});
+$("#duration-low").switchBox({duration:800});
+
+$("#set-sepWidth").switchBox({sepWidth:16});
+
+$("#set-height").switchBox({height:32});
+$("#set-width").switchBox({width:180});
+
+$("#sep-none").switchBox({separator:false});
+
+
+var sa =  $.switchBox.create($("#raiseEvent-after"),{
+	raiseEvent: "after",
+	duration  : 500
+});
+
+sa.bindStateChanged(function(e,state){
+	alert("raiseEvent after - state:" + state);
+});
+
+
+var sb = $.switchBox.create($("#raiseEvent-before"),{
+	raiseEvent: "before",
+	duration  : 500
+});
+sb.bindStateChanged(function(e,state){
+	alert("raiseEvent before - state:" + state);
+});
+
+
+var disabled = true;
+var cb =  $.switchBox.create($("#disabled-true"),{
+	disabled: disabled
+});
+
+
+$("input[type=button]").click(function(){
+	cb.disabled( disabled = !disabled );
+});
+
+});
+</script>
+<style type="text/css">
+body{
+	font-family:"メイリオ", Meiryo;
+	font-size  :16px;
+	margin     :0;
+	padding    :0;
+}
+h1{
+	font-size:32px;
+	margin:0 20px;
+}
+#wrap{
+	margin:20px;
+}
+tr{
+	/*padding:10px;*/
+}
+td{
+	margin: 0;
+	padding:0;
+	vertical-align:top;
+}
+p{
+	margin:0;
+}
+.label{
+	display:block;
+	line-height:1.4em;
+	margin:0;
+	padding:0;
+	text-align:right;
+}
+td div{
+	text-align:left;
+}
+#disabled-true{
+	float:left;
+}
+#toggle-disabled{
+	float:right;
+}
+</style>
+</head>
+<body>
+<h1>jQuery plugin switchBox</h1>
+<div id="wrap">
+	<table><tbody>
+	<tr class="switch-cont">
+		<td><span class="label">default -off:</span></td>
+		<td><div id="default-on" class="switch"></div></td>
+	</tr>
+	<tr class="switch-cont">
+		<td><span class="label">default - on:</span></td>
+		<td><div id="default-off" class="switch"></div></td>
+	</tr>
+	<tr class="switch-cont">
+		<td><span class="label">label - True/False:</span></td>
+		<td><div id="label-change" class="switch"></div></td>
+	</tr>
+	
+	<tr class="switch-cont">
+		<td><span class="label">duration - 80:</span></td>
+		<td><div id="duration-fast" class="switch"></div></td>
+	</tr>
+	<tr class="switch-cont">
+		<td><span class="label">duration - 800:</span></td>
+		<td><div id="duration-low" class="switch"></div></td>
+	</tr>
+	
+	<tr class="switch-cont">
+		<td><span class="label">set separator width - 16:</span></td>
+		<td><div id="set-sepWidth" class="switch"></div></td>
+	</tr>
+	<tr class="switch-cont">
+		<td><span class="label">set separator none:</span></td>
+		<td><div id="sep-none" class="switch"></div></td>
+	</tr>
+	<tr class="switch-cont">
+		<td><span class="label">set height - 32:</span></td>
+		<td><div id="set-height" class="switch"></div></td>
+	</tr>
+	<tr class="switch-cont">
+		<td><span class="label">set width - 160:</span></td>
+		<td><div id="set-width" class="switch"></div></td>
+	</tr>
+	
+	<tr class="switch-cont">
+		<td><span class="label">set raiseEvent - after:</span></td>
+		<td><div id="raiseEvent-after" class="switch"></div></td>
+	</tr>
+	<tr class="switch-cont">
+		<td><span class="label">set raiseEvent - before:</span></td>
+		<td><div id="raiseEvent-before" class="switch"></div></td>
+	</tr>
+	
+	<tr class="switch-cont">
+		<td><span class="label">default disabled - true:</span></td>
+		<td><div id="disabled-true" class="switch"></div><input id="toggle-disabled" type="button" value="disabled"/></td>
+	</tr>
+</tbody></table>
+		
+</div>
+</body>
+</html>
