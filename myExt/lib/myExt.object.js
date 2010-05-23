@@ -1,47 +1,42 @@
 (function(){
 //my extention methods.
-var myExt = {
-
+var
+hasOwn = Object.prototype.hasOwnProperty,
+slice = Array.prototype.slice,
+myExt = {
 	//create clone object
-	clone: function(o){
+	clone: function(){
 		var f = function(){};
-		f.prototype = o;
+		f.prototype = this;
 		return new f;
 	},
-	
 	forEach: function(fn){
-	
 		var name, item;
 		
 		for (name in this) {
-		
 			item = this[name];
-			
 			if (fn.call(item, name, item) === false) {
 				break;
 			}
-			
 		}
 		
 		return this;
-		
 	},
-	
 	// Merge Objects.
 	merge: function(){
 		var args = [this.clone()];
 		
-		args.concat(Array.prototype.slice.call(arguments));
+		args.concat( slice.call(arguments) );
 		
 		var len = args.length,
 			ret = args[0],
-			i = 1,
+			i   = 1,
 			itm, arg;
 		
-		for (; i < len; i++) {
+		for ( ; i < len ; i++ ) {
 			arg = args[i];
 			for (itm in arg) {
-				if (arg.hasOwnProperty(itm)) 
+				if ( arg.hasOwnProperty(itm) ) 
 					ret[itm] = arg[itm];
 			}
 		}
@@ -62,7 +57,7 @@ var myExt = {
 	},
 	
 	toArray: function(){
-		return Array.prototype.slice.call(this);
+		return slice.call(this);
 	},
 	
 	typeOf: function(){
@@ -78,8 +73,11 @@ var myExt = {
 	}
 };
 
+
+
 for (var i in myExt) {
-	if(i in Object.prototype)
+	if ( !(Object.prototype[i]) ) {
 		Object.prototype[i] = myExt[i];
+	}
 }
 })();

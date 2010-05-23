@@ -6,11 +6,12 @@
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 	<title>myExt test page</title>
 	<!--<script src="lib/jquery.min.js" type="text/javascript"></script>-->
+	<!--<script src="lib/myExt.object.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.core.js" type="text/javascript"></script>-->
-	<script src="lib/myExt.array.js" type="text/javascript"></script>
+	<!--<script src="lib/myExt.array.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.date.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.number.js" type="text/javascript"></script>-->
-	<script src="lib/myExt.string.js" type="text/javascript"></script>
+	<!--<script src="lib/myExt.string.js" type="text/javascript"></script>-->
 	<script src="lib/myExt.util.js" type="text/javascript"></script>
 <script type="text/javascript">
 (function( undefined ){	
@@ -51,14 +52,32 @@ ret = $.fnTime(1E4, function(n){
 
 alert(ret.time + "ms\n" + ret.ret);
 */
+var hasOwn = Object.prototype.hasOwnProperty;
 
-alert( "#408080".toRGB() );
+var
+ret = $.fnTime(
+//loop count
+1E5,
+//test function
+function(o){
+	ret = [];
+	for (var i in o) {
+		//if( o.hasOwnProperty(i) ){
+		if(hasOwn.call(o, i)){
+			ret[ret.length] = o[i];	
+		}
+	}
+	return ret;
+},
+//argument
+{a:"foo",b:"bar",c:"hoge"});
 
-
+alert(ret.time + "ms\n" + ret.ret);
 
 
 
 })();
+
 </script>
 <style type="text/css">
 </style>

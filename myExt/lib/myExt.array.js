@@ -3,6 +3,9 @@ var
 proto = Array.prototype,
 slice = proto.slice,
 myExt = {
+	average: function(){
+		return this.sum() / this.length;
+	},
 	/**
 	 * 要検討
 	 * 配列を複製します。
@@ -23,13 +26,13 @@ myExt = {
 	contains: function( o /*, index */ ){
 		return this.indexOf( o, arguments[1] || 0 ) !== -1;
 	},
-	every: function( fun /*, thisObject*/ ){
+	every: function( fn /*, thisObject*/ ){
 		var i  = 0,
 		    j  = this.length,
 		    to = arguments[1];
 		
 		for ( ; i < j ; i++ ) {
-			if ( i in this && !fun.call(to, this[i], i, this) ) {
+			if ( i in this && !fn.call(to, this[i], i, this) ) {
 				return false;
 			}
 		}
@@ -61,11 +64,11 @@ myExt = {
 	forEach: function( fn ){
 		var i = 0,
 			j = this.length,
-			itm;
+			m;
 		
 		do{
-			itm = this[i];
-		}while( i < j && fn.call( itm, i++, itm ) !== false )
+			m = this[i];
+		}while( i < j && fn.call( m, i++, m ) !== false )
 		
 		return this;
 	},
@@ -267,7 +270,7 @@ myExt = {
 		
 		while ( j-- ) {
 			while ( ( i = this.indexOf( args[j] ) ) !== -1 ) {
-				self.splice(i, 1);
+				this.splice(i, 1);
 			}
 		}
 		
@@ -279,7 +282,9 @@ myExt = {
 	 * @param {number} index
 	 */
 	removeAt: function( index ){
-		this.splice( typeof index == "number" && !isNaN(index) ? index : 0, 1 );
+		if( typeof index == "number" && !isNaN(index) ){
+			this.splice( index, 1 );
+		}
 		return this;
 	},
 	replace: function( i, o ){
@@ -312,22 +317,12 @@ myExt = {
 		return this;
 	},
 	sum: function(){
-		var self = this,
-		    i    = 0,
-		    j    = self.length,
-		    ret  = 0;
-		
-		for ( ; i < j ; i++ ) {
-			ret += self[i];
+		var i = this.length, ret = 0;
+		while ( i-- ) {
+			ret += this[i];
 		}
-		
 		return ret;
-	},/*
-	sum: function(){
-		return this.reduce(function(a, b){
-			return a + b;
-		}, 0);
-	},*/
+	},
 	/**
 	 * 重複している値を削除します。
 	 * @return {array}
