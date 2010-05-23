@@ -29,9 +29,9 @@
 .switch.disabled .switch-off span:hover{
 	color:#fff;
 	background-color:#ddd;
-	box-shadow        : inset 0 0 3px #aaa;
-	-moz-box-shadow   : inset 0 0 3px #aaa;
-	-webkit-box-shadow: inset 0 0 3px #aaa;
+	box-shadow        :0 0 3px #aaa inset;
+	-moz-box-shadow   :0 0 3px #aaa inset;
+	-webkit-box-shadow:0 0 3px #aaa inset;
 }
 .switch.disabled{
 	border-color:#ccc;
@@ -45,9 +45,9 @@
 
 .switch-on span{
 	background-color:#999;
-	box-shadow        : inset 0 0 3px #555;
-	-moz-box-shadow   : inset 0 0 3px #555;
-	-webkit-box-shadow: inset 0 0 3px #555;
+	box-shadow        :0 0 3px #555 inset;
+	-moz-box-shadow   :0 0 3px #555 inset;
+	-webkit-box-shadow:0 0 3px #555 inset;
 }
 
 .switch-on span:hover{
@@ -56,9 +56,9 @@
 
 .switch-off span{
 	background-color:#5a5a5a;
-	box-shadow        : inset 0 0 3px #3a3a3a;
-	-moz-box-shadow   : inset 0 0 3px #3a3a3a;
-	-webkit-box-shadow: inset 0 0 3px #3a3a3a;
+	box-shadow        :0 0 3px #3a3a3a inset;
+	-moz-box-shadow   :0 0 3px #3a3a3a inset;
+	-webkit-box-shadow:0 0 3px #3a3a3a inset;
 }
 .switch-off span:hover{
 	background-color:#777;

@@ -163,6 +163,24 @@ myExt = {
 		NUM_LOCK: 144,
 		SCROLL_LOCK: 145
 	},
+	//create clone object
+	clone: function(o){
+		var f = function(){};
+		f.prototype = o;
+		return new f;
+	},
+	forEach: function( o, fn ){
+		var name, item;
+		
+		for (name in o) {
+			item = o[name];
+			if (fn.call(item, name, item) === false) {
+				break;
+			}
+		}
+		
+		return o;
+	},
 	// Merge Objects.
 	merge: function(){
 		var args = slice.call( arguments ),
@@ -180,6 +198,18 @@ myExt = {
 		}
 		
 		return ret;
+	},
+	
+	// make Query String
+	toQueryString: function(o){
+		var ret = [], i;
+		
+		for (i in o) {
+			if ( o.hasOwnProperty(i) ) 
+				ret[ret.length] = i + "=" + encodeURIComponent( o[i] );
+		}
+		
+		return ret.join("&");
 	},
 	overlay:function(){
 		var Overlay = function( options ){
@@ -224,6 +254,8 @@ myExt = {
 		return Overlay;
 	}()
 };
+
+myExt.each = myExt.forEach;
 
 if (!$) {
 	window.$ = myExt;
