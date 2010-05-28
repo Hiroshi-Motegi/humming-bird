@@ -252,7 +252,16 @@ myExt = {
 		};
 		
 		return Overlay;
-	}()
+	}(),
+	properIsNaN: function(n){
+		//console.log(isNaN(NaN));      // true
+		//console.log(isNaN(undefined));// true
+		//console.log(isNaN(Infinity)); // false
+		//console.log(isNaN([]));       // false
+		//console.log(isNaN([0,1]));    // true
+		//console.log(isNaN({}));       // true
+		return typeof n == "number" && isNaN(n);
+	}
 };
 
 myExt.each = myExt.forEach;
