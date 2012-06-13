@@ -1,9 +1,13 @@
-(function( $ ){
+/*!
+ * JavaScript MyExtensions - util
+ * Copyright 2010, y@s
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ */
+;(function($){
 var
 slice = Array.prototype.slice,
 myExt = {
-	/**
-	 * StopWatch
+	/** StopWatch
 	 * Firefoxのconsole.timeの代わり。
 	 *
 	 * Usage:
@@ -25,11 +29,10 @@ myExt = {
 					times[key] = +new Date;
 				}
 			},
-			/**
-			 * timer stop
+			/** timer stop
 			 * @param  {String}  key
 			 * @param  {Boolean} clearn*
-			 * @return {Number}   - milisecond
+			 * @return {Number}  total time(milisecond)
 			 */
 			timeEnd: function( key /*, clearn */ ){
 				if ( key in times ) {
@@ -89,6 +92,11 @@ myExt = {
 			};
 		};
 	}(),
+	/**
+	 * var elm = document.createElement("div");
+	 * var nType = elm.nodeType;
+	 * $.nodeType.ELEMENT == nType; //true
+	 */
 	nodeType: {
 		ELEMENT: 1,
 		ATTRIBUTE: 2,
@@ -172,9 +180,9 @@ myExt = {
 	forEach: function( o, fn ){
 		var name, item;
 		
-		for (name in o) {
+		for ( name in o ) {
 			item = o[name];
-			if (fn.call(item, name, item) === false) {
+			if ( fn.call( item, name, item ) === false ) {
 				break;
 			}
 		}
@@ -223,7 +231,7 @@ myExt = {
 				"top"     : pos.top,
 				"z-index" : 1E6
 			})
-			.width( elm.width() )
+			.width(  elm.width()  )
 			.height( elm.height() );
 			
 			this.elm = elm;
@@ -254,14 +262,60 @@ myExt = {
 		return Overlay;
 	}(),
 	properIsNaN: function(n){
-		//console.log(isNaN(NaN));      // true
-		//console.log(isNaN(undefined));// true
-		//console.log(isNaN(Infinity)); // false
-		//console.log(isNaN([]));       // false
-		//console.log(isNaN([0,1]));    // true
-		//console.log(isNaN({}));       // true
+		//isNaN(NaN)       -> true
+		//isNaN(undefined) -> true
+		//isNaN(Infinity)  -> false
+		//isNaN([])        -> false
+		//isNaN([0,1])     -> true
+		//isNaN({})        -> true
 		return typeof n == "number" && isNaN(n);
-	}
+	},
+	grep: function( elems, callback, inv ) {
+		var ret = [],
+		    i   = 0,
+		    len = elems.length;
+
+		for ( ; i < len ; i++ ) {
+			if ( !inv !== !callback( elems[ i ], i ) ) {
+				ret[ret.length] = elems[ i ];
+			}
+		}
+		
+		return ret;
+	},
+	//Add Event Handler
+	addEventHandler : (function(){
+		if (window.addEventListener) {
+			return function(elm, type, handler){
+				elm.addEventListener(type, handler, false);
+			};
+		}
+		else if (window.attachEvent) {
+			return function(elm, type, handler){
+				elm.attachEvent('on' + type, function(){
+					handler.call(elm, window.event);
+				});
+			};
+		}
+		else {
+			return function(elm, type, handler){
+				elm['on' + type] = handler;
+			}
+		}
+	})()
+	/*,
+	toArray: function(){
+		return slice.call(this);
+	},
+	typeOf: function(){
+		return typeof this;
+	},
+	instanceOf: function(klass){
+		return this instanceof klass;
+	},
+	isConstructor: function(klass){
+		return this.constructor === klass;
+	}*/
 };
 
 myExt.each = myExt.forEach;
@@ -271,7 +325,7 @@ if (!$) {
 }
 else {
 	for ( var i in myExt ) {
-		if ( !(i in $) ) {
+		if ( !( i in $ ) ) {
 			$[i] = myExt[i];
 		}
 	}
