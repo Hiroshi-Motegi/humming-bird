@@ -7,36 +7,39 @@
 	</head>
 	<style>
 		body{
-			margin: 0;
+			margin : 0;
 			padding: 0;
 		}
 		#Header-Wrap{
-			background: url('./img/sample02-headwrapbg.png') repeat-x;
+			background   : url('./img/sample02-headwrapbg.png') repeat-x;
 			border-bottom: 4px dotted #cc6666;
 		}
 		#Header{
 			margin: 0 auto;
-			width: 420px;
+			width : 420px;
 			height: 150px;
-			background: url('./img/sample02-headbg.png') top center no-repeat;
+			background  : url('./img/sample02-headbg.png') top center no-repeat;
 			border-right: 2px dotted #cc6666;
-			border-left: 2px dotted #cc6666;
+			border-left : 2px dotted #cc6666;
 		}
-		span{
-			display: block;
+		h3{
+			display   : block;
+			margin    : 0;
+			padding   : 0;
 			text-align: center;	
 		}
 		#Wrap{
-			background: url('./img/sample02-bg.png') center repeat-y;
+			background   : url('./img/sample02-bg.png') center repeat-y;
 			border-bottom: 4px dotted #cc6666;
 		}
 		#Content{
 			margin: 0 auto 1em;
-			width: 380px;
+			width : 380px;
 			border: 2px dotted #cc6666;
+			height:100%;
 		}
 		div.ds{
-			width: 400px;
+			width : 400px;
 			margin: 0 auto;
 		}
 		p{
@@ -46,17 +49,22 @@
 	<body>
 		<div id="Header-Wrap">
 			<div id="Header">
-				<span>Header</span>
+				<h3>Header</h3>
 				<p>この例では、Headerの背景画像とその下のContentのWrapの背景画像とを合わせる方法で作成しています。</p>
 			</div>
 		</div>
-		<div id="Wrap">
-			<div class="ds"><p>このようにすれば上と下がズレルことはなくなる。</p></div>
+		
+		<div id="Wrap"><!--<span>Wrap</span>-->
+			<div class="ds">
+				<p>このようにすれば上のHeader画像と下(#Wrap)の画像がズレルことはなくなる。</p>
+			</div>
 			<div id="Content">
-				<span>Content</span>
-				<p>ズレは解消されたが、大きいモニターなら確認できているだろうが、高さ(height)がモニターより短いと下が途切れることになる。<br />回避策として、min-heightを設定しても閲覧者のモニターの大きさは一定ではないためおススメできない。JavaScriptで高さを設定する手もあるが、JavaScriptをOffにすることも可能なのでこれもおススメできない。</p>
+				<h3>Content</h3>
+				<p>ズレは解消されたが、大きいモニターなら確認できているだろうが、高さ(height)がモニターより短いと下が途切れることになる。</p>
+				<p>回避策として、min-heightを設定しても閲覧者のモニターの大きさは一定ではないためおススメできない。</p>
+				<p>JavaScriptで高さを設定する手もあるが、JavaScriptをOffにすることも可能なのでこれもおススメできない。</p>
 			</div>
 		</div>
-		<span>Wrap</span>
+		
 	</body>
 </html>
