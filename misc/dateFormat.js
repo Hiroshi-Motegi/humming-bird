@@ -1,5 +1,5 @@
 /**
- * Javascript Date dateFormat
+ * Javascript dateFormat
  * Copyright 2010
  * Released under the MIT and GPL licenses.
  * 
@@ -9,7 +9,7 @@
  * @LastUpdate : 2010/04/12
  * @Demo       : http://humming-bird.googlecode.com/svn/trunk/misc/dateFormat.html
  */
-(function( clientLanguage, undefined ){
+;(function( clientLanguage, undefined ){
 
 clientLanguage = clientLanguage || "en";
 

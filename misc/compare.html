@@ -127,87 +127,87 @@ function createEqualTable(caption, equal){
 	})([''])));
 	//===============================================
 	
-	for (var ii = 0; ii < ln; ii++) {
+	for ( var ii = 0; ii < ln ; ii++ ) {
 		
 		tmp = [];
 		v   = values[ii].value;
 		
-		for (var k = 0; k < ln; k++) {
-			tmp.push(k < ii ? '-' : equal(v, values[k].value));
+		for ( var k = 0; k < ln ; k++ ) {
+			tmp.push( k < ii ? '-' : equal(v, values[k].value) );
 		}
 		
-		ret.push(
-			"<th>" + values[ii].name + "</th>" +
-			"<td>" + tmp.join("</td><td>") + "</td>");
+		ret.push( "<th>" + values[ii].name       + "</th>"
+			    + "<td>" + tmp.join("</td><td>") + "</td>" );
 	}
 	
 	return $("<table>")
 		.attr("cellSpacing","0")
 		.append(
 			$("<caption>").html(caption),
-			$("<tbody>").append( arrJoin("tr", ret) ));
+			$("<tbody>").append( arrJoin("tr", ret) ) );
 }
 
 
 
 
-$('#target')
-	.append(createEqualTable(
-		'A <b>==</b> B',
-		function (a, b){
-			return (a == b);
-		}
-	));
+$('#target').append(createEqualTable(
+	'A <b>==</b> B',
+	function (a, b){
+		return (a == b);
+	}
+));
 
 
-$('#target')
-	.append(createEqualTable(
-		'A <b>===</b> B',
-		function (a, b){
-			return (a === b);
-		}
-	));
+$('#target').append(createEqualTable(
+	'A <b>===</b> B',
+	function (a, b){
+		return (a === b);
+	}
+));
 
 
-$('#target td').filter(function(){
-	return $(this).text() == 'true';
-})
-.css({
-	backgroundColor: '#caa'
-})
-.end()
-.filter(function(){
-	return $(this).text() == '-';
-})
-.css({
-	backgroundColor: "#999"
-});
+$('#target td')
+	.filter(function(){
+		return $(this).text() == 'true';
+	})
+	.css({
+		backgroundColor: '#caa'
+	})
+	.end()
+	.filter(function(){
+		return $(this).text() == '-';
+	})
+	.css({
+		backgroundColor: "#999"
+	});
 
 
 
 //===============================================================================
 function createSingleTables(caption, id, fn){
 	
-	var ret = ["<th>Value</th><th>Result</th>"], ln = values.length;
+	var
+	ret = ["<th>Value</th><th>Result</th>"],
+	ln  = values.length;
 	
 	//make Row
-	for (var i = 0; i < ln; i++) {
-			ret.push(
-				"<th>" + values[i].name + "</th>" +
-				"<td>" + fn(values[i].value) + "</td>");
+	for ( var i = 0 ; i < ln ; i++ ) {
+			ret.push( "<th>" + values[i].name      + "</th>"
+			        + "<td>" + fn(values[i].value) + "</td>");
 	}
 	
-	return $("<table>").attr({
-			"cellSpacing":"0",
-			"id":id
-		}).append(
+	return $("<table>")
+		.attr({
+			"cellSpacing" : "0",
+			"id"          : id })
+		.append(
 			$("<caption>").html(caption),
 			"<tbody><tr>" + ret.join("</tr><tr>") + "</tr></tbody>");
 }
 
 
-$("#target")
-	.append(createSingleTables(
+$("#target").append(
+	createSingleTables(
 		"<b>typeof</b> Value",
 		"typeof",
 		function (v){
@@ -215,8 +215,8 @@ $("#target")
 		}
 	));
 
-$("#target")
-	.append(createSingleTables(
+$("#target").append(
+	createSingleTables(
 		"Value.<b>constructor</b>",
 		"construct",
 		function(value){
@@ -234,19 +234,17 @@ $("#target")
 
 
 
-
-
 //===============================================================================
 function createInstanceOfTable(){
 	
 	var
-	table = document.createElement("table"),
+	table       = document.createElement("table"),
 	regInstType = /(Array|Boolean|Date|Error|Function|Number|Object|RegExp|String)/g,
-	instArry = instanceOfValues,
-	ln = instArry.length,
-	i = 0,
-	th = "th",
-	td = "td",
+	instArry    = instanceOfValues,
+	ln          = instArry.length,
+	i           = 0,
+	th          = "th",
+	td          = "td",
 	inst, typ;
 	
 	
@@ -255,16 +253,19 @@ function createInstanceOfTable(){
 	 * @param row      {tr Element}
 	 * @param children {Array}
 	 */
-	function append(elmnt, children){
-		var ln = children.length, i = 0, child;
+	function append( elmnt, children ){
+		var
+		ln = children.length,
+		i  = 0,
+		child;
 		
-		function createNode(tag, text){
+		function createNode( tag, text ){
 			var elm = document.createElement(tag);
 			elm.appendChild(document.createTextNode(text));
 			return elm;
 		}
 		
-		for (; i < ln;) {
+		for ( ; i < ln ; ) {
 			child = children[i++];
 			elmnt.appendChild( createNode(child.tag, child.text) );
 		}
@@ -286,15 +287,16 @@ function createInstanceOfTable(){
 	    tags = ["span", "b", "span"],
 	    txts = ["Value", " instanceof ", "ObjectType"];
 	
-	for (var i = 0; i < 3; i++) {
-		var helm = document.createElement(tags[i]);
-		helm.appendChild(document.createTextNode(txts[i]));
+	for ( var i = 0 ; i < 3 ; i++ ) {
+		var helm = document.createElement( tags[i] );
+		helm.appendChild( document.createTextNode( txts[i] ) );
 		cap.appendChild(helm);
 	}
+	
 	table.appendChild(cap);
 	
 	
-	for (var i = 0; i < ln; i++) {
+	for ( var i = 0 ; i < ln ; i++ ) {
 		inst = instArry[i].instance;
 		typ  = instArry[i].type;
 		
@@ -400,53 +402,50 @@ $('#isfinite td')
 
 
 $('#isfinite,#isnan,#inst,#construct,#typeof')
-	.find("tr:eq(0) th")
+	.find('tr:eq(0) th')
 	.css({
-		fontFamily:"Tahoma",
-		fontWeight: 'bold',
-		backgroundColor:'#999'
+		fontFamily      : 'Tahoma',
+		fontWeight      : 'bold',
+		backgroundColor : '#999'
 	});
-	
-	
-
 
 
 });
 </script>
 <style>
 body{
-	font-family:Tahoma;
-	font-size:11px;
+	font-family : Tahoma;
+	font-size   : 11px;
 }
-table,tbody,tr,td,th{
-	margin:0;
-	padding:0;
+body,table,tbody,tr,td,th{
+	margin  : 0;
+	padding : 0;
 }
 table{
-	background-color:#eee;
-	border:1px solid #666;
-	border-collapse:collapse;
-	border-spacing:0;
-	empty-cells:show;
-	margin-bottom:100px;
-	table-layout:fixed;
-	text-align:center;
-	width:100%;
+	background-color : #eee;
+	border           : 1px solid #666;
+	border-collapse  : collapse;
+	border-spacing   : 0;
+	empty-cells      : show;
+	margin-bottom    : 100px;
+	table-layout     : fixed;
+	text-align       : center;
+	width            : 100%;
 }
 caption{
-	font-size:20px;
-	line-height:2em;
+	font-size   : 20px;
+	line-height : 2em;
 }
 tr{}
 th{
-	background-color:#ccc;
-	font-weight:normal;
-	padding:3px 0;
+	background-color : #ccc;
+	font-weight      : normal;
+	padding          : 3px 0;
 }
 th, td {
-	border:1px solid #666;
-	font-family:monospace;
-	overflow:hidden;
+	border      : 1px solid #666;
+	font-family : monospace;
+	overflow    : hidden;
 }
 
 #typeof,
@@ -470,7 +469,6 @@ th, td {
 	font-size:16px;
 }
 </style>
-
 </head>
 <body>
 	<div id='target'></div>

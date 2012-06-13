@@ -6,8 +6,8 @@
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
 	<title>parse color</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-<script type="text/javascript">
 
+<script type="text/javascript">
 //[number(red), number(green), number(blue)] => #hhhhhh
 function parseColorCode(rgb){
 	return '#' + (((256 + rgb[0] << 8) + rgb[1] << 8) + rgb[2]).toString(16).slice(1);
@@ -95,27 +95,27 @@ document.writeln("#e0ffff".toRgba(0.4));//rgba(170,187,204,1)
 
 <style type="text/css">
 body{
-	font-family:"メイリオ", Meiryo;
-	font-size  :16px;
+	font-family      : "メイリオ", Meiryo;
+	font-size        : 16px;
 }
 h1{
-	background-color:#666;
-	font-family:Tahoma;
-	color:#999;
-	text-shadow: -1px -1px 0px rgba(255,255,255,0.5),1px 1px 0px rgba(0,0,0,0.3);
-	padding:5px 10px;
+	background-color : #666;
+	font-family      : Tahoma;
+	color            : #999;
+	text-shadow      : -1px -1px 0px rgba(255,255,255,0.5),1px 1px 0px rgba(0,0,0,0.3);
+	padding          : 5px 10px;
 }
 select{
-	border:1px solid #333;
-	padding:3px 3px 3px 6px;
+	border           : 1px solid #333;
+	padding          : 3px 3px 3px 6px;
 }
 #text{
-	/*opacity:0.5;*/
-	color:rgba(0,0,0,.5);
+	/*opacity        : 0.5;*/
+	color            : rgba(0,0,0,.5);
 }
 </style>
 </head>
 <body>
-	<h1>Test</h1>
+	<h1>parse color - Test</h1>
 </body>
 </html>

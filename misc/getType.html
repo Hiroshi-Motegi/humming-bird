@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-	<title>New Web Project</title>
+	<title>Get Type</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -92,6 +92,7 @@ var Type = function ( undefined ){
 		},
 		isDate: function(v){
 			return v instanceof Date;
+			//return toStringCall(v).indexOf('Date') != -1;
 		},
 		isFunction: function(v){
 			return typeof v == 'function';
@@ -107,24 +108,24 @@ var Type = function ( undefined ){
 		},
 		getType: function(v){
 			
-			var
-			_typeof = typeof v,
-			_class = this.getClass(v).toLowerCase();
-			
+			var _typeof, _class;
 			
 			if ( v === null ) {
 				return 'null';
 			}
 			
-			if( _typeof == 'undefind' ||
-				_typeof == 'boolean' ||
-				_typeof == 'string' ||
-				(_typeof == 'number' && !isNaN(v)) ){
+			_typeof = typeof v;
+			
+			if( _typeof === 'undefind' ||
+				_typeof === 'boolean'  ||
+				_typeof === 'string'   ||
+			  ( _typeof === 'number' && !isNaN(v) ) ){
 				return _typeof;
 			}
 			
+			_class = this.getClass(v).toLowerCase();
 			
-			switch(_class){
+			switch( _class ){
 				case 'array':
 				case 'regexp':
 				case 'date':
@@ -132,12 +133,8 @@ var Type = function ( undefined ){
 				 return _class;
 			}
 
-			
-			if ( _typeof == 'object'){
-				if(v.callee){
-					return 'arguments';
-				}
-				return 'object';
+			if ( _typeof === 'object'){
+				return v.callee ? 'arguments' : 'object';
 			}
 			
 			return 'unknown';
@@ -178,42 +175,32 @@ timeLog(function(){
 	//return Object.prototype.toString.call(x);
 }, 1000 * 100);
 */
-
-
-
-
-
-function isDate(o) {
-  return toStringCall(o).indexOf('Date') != -1;
-}
-
-
 });
 </script>
 <style>
 body{
-	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-family      : Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
 table{
-	border:1px solid #666;
-	border-collapse:collapse;
-	border-spacing:0;
-	background-color:#eee;
-	empty-cells:show;
-	table-layout:fixed;
-	text-align:center;
-	width:100%;
+	border           : 1px solid #666;
+	border-collapse  : collapse;
+	border-spacing   : 0;
+	background-color : #eee;
+	empty-cells      : show;
+	table-layout     : fixed;
+	text-align       : center;
+	width            : 100%;
 }
 tr{}
 th{
-	font-size:small;
-	background-color:#ccc;
+	font-size        : small;
+	background-color : #ccc;
 }
 th, td {
-	border:1px solid #666;
-	font-size:12px;
-	line-height: 2em;
-	overflow:hidden;
+	border           : 1px solid #666;
+	font-size        : 12px;
+	line-height      : 2em;
+	overflow         : hidden;
 }
 </style>
 </head>

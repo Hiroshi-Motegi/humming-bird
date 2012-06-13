@@ -4,13 +4,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-	<title>jQuery makeContent demo</title>
+	<title>jQuery plugin - makeContent demo</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 	<script src="http://humming-bird.googlecode.com/svn/trunk/jquery/lib/jquery.gfeed.js" type="text/javascript"></script>
 	<script src="http://humming-bird.googlecode.com/svn/trunk/jquery/lib/jquery.toList.js" type="text/javascript"></script>
 <script type="text/javascript" id="usage">
 jQuery(function($){
-
 	$.makeContent = function (params){
 		
 		var
@@ -67,15 +66,15 @@ jQuery(function($){
 		$(document.body).append($("<h3>").text(feed.title), entryList);
 		
 	});
-
 });
 </script>
 <style>
-	body{
-		font-size:100%;
-	}
+body{
+	font-size:100%;
+}
 </style>
 </head>
 <body>
+	<h1>jQuery plugin - makeContent demo</h1>
 </body>
 </html>
