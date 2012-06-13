@@ -20,10 +20,10 @@
 (function($){
 $.fn.recentPosts = function(options, feedUrl){
 	var opt = $.extend({
-		numEntries:10,
-		pubDate:true,
-		author:false,
-		delimiter:' - ',
+		numEntries: 10,
+		pubDate   : true,
+		author    : false,
+		delimiter : ' - ',
 		dateFormat: function (date) {
 		    return (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
 		}
@@ -43,15 +43,16 @@ $.fn.recentPosts = function(options, feedUrl){
 		if (!result.error) {
 			var lst = [];
 			
-			for (var i = 0, j = result.feed.entries.length; i < j ; i++) {
-				var entry = result.feed.entries[i];
+			for (var i = 0, j = result.feed.entries.length, entry = null ; i < j ; i++ ) {
+				entry = result.feed.entries[i];
 				
-				lst.push('<li><span class="item-title"><a href=' + entry.link + ' >' + entry.title + '</a></span>' + 
+				lst.push(
+					'<span class="item-title"><a href=' + entry.link + ' >' + entry.title + '</a></span>' + 
 					(opt.pubDate ? '<span class="item-date">' + opt.delimiter + opt.dateFormat(new Date(entry.publishedDate)) + '</span>' : '') + 
-					(opt.author ? '<span class="item-author">' + opt.delimiter + entry.author + '</span>' : '') + '</li>');
+					(opt.author ? '<span class="item-author">' + opt.delimiter + entry.author + '</span>' : '') );
 			}
 			
-			$t.append(lst.join(''));
+			$t.append( '<li>'+ lst.join('</li><li>') + '</li>' );
 		}
 	});
 }

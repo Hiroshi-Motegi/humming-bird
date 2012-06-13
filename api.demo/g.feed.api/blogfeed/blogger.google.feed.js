@@ -14,13 +14,15 @@ function bloggerGoogleFeed (options, feedUrl){
 	}
 
 	var opt = extend({
-		targetID: 'HTML99',
+		targetID  : 'HTML99',
 		numEntries: 10,
-		pubDate: true,
-		author: false,
-		delimiter: ' - ',
+		pubDate   : true,
+		author    : false,
+		delimiter : ' - ',
 		dateFormat: function(date){
-			return (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
+			return ( date.getFullYear()    + '/'
+				+  ( date.getMonth() + 1 ) + '/'
+				+    date.getDate() );
 		}
 	}, options);
 
@@ -51,7 +53,7 @@ function bloggerGoogleFeed (options, feedUrl){
 					return span;
 			}
 
-			for (var i = 0; i < result.feed.entries.length; i++) {
+			for ( var i = 0; i < result.feed.entries.length; i++ ) {
 				var
 				entry = result.feed.entries[i],
 				li = document.createElement('li'),

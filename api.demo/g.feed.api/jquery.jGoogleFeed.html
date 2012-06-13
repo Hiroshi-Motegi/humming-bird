@@ -14,8 +14,8 @@ google.load('feeds', '1', { 'nocss' : true });
 
 $.jGoogleFeed = function (options, url, callback) {
 	var opt = $.extend({
-		numEntries: 10, // entry count
-		format: 'json' // result feed format. json or xml or mixed
+		numEntries: 10,    // entry count
+		format    : 'json' // result feed format. json or xml or mixed
 	}, options);
 
 	callback = $.isFunction(url) ? url : callback || function(){};

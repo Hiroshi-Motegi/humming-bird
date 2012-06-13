@@ -1,18 +1,18 @@
 ﻿(function($){
 $.bloggerGoogleFeed = function(options, feedUrl){
 	var opt = $.extend({
-		targetID:'HTML99',
-		numEntries:10,
-		pubDate:true,
-		author:false,
-		delimiter:' - ',
+		targetID  : 'HTML99',
+		numEntries: 10,
+		pubDate   : true,
+		author    : false,
+		delimiter : ' - ',
 		dateFormat: function (date) {
 		    return (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
 		}
 	}, options);
 	
 	feedUrl = typeof options === 'string' ? options : feedUrl || '';
-	if(feedUrl.length == 0) return;
+	if( feedUrl.length == 0 ) return;
 	
 	var feed = new google.feeds.Feed(feedUrl);
 	
