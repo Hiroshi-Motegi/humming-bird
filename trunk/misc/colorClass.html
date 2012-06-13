@@ -4,25 +4,25 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
 	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-	<title>Color Object test</title>
+	<title>Color Object - test</title>
 <script type="text/javascript">
 //add event listener
 var addListener = function(){
 	if (window.addEventListener) {
-		return function(el, type, fn){
+		return function( el, type, fn ){
 			el.addEventListener(type, fn, false);
 		};
 	}
 	else 
 		if (window.attachEvent) {
-			return function(el, type, fn){
+			return function( el, type, fn ){
 				el.attachEvent('on' + type, function(){
 					fn.call(el, window.event);
 				});
 			};
 		}
 		else {
-			return function(el, type, fn){
+			return function( el, type, fn ){
 				el['on' + type] = fn;
 			}
 		}
@@ -36,28 +36,26 @@ function Color(){
 
 Color.prototype = {
 	initialize: function(){
-		
 		var prm = arguments[0] || {};
 		
-		this.r = prm.r || 0;
-		this.g = prm.g || 0;
-		this.b = prm.b || 0;
+		this.r    = prm.r || 0;
+		this.g    = prm.g || 0;
+		this.b    = prm.b || 0;
 		this.name = prm.name || "";
-
 	},
 	
-	r: 0, //red
-	g: 0, //greeen
-	b: 0, //blue
+	r    : 0, //red
+	g    : 0, //greeen
+	b    : 0, //blue
 	name : "", //color name
 	
 	//Color code. ex:#ffffff
 	code : function(){
-		return '#' + (((256 + this.r << 8) + this.g << 8) + this.b).toString(16).slice(1);
+		return '#' + ( ( ( 256 + this.r << 8 ) + this.g << 8 ) + this.b ).toString(16).slice(1);
 	},
 	//RGB Array
 	toRgb: function(){
-		return [this.r, this.g, this.b];
+		return [ this.r, this.g, this.b ];
 	},
 	valueOf: function(){
 		return this.code();
@@ -65,34 +63,34 @@ Color.prototype = {
 	toString: function(){
 		return this.valueOf();
 	}
-	
-}
+};
+
 
 Color.aqua = function(){
 	return new Color({
-		r: 0,
-		g: 255,
-		b: 255,
+		r   : 0,
+		g   : 255,
+		b   : 255,
 		name: "aqua"
 	});
-}
+};
 
 
 
 
 addListener(window || window.document , "load", function(){
 	
+	var elm = document.getElementById("test");
+	
 	/* IEではプリミティブ値を呼ばない。
 	 * そのため、このような実装は不可能。
 	 * Javascriptがオブジェクト指向に向かない理由の一つと考える。*/
 	
-	var p = document.getElementById("test");
-	
-	p.style.backgroundColor = Color.aqua();//IEでは色は変わらない。
-	
+	//alert( Color.aqua() );
+	//console.log( Color.aqua() );
+	elm.style.backgroundColor = Color.aqua();//IEでは色は変わらない。
 	//このようにプロパティ値を渡さなければならない。
-	//p.style.backgroundColor = Color.aqua().code();
-
+	//elm.style.backgroundColor = Color.aqua().code();
 });
 </script>
 <style type="text/css">
@@ -100,11 +98,16 @@ body{
 	/* Lucida Grandeは二バイト文字が文字化けする? */
 	font-family:'Lucida Grande','Verdana';
 }
+#test{
+	border     : 1px solid #333;
+	line-height: 2em;
+	padding    : 5px;
+}
 </style>
 </head>
 <body>
-	<h1>Color Object test</h1>
-	<p>１２３ABCあいうえお</p>
-	<p id="test">この背景色を変える。123 ABC abc</p>
+	<h1>Color Object - test</h1>
+	<p>１２３ABCあいうえお - Lucida Grandeは二バイト文字が文字化けする?</p>
+	<p id="test">この背景色を変える。<br />IEでは色は変わらない...</p>
 </body>
 </html>

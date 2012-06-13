@@ -19,17 +19,15 @@
 function LoadDynamicFeedControl() {
 var feeds = [{url: 'http://googlejapan.blogspot.com/feeds/posts/default'}];
 var options = {
-numResults : 5,
-displayTime : 2000,
-fadeOutTime : 1000,
-pauseOnHover : true,
-title : "Recent Posts",
-linkTarget : google.feeds.LINK_TARGET_SELF,
-stacked : false,
-horizontal : false
-
-}
-
+	numResults   : 5,
+	displayTime  : 2000,
+	fadeOutTime  : 1000,
+	pauseOnHover : true,
+	title        : "Recent Posts",
+	linkTarget   : google.feeds.LINK_TARGET_SELF,
+	stacked      : false,
+	horizontal   : false
+},
 new GFdynamicFeedControl(feeds, 'feed-control', options);
 }
 google.load('feeds',"1");

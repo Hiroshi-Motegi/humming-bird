@@ -172,18 +172,19 @@ var wm = {
 		var offset =  $(elm).offset();
 		$(elm)
 			.css({
-				position:"absolute",
-				height:wm.itemSize,
-				left:offset.left,
-				top:offset.top
+				position: "absolute",
+				height  : wm.itemSize,
+				left    : offset.left,
+				top     : offset.top
 				})
 			.animate({
-				opacity:0.0,
-				top: "-=100",
-				left: "-=100",
-				width: "+=200",
-				height: "+=200"}, 
-				"slow", "easeInOutExpo", 
+				opacity: 0.0,
+				top    : "-=100",
+				left   : "-=100",
+				width  : "+=200",
+				height : "+=200"}, 
+				"slow",
+				"easeInOutExpo", 
 				function(){$(this).parent().empty();});
 
 	},

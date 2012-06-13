@@ -1,27 +1,26 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Type" content="text/javascript; charset=utf-8" />
-<meta http-equiv="Content-Type" content="text/css; charset=utf-8" />
-<title>New Web Project</title>
-</script>
-<script type="text/javascript">
-</script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>Dropdown Menu test</title>
+
+<script type="text/javascript"></script>
 <style type="text/css">
      * {
-        margin: 0;
-        padding: 0;
+        margin     : 0;
+        padding    : 0;
 		font-family:'Verdana';
     }
     
     body {}		
     
     ul {
-        text-indent: 0;
+        text-indent    : 0;
         list-style-type: none;
-        font-family: 'Verdana';
-		font-size: 16px;
+        font-family    : 'Verdana';
+		font-size      : 16px;
 		/*font-size:1px;*/
     }
     
@@ -29,56 +28,54 @@
         /*clear: both;*/
 		/*line-height:0;*/
 		/*font-size: 16px;*/
-		background-image: none;
-		list-style-type: none;
-		list-style-image: none;
+		background-image : none;
+		list-style-type  : none;
+		list-style-image : none;
     }
 	
     ul#menu {
-    	float:left;
-    	/*position: relative;*/
-		height: 30px;
-		border: 1px solid #c0c0c0;
+    	float  : left;
+		height : 30px;
+		border : 1px solid #c0c0c0;
+		/*position: relative;*/
 		/*z-index: 100;*/
     }
     
     li.menutop{
-    	float:left;
-		position: relative;
-		display: block;
-		
-        height: 30px;
-        line-height: 30px;
-		padding: 0 15px; /*padding: 6px 10px;*/
+    	float           : left;
+		position        : relative;
+		display         : block;
+        height          : 30px;
+        line-height     : 30px;
+		padding         : 0 15px; /*padding: 6px 10px;*/
 		background-color: #eee;
     }
 	li.menutop > a{
-		display: block;
-    	float:left;
+		display : block;
+    	float   : left;
 	}
     
     ul.submenu {
-        position: absolute;
-        top: 30px;/* 「ul#menu li」の高さ分だけ下げる */
-        left: -1px; /* border-leftの幅分だけ左へ */
-        z-index: 101;
+        position     : absolute;
+        top          : 30px;/* 「ul#menu li」の高さ分だけ下げる */
+        left         : -1px; /* border-leftの幅分だけ左へ */
+        z-index      : 101;
 		
-        border-left: 1px solid #666;
-        border-right: 1px solid #666;
+        border-left  : 1px solid #666;
+        border-right : 1px solid #666;
         border-bottom: 1px solid #666;
     }
     
     ul.submenu li{
-    	float: none;
-		display: block;
-		position: relative;
-		
-		font-size: 14px;
-        height: 24px;
-        line-height: 24px;
-        padding: 3px 10px;
-        border-top: 1px solid #666;
-		background-color: #eee;
+    	float            : none;
+		display          : block;
+		position         : relative;
+		font-size        : 14px;
+        height           : 24px;
+        line-height      : 24px;
+        padding          : 3px 10px;
+        border-top       : 1px solid #666;
+		background-color : #eee;
     }
 
     

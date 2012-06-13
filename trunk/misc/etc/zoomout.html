@@ -12,17 +12,18 @@ function CharItemControl(){
 	this.initialize.apply(this, arguments);
 };
 CharItemControl.prototype = {
-	control: null,
-	chrImg: null,
-	Character: "",
-	size: 100,
-	itemClass: "chrItem",
-	imgClass: "chrImg",
-	IsShow: false,
-	IsEmpty: true,
+	control   : null,
+	chrImg    : null,
+	Character : "",
+	size      : 100,
+	itemClass : "chrItem",
+	imgClass  : "chrImg",
+	IsShow    : false,
+	IsEmpty   : true,
 	initialize: function(ops){
-		var itmcls = this.itemClass;
-		var itmsize = this.size;
+		var itmcls  = this.itemClass,
+		    itmsize = this.size;
+		
 		this.control = document.createElement("div");
 		
 		var thsCtrl = this;
@@ -44,8 +45,9 @@ CharItemControl.prototype = {
 		
 		this.Character = chr;
 		
-		var itmsize = this.size;
-		var imgcls = this.imgClass;
+		var itmsize = this.size,
+		    imgcls  = this.imgClass;
+		
 		this.chrImg = document.createElement("img");
 		this.control.appendChild(this.chrImg);
 		
@@ -94,12 +96,13 @@ CharItemControl.prototype = {
 			.animate({left: offset.left, top: offset.top}, 0)
 			.animate({
 				opacity:0.0,
-				top: "-=100",
-				left: "-=100",
-				width: "+=200",
-				height: "+=200"}, 
-				"slow", "easeInOutExpo", 
-				function(){$(this).parent().empty();});
+				top    : "-=100",
+				left   : "-=100",
+				width  : "+=200",
+				height : "+=200"}, 
+				"slow",
+				"easeInOutExpo", 
+				function(){ $(this).parent().empty(); } );
 
 	}
 };

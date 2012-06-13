@@ -17,17 +17,17 @@ body {width:expression( documentElement.clientWidth < 900 ? (documentElement.cli
 $(function(){
 /*jQuery:
 
-text() は子要素があっても文字列だけを取得することができる
+text() - 子要素があっても文字列だけを取得することができる
 
-each:falseを返すと処理を中断できる
+each   - falseを返すと処理を中断できる
 
-clone:引数にtrueを指定するとイベントもコピーされる。
+clone  - 引数にtrueを指定するとイベントもコピーされる。
 
 animationで指定するopacityはtoggleを指定できる
 
-mapは配列が線形化される(完全にではない)
+map - 配列が線形化される(完全にではない)
 
-ajaxのcache:falseにするとキャッシュされないようにできる。
+ajaxのcache - falseにするとキャッシュされないようにできる。
 
 outerHeight/WidthはDOMツリーに追加される前でも値を取得可能
 stopの引数にtrueを渡すとqu
@@ -41,12 +41,12 @@ stopの引数にtrueを渡すとqu
  * このブラウザによる違いをなくすためには『contents』を利用します。
  */
 //#target直下の要素が特定できない場合などに有効です。
-//alert($("#target").text());
+//alert( $("#target").text() );
 
-//alert($("#target").contents().text());
+//alert( $("#target").contents().text() );
 
-//alert($("#target p").text());
-//alert($("#target > *").text());
+//alert( $("#target p").text() );
+//alert( $("#target > *").text() );
 
 
 
@@ -176,9 +176,11 @@ $('input[name=button]').click(function(){
 
 //------------------------------------------------------------------------------
 //$.merge( [0,1,2], [2,3,4] );
-//Result:[0,1,2,3,2,3,4]
-alert($.merge( [0,1,2], [1,2,null,3] ));
+//Result:[ 0, 1, 2, 3, 2, 3, 4 ]
+alert( $.merge( [0,1,2], [1,2,null,3] ) );
+
 //COMMENT_NODE: 8
+
 //値がnullだと処理を終了する。
 //------------------------------------------------------------------------------
 function now(){
@@ -198,7 +200,7 @@ var bar = {
 	b:"boo"
 };
 
-var ret = $.extend(true,foo,bar);
+var ret = $.extend( true, foo, bar );
 //-----------------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", function (e){
@@ -219,42 +221,41 @@ function $$(id){
 	return document.getElementById(id);
 }
 
-function isExist(id){
-	return $$(id) != null;
+function isElement(id){
+	return $$(id) !== null;
 }
 
-//子要素が0の場合、ちゃんと0を返してくれる。
-function hasChild(elm){
-	if (elm == null) {
-		return false;
-	}
-	else {
-		return elm.hasChildNodes();
-	}
+function isExist(elm){
+	return elm !== null;
+}
+
+function hasChild( elm ){
+	return !isExist( elm )
+		? false
+		: elm.hasChildNodes();
 }
 
 function lastChildIndex(elm){
-	if(hasChild(elm))
-		return $(elm).children().index($(elm).children(":last"));
+	if( hasChild(elm) )
+		return $(elm).children().index( $(elm).children(":last") );
 }
 
 //クロスブラウザなfirstChild
-function firstChild(elm){
+function firstChild( elm ){
 	var nd = elm.firstChild;
-	while (nd && nd.nodeType != 1) {
+	while ( nd && nd.nodeType != 1 ) {
 		nd = nd.nextSibling;
 	}
 	return nd;
 }
 //--------------------------------------------------------------------------
+//Clojure
 function makeClojure(){
 	var i = 0;
 	return function(){
 		return i++;
 	};
 }
-
-
 
 //--------------------------------------------------------------------------
 function searchItunes(keyword) {
@@ -266,12 +267,12 @@ function searchItunes(keyword) {
 		term    = encodeURI(keyword),
 		output  = 'json',
 		url     = 'http://phobos.apple.com/WebObjects/MZSearch.woa/wa/itmsSearch',
-		params  = 'lang='    + lang +
+		params  = 'lang='    + lang    +
 				 '&country=' + country +
-				 '&media='   + media +
-				 '&entity='  + entity +
-				 '&limit='   + limit +
-				 '&term='    + term +
+				 '&media='   + media   +
+				 '&entity='  + entity  +
+				 '&limit='   + limit   +
+				 '&term='    + term    +
 				 '&output='  + output;
 
 	window.open(url + '?' + params, "_blank");
@@ -281,12 +282,12 @@ function searchItunes(keyword) {
 
 
 function xBrowserXhr(){
-	if (typeof(DOMParser) == 'undefined') {
+	if ( typeof( DOMParser ) == 'undefined' ) {
 		DOMParser = function(){};
 		
 		DOMParser.prototype.parseFromString = function(str, contentType){
 		
-			if (typeof(ActiveXObject) != 'undefined') {
+			if ( typeof(ActiveXObject) != 'undefined' ) {
 				var xmldata = new ActiveXObject('MSXML.DomDocument');
 				xmldata.async = false;
 				xmldata.loadXML(str);
@@ -301,10 +302,10 @@ function xBrowserXhr(){
 						contentType = 'application/xml';
 					}
 					
-					xmldata.open('GET','data:'
-						+ contentType
-						+ ';charset=utf-8,'
-						+ encodeURIComponent(str), false);
+					xmldata.open(
+						'GET',
+						'data:' + contentType + ';charset=utf-8,' + encodeURIComponent(str),
+						false);
 					
 					if (xmldata.overrideMimeType) {
 						xmldata.overrideMimeType(contentType);
@@ -331,11 +332,12 @@ selector{
 	-khtml-opacity :0.5;
 	opacity        :0.5;
 }
+
 selctor{
-	text-shadow:0 0 8px #555;
-	-moz-border-radius:10px;
-	-moz-box-shadow   :0 0 5px #000;
-	-webkit-box-shadow:0 0 5px #000;
+	text-shadow        :0 0 8px #555;
+	-moz-border-radius :10px;
+	-moz-box-shadow    :0 0 5px #000;
+	-webkit-box-shadow :0 0 5px #000;
 }
 </style>
 </head>
