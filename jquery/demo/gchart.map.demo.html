@@ -1,15 +1,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
-		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-		<title>jQuery plugin - gChart Demo</title>
-		<link rel="stylesheet" type="text/css" href="../../prettify/prettify.css" media="screen" charset="utf-8"/>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-		<script src="../lib/jquery.gchart.js" type="text/javascript"></script>
-		<script src="../lib/jquery.gchart.map.js" type="text/javascript"></script>
-		<!--<script src="../../prettify/prettify.js" type="text/javascript"></script>-->
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>jQuery plugin - gChart map Demo</title>
+	<link rel="stylesheet" type="text/css" href="../../prettify/prettify.css" media="screen" charset="utf-8"/>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+	<script src="../lib/jquery.gchart.js" type="text/javascript"></script>
+	<script src="../lib/jquery.gchart.map.js" type="text/javascript"></script>
+	<!--<script src="../../prettify/prettify.js" type="text/javascript"></script>-->
 <script type="text/javascript">
 (function($){
 var gc = $.gChart;
@@ -19,66 +19,66 @@ var gc = $.gChart;
 	//cht - チャート タイプ(chart type)
 	//ex : cht=<chart type>
 	chartType: {
-		line: 'lc', //折れ線グラフ
-		lineXY: 'lxy', //折れ線グラフ
-		barHorizontal: 'bhs', //棒グラフ(横)
-		barVertical: 'bvs', //棒グラフ(縦)
+		line              : 'lc',  //折れ線グラフ
+		lineXY            : 'lxy', //折れ線グラフ
+		barHorizontal     : 'bhs', //棒グラフ(横)
+		barVertical       : 'bvs', //棒グラフ(縦)
 		barHorizontalGroup: 'bhg', //棒グラフ(横)グループ化
-		barVerticalGroup: 'bvg', //棒グラフ(縦)グループ化
-		pie: 'p', //円グラフ
-		pie3D: 'p3', //円グラフ3D
-		venn: 'v', //ベン図
-		scatter: 's', //散布図
-		sparkline: 'ls', //スパークライン
-		radar: 'r', //レーダー(直線)
-		radarCurved: 'rs', //レーダー(曲線)
-		map: 't', //地図
-		meter: 'gom', //Google-o-meter
-		qrCode: 'qr' //QR コード
+		barVerticalGroup  : 'bvg', //棒グラフ(縦)グループ化
+		pie               : 'p',   //円グラフ
+		pie3D             : 'p3',  //円グラフ3D
+		venn              : 'v',   //ベン図
+		scatter           : 's',   //散布図
+		sparkline         : 'ls',  //スパークライン
+		radar             : 'r',   //レーダー(直線)
+		radarCurved       : 'rs',  //レーダー(曲線)
+		map               : 't',   //地図
+		meter             : 'gom', //Google-o-meter
+		qrCode            : 'qr'   //QR コード
 	},
 	
 	//chm - 図形マーカー / 範囲マーカー(marker type)
 	//ex : chm=<marker type>
 	markerType: {
-		arrow: 'a', // 矢印
-		circle: 'o', // 円
-		cross: 'c', // 十字
-		diamond: 'd', // ひし形
-		lLine: 'h', // チャートを横断する水平線
-		marker: 'r', // 範囲マーカー
-		markerR: 'R', // 範囲マーカー
-		square: 's', // 四角
-		vLine: 'v', // x 軸からデータ ポイントまでの垂直線
+		arrow   : 'a', // 矢印
+		circle  : 'o', // 円
+		cross   : 'c', // 十字
+		diamond : 'd', // ひし形
+		lLine   : 'h', // チャートを横断する水平線
+		marker  : 'r', // 範囲マーカー
+		markerR : 'R', // 範囲マーカー
+		square  : 's', // 四角
+		vLine   : 'v', // x 軸からデータ ポイントまでの垂直線
 		vLineTop: 'V', // チャート上端までの垂直線
-		x: 'x' // 図形
+		x       : 'x'  // 図形
 	},
 	
 	//[chxt] - 軸ラベル表示指定
 	labelPosition:{
 		bottom:'x', // 下部の x 軸
-		left:'y', // 左側の y 軸
-		right:'r', // 右側の y 軸
-		top:'t' // 上部の x 軸
+		left  :'y', // 左側の y 軸
+		right :'r', // 右側の y 軸
+		top   :'t'  // 上部の x 軸
 	},
 	
 	//[chf] - 塗りつぶし(fill)
 	fillTarget:{
-		background:'bg',
-		chartArea:'c',
+		background  :'bg',
+		chartArea   :'c',
 		transparency:'a'
 	},
 	fillType:{
-		 solidFill:'s', //単色塗りつぶし
+		 solidFill     :'s',  //単色塗りつぶし
 		 linearGradient:'lg', //線形グラデーション
-		 linearStripes:'ls' //線形ストライプ
+		 linearStripes :'ls'  //線形ストライプ
 	}
 });
 
 gc.map = function(options){
 	return new gc(gc.merge({
-		chtm:'africa',
-		chs:'440x220',
-		cht: 't'
+		chtm: 'africa',
+		chs : '440x220',
+		cht : 't'
 	}, options));
 }
 })(jQuery);
@@ -90,16 +90,16 @@ gc.map = function(options){
 jQuery(function($){
 
 var
-$body = $(document.body),
+$body  = $(document.body),
 gcaKey = 'gcArea',
 gcArea = $.gChart.area,
 areasCountries = gcArea.areasCountries;
 
-for(var i in areasCountries){
+for( var i in areasCountries ){
 	var
-	ac = areasCountries[i],
+	ac  = areasCountries[i],
 	lst = [],
-	ao = i == 'usa' ? gcArea.usStates : gcArea.countries;
+	ao  = i == 'usa' ? gcArea.usStates : gcArea.countries;
 
 	for (var n = 0; n < ac.length; n++)
 		lst.push('<a class="' + gcaKey + ' ' + i +'">' + ao[ac[n]] + '</a>');
@@ -123,7 +123,7 @@ $('a.' + gcaKey).click(function(){
 
 
 $body.append($.gChart.map({
-	chd:'s:Af9',
+	chd :'s:Af9',
 	chld:'AZ'
 	}).image());
 
@@ -132,10 +132,10 @@ $body.append($.gChart.map({
 </script>
 <style type="text/css">
 body{
-	margin: 0;
-	padding: 0;
-	line-height:1.4em;
-	font-family:Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3' ,Verdana,Geneva,Arial,Helvetica,sans-serif;
+	margin     : 0;
+	padding    : 0;
+	line-height: 1.4em;
+	font-family: Meiryo,'メイリオ','Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3',Verdana,Geneva,Arial,Helvetica,sans-serif;
 }
 
 h1{font-size:32px;margin-left:20px}
@@ -150,6 +150,6 @@ a.gcArea{
 </style>
 </head>
 <body>
-	<h1>jQuery plugin - gChart.Map Demo</h1>
+	<h1>jQuery plugin - gChart map demo</h1>
 </body>
 </html>

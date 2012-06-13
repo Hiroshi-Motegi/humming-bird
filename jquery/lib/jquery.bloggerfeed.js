@@ -1,10 +1,9 @@
 /**
- * jQuery plugin bloggerFeed
+ * jQuery plugin - bloggerFeed
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  */
-
-(function($){
+;(function($){
 $.extend({
 	/**
 	 * @param {string}   domain   : blog domain

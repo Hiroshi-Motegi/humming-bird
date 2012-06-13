@@ -1,9 +1,9 @@
 /**
- * jQuery plugin Flash
- * Copyright 2009 y@s
- * Version 1.1
+ * jQuery plugin - Flash
+ * Copyright 2009, y@s
  * Released under the MIT and GPL licenses.
  * 
+ * Version     : 1.1
  * Last Update : 2010-04-18
  * Dependencies:
  * [ jQuery plugin changeBright ]
@@ -17,17 +17,19 @@
  * 理由はこのエフェクトはコール時の色に戻す動作のため、続けて複数回呼ばれるとデフォルトの色が変わってしまうため。
  */
 
-(function($){
-$.fn.flash = function(bright, attr, options){
+;(function($){
+$.fn.flash = function( bright, attr, options ){
 	
 	function isAttr(attr){
 		var attrs = ['backgroundColor', 'borderColor', 'color'],
-			j = attrs.length,
-			i = 0;
-		for (; i < j; i++) {
-			if (attr === attrs[i]) 
+		    j     = attrs.length,
+		    i     = 0;
+		
+		for ( ; i < j ; i++ ) {
+			if ( attr === attrs[i] ) 
 				return true;
 		}
+		
 		return false;
 	}
 	
@@ -45,9 +47,9 @@ $.fn.flash = function(bright, attr, options){
 	return this.each(function(){
 		
 		var $t    = $(this),
-			attrs = (attr === 'borderColor'
-				? ['borderTopColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor']
-				: [attr]);
+		    attrs = attr === 'borderColor'
+		        ? ['borderTopColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor']
+		        : [attr];
 		
 		if( !$.data(this, dataKey) || !$.data(this, dataKey)[attrs[0]] ){
 			
@@ -56,7 +58,7 @@ $.fn.flash = function(bright, attr, options){
 				j   = attrs.length,
 				c;
 			
-			for(; i < j; i++ ){
+			for( ; i < j ; i++ ){
 				c = $t.css(attrs[i]);
 				tmp[attrs[i]] = c == 'transparent' ? '#000' : c;
 			}
@@ -66,12 +68,12 @@ $.fn.flash = function(bright, attr, options){
 		}
 		
 		var def_attrs = {},
-			hi_attrs  = {},
-			i = 0,
-			j = attrs.length,
-			key;
+		    hi_attrs  = {},
+		    i = 0,
+		    j = attrs.length,
+		    key;
 		
-		for (; i < j; i++) {
+		for ( ; i < j ; i++ ) {
 			key = attrs[i];
 			def_attrs[key] = $.data(this, dataKey)[key];
 			hi_attrs[key]  = $.changeBright(def_attrs[key], bright);

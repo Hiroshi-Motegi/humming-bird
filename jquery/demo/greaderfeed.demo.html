@@ -1,19 +1,19 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
-		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-		<title>jQuery plugin - gReaderFeed demo</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-		<script src="../lib/jquery.greaderfeed.js" type="text/javascript"></script>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>jQuery plugin - gReaderFeed demo</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+	<script src="../lib/jquery.greaderfeed.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 $(function(){
 //気まぐれでjQueryを使わずに書いてみた。
 $.gReaderFeed(
 	'http://googleblog.blogspot.com/feeds/posts/default',
-	{'alt':'json'}, 
+	{ 'alt' : 'json' }, 
 	function ( data ){		
 		var list = document.createElement('ul');
 		
@@ -23,7 +23,7 @@ $.gReaderFeed(
 			post = document.createElement('li'),
 			link = document.createElement('a');
 			
-			link.appendChild(document.createTextNode(item.title));
+			link.appendChild( document.createTextNode(item.title) );
 			link.href = item.alternate.href;
 			post.appendChild(link);
 			
@@ -32,6 +32,7 @@ $.gReaderFeed(
 				(function( date ){
 					return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
 				})(new Date(item.published * 1000))));
+			
 			post.appendChild(timestamp);
 			
 			list.appendChild(post);
@@ -39,13 +40,11 @@ $.gReaderFeed(
 		
 		document.body.appendChild(list);
 });
-
 });
-
 </script>
-<style type="text/css">
-</style>
-    </head>
+
+<style type="text/css"></style>
+</head>
     <body>
     	<h1>jQuery plugin - gReaderFeed demo</h1>
 		<h3>The Official Google Blog Feed</h3>

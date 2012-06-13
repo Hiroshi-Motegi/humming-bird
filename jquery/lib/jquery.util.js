@@ -1,4 +1,12 @@
-(function($) {
+/**
+ * jQuery plugin - utils
+ * Copyright 2010, y@s
+ * Released under the MIT and GPL licenses.
+ * 
+ * @Version    : 1.1
+ * @LastUpdate : 2010-03-19
+ */
+;(function($) {
 
 // extend browser
 $.extend($.browser, {
@@ -34,11 +42,11 @@ $.extend({
 	},
 	
 	alphaImage: (function(){
-		var _isOldIE = $.browser.msie && $.browser.version == 6;
+		var isOldIE = $.browser.msie && $.browser.version == 6;
 		
 		//sizingMethod = crop or image or scale
 		return function(src, sizingMethod){
-			_isOldIE ? {
+			isOldIE ? {
 				filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(' +
 					'sizingMethod=' + (sizingMethod || 'image') +
 					' src="' + src + '")'
@@ -116,8 +124,5 @@ $.fn.extend({
 			return this;
 		};
 	})()
-
-
-
 });
 })(jQuery);

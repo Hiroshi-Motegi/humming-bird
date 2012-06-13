@@ -1,19 +1,18 @@
 /**
- * jQuery plugin Overlay
+ * jQuery plugin - Overlay
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * Author    :y@s
- * Version   :1.2
- * Published :2009-06-21
- * Update    :2010-04-02
- * Demo      :http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
+ * Author    : y@s
+ * Version   : 1.2
+ * Published : 2009-06-21
+ * Update    : 2010-04-02
+ * Demo      : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/overlay.demo.html
  */
-
-(function($) {
+;(function($) {
 
 function clickEventHandler(e){
-	if (e.button == 0) {
+	if ( e.button == 0 ) {
 		$.overlay.$layer.trigger(evKey);
 		e.stopPropagation();
 	}
@@ -22,8 +21,8 @@ function clickEventHandler(e){
 
 function keydownEventHandler(e){	
 	var kc = e.keyCode;
-	//13 => Enter, 27 => Esc
-	if (kc === 27 || kc === 13) {
+	//13 => [Enter], 27 => [Esc]
+	if ( kc === 27 || kc === 13 ) {
 		$.overlay.$layer.trigger(evKey);
 		e.stopPropagation();
 	}
@@ -33,15 +32,15 @@ function keydownEventHandler(e){
 function windowResizeEventHandler(){
 	
 	var
-	ls = $.overlay.$layer[0].style,
+	ls     = $.overlay.$layer[0].style,
 	styles = {
 		'display': 'none',
 		'height' : $doc.height() + 'px',
-		'width'  : $doc.width() + 'px',
+		'width'  : $doc.width()  + 'px',
 		'display': 'block'
-	};
+	}, s;
 	
-	for(var s in styles){
+	for( s in styles ){
 		ls[s] = styles[s];
 	}
 
@@ -79,29 +78,29 @@ ovID,
 dataKey = evKey = ovID = 'overlay',
 
 
-showEOS = isOldIE ? function(){
-	$('embed,object,select').each(function(){
-		var v = $.data(this, dataKey);
-		if(v)
-			this.style.visibility = v.oldVisibility;
-	});
-}:function(){},
-
-hideEOS = isOldIE ? function(){
-	$('embed,object,select').each(function(){
-		$.data(this, dataKey,{
-			'oldVisibility': $.css(this, 'visibility')
+showEOS = isOldIE
+	? function(){
+		$('embed,object,select').each(function(){
+			var v = $.data(this, dataKey);
+			this.style.visibility = v['oldVisibility']
+				? v.oldVisibility
+				: '';
 		});
-	}).css('visibility', 'hidden');
-}:function(){};
+	} : function(){},
 
+hideEOS = isOldIE
+	? function(){
+		$('embed,object,select').each(function(){
+			$.data(this, dataKey,{
+				'oldVisibility': $.css(this, 'visibility')
+			});
+		}).css('visibility', 'hidden');
+	} : function(){};
 
 var Overlay = function(){};
 
 Overlay.prototype = {
-	
 	$layer: null,
-	
 	create: function( options, callback ){
 		
 		callback = $.isFunction(options) ? options : callback || function(){};
@@ -131,7 +130,7 @@ Overlay.prototype = {
 	show:function(options, callback){
 
 		callback = $.isFunction(options) ? options : callback || function(){};
-		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
+		options  = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
 		if (!this.$layer) {
 			this.create(options);
@@ -140,7 +139,7 @@ Overlay.prototype = {
 		//hide embed,object,select
 		hideEOS();
 		
-		$win.bind('resize', windowResizeEventHandler);
+		$win.bind('resize' , windowResizeEventHandler);
 		$doc.bind('keydown', keydownEventHandler);
 		
 		this.$layer
@@ -158,7 +157,7 @@ Overlay.prototype = {
 	hide:function(options, callback){
 
 		callback = $.isFunction(options) ? options : callback || function(){};
-		options = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
+		options  = options && typeof options == 'object' && !$.isFunction(options) ? options : {};
 		
 		$win.unbind('resize', windowResizeEventHandler);
 		
@@ -169,7 +168,7 @@ Overlay.prototype = {
 			}, $.extend({}, animOpts, {
 				complete: function(){
 					$(this).remove();
-					//show embed,object,select
+					//show embed, object, select
 					showEOS();
 					$doc.unbind('keydown', keydownEventHandler);
 					callback.call(this);
@@ -178,8 +177,9 @@ Overlay.prototype = {
 	},
 	
 	bind:function(fn){
-		if (this.$layer)
+		if (this.$layer) {
 			this.$layer.bind(evKey, fn);
+		}
 	}
 };
 

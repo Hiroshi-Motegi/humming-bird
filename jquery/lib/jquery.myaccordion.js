@@ -1,5 +1,5 @@
 /**
- * jQuery plugin myAccordion
+ * jQuery plugin - myAccordion
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
@@ -9,9 +9,8 @@
  * Update    : 2010-04-20
  * Demo      : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/myAccordion.html
  */
-
 ;(function($){
-var dataKey = '' + (+new Date);
+var dataKey = '' + ( +new Date );
 
 $.fn.extend({
 sameHeight: function(){
@@ -22,7 +21,7 @@ sameHeight: function(){
 },
 setAbsolute: function(){
 	return this.each(function(i, elm){
-		elm.style.top      = ($.data(elm, dataKey).top || 0) + 'px';
+		elm.style.top      = ( $.data(elm, dataKey).top || 0 ) + 'px';
 		elm.style.position = 'absolute';
 	});
 },
@@ -49,7 +48,7 @@ myAccordion: function( options, callback ){
 	$toggles  = $( opt.toggle ),
 	$contents = $( opt.content );
 	
-	dataKey = (opt.dataKey || "") + (+new Date);
+	dataKey = ( opt.dataKey || "" ) + ( +new Date );
 	
 	$contents
 		.sameHeight()
@@ -72,7 +71,7 @@ myAccordion: function( options, callback ){
 			left : 0,
 			width: $toggles.width()
 		})
-		.each(function(i, elm){
+		.each(function( i, elm ){
 			var
 			$self     = $(elm), //toggle button
 			$content  = $contents.eq(i), // content of same index
@@ -83,7 +82,7 @@ myAccordion: function( options, callback ){
 			$.data(elm, dataKey, {
 				'top': $(elm).position().top,
 				'fn' : function(){
-					if ($content.is(':hidden') && !$contents.is(':animated')) {
+					if ( $content.is(':hidden') && !$contents.is(':animated') ) {
 						$self.addClass('current');
 						$sttcsTgt.setStatic();
 						$contents.filter(':visible').slideUp(opt.duration);

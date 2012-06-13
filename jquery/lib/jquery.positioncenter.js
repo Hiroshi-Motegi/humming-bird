@@ -6,40 +6,43 @@
  * @Author     : y@s
  * @Version    : 1.1
  * @Published  : 2009/06/06
- * @LastUpdate : 2010/04/10
+ * @LastUpdate : 2010/06/07
  * @Demo       : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/positionCenter.demo.html
  */
-(function($){
-function isAddedToDom( elm ){
-	while(elm.parentNode && elm.parentNode.tagName){
-		elm = elm.parentNode;
-	}
-	return elm.tagName.toLowerCase() === "html";
-}
-
+;(function($){
 var $win = $(window);
 
 $.fn.positionCenter = function() {
+	
+	function isAddedToDom(elm){
+		while (elm.parentNode && elm.parentNode.tagName) {
+			elm = elm.parentNode;
+		}
+		return elm.tagName.toLowerCase() === 'html';
+	}
+	
 	return this.each(function( i, elm ){
 		
 		var
 		$elm    = $(elm),
-		pos     = $.curCSS( elm, "position" ),
+		pos     = $.curCSS( elm, 'position' ),
 		isAdded = isAddedToDom(elm),
-		$tmp;
+		$tmp, isAbsolute;
 		
-		//absolute, fixed, static or relative
+		//absolute, fixed, static or relative ?
 		if ( pos !== 'absolute' && pos !== 'fixed' ) {
 			pos = elm.style['position'] = 'absolute';
 		}
 		
-		$tmp = !isAdded
-			? $elm.clone().hide().appendTo(document.body)
-			: $elm;
+		isAbsolute = pos === 'absolute';
 		
-		elm.style['top']    = ( $win.height() - $tmp.outerHeight() + ( pos === 'absolute' ? $win.scrollTop()  : 0 ) ) / 2 + 'px';
-		elm.style['left']   = ( $win.width()  - $tmp.outerWidth()  + ( pos === 'absolute' ? $win.scrollLeft() : 0 ) ) / 2 + 'px';
-		elm.style['margin'] = '0';
+		$tmp = isAdded
+			? $elm
+			: $elm.clone().hide().appendTo(document.body);
+		
+		elm.style.margin = '0';
+		elm.style.top    = ( $win.height() - $tmp.outerHeight() ) / 2 + ( isAbsolute ? $win.scrollTop()  : 0 ) + 'px';
+		elm.style.left   = ( $win.width()  - $tmp.outerWidth()  ) / 2 + ( isAbsolute ? $win.scrollLeft() : 0 ) + 'px';
 		
 		if ( !isAdded ) {
 			$tmp.remove();
