@@ -1,31 +1,29 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type"        content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
-	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type"  content="text/css; charset=utf-8" />
 	<title>myExt test page</title>
 	<!--<script src="lib/jquery.min.js" type="text/javascript"></script>-->
-	<!--<script src="lib/myExt.object.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.core.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.array.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.date.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.number.js" type="text/javascript"></script>-->
 	<!--<script src="lib/myExt.string.js" type="text/javascript"></script>-->
-	<script src="lib/myExt.util.js" type="text/javascript"></script>
+	<!--<script src="lib/myExt.util.js" type="text/javascript"></script>-->
+
+<style type="text/css"></style>
+</head>
+<body>
+	<p id="output">q
+	   dd
+	a</p>
+</body>
+
 <script type="text/javascript">
-(function( undefined ){	
-/*
-//260ms - loop 1E5
-Number.prototype.padZero = function(len){
-	return (this + "").length < len ? ((+((1 << len).toString(2)) + this) + "").slice(1) : this + "";
-}
-
-//230ms - loop 1E5
-Number.prototype.padZero = function(len){
-	return (this + "").length < len ? ((new Array(len)).join("0") + this).slice(-len) : this + "";
-}
-
+;(function( undefined ){	
+/* use myExt.util.js.
 var ret = $.fnTime({
 	args     : 123,
 	loopCount: 1E5,
@@ -33,55 +31,54 @@ var ret = $.fnTime({
 		return n.padZero(4);
 	}
 });
-
 console.log(ret.time);
 console.log(ret.ret);
 */
-
-
-//loop count:1E4
-//firefox3.6 -  142ms
-//chrome6    -  215ms
-//msie8      - 1605ms
 /*
-var
-arg = [0,1,[2,3],[[4,5],[6,7,8]]],
-ret = $.fnTime(1E4, function(n){
-	return n.linearize();
-}, arg);
-
-alert(ret.time + "ms\n" + ret.ret);
+loop count:1E4
+firefox3.6 -  142ms
+chrome6    -  215ms
+msie8      - 1605ms
 */
-var hasOwn = Object.prototype.hasOwnProperty;
 
-var
-ret = $.fnTime(
-//loop count
-1E5,
-//test function
-function(o){
-	ret = [];
-	for (var i in o) {
-		//if( o.hasOwnProperty(i) ){
-		if(hasOwn.call(o, i)){
-			ret[ret.length] = o[i];	
+
+function $$(id){
+	return document.getElementById(id);
+}
+
+function hasChild( elm ){
+	return elm === null
+		? false
+		: elm.hasChildNodes() && elm.nodeType === 1;
+}
+
+function hasChildElement( o ){
+	
+	var c = o.firstChild;
+	
+	while( c ){
+		console.log(c);
+		alert( c.textContent || c.textNode );
+		if( c.nodeType === 1 || ( c.nodeType === 3 && c ) ){
+			return true;
 		}
+		c = c.nextSibling();
 	}
-	return ret;
-},
-//argument
-{a:"foo",b:"bar",c:"hoge"});
+	
+	return false;
+}
 
-alert(ret.time + "ms\n" + ret.ret);
+//alert( hasChildElement( $$("output") ) );
 
-
-
+/*
+(function(){
+//var elm = $$("output");
+var elm = document.createElement("div");
+var nName = elm.nodeName;
+var nType = elm.nodeType;
+alert( nType );
 })();
-
+*/
+})();
 </script>
-<style type="text/css">
-</style>
-</head>
-<body>
-</body>
 </html>

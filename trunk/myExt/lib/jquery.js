@@ -779,8 +779,8 @@ function doScrollCheck() {
 function evalScript( i, elem ) {
 	if ( elem.src ) {
 		jQuery.ajax({
-			url: elem.src,
-			async: false,
+			url     : elem.src,
+			async   : false,
 			dataType: "script"
 		});
 	} else {
@@ -828,16 +828,16 @@ function now() {
 
 	jQuery.support = {};
 
-	var root = document.documentElement,
-		script = document.createElement("script"),
-		div = document.createElement("div"),
-		id = "script" + now();
+	var root   = document.documentElement,
+	    script = document.createElement("script"),
+	    div    = document.createElement("div"),
+	    id     = "script" + now();
 
 	div.style.display = "none";
 	div.innerHTML = "   <link/><table></table><a href='/a' style='color:red;float:left;opacity:.55;'>a</a><input type='checkbox'/>";
 
 	var all = div.getElementsByTagName("*"),
-		a = div.getElementsByTagName("a")[0];
+	    a   = div.getElementsByTagName("a")[0];
 
 	// Can't get basic test support
 	if ( !all || !all.length || !a ) {
@@ -974,28 +974,32 @@ function now() {
 })();
 
 jQuery.props = {
-	"for": "htmlFor",
-	"class": "className",
-	readonly: "readOnly",
-	maxlength: "maxLength",
+	"for"      : "htmlFor",
+	"class"    : "className",
+	readonly   : "readOnly",
+	maxlength  : "maxLength",
 	cellspacing: "cellSpacing",
-	rowspan: "rowSpan",
-	colspan: "colSpan",
-	tabindex: "tabIndex",
-	usemap: "useMap",
+	rowspan    : "rowSpan",
+	colspan    : "colSpan",
+	tabindex   : "tabIndex",
+	usemap     : "useMap",
 	frameborder: "frameBorder"
 };
-var expando = "jQuery" + now(), uuid = 0, windowData = {};
+
+var
+expando    = "jQuery" + now(),
+uuid       = 0,
+windowData = {};
 
 jQuery.extend({
 	cache: {},
 	
 	expando:expando,
 
-	// The following elements throw uncatchable exceptions if you
-	// attempt to add expando properties to them.
+	// The following elements throw uncatchable exceptions
+	// if you attempt to add expando properties to them.
 	noData: {
-		"embed": true,
+		"embed" : true,
 		"object": true,
 		"applet": true
 	},
@@ -1438,12 +1442,12 @@ jQuery.fn.extend({
 
 jQuery.extend({
 	attrFn: {
-		val: true,
-		css: true,
-		html: true,
-		text: true,
-		data: true,
-		width: true,
+		val   : true,
+		css   : true,
+		html  : true,
+		text  : true,
+		data  : true,
+		width : true,
 		height: true,
 		offset: true
 	},
@@ -1614,16 +1618,18 @@ jQuery.event = {
 		var type, i = 0, namespaces;
 
 		while ( (type = types[ i++ ]) ) {
-			handleObj = handleObjIn ?
-				jQuery.extend({}, handleObjIn) :
-				{ handler: handler, data: data };
+			handleObj = handleObjIn
+				? jQuery.extend( {}, handleObjIn )
+				: {
+					handler: handler,
+					data   : data
+				};
 
 			// Namespaced event handlers
 			if ( type.indexOf(".") > -1 ) {
 				namespaces = type.split(".");
 				type = namespaces.shift();
 				handleObj.namespace = namespaces.slice(0).sort().join(".");
-
 			} else {
 				namespaces = [];
 				handleObj.namespace = "";

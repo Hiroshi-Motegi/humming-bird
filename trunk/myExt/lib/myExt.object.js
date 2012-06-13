@@ -1,9 +1,14 @@
-(function(){
-//my extention methods.
+/*!
+ * 必要なし
+ * JavaScript MyExtensions - Object
+ * Copyright 2010, y@s
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ */
+;(function(){
 var
 hasOwn = Object.prototype.hasOwnProperty,
-slice = Array.prototype.slice,
-myExt = {
+slice  = Array.prototype.slice,
+myExt  = {
 	//create clone object
 	clone: function(){
 		var f = function(){};
@@ -13,9 +18,9 @@ myExt = {
 	forEach: function(fn){
 		var name, item;
 		
-		for (name in this) {
+		for ( name in this ) {
 			item = this[name];
-			if (fn.call(item, name, item) === false) {
+			if ( fn.call( item, name, item ) === false ) {
 				break;
 			}
 		}
@@ -24,18 +29,15 @@ myExt = {
 	},
 	// Merge Objects.
 	merge: function(){
-		var args = [this.clone()];
-		
-		args.concat( slice.call(arguments) );
-		
-		var len = args.length,
-			ret = args[0],
-			i   = 1,
-			itm, arg;
+		var args = slice.call(arguments),
+		    len  = args.length,
+		    ret  = this.clone(),
+		    i    = 0,
+		    itm, arg;
 		
 		for ( ; i < len ; i++ ) {
 			arg = args[i];
-			for (itm in arg) {
+			for ( itm in arg ) {
 				if ( arg.hasOwnProperty(itm) ) 
 					ret[itm] = arg[itm];
 			}
@@ -48,8 +50,8 @@ myExt = {
 	toQueryString: function(){
 		var ret = [], i;
 		
-		for (i in this) {
-			if (this.hasOwnProperty(i)) 
+		for ( i in this ) {
+			if ( this.hasOwnProperty(i) ) 
 				ret[ret.length] = i + "=" + encodeURIComponent( this[i] );
 		}
 		
