@@ -1,69 +1,68 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
-		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-		<title>jQuery Ajax + Google Data API - jBloggerFeed demo</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>jQuery Ajax + Google Data API - BloggerFeed demo</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 (function($){$.extend({
 	/**
 	 * @param {string}   domain   : blog domain
 	 * @param {string}   order    : posts or comments
-	 * @param {Object}   options  : Query terms
-	 * @param {function} callback :
+	 * @param {object}   options  : query terms
+	 * @param {function} callback : callback function
 	 */
 	bloggerFeed: function(domain, order, options, callback){
-		
-		var data = $.extend({
-			'max-results' : 10,
-			'redirect'    : false,
-			'alt'         : 'json-in-script'
-		}, options);
-		
-		callback = $.isFunction(options) ? options : callback || function(){};
-		
 		$.ajax({
 		    dataType : 'jsonp',
-			data     : data,
+			data     : $.extend({
+					'max-results' : 10,
+					'redirect'    : false,
+					'alt'         : 'json-in-script'
+				}, options),
 		    cache    : false,
 		    url      : 'http://' + domain + '.blogspot.com/feeds/' + order + '/default',
-		    success  : callback
+		    success  : $.isFunction(options) ? options : callback || function(){}
 		});
 	}
 })})(jQuery);
 
 
 // Usage
-$(function(){
-	$.jBloggerFeed(
+jQuery(function($){
+	
+	function getHref(links){
+		for ( var k = 0 ; k < links.length ; k++ ) {
+			if ( links[k].rel == 'alternate' ) {
+				return links[k].href;
+			}
+		}
+		return '';
+	}
+	
+	$.bloggerFeed(
 		'googleblog',
 		'posts',
 		{'max-results': 15},
 		function(data){	
 			$(document.body).append(
 				$('<h3/>').text(data.feed.title.$t + ' Feed'),
-				'<ul><li>' + 
-				$.map(data.feed.entry, function(entry, i){
-					return '<span class="item-title">' +
-					'<a href=\'' + (function(links){
-							for (var k = 0; k < links.length; k++) {
-								if (links[k].rel == 'alternate') {
-									return links[k].href;
-								}
-							}
-							return '';
-						})(entry.link) + '\'>' + entry.title.$t + '</a></span>';
-				}).join('</li><li>') + '</li></ul>');
+				'<ul><li>'
+				+ $.map(data.feed.entry, function(entry, i){
+						return '<span class="item-title">'
+							+ '<a href=\'' + getHref(entry.link) + '\'>' + entry.title.$t + '</a>'
+							+ '</span>';
+					}).join('</li><li>')
+				+ '</li></ul>'
+				);
 	});
 });
 </script>
-<style type="text/css">
-</style>
-    </head>
-    <body>
-    	<h2>jQuery Ajax + Google Data API - jBloggerFeed demo</h2>
-    </body>
+<style type="text/css"></style>
+</head>
+<body>
+	<h2>jQuery Ajax + Google Data API - jBloggerFeed demo</h2>
+</body>
 </html>

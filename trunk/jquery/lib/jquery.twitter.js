@@ -1,6 +1,6 @@
 /**
  * jQuery plugin - twitter : tweets , userInfo , seach
- * Copyright 2009 y@s
+ * Copyright 2009, y@s
  * Released under the MIT and GPL licenses.
  * 
  * @Author      : y@s
@@ -8,8 +8,7 @@
  * @LastUpdate  : 2009/06/12
  * @Demo        : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/twitter.html
  */
-
-(function($){
+;(function($){
 $.twitter = {
 	tweets: function(name, params, callback){
 		if ($.isFunction(params)) {

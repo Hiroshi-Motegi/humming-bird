@@ -1,6 +1,6 @@
-/*
- * jQuery pulugin gReaderFeed
- * Copyright 2009 y@s
+/**
+ * jQuery pulugin - gReaderFeed
+ * Copyright 2009, y@s
  * Released under the MIT and GPL licenses.
  */
 

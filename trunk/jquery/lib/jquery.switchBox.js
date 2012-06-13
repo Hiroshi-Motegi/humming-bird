@@ -1,8 +1,16 @@
+/**
+ * jQuery plugin - switchBox
+ * Copyright 2010 y@s
+ * Released under the MIT and GPL licenses.
+ * 
+ * @Author     : y@s
+ * @LastUpdate :
+ */
 /*@cc_on 
 var doc = document;
 eval('var document = doc');
 @*/
-(function( $, undefined ){
+;(function( $, undefined ){
 
 $.extend($.expr[':'],{
 	addedToDom: function( elm ){
@@ -100,6 +108,7 @@ create:function( elm, options ){
 			off: "OFF"
 		}
 	},options),
+	
 	pos = {},
 	$inner = null,
 	$on    = null,
@@ -108,7 +117,7 @@ create:function( elm, options ){
 	fn = function(){
 		this.initialize.apply(this, arguments);
 	},
-	raiseEvent = opt.raiseEvent === "after" || opt.raiseEvent === "before"
+	raiseEvent = (opt.raiseEvent === "after" || opt.raiseEvent === "before")
 		? opt.raiseEvent
 		: "after",
 	clickHandler = {};
@@ -270,8 +279,7 @@ create:function( elm, options ){
 		//set width end
 		
 		
-		pos[false] = (-$on.outerWidth())
-			- ( $sep
+		pos[false] = ( -$on.outerWidth() ) - ( $sep
 			? ($sep.css("border-left-width").match(/\d+/)||[0])[0]
 			: 0 );
 		

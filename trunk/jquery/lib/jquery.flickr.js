@@ -1,6 +1,6 @@
 /**
- * jQuery plugin flickr - json feed
- * Copyright (C) 2010
+ * jQuery plugin - flickr json feed
+ * Copyright(C) 2010
  * Released under the MIT and GPL licenses.
  * 
  * @Author     : y@s
@@ -39,7 +39,7 @@
  * d, - w,h:500  max
  * b  - w,h:1024 max
  */
-(function($) {
+;(function($) {
 $.flickr = function(params, callback) {
 
 	callback = $.isFunction(callback) ? callback : function(){};

@@ -1,22 +1,21 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
-		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-		<title>jQuery plugin - flickr demo</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-		<script src="../lib/jquery.flickr.js" type="text/javascript"></script>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>jQuery plugin - flickr demo</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+	<script src="../lib/jquery.flickr.js" type="text/javascript"></script>
 <script type="text/javascript">
 jQuery(function($){
-
 
 function makeContent(keys, items, template){
 	
 	var i = keys.length, key;
 	
 	while (i--) {
-		key = keys[i];
+		key      = keys[i];
 		template = template.replace( "%" + key + "%", items[key] );
 	}
 	
@@ -29,9 +28,8 @@ var tag = '虹,rainbow',
 
 $(document).bind("flickr-loaded", function(){
 	
-	var $imgView =  $("#image-view > img").css({opacity: 0});
-	
-	var $thumbs = $("#thumb-container > a > img");
+	var $imgView =  $("#image-view > img").css({opacity: 0}),
+	    $thumbs  = $("#thumb-container > a > img");
 	
 	$thumbs
 		.css({opacity: 0.5})
@@ -107,11 +105,11 @@ $.flickr({
 <style type="text/css">
 body{
 	background-color:#3a3a3a;
-	color:#ccc;
-	font-family:Arial, Helvetica, sans-serif;
-	margin:0;
-	padding:0;
-	font-size:100%;
+	color           :#ccc;
+	font-family     :Arial, Helvetica, sans-serif;
+	margin          :0;
+	padding         :0;
+	font-size       :100%;
 }
 a{
 	color:#0066cc;
@@ -120,26 +118,26 @@ a img{
 	vertical-align:middle;
 }
 h1{
-	color:#111;
+	color      :#111;
 	font-family:Impact;
 	font-weight:normal;
-	margin-top:0;
+	margin-top :0;
 	text-shadow:0 0 8px #555;
 }
 #content{
-	background-color:#333;
-	border:4px double #ccc;
-	margin: 0 auto;
-	padding: 30px;
+	background-color  :#333;
+	border            :4px double #ccc;
+	margin            :0 auto;
+	padding           :30px;
 	-moz-box-shadow   :0 0 6px #000;
 	-webkit-box-shadow:0 0 6px #000;
-	width:800px;
+	width             :800px;
 }
 
 #thumb-container{
 	overflow:hidden;
-	zoom:1;
-	width:100%;
+	zoom    :1;
+	width   :100%;
 }
 
 #thumb-container a{

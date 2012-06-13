@@ -1,18 +1,17 @@
 /**
- * jQuery plugin toList
+ * jQuery plugin - toList
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  * 
  * @LastUpdate : 2010-03-19
  * @demo       : http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/tolist.demo.html
  */
-
-(function($){
+;(function($){
 /**
  * @param  {Array}    arr
- * @param  {function} callback
- * @param  {string}   tagType
- * @return {string}
+ * @param  {Function} callback
+ * @param  {String}   tagType
+ * @return {String}
  */
 $.toList = function(arr, callback, tagType){
 	var

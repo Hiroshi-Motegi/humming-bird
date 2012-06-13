@@ -3,13 +3,14 @@
  * Copyright 2009 y@s
  * Released under the MIT and GPL licenses.
  * 
+ * jQuery Color Animations By John Resig
+ * 
  * LastUpdale:2010-03-18
  */
 
-// jQuery Color Animations
-// By John Resig
 
-(function($){
+
+;(function($){
 $.extend({
 	parseColorCode:function(rgb){
 		return '#' + (((256 + rgb[0] << 8) + rgb[1] << 8) + rgb[2]).toString(16).slice(1);
@@ -232,6 +233,4 @@ $.each(['backgroundColor', 'borderBottomColor', 'borderLeftColor', 'borderRightC
 		].join(',') + ')';
 	};
 });
-
-
 })(jQuery);

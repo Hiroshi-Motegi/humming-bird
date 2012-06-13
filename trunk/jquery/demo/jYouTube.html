@@ -1,11 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
-		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-		<title>jQuery Ajax + Google Data API - jYouTube demo</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<title>jQuery Ajax + Google Data API - jYouTube demo</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 (function($){$.extend({
 jYouTube: function(data, callback){
@@ -32,7 +33,7 @@ jYouTube: function(data, callback){
 })})(jQuery);
 
 
-$(function(){
+jQuery(function($){
 	
 	var keyword = 'metallica';
 	
@@ -71,62 +72,58 @@ $(function(){
 </script>
 <style type="text/css">
 body{
-	margin:0;
+	margin :0;
 	padding:0;
 }
 h1,h3{
-	text-align: center;
+	text-align:center;
 }
 h4{
-	margin-top:2em;
 	font-weight:normal;
+	margin-top :2em;
 }
 table{
-	margin:0 auto;
-	padding:10px;
+	margin            :0 auto;
+	padding           :10px;
 	-moz-border-radius:10px;
 	-moz-box-shadow   :0 0 5px #000;
 	-webkit-box-shadow:0 0 5px #000;
 }
 
 
-
-
 table tr td{
 	padding:5px;
 }
-
-
 table tr td a{
-	display:block;
-	/*zoom:1;*/
-	/*hasLayout:true;*/
-	border: 4px solid #333;
+	border            :4px solid #333;
+	display           :block;
 	-moz-box-shadow   :0 0 5px #000;
 	-webkit-box-shadow:0 0 5px #000;
+	/*zoom:1;*/
+	/*hasLayout:true;*/
 }
 table a img{
-	border:1px solid #ccc;
-	display:block;
-	height:90px;
-	width:120px;
+	border        :1px solid #ccc;
+	display       :block;
+	height        :90px;
 	vertical-align:middle;
+	width         :120px;
 }
 #footer{
-	width:550px;
+	width :550px;
 	margin:0 auto;
 }
 </style>
-    </head>
-    <body>
-    	<h1>jQuery Ajax + Google Data API - jYouTube</h1>
-		
-		<div id='footer'>
-			<h4>参考:</h4>
-			<ul>
-				<li><a href="http://code.google.com/intl/ja-JP/apis/youtube/2.0/developers_guide_json.html" title="Developer's Guide: JSON / JavaScript - YouTube APIs and Tools - Google Code">Developer's Guide: JSON / JavaScript - YouTube APIs and Tools - Google Code</a></li>
-				<li><a href="http://gdata.ops.demo.googlepages.com/yt_json_codelab.html" title="YouTube Data API via JSON: embedding videos in your site">YouTube Data API via JSON: embedding videos in your site</a></li>
-			</ul>
-		</div>
-    </body>
+</head>
+<body>
+	<h1>jQuery Ajax + Google Data API - jYouTube demo</h1>
+	
+	<div id='footer'>
+		<h4>参考:</h4>
+		<ul>
+			<li><a href="http://code.google.com/intl/ja-JP/apis/youtube/2.0/developers_guide_json.html" title="Developer's Guide: JSON / JavaScript - YouTube APIs and Tools - Google Code">Developer's Guide: JSON / JavaScript - YouTube APIs and Tools - Google Code</a></li>
+			<li><a href="http://gdata.ops.demo.googlepages.com/yt_json_codelab.html" title="YouTube Data API via JSON: embedding videos in your site">YouTube Data API via JSON: embedding videos in your site</a></li>
+		</ul>
+	</div>
+</body>
 </html>

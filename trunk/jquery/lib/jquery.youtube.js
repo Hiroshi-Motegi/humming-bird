@@ -1,14 +1,12 @@
 /**
- * jQuery plugin youTube
- * Copyright 2009
+ * jQuery plugin - youTube
+ * Copyright 2009, y@s
  * Released under the MIT and GPL licenses.
  * 
- * Author     : y@s
- * Version    : 1.1
- * LastUpdate : 2009/06/12
+ * @Version    : 1.1
+ * @LastUpdate : 2009-06-12
  */
-
-(function($){
+;(function($){
 /**
  * @Param format  : 1(mobile) , 5 , 6(mobile MP-4)
  * @Param orderby : updated(追加日), viewCount(再生回数), rating(評価), relevance(関連度), relevance_lang_jpn

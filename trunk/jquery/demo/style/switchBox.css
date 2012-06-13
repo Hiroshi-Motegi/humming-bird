@@ -1,25 +1,25 @@
 @charset "utf-8";
 /* switchBox */
 .switch{
-	border:1px solid #333;
-	margin-bottom:10px;
-	box-shadow        :0 0 1px #fff;
-	-moz-box-shadow   :0 0 1px #fff;
-	-webkit-box-shadow:0 0 1px #fff;
+	border             : 1px solid #333;
+	margin-bottom      : 10px;
+	box-shadow         : 0 0 1px #fff;
+	-moz-box-shadow    : 0 0 1px #fff;
+	-webkit-box-shadow : 0 0 1px #fff;
 }
 
 .switch-on span,
 .switch-sep span,
 .switch-off span{
-	color:#fff;
-	font-weight:bold;
-	font-size:12px;
+	color       : #fff;
+	font-weight : bold;
+	font-size   : 12px;
 }
 
 .switch-on span,
 .switch-off span{
-	line-height:20px;
-	padding:0 2px;
+	line-height : 20px;
+	padding     : 0 2px;
 }
 
 
@@ -27,27 +27,27 @@
 .switch.disabled .switch-on span:hover,
 .switch.disabled .switch-off span,
 .switch.disabled .switch-off span:hover{
-	color:#fff;
-	background-color:#ddd;
-	box-shadow        :0 0 3px #aaa inset;
-	-moz-box-shadow   :0 0 3px #aaa inset;
-	-webkit-box-shadow:0 0 3px #aaa inset;
+	color              : #fff;
+	background-color   : #ddd;
+	box-shadow         : 0 0 3px #aaa inset;
+	-moz-box-shadow    : 0 0 3px #aaa inset;
+	-webkit-box-shadow : 0 0 3px #aaa inset;
 }
 .switch.disabled{
 	border-color:#ccc;
 }
 
 .switch.disabled .switch-sep span{
-	border-left-color:#ccc;
-	border-right-color:#ccc;
+	border-left-color  : #ccc;
+	border-right-color : #ccc;
 }
 
 
 .switch-on span{
-	background-color:#999;
-	box-shadow        :0 0 3px #555 inset;
-	-moz-box-shadow   :0 0 3px #555 inset;
-	-webkit-box-shadow:0 0 3px #555 inset;
+	background-color   : #999;
+	box-shadow         : 0 0 3px #555 inset;
+	-moz-box-shadow    : 0 0 3px #555 inset;
+	-webkit-box-shadow : 0 0 3px #555 inset;
 }
 
 .switch-on span:hover{
@@ -55,25 +55,24 @@
 }
 
 .switch-off span{
-	background-color:#5a5a5a;
-	box-shadow        :0 0 3px #3a3a3a inset;
-	-moz-box-shadow   :0 0 3px #3a3a3a inset;
-	-webkit-box-shadow:0 0 3px #3a3a3a inset;
+	background-color   : #5a5a5a;
+	box-shadow         : 0 0 3px #3a3a3a inset;
+	-moz-box-shadow    : 0 0 3px #3a3a3a inset;
+	-webkit-box-shadow : 0 0 3px #3a3a3a inset;
 }
 .switch-off span:hover{
-	background-color:#777;
+	background-color : #777;
 }
 
 .switch-sep span{
-	background-color:#fff;
-	border-left:1px solid #333;
-	border-right:1px solid #333;
-	width:8px;
-	background:-moz-linear-gradient(top left,#fff,#aaa);
-	background:-webkit-gradient(linear,left top,left bottom,from(#fff),to(#aaa));
-	background:linear-gradient(top left,#fff,#aaa);
-	
-	box-shadow        :0 0 1px #fff inset;
-	-moz-box-shadow   :0 0 1px #fff inset;
-	-webkit-box-shadow:0 0 1px #fff inset;
+	background-color   : #fff;
+	border-left        : 1px solid #333;
+	border-right       : 1px solid #333;
+	width              : 8px;
+	background         : -moz-linear-gradient(top left,#fff,#aaa);
+	background         : -webkit-gradient(linear,left top,left bottom,from(#fff),to(#aaa));
+	background         : linear-gradient(top left,#fff,#aaa);
+	box-shadow         : 0 0 1px #fff inset;
+	-moz-box-shadow    : 0 0 1px #fff inset;
+	-webkit-box-shadow : 0 0 1px #fff inset;
 }

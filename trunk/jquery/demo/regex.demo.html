@@ -1,14 +1,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
-		<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
-		<meta http-equiv="Content-Language" content="ja" />
-		<title>humming bird - jQuery regex demo</title>
-		<script src="http://code.jquery.com/jquery-latest.min.js"  type="text/javascript"></script>
-		<script src='http://view.jquery.com/trunk/plugins/color/jquery.color.js' type="text/javascript"></script>
-		<!--<script src='http://plugins.jquery.com/files/jquery.color.js' type="text/javascript"></script>-->
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="ja" />
+	<title>jQuery plugin - regex test</title>
+	<script src="http://code.jquery.com/jquery-latest.min.js"  type="text/javascript"></script>
+	<script src='http://view.jquery.com/trunk/plugins/color/jquery.color.js' type="text/javascript"></script>
+	<!--<script src='http://plugins.jquery.com/files/jquery.color.js' type="text/javascript"></script>-->
 
 <script type="text/javascript">
 jQuery.extend(jQuery.expr[":"], {
@@ -68,7 +68,7 @@ $('img:regex(data:extension, png|jpg)').css({backgroundColor:"blue"});
 
 <style type="text/css">
 html,body{
-	margin:0;
+	margin :0;
 	padding:0;
 }
 
@@ -99,8 +99,8 @@ h4{
 }
 
 #wrap{
-	width:90%;
 	margin:0 auto;
+	width :90%;
 }
 #header{
 	margin:20px;
@@ -127,72 +127,71 @@ div#w-test-c{
 
 .menu li,.menu span{
 	display: block;
-	margin:0;
+	margin :0;
 	padding:0 0 0 10px;
 }
 
 .menu li,.menu span{
-	border-width:1px;
-	border-style:solid;
-	border-left-color:#ccc;
-	border-top-color:#ccc;
+	border-width       :1px;
+	border-style       :solid;
+	border-left-color  :#ccc;
+	border-top-color   :#ccc;
 	border-bottom-color:#666;
-	border-right-color:#666;
-	background-color: #eee;
+	border-right-color :#666;
+	background-color   :#eee;
 }
-
 </style>
 </head>
-	<body>
-		<div id="wrap">
-		<div id="header"><h1>humming bird - jQuery regex demo</h1></div>
-		<div id="aho">『id=aho』</div>
-		
-		<div style="width:300px;border:1px solid #ccc;">
-			<p>width = 300px.</p>
-			<p>要素のstyle属性にて指定</p>
+<body>
+	<div id="wrap">
+	<div id="header"><h1>jQuery plugin - regex test</h1></div>
+	<div id="aho">『id=aho』</div>
+	
+	<div style="width:300px;border:1px solid #ccc;">
+		<p>width = 300px.</p>
+		<p>要素のstyle属性にて指定</p>
+	</div>
+	<div style="width:399px;border:1px solid #ccc;">
+		<p>width = 399px.</p>
+		<p>要素のstyle属性にて指定</p>
+	</div>
+	<div style="width:400px;border:1px solid #ccc;">
+		<p>width = 400px.</p>
+		<p>要素のstyle属性にて指定</p>
+	</div>
+	
+	<div id="w-test-c" style="border:1px solid #ccc;">
+		<p>width = 300px.</p>
+		<p>CSSにて指定</p>
+	</div>
+	<div id="w-test-b" style="border:1px solid #ccc;">
+		<p>width = 399px.</p>
+		<p>CSSにて指定</p>
+	</div>
+	<div id="w-test-c" style="border:1px solid #ccc;">
+		<p>width = 400px.</p>
+		<p>CSSにて指定</p>
+	</div>
+	
+	<div style="width:400px;border:1px solid #ccc;">
+		<div style="margin:10px;border:1px solid #ccc;">
+			<p>他要素との関係で100～399pxになった要素</p>
+			<p>この要素にはwidthは指定していない。</p>
 		</div>
-		<div style="width:399px;border:1px solid #ccc;">
-			<p>width = 399px.</p>
-			<p>要素のstyle属性にて指定</p>
-		</div>
-		<div style="width:400px;border:1px solid #ccc;">
-			<p>width = 400px.</p>
-			<p>要素のstyle属性にて指定</p>
-		</div>
-		
-		<div id="w-test-c" style="border:1px solid #ccc;">
-			<p>width = 300px.</p>
-			<p>CSSにて指定</p>
-		</div>
-		<div id="w-test-b" style="border:1px solid #ccc;">
-			<p>width = 399px.</p>
-			<p>CSSにて指定</p>
-		</div>
-		<div id="w-test-c" style="border:1px solid #ccc;">
-			<p>width = 400px.</p>
-			<p>CSSにて指定</p>
-		</div>
-		
-		<div style="width:400px;border:1px solid #ccc;">
-			<div style="margin:10px;border:1px solid #ccc;">
-				<p>他要素との関係で100～399pxになった要素</p>
-				<p>この要素にはwidthは指定していない。</p>
-			</div>
-		</div>
-		<div style="display:inline;">inline div</div>
-		
-		<div class="div007" style="color:silver;">div007</div>
-		
-		<h4 style="">kkkkkk</h4>
-		<div class="inner-wrap">
-			<ul class="menu">
-				<li>Doronjo</li>
-				<li>Tonzler</li>
-				<li>Boyacky</li>
-			</ul>
-		</div>
-		
-		</div>
-	</body>
+	</div>
+	<div style="display:inline;">inline div</div>
+	
+	<div class="div007" style="color:silver;">div007</div>
+	
+	<h4 style="">kkkkkk</h4>
+	<div class="inner-wrap">
+		<ul class="menu">
+			<li>Doronjo</li>
+			<li>Tonzler</li>
+			<li>Boyacky</li>
+		</ul>
+	</div>
+	
+	</div>
+</body>
 </html>

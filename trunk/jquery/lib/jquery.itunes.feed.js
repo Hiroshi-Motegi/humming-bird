@@ -1,6 +1,6 @@
 /**
- * jQuery plugin iTunesFeed
- * Copyright 2009 - 2010
+ * jQuery plugin - iTunesFeed
+ * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
  * @Author     : y@s
@@ -9,8 +9,7 @@
  * @LastUpdate : 2010/04/20
  * @Demo       : http://code.google.com/p/humming-bird/source/browse/trunk/jquery/demo/itunes.feed.demo.html
  */
-
-(function($){
+;(function($){
 	$.iTunes = {
 		/**
 		 * @param params   {Object}   - query params
@@ -23,9 +22,9 @@
 			op = (function(prms){
 				var query = (function(qs){
 					var ret = [], q;
-					for (q in qs) {
-						if (qs.hasOwnProperty(q)) 
-							ret.push(q + '=' + qs[q]);
+					for ( q in qs ) {
+						if ( qs.hasOwnProperty( q ) ) 
+							ret.push( q + '=' + qs[q] );
 					}
 					return ret.join('/');
 				}({
@@ -39,9 +38,10 @@
 					v      : '1.0',
 					num    : prms.limit || '-1', //-1 = all
 					output : prms.output.toLowerCase() || 'json', //json, xml or json_xml
-					q      : 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/' +
-						prms.category.toLowerCase() + '/' + query + '/rss.xml'
+					q      : 'http://ax.itunes.apple.com/WebObjects/MZStore.woa/wpa/MRSS/'
+						+ prms.category.toLowerCase() + '/' + query + '/rss.xml'
 				};
+			
 			}($.extend({
 				//default query params
 				category : 'topalbums',
@@ -50,15 +50,13 @@
 				genre    : 0,
 				explicit : true
 			}, params))),
-			outputType;
-			
 			outputType = params.output;
 			
 			function parseXMLfromString(xmlString){
 				if (window.DOMParser) {
 					var parser = new DOMParser(), dom;
 					
-					if (parser['async']) {
+					if ( parser['async'] ) {
 						parser.async = false;
 					}
 					
@@ -83,14 +81,14 @@
 						var res = result.responseData;
 						callback.call(this, {
 							'json': outputType.match(/json/) ? res.feed : null,
-							'xml' : outputType.match(/xml/) ? parseXMLfromString(res.xmlString) : null
+							'xml' : outputType.match(/xml/)  ? parseXMLfromString(res.xmlString) : null
 						});
 					}
 					else {
 						return false;
 					}
-				}, 'jsonp');
-				//json => add url "callback=?"
+				},
+				'jsonp'); //json => add url "callback=?"
 		},
 		categories: {
 			'Top Albums'     : 'topalbums',

@@ -1,16 +1,15 @@
 /**
- * jQuery plugin Simple Accordion
+ * jQuery plugin - Simple Accordion
  * Copyright 2009
  * Released under the MIT and GPL licenses.
  * 
- * Author:y@s
- * Version:1.0
- * Published:2009-06-28
- * Update:2009-07-02
- * Demo:http://humming-bird.googlecode.com/svn/trunk/jquery/demo/simpleAccordion.html
+ * Author    : y@s
+ * Version   : 1.0
+ * Published : 2009-06-28
+ * Update    : 2009-07-02
+ * Demo      : http://humming-bird.googlecode.com/svn/trunk/jquery/demo/simpleAccordion.html
  */
-
-(function($){
+;(function($){
 $.simpleAccordion = function( options ) {
 	var
 	opt = $.extend({

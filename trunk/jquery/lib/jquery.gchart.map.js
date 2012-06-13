@@ -1,4 +1,4 @@
-(function($){
+;(function($){
 $.extend($.gChart,{
 	// cht=t - 地図(map)
 	area: {
